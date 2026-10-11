@@ -57,7 +57,9 @@ export function useGoogleAnalytics(
   const measurementId = analyticsConfig.measurementId;
   const googleTagId = analyticsConfig.googleTagId;
 
-  // 1. Script injection and gtag setup (executed strictly once on client mount)
+  const isFirstMountRef = useRef<boolean>(true);
+
+  // 1. Script injection and gtag setup (executed strictly once on client mount if not already present in HTML)
   useEffect(() => {
     if (typeof window === "undefined" || !hasValidGoogleTag() || isInitializedRef.current) {
       return;
@@ -74,22 +76,25 @@ export function useGoogleAnalytics(
         };
       }
 
-      // Config tags
-      window.gtag("js", new Date());
-      for (const id of activeIds) {
-        window.gtag("config", id, {
-          send_page_view: false, // Page views managed explicitly on route change to avoid double counting
-        });
-      }
+      // Check if tag is already configured in static head HTML
+      const alreadyInHead = Boolean(
+        document.querySelector('script[src*="googletagmanager.com/gtag/js"]'),
+      );
 
-      // Inject Google Tag script if not present
-      let script = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null;
-      if (!script) {
-        script = document.createElement("script");
-        script.id = SCRIPT_ID;
-        script.async = true;
-        script.src = gtagScriptSrc();
-        document.head.appendChild(script);
+      if (!alreadyInHead) {
+        window.gtag("js", new Date());
+        for (const id of activeIds) {
+          window.gtag("config", id);
+        }
+
+        let script = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null;
+        if (!script) {
+          script = document.createElement("script");
+          script.id = SCRIPT_ID;
+          script.async = true;
+          script.src = gtagScriptSrc();
+          document.head.appendChild(script);
+        }
       }
 
       isInitializedRef.current = true;
@@ -99,9 +104,15 @@ export function useGoogleAnalytics(
     }
   }, [activeIds]);
 
-  // 2. Track SPA page views on route change
+  // 2. Track SPA page views on subsequent client route changes
   useEffect(() => {
     if (typeof window === "undefined" || !hasValidGoogleTag() || !isEnabled) {
+      return;
+    }
+
+    // Skip the initial mount since head script sends initial page_view automatically
+    if (isFirstMountRef.current) {
+      isFirstMountRef.current = false;
       return;
     }
 

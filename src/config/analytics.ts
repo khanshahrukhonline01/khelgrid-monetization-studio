@@ -1,43 +1,37 @@
 /**
  * Google tag (gtag.js) configuration for KhelGrid.
  *
- * Both IDs come from the same "khelgrid" Google tag:
+ * Single authorized tracking ID:
  *   - G-BETWHB02PX  → GA4 measurement ID
- *   - GT-5MRCX3M8   → Google tag ID (Tag Manager / Google tag)
- *
- * They are public values, so env overrides are optional.
  */
 const DEFAULT_GA_ID = "G-BETWHB02PX";
-const DEFAULT_GOOGLE_TAG_ID = "GT-5MRCX3M8";
 
-const GA_ID_RE = /^(G|GT|AW|DC|UA)-[A-Z0-9-]+$/i;
+const GA_ID_RE = /^G-[A-Z0-9-]+$/i;
 
 export const analyticsConfig = {
-  /** GA4 measurement ID. */
+  /** GA4 measurement ID (sole authorized tracking ID). */
   measurementId:
     ((import.meta.env["VITE_GA_MEASUREMENT_ID"] as string | undefined) ?? "").trim() ||
     DEFAULT_GA_ID,
-  /** Google tag ID (loaded alongside the GA4 ID). */
+  /** Deprecated alias maintained for backward compatibility; points strictly to measurementId. */
   googleTagId:
-    ((import.meta.env["VITE_GOOGLE_TAG_ID"] as string | undefined) ?? "").trim() ||
-    DEFAULT_GOOGLE_TAG_ID,
-  /** Don't send hits from the dev preview. */
-  enabled: !import.meta.env.DEV,
+    ((import.meta.env["VITE_GA_MEASUREMENT_ID"] as string | undefined) ?? "").trim() ||
+    DEFAULT_GA_ID,
+  /** Analytics is enabled whenever a valid tag ID exists unless explicitly disabled with VITE_ANALYTICS_ENABLED=false */
+  enabled: import.meta.env["VITE_ANALYTICS_ENABLED"] !== "false",
 } as const;
 
-/** Every tag ID that should be configured on load, deduplicated. */
+/** Every verified tag ID that should be configured on load. Strictly contains only the verified ID. */
 export function googleTagIds(): string[] {
-  const ids = [analyticsConfig.measurementId, analyticsConfig.googleTagId]
-    .map((id) => (id || "").trim())
-    .filter((id) => id && GA_ID_RE.test(id));
-  return Array.from(new Set(ids));
+  const id = analyticsConfig.measurementId?.trim();
+  return id && GA_ID_RE.test(id) ? [id] : [];
 }
 
 export function hasValidGoogleTag(): boolean {
   return googleTagIds().length > 0;
 }
 
-/** The single loader script URL (first valid ID is the loader target). */
+/** The single loader script URL. */
 export function gtagScriptSrc(): string {
-  return `https://www.googletagmanager.com/gtag/js?id=${googleTagIds()[0]}`;
+  return `https://www.googletagmanager.com/gtag/js?id=${googleTagIds()[0] || DEFAULT_GA_ID}`;
 }
