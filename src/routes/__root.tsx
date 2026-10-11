@@ -189,16 +189,21 @@ function RootShell({ children }: { children: ReactNode }) {
 
   return (
     <html lang="en" className="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
-      <head>
+      <head suppressHydrationWarning>
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('khelgrid-theme')||localStorage.getItem('theme')||'dark';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(!d){document.documentElement.classList.remove('dark');document.documentElement.classList.add('light');document.documentElement.style.colorScheme='light';}else{document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){};try{if(typeof window!=='undefined'&&!window.process){window.process={env:{NODE_ENV:'development'}}};window.addEventListener('vite:preloadError',function(){window.location.reload();});}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('khelgrid-theme')||localStorage.getItem('theme')||'dark';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(!d){document.documentElement.classList.remove('dark');document.documentElement.classList.add('light');document.documentElement.style.colorScheme='light';}else{document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){};try{if(typeof window!=='undefined'){if(!window.process){window.process={env:{NODE_ENV:'development'}}};window.addEventListener('error',function(e){if(e.message==='Script error.'||(e.filename&&e.filename.indexOf('googletagmanager')!==-1)){e.preventDefault&&e.preventDefault();}});window.addEventListener('vite:preloadError',function(){window.location.reload();});}}catch(e){}})()`,
           }}
         />
         {/* Official Google Tag (gtag.js) for GA4 measurement - G-BETWHB02PX only */}
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
         <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+          suppressHydrationWarning
+        />
+        <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaMeasurementId}',{send_page_view:true});`,
           }}

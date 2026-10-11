@@ -9,7 +9,17 @@ function record(error: unknown) {
 }
 
 if (typeof globalThis.addEventListener === "function") {
-  globalThis.addEventListener("error", (event) => record((event as ErrorEvent).error ?? event));
+  globalThis.addEventListener("error", (event) => {
+    const errorEvent = event as ErrorEvent;
+    if (
+      errorEvent.message === "Script error." ||
+      errorEvent.filename?.includes("googletagmanager") ||
+      errorEvent.filename?.includes("google-analytics")
+    ) {
+      return;
+    }
+    record(errorEvent.error ?? event);
+  });
   globalThis.addEventListener("unhandledrejection", (event) =>
     record((event as PromiseRejectionEvent).reason),
   );

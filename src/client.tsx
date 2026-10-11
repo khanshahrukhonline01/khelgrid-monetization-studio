@@ -11,7 +11,19 @@ if (typeof window !== "undefined") {
 }
 
 try {
-  hydrateRoot(document, <StartClient />);
+  hydrateRoot(document, <StartClient />, {
+    onRecoverableError(error, errorInfo) {
+      const msg = error instanceof Error ? error.message : String(error);
+      if (
+        msg.includes("hydrat") ||
+        msg.includes("did not match") ||
+        msg.includes("client properties")
+      ) {
+        return;
+      }
+      console.warn("[KhelGrid] Recoverable hydration error:", error, errorInfo);
+    },
+  });
 } catch (error) {
   console.error("[KhelGrid] Client hydration failed:", error);
 }
