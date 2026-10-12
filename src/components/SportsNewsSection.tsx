@@ -24,6 +24,9 @@ import {
   Calendar,
   ShieldCheck,
   Activity,
+  ExternalLink,
+  Building2,
+  BookOpen,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -154,6 +157,7 @@ export function SportsNewsSection({
   const { t } = useLanguage();
   const isHomeMode = variant === "home" || isHomePage;
   const [selectedSportTab, setSelectedSportTab] = useState<string>("All Sports");
+  const [readingArticle, setReadingArticle] = useState<SportsNewsArticle | null>(null);
   const [savedArticles, setSavedArticles] = useState<Set<string>>(new Set());
   const [isAnalyticsModalOpen, setIsAnalyticsModalOpen] = useState<boolean>(false);
   const [isInlineExpanded, setIsInlineExpanded] = useState<boolean>(false);
@@ -579,7 +583,9 @@ export function SportsNewsSection({
   };
 
   if (isHomeMode) {
-    const homeArticles = filteredArticles.slice(0, 3);
+    const homeArticles = filteredArticles
+      .filter((article) => !article.onlyChronicle)
+      .slice(0, 3);
     return (
       <section
         id="sports-news-section"
@@ -1354,7 +1360,38 @@ export function SportsNewsSection({
                 {featuredArticle.excerpt}
               </p>
 
-              {getOfficialIssuer(featuredArticle).isOpportunityTrial ? (
+              {featuredArticle.officialSourceUrl ? (
+                <div className="mt-5 flex flex-wrap items-center gap-2.5">
+                  <a
+                    href={featuredArticle.officialSourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-emerald-700"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    <span>View Official PIB Press Release (PRID: {featuredArticle.pibPrid || "2321660"})</span>
+                  </a>
+                  {featuredArticle.venueId && (
+                    <Link
+                      to="/venue/$id"
+                      params={{ id: featuredArticle.venueId }}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-xs transition hover:bg-primary/90"
+                    >
+                      <Building2 className="h-3.5 w-3.5" />
+                      <span>{featuredArticle.venueName || "Venue Details"}</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setReadingArticle(featuredArticle)}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-xs font-medium text-foreground hover:bg-muted cursor-pointer"
+                  >
+                    <BookOpen className="h-3.5 w-3.5 text-primary" />
+                    <span>Read Full Dispatch</span>
+                  </button>
+                </div>
+              ) : getOfficialIssuer(featuredArticle).isOpportunityTrial ? (
                 <div className="mt-5 flex flex-wrap items-center gap-2.5">
                   <a
                     href="#latest-opportunities-heading"
@@ -1523,7 +1560,37 @@ export function SportsNewsSection({
                       </div>
 
                       <div className="flex items-center gap-2">
-                        {issuer.isOpportunityTrial ? (
+                        {article.officialSourceUrl ? (
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <a
+                              href={article.officialSourceUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:underline text-[11px]"
+                            >
+                              <span>PIB {article.pibPrid ? `PRID: ${article.pibPrid}` : "Release"}</span>
+                              <ExternalLink className="h-2.5 w-2.5" />
+                            </a>
+                            {article.venueId && (
+                              <Link
+                                to="/venue/$id"
+                                params={{ id: article.venueId }}
+                                className="inline-flex items-center gap-1 font-semibold text-primary hover:underline text-[11px]"
+                              >
+                                <span>Venue</span>
+                                <Building2 className="h-2.5 w-2.5" />
+                              </Link>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => setReadingArticle(article)}
+                              className="inline-flex items-center gap-1 text-[11px] font-semibold text-muted-foreground hover:text-foreground cursor-pointer"
+                            >
+                              <span>Read</span>
+                              <BookOpen className="h-2.5 w-2.5" />
+                            </button>
+                          </div>
+                        ) : issuer.isOpportunityTrial ? (
                           <a
                             href="#latest-opportunities-heading"
                             className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:underline text-[11px]"
@@ -1729,7 +1796,40 @@ export function SportsNewsSection({
                         </div>
                       </div>
 
-                      {issuer.isOpportunityTrial ? (
+                      {article.officialSourceUrl ? (
+                        <div className="mt-2.5 flex flex-col gap-1.5">
+                          <div className="flex items-center gap-2">
+                            <a
+                              href={article.officialSourceUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 py-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 transition hover:bg-emerald-500/20"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5" />
+                              <span>PIB Press Release</span>
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => setReadingArticle(article)}
+                              className="inline-flex items-center justify-center gap-1 rounded-lg border border-border bg-secondary/60 px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary cursor-pointer"
+                            >
+                              <BookOpen className="h-3.5 w-3.5 text-primary" />
+                              <span>Read</span>
+                            </button>
+                          </div>
+                          {article.venueId && (
+                            <Link
+                              to="/venue/$id"
+                              params={{ id: article.venueId }}
+                              className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/20"
+                            >
+                              <Building2 className="h-3.5 w-3.5" />
+                              <span>Venue Details ({article.venueName || "View Venue"})</span>
+                              <ArrowRight className="h-3 w-3" />
+                            </Link>
+                          )}
+                        </div>
+                      ) : issuer.isOpportunityTrial ? (
                         <a
                           href="#latest-opportunities-heading"
                           className="mt-2.5 flex items-center justify-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 py-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 transition hover:bg-emerald-500/20"

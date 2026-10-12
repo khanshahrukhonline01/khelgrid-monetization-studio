@@ -13,7 +13,7 @@ describe("Google AdSense Configuration & ads.txt Verification", () => {
   it("generates correct Google AdSense script URL", () => {
     const src = adsenseScriptSrc();
     expect(src).toBe(
-      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8352691151177209"
+      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8352691151177209",
     );
   });
 
@@ -27,7 +27,10 @@ describe("Google AdSense Configuration & ads.txt Verification", () => {
     expect(fs.existsSync(adsTxtPath)).toBe(true);
 
     const content = fs.readFileSync(adsTxtPath, "utf-8").trim();
-    const lines = content.split("\n").map((l) => l.trim()).filter(Boolean);
+    const lines = content
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean);
 
     expect(lines.length).toBeGreaterThan(0);
     const googleLine = lines.find((l) => l.startsWith("google.com"));

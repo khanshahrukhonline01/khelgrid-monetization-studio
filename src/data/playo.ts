@@ -22,7 +22,21 @@ export const PLAYO_CITIES = [
   "Pune",
   "Chandigarh",
   "Kanpur",
+  "Ahmedabad",
 ] as const;
+
+export interface PibPressReleaseNotice {
+  prid: string;
+  url: string;
+  title: string;
+  authority: string;
+  collaborator?: string;
+  eventDate: string;
+  description: string;
+  sports: string[];
+  delegations?: string[];
+  infrastructure?: string;
+}
 
 export interface Venue {
   id: string;
@@ -37,6 +51,7 @@ export interface Venue {
   featured?: boolean;
   bookable?: boolean;
   image: string;
+  pibPressRelease?: PibPressReleaseNotice;
 }
 
 export interface CoachingProgram {
@@ -140,6 +155,62 @@ export interface Membership {
 const IMG = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=900&q=70`;
 
 export const VENUES: Venue[] = [
+  {
+    id: "v-veer-savarkar-sports-complex-ahmedabad",
+    name: "Veer Savarkar Sports Complex",
+    area: "Naranpura",
+    city: "Ahmedabad",
+    distanceKm: 2.5,
+    rating: 4.95,
+    reviews: 240,
+    sports: [
+      "Swimming",
+      "Badminton",
+      "Basketball",
+      "Table Tennis",
+      "Tennis",
+      "Yogasana & Mallakhamb",
+      "Multi-Sport",
+    ],
+    pricePerHour: 0,
+    featured: true,
+    bookable: true,
+    image:
+      "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&w=1200&q=80",
+    pibPressRelease: {
+      prid: "2321660",
+      url: "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2321660&reg=48&lang=2",
+      title:
+        "India to Host BRICS Traditional and Indigenous Sports Demonstration Games 2026 in Ahmedabad",
+      authority: "Ministry of Youth Affairs and Sports (MYAS), Government of India",
+      collaborator: "Government of Gujarat",
+      eventDate: "October 12, 2026",
+      description:
+        "Official Host Venue: Selected by the Ministry of Youth Affairs and Sports (MYAS), Government of India in collaboration with the Government of Gujarat to host the BRICS Traditional and Indigenous Sports Demonstration Games 2026 under India's BRICS Chairship.",
+      sports: [
+        "Mallakhamb",
+        "Yogasana",
+        "Kalaripayattu",
+        "Wushu",
+        "BRICS Traditional Heritage Disciplines",
+      ],
+      delegations: [
+        "Brazil",
+        "Russia",
+        "India",
+        "China",
+        "South Africa",
+        "UAE",
+        "Iran",
+        "Ethiopia",
+        "Belarus",
+        "Bolivia",
+        "Kazakhstan",
+      ],
+      infrastructure:
+        "Constructed at ₹825 crore across 21 acres (1.19 lakh sq m) featuring an Olympic-standard aquatic stadium, indoor multi-sports arena, Centre for Sports Excellence, 275 kW solar power plant, and parking for 900 vehicles.",
+    },
+  },
   {
     id: "v-green-park-stadium-kanpur",
     name: "Green Park Stadium Sports Complex",

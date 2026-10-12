@@ -15,23 +15,32 @@ import { Route as AcademyRouteImport } from './routes/academy'
 import { Route as AiGuideRouteImport } from './routes/ai-guide'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as CancellationPolicyRouteImport } from './routes/cancellation-policy'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as ChronicleRouteImport } from './routes/chronicle'
 import { Route as CitiesRouteImport } from './routes/cities'
 import { Route as CoachesRouteImport } from './routes/coaches'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CopyrightPolicyRouteImport } from './routes/copyright-policy'
 import { Route as CorrectionPolicyRouteImport } from './routes/correction-policy'
-import { Route as CrawlerRouteImport } from './routes/crawler'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as GuidesRouteImport } from './routes/guides'
+import { Route as IprPolicyRouteImport } from './routes/ipr-policy'
 import { Route as LearningHubRouteImport } from './routes/learning-hub'
+import { Route as LiveScoresRouteImport } from './routes/live-scores'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MembershipsRouteImport } from './routes/memberships'
 import { Route as MobileAppRouteImport } from './routes/mobile-app'
 import { Route as MyStatsRouteImport } from './routes/my-stats'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
+import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as PlayRouteImport } from './routes/play'
+import { Route as PoshPolicyRouteImport } from './routes/posh-policy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
@@ -55,6 +64,8 @@ import { Route as BestToolsCategoryRouteImport } from './routes/best-tools.$cate
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as BlogWriteRouteImport } from './routes/blog.write'
 import { Route as CitySlugRouteImport } from './routes/city.$slug'
+import { Route as CvIndexRouteImport } from './routes/cv.index'
+import { Route as CvIdRouteImport } from './routes/cv.$id'
 import { Route as GuideSlugRouteImport } from './routes/guide.$slug'
 import { Route as OpportunitiesIdRouteImport } from './routes/opportunities.$id'
 import { Route as SportInCitySlugRouteImport } from './routes/sport-in-city.$slug'
@@ -95,6 +106,21 @@ const BookRoute = BookRouteImport.update({
   path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CancellationPolicyRoute = CancellationPolicyRouteImport.update({
+  id: '/cancellation-policy',
+  path: '/cancellation-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChronicleRoute = ChronicleRouteImport.update({
+  id: '/chronicle',
+  path: '/chronicle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CitiesRoute = CitiesRouteImport.update({
   id: '/cities',
   path: '/cities',
@@ -115,14 +141,14 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CopyrightPolicyRoute = CopyrightPolicyRouteImport.update({
+  id: '/copyright-policy',
+  path: '/copyright-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CorrectionPolicyRoute = CorrectionPolicyRouteImport.update({
   id: '/correction-policy',
   path: '/correction-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CrawlerRoute = CrawlerRouteImport.update({
-  id: '/crawler',
-  path: '/crawler',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -140,14 +166,29 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesRoute = GuidesRouteImport.update({
   id: '/guides',
   path: '/guides',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IprPolicyRoute = IprPolicyRouteImport.update({
+  id: '/ipr-policy',
+  path: '/ipr-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearningHubRoute = LearningHubRouteImport.update({
   id: '/learning-hub',
   path: '/learning-hub',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveScoresRoute = LiveScoresRouteImport.update({
+  id: '/live-scores',
+  path: '/live-scores',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -170,14 +211,29 @@ const MyStatsRoute = MyStatsRouteImport.update({
   path: '/my-stats',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartnerRoute = PartnerRouteImport.update({
+  id: '/partner',
+  path: '/partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayRoute = PlayRouteImport.update({
   id: '/play',
   path: '/play',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoshPolicyRoute = PoshPolicyRouteImport.update({
+  id: '/posh-policy',
+  path: '/posh-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRoute = PricingRouteImport.update({
@@ -295,6 +351,16 @@ const CitySlugRoute = CitySlugRouteImport.update({
   path: '/city/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CvIndexRoute = CvIndexRouteImport.update({
+  id: '/cv/',
+  path: '/cv/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CvIdRoute = CvIdRouteImport.update({
+  id: '/cv/$id',
+  path: '/cv/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuideSlugRoute = GuideSlugRouteImport.update({
   id: '/guide/$slug',
   path: '/guide/$slug',
@@ -348,23 +414,32 @@ export interface FileRoutesByFullPath {
   '/ai-guide': typeof AiGuideRoute
   '/blog': typeof BlogRouteWithChildren
   '/book': typeof BookRoute
+  '/cancellation-policy': typeof CancellationPolicyRoute
+  '/careers': typeof CareersRoute
+  '/chronicle': typeof ChronicleRoute
   '/cities': typeof CitiesRoute
   '/coaches': typeof CoachesRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/copyright-policy': typeof CopyrightPolicyRoute
   '/correction-policy': typeof CorrectionPolicyRoute
-  '/crawler': typeof CrawlerRoute
   '/dashboard': typeof DashboardRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/guides': typeof GuidesRoute
+  '/ipr-policy': typeof IprPolicyRoute
   '/learning-hub': typeof LearningHubRoute
+  '/live-scores': typeof LiveScoresRoute
   '/login': typeof LoginRoute
   '/memberships': typeof MembershipsRoute
   '/mobile-app': typeof MobileAppRoute
   '/my-stats': typeof MyStatsRoute
+  '/onboarding': typeof OnboardingRoute
   '/opportunities': typeof OpportunitiesRouteWithChildren
+  '/partner': typeof PartnerRoute
   '/play': typeof PlayRoute
+  '/posh-policy': typeof PoshPolicyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -388,6 +463,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/write': typeof BlogWriteRoute
   '/city/$slug': typeof CitySlugRoute
+  '/cv/$id': typeof CvIdRoute
   '/guide/$slug': typeof GuideSlugRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
   '/sport-in-city/$slug': typeof SportInCitySlugRoute
@@ -397,6 +473,7 @@ export interface FileRoutesByFullPath {
   '/top-guides/$category': typeof TopGuidesCategoryRoute
   '/trial/$id': typeof TrialIdRoute
   '/venue/$id': typeof VenueIdRoute
+  '/cv/': typeof CvIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -405,23 +482,32 @@ export interface FileRoutesByTo {
   '/ai-guide': typeof AiGuideRoute
   '/blog': typeof BlogRouteWithChildren
   '/book': typeof BookRoute
+  '/cancellation-policy': typeof CancellationPolicyRoute
+  '/careers': typeof CareersRoute
+  '/chronicle': typeof ChronicleRoute
   '/cities': typeof CitiesRoute
   '/coaches': typeof CoachesRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/copyright-policy': typeof CopyrightPolicyRoute
   '/correction-policy': typeof CorrectionPolicyRoute
-  '/crawler': typeof CrawlerRoute
   '/dashboard': typeof DashboardRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/guides': typeof GuidesRoute
+  '/ipr-policy': typeof IprPolicyRoute
   '/learning-hub': typeof LearningHubRoute
+  '/live-scores': typeof LiveScoresRoute
   '/login': typeof LoginRoute
   '/memberships': typeof MembershipsRoute
   '/mobile-app': typeof MobileAppRoute
   '/my-stats': typeof MyStatsRoute
+  '/onboarding': typeof OnboardingRoute
   '/opportunities': typeof OpportunitiesRouteWithChildren
+  '/partner': typeof PartnerRoute
   '/play': typeof PlayRoute
+  '/posh-policy': typeof PoshPolicyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -445,6 +531,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/write': typeof BlogWriteRoute
   '/city/$slug': typeof CitySlugRoute
+  '/cv/$id': typeof CvIdRoute
   '/guide/$slug': typeof GuideSlugRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
   '/sport-in-city/$slug': typeof SportInCitySlugRoute
@@ -454,6 +541,7 @@ export interface FileRoutesByTo {
   '/top-guides/$category': typeof TopGuidesCategoryRoute
   '/trial/$id': typeof TrialIdRoute
   '/venue/$id': typeof VenueIdRoute
+  '/cv': typeof CvIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -463,23 +551,32 @@ export interface FileRoutesById {
   '/ai-guide': typeof AiGuideRoute
   '/blog': typeof BlogRouteWithChildren
   '/book': typeof BookRoute
+  '/cancellation-policy': typeof CancellationPolicyRoute
+  '/careers': typeof CareersRoute
+  '/chronicle': typeof ChronicleRoute
   '/cities': typeof CitiesRoute
   '/coaches': typeof CoachesRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/copyright-policy': typeof CopyrightPolicyRoute
   '/correction-policy': typeof CorrectionPolicyRoute
-  '/crawler': typeof CrawlerRoute
   '/dashboard': typeof DashboardRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/guides': typeof GuidesRoute
+  '/ipr-policy': typeof IprPolicyRoute
   '/learning-hub': typeof LearningHubRoute
+  '/live-scores': typeof LiveScoresRoute
   '/login': typeof LoginRoute
   '/memberships': typeof MembershipsRoute
   '/mobile-app': typeof MobileAppRoute
   '/my-stats': typeof MyStatsRoute
+  '/onboarding': typeof OnboardingRoute
   '/opportunities': typeof OpportunitiesRouteWithChildren
+  '/partner': typeof PartnerRoute
   '/play': typeof PlayRoute
+  '/posh-policy': typeof PoshPolicyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -503,6 +600,7 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/write': typeof BlogWriteRoute
   '/city/$slug': typeof CitySlugRoute
+  '/cv/$id': typeof CvIdRoute
   '/guide/$slug': typeof GuideSlugRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
   '/sport-in-city/$slug': typeof SportInCitySlugRoute
@@ -512,6 +610,7 @@ export interface FileRoutesById {
   '/top-guides/$category': typeof TopGuidesCategoryRoute
   '/trial/$id': typeof TrialIdRoute
   '/venue/$id': typeof VenueIdRoute
+  '/cv/': typeof CvIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -522,23 +621,32 @@ export interface FileRouteTypes {
     | '/ai-guide'
     | '/blog'
     | '/book'
+    | '/cancellation-policy'
+    | '/careers'
+    | '/chronicle'
     | '/cities'
     | '/coaches'
     | '/community'
     | '/contact'
+    | '/copyright-policy'
     | '/correction-policy'
-    | '/crawler'
     | '/dashboard'
     | '/editorial-policy'
     | '/events'
+    | '/forgot-password'
     | '/guides'
+    | '/ipr-policy'
     | '/learning-hub'
+    | '/live-scores'
     | '/login'
     | '/memberships'
     | '/mobile-app'
     | '/my-stats'
+    | '/onboarding'
     | '/opportunities'
+    | '/partner'
     | '/play'
+    | '/posh-policy'
     | '/pricing'
     | '/privacy'
     | '/profile'
@@ -562,6 +670,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog/write'
     | '/city/$slug'
+    | '/cv/$id'
     | '/guide/$slug'
     | '/opportunities/$id'
     | '/sport-in-city/$slug'
@@ -571,6 +680,7 @@ export interface FileRouteTypes {
     | '/top-guides/$category'
     | '/trial/$id'
     | '/venue/$id'
+    | '/cv/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -579,23 +689,32 @@ export interface FileRouteTypes {
     | '/ai-guide'
     | '/blog'
     | '/book'
+    | '/cancellation-policy'
+    | '/careers'
+    | '/chronicle'
     | '/cities'
     | '/coaches'
     | '/community'
     | '/contact'
+    | '/copyright-policy'
     | '/correction-policy'
-    | '/crawler'
     | '/dashboard'
     | '/editorial-policy'
     | '/events'
+    | '/forgot-password'
     | '/guides'
+    | '/ipr-policy'
     | '/learning-hub'
+    | '/live-scores'
     | '/login'
     | '/memberships'
     | '/mobile-app'
     | '/my-stats'
+    | '/onboarding'
     | '/opportunities'
+    | '/partner'
     | '/play'
+    | '/posh-policy'
     | '/pricing'
     | '/privacy'
     | '/profile'
@@ -619,6 +738,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog/write'
     | '/city/$slug'
+    | '/cv/$id'
     | '/guide/$slug'
     | '/opportunities/$id'
     | '/sport-in-city/$slug'
@@ -628,6 +748,7 @@ export interface FileRouteTypes {
     | '/top-guides/$category'
     | '/trial/$id'
     | '/venue/$id'
+    | '/cv'
   id:
     | '__root__'
     | '/'
@@ -636,23 +757,32 @@ export interface FileRouteTypes {
     | '/ai-guide'
     | '/blog'
     | '/book'
+    | '/cancellation-policy'
+    | '/careers'
+    | '/chronicle'
     | '/cities'
     | '/coaches'
     | '/community'
     | '/contact'
+    | '/copyright-policy'
     | '/correction-policy'
-    | '/crawler'
     | '/dashboard'
     | '/editorial-policy'
     | '/events'
+    | '/forgot-password'
     | '/guides'
+    | '/ipr-policy'
     | '/learning-hub'
+    | '/live-scores'
     | '/login'
     | '/memberships'
     | '/mobile-app'
     | '/my-stats'
+    | '/onboarding'
     | '/opportunities'
+    | '/partner'
     | '/play'
+    | '/posh-policy'
     | '/pricing'
     | '/privacy'
     | '/profile'
@@ -676,6 +806,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog/write'
     | '/city/$slug'
+    | '/cv/$id'
     | '/guide/$slug'
     | '/opportunities/$id'
     | '/sport-in-city/$slug'
@@ -685,6 +816,7 @@ export interface FileRouteTypes {
     | '/top-guides/$category'
     | '/trial/$id'
     | '/venue/$id'
+    | '/cv/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -694,23 +826,32 @@ export interface RootRouteChildren {
   AiGuideRoute: typeof AiGuideRoute
   BlogRoute: typeof BlogRouteWithChildren
   BookRoute: typeof BookRoute
+  CancellationPolicyRoute: typeof CancellationPolicyRoute
+  CareersRoute: typeof CareersRoute
+  ChronicleRoute: typeof ChronicleRoute
   CitiesRoute: typeof CitiesRoute
   CoachesRoute: typeof CoachesRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
+  CopyrightPolicyRoute: typeof CopyrightPolicyRoute
   CorrectionPolicyRoute: typeof CorrectionPolicyRoute
-  CrawlerRoute: typeof CrawlerRoute
   DashboardRoute: typeof DashboardRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
   EventsRoute: typeof EventsRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   GuidesRoute: typeof GuidesRoute
+  IprPolicyRoute: typeof IprPolicyRoute
   LearningHubRoute: typeof LearningHubRoute
+  LiveScoresRoute: typeof LiveScoresRoute
   LoginRoute: typeof LoginRoute
   MembershipsRoute: typeof MembershipsRoute
   MobileAppRoute: typeof MobileAppRoute
   MyStatsRoute: typeof MyStatsRoute
+  OnboardingRoute: typeof OnboardingRoute
   OpportunitiesRoute: typeof OpportunitiesRouteWithChildren
+  PartnerRoute: typeof PartnerRoute
   PlayRoute: typeof PlayRoute
+  PoshPolicyRoute: typeof PoshPolicyRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
@@ -732,12 +873,14 @@ export interface RootRouteChildren {
   VerifyRoute: typeof VerifyRoute
   BestToolsCategoryRoute: typeof BestToolsCategoryRoute
   CitySlugRoute: typeof CitySlugRoute
+  CvIdRoute: typeof CvIdRoute
   GuideSlugRoute: typeof GuideSlugRoute
   SportInCitySlugRoute: typeof SportInCitySlugRoute
   SportSlugRoute: typeof SportSlugRoute
   TopGuidesCategoryRoute: typeof TopGuidesCategoryRoute
   TrialIdRoute: typeof TrialIdRoute
   VenueIdRoute: typeof VenueIdRoute
+  CvIndexRoute: typeof CvIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -784,6 +927,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cancellation-policy': {
+      id: '/cancellation-policy'
+      path: '/cancellation-policy'
+      fullPath: '/cancellation-policy'
+      preLoaderRoute: typeof CancellationPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chronicle': {
+      id: '/chronicle'
+      path: '/chronicle'
+      fullPath: '/chronicle'
+      preLoaderRoute: typeof ChronicleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cities': {
       id: '/cities'
       path: '/cities'
@@ -812,18 +976,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/copyright-policy': {
+      id: '/copyright-policy'
+      path: '/copyright-policy'
+      fullPath: '/copyright-policy'
+      preLoaderRoute: typeof CopyrightPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/correction-policy': {
       id: '/correction-policy'
       path: '/correction-policy'
       fullPath: '/correction-policy'
       preLoaderRoute: typeof CorrectionPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/crawler': {
-      id: '/crawler'
-      path: '/crawler'
-      fullPath: '/crawler'
-      preLoaderRoute: typeof CrawlerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -847,6 +1011,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides': {
       id: '/guides'
       path: '/guides'
@@ -854,11 +1025,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ipr-policy': {
+      id: '/ipr-policy'
+      path: '/ipr-policy'
+      fullPath: '/ipr-policy'
+      preLoaderRoute: typeof IprPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learning-hub': {
       id: '/learning-hub'
       path: '/learning-hub'
       fullPath: '/learning-hub'
       preLoaderRoute: typeof LearningHubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-scores': {
+      id: '/live-scores'
+      path: '/live-scores'
+      fullPath: '/live-scores'
+      preLoaderRoute: typeof LiveScoresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -889,6 +1074,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyStatsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/opportunities': {
       id: '/opportunities'
       path: '/opportunities'
@@ -896,11 +1088,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpportunitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/partner': {
+      id: '/partner'
+      path: '/partner'
+      fullPath: '/partner'
+      preLoaderRoute: typeof PartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play': {
       id: '/play'
       path: '/play'
       fullPath: '/play'
       preLoaderRoute: typeof PlayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posh-policy': {
+      id: '/posh-policy'
+      path: '/posh-policy'
+      fullPath: '/posh-policy'
+      preLoaderRoute: typeof PoshPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -1064,6 +1270,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CitySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cv/': {
+      id: '/cv/'
+      path: '/cv'
+      fullPath: '/cv/'
+      preLoaderRoute: typeof CvIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cv/$id': {
+      id: '/cv/$id'
+      path: '/cv/$id'
+      fullPath: '/cv/$id'
+      preLoaderRoute: typeof CvIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guide/$slug': {
       id: '/guide/$slug'
       path: '/guide/$slug'
@@ -1182,23 +1402,32 @@ const rootRouteChildren: RootRouteChildren = {
   AiGuideRoute: AiGuideRoute,
   BlogRoute: BlogRouteWithChildren,
   BookRoute: BookRoute,
+  CancellationPolicyRoute: CancellationPolicyRoute,
+  CareersRoute: CareersRoute,
+  ChronicleRoute: ChronicleRoute,
   CitiesRoute: CitiesRoute,
   CoachesRoute: CoachesRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
+  CopyrightPolicyRoute: CopyrightPolicyRoute,
   CorrectionPolicyRoute: CorrectionPolicyRoute,
-  CrawlerRoute: CrawlerRoute,
   DashboardRoute: DashboardRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
   EventsRoute: EventsRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   GuidesRoute: GuidesRoute,
+  IprPolicyRoute: IprPolicyRoute,
   LearningHubRoute: LearningHubRoute,
+  LiveScoresRoute: LiveScoresRoute,
   LoginRoute: LoginRoute,
   MembershipsRoute: MembershipsRoute,
   MobileAppRoute: MobileAppRoute,
   MyStatsRoute: MyStatsRoute,
+  OnboardingRoute: OnboardingRoute,
   OpportunitiesRoute: OpportunitiesRouteWithChildren,
+  PartnerRoute: PartnerRoute,
   PlayRoute: PlayRoute,
+  PoshPolicyRoute: PoshPolicyRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
@@ -1220,12 +1449,14 @@ const rootRouteChildren: RootRouteChildren = {
   VerifyRoute: VerifyRoute,
   BestToolsCategoryRoute: BestToolsCategoryRoute,
   CitySlugRoute: CitySlugRoute,
+  CvIdRoute: CvIdRoute,
   GuideSlugRoute: GuideSlugRoute,
   SportInCitySlugRoute: SportInCitySlugRoute,
   SportSlugRoute: SportSlugRoute,
   TopGuidesCategoryRoute: TopGuidesCategoryRoute,
   TrialIdRoute: TrialIdRoute,
   VenueIdRoute: VenueIdRoute,
+  CvIndexRoute: CvIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

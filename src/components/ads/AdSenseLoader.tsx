@@ -1,43 +1,10 @@
-import { useEffect } from "react";
-import { adsConfig, adsenseScriptSrc, hasValidPublisherId } from "@/config/ads";
-import { useAdConsent } from "./AdConsent";
-import type { AdsByGoogleQueue } from "./adsbygoogle";
-
-const SCRIPT_ID = "adsbygoogle-loader";
+import { AdSenseWrapper } from "./AdSenseWrapper";
 
 /**
- * Injects the global AdSense script — but only once consent has been resolved.
- *
- * This is deliberately client-side (not a `head().scripts` entry) so that no
- * request ever reaches Google before the visitor answers the cookie banner,
- * which is what GDPR/consent rules require. The non-personalized-ads flag is
- * pushed onto the queue *before* the script is appended, so a "denied" choice
- * applies to the very first ad request.
+ * Initializes Google AdSense with the service layer and manages the script injection
+ * and mobile lifecycle, strictly guarded by the conditional wrapper ensuring VITE_GOOGLE_ADSENSE_ID
+ * is present and preventing errors during hydration or missing variable scenarios.
  */
 export function AdSenseLoader() {
-  const { canLoadScript, nonPersonalized } = useAdConsent();
-
-  useEffect(() => {
-    if (!hasValidPublisherId() || !canLoadScript) return;
-    // Must be set before ads execute.
-    const queue = (window.adsbygoogle ??= [] as unknown as AdsByGoogleQueue);
-    queue.requestNonPersonalizedAds = nonPersonalized ? 1 : 0;
-
-    if (
-      document.getElementById(SCRIPT_ID) ||
-      document.querySelector('script[src*="pagead2.googlesyndication.com"]')
-    ) {
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.id = SCRIPT_ID;
-    script.src = adsenseScriptSrc();
-    script.async = true;
-    script.crossOrigin = "anonymous";
-    if (adsConfig.enableAutoAds) script.setAttribute("data-overlays", "bottom");
-    document.head.appendChild(script);
-  }, [canLoadScript, nonPersonalized]);
-
-  return null;
+  return <AdSenseWrapper loadScript={true} />;
 }

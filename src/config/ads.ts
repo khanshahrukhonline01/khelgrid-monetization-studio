@@ -12,12 +12,49 @@
 /** KhelGrid's live AdSense publisher ID (public value; env var can override it). */
 const DEFAULT_PUBLISHER_ID = "ca-pub-8352691151177209";
 
-const RAW_PUBLISHER_ID =
-  ((import.meta.env["VITE_GOOGLE_ADSENSE_ID"] as string | undefined) ?? "").trim() ||
-  DEFAULT_PUBLISHER_ID;
-
 /** ca-pub-XXXXXXXXXXXXXXXX (16 digits). */
 const PUBLISHER_ID_RE = /^ca-pub-\d{16}$/;
+
+/**
+ * Normalizes publisher IDs: strips spaces, and prepends 'ca-' if user provided 'pub-XXXXXXXXXXXXXXXX'.
+ */
+export function normalizePublisherId(id: string): string {
+  const trimmed = id.trim();
+  if (trimmed.startsWith("pub-")) {
+    return `ca-${trimmed}`;
+  }
+  return trimmed;
+}
+
+const RAW_PUBLISHER_ID = normalizePublisherId(
+  ((import.meta.env["VITE_GOOGLE_ADSENSE_ID"] as string | undefined) ?? "").trim() ||
+    DEFAULT_PUBLISHER_ID,
+);
+
+/**
+ * Returns the raw publisher ID explicitly set in `VITE_GOOGLE_ADSENSE_ID`, trimmed and normalized.
+ * Returns empty string if not defined in the environment.
+ */
+export function getEnvPublisherId(): string {
+  const envId = (import.meta.env["VITE_GOOGLE_ADSENSE_ID"] as string | undefined)?.trim() ?? "";
+  return envId ? normalizePublisherId(envId) : "";
+}
+
+/**
+ * Checks whether `VITE_GOOGLE_ADSENSE_ID` is explicitly present in the environment
+ * and matches the valid `ca-pub-XXXXXXXXXXXXXXXX` format.
+ */
+export function hasAdSenseEnvId(): boolean {
+  const envId = getEnvPublisherId();
+  return envId.length > 0 && PUBLISHER_ID_RE.test(envId);
+}
+
+/**
+ * Alias for `hasAdSenseEnvId()`. Used by UI wrappers to conditionally enable AdSense.
+ */
+export function isAdSenseConfigured(): boolean {
+  return hasAdSenseEnvId();
+}
 
 export type AdFormat = "auto" | "fluid" | "rectangle" | "horizontal" | "vertical";
 

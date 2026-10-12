@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import { AD_SLOTS, adsConfig, hasValidPublisherId } from "@/config/ads";
+import { AD_SLOTS, adsConfig, hasAdSenseEnvId } from "@/config/ads";
 import { MobileStickyAd } from "./AdUnits";
 
 /**
  * Dismissible mobile sticky ad, anchored just above the BottomTabBar.
- * Rendered once from the root layout.
+ * Rendered once from the root layout only when VITE_GOOGLE_ADSENSE_ID is present.
  */
 export function StickyMobileAdSlot() {
   const [dismissed, setDismissed] = useState(false);
   if (dismissed) return null;
   if (adsConfig.enableAutoAds) return null; // Auto Ads own anchor placements
-  if (!hasValidPublisherId() || !AD_SLOTS.mobileSticky) return null;
+  if (!hasAdSenseEnvId() || !AD_SLOTS.mobileSticky) return null;
 
   return (
     <div className="fixed inset-x-0 bottom-[calc(4.25rem+env(safe-area-inset-bottom,0px))] z-40 border-t border-border bg-background/95 backdrop-blur-xl md:hidden">

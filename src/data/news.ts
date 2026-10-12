@@ -28,9 +28,56 @@ export interface SportsNewsArticle {
   tags: string[];
   trending?: boolean;
   featured?: boolean;
+  onlyChronicle?: boolean;
+  officialSourceUrl?: string;
+  pibPrid?: string;
+  venueId?: string;
+  venueName?: string;
 }
 
 export const SPORTS_NEWS_CATALOG: SportsNewsArticle[] = [
+  {
+    id: "news-pib-2321660-brics-sports-ahmedabad-veer-savarkar-2026",
+    slug: "india-hosts-brics-indigenous-sports-demonstration-games-2026-ahmedabad-veer-savarkar",
+    title:
+      "India to Host BRICS Traditional and Indigenous Sports Demonstration Games 2026 in Ahmedabad",
+    headline:
+      "Ministry of Youth Affairs & Sports collaborates with Gujarat Government to showcase Mallakhamb, Yogasana, Wushu, and BRICS heritage disciplines at Veer Savarkar Sports Complex.",
+    excerpt:
+      "Official PIB Press Release (PRID: 2321660): Under India's BRICS Chairship, the Ministry of Youth Affairs and Sports and Government of Gujarat host the BRICS Traditional and Indigenous Sports Demonstration Games on October 12, 2026 at the Veer Savarkar Sports Complex in Naranpura, Ahmedabad.",
+    content:
+      "Under India's BRICS Chairship, the Ministry of Youth Affairs and Sports (MYAS), Government of India, in active collaboration with the Government of Gujarat, will host the BRICS Traditional and Indigenous Sports Demonstration Games 2026 on October 12, 2026. The prestigious non-competitive showcase takes place at the newly inaugurated Veer Savarkar Sports Complex located in Naranpura, Ahmedabad.\n\nThe games provide a dynamic platform to celebrate indigenous sporting heritage, promote intercultural dialogue, and strengthen sports diplomacy and youth cooperation across BRICS member and partner nations. Demonstrations will showcase India's traditional disciplines including Mallakhamb, Yogasana, and Kalaripayattu, alongside China's Wushu and diverse cultural sporting practices presented by visiting international delegations from Brazil, Russia, South Africa, the UAE, Iran, Ethiopia, Belarus, Bolivia, and Kazakhstan.\n\nThe world-class Veer Savarkar Sports Complex—developed across 1.19 lakh square meters (21 acres) at a cost of approximately ₹825 crore—features an Olympic-standard aquatic stadium, indoor multi-sport arena, Centre for Sports Excellence, 275 kW solar power installation, and comprehensive athlete support facilities.",
+    sport: "Multi-Sport",
+    category: "National",
+    publishedAt: "2026-10-10T11:00:00.000Z",
+    readTime: "3 min read",
+    imageUrl:
+      "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&w=1200&q=80",
+    author: {
+      name: "Press Information Bureau (PIB)",
+      role: "Official Government Release (PRID: 2321660)",
+    },
+    tags: [
+      "BRICS 2026",
+      "Veer Savarkar Sports Complex",
+      "Ahmedabad",
+      "PIB 2321660",
+      "MYAS",
+      "Mallakhamb",
+      "Yogasana",
+      "Wushu",
+      "Indigenous Sports",
+      "KhelChronicle",
+    ],
+    trending: true,
+    featured: true,
+    onlyChronicle: true,
+    officialSourceUrl:
+      "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2321660&reg=48&lang=2",
+    pibPrid: "2321660",
+    venueId: "v-veer-savarkar-sports-complex-ahmedabad",
+    venueName: "Veer Savarkar Sports Complex, Ahmedabad",
+  },
   {
     id: "news-kca-kanpur-u14-cricket-trials-2026",
     slug: "kca-conducts-u-14-trials-for-165-aspirants-kanpur",

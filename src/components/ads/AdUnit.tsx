@@ -2,6 +2,8 @@ import { memo, useEffect, useRef, useState, type CSSProperties } from "react";
 import {
   adsConfig,
   hasValidPublisherId,
+  hasAdSenseEnvId,
+  getEnvPublisherId,
   resolveAdSlot,
   type AdFormat,
   type AdSlotKey,
@@ -55,14 +57,19 @@ function AdUnitBase({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const insRef = useRef<HTMLModElement | null>(null);
   const pushedRef = useRef(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [inView, setInView] = useState(eager);
 
   const { canServeAds } = useAdConsent();
   const slotId = resolveAdSlot(adSlot);
-  const configured = hasValidPublisherId() && slotId.length > 0;
+  const configured = hasAdSenseEnvId() && slotId.length > 0;
   // With Auto Ads on, Google owns placement; manual units stay inert.
   const manualAdsEnabled = configured && !adsConfig.enableAutoAds && canServeAds;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   // Lazy load: only observe when we will actually request an ad.
   useEffect(() => {
@@ -85,9 +92,9 @@ function AdUnitBase({
     return () => observer.disconnect();
   }, [eager, inView, manualAdsEnabled]);
 
-  // Single, guarded push per element.
+  // Single, guarded push per element — strictly client-side after hydration.
   useEffect(() => {
-    if (!manualAdsEnabled || !inView || pushedRef.current) return;
+    if (!isHydrated || !manualAdsEnabled || !inView || pushedRef.current) return;
     const ins = insRef.current;
     if (!ins) return;
     // Google marks initialized elements — respect it (also survives HMR).
@@ -105,7 +112,7 @@ function AdUnitBase({
     } catch {
       setStatus("unavailable");
     }
-  }, [manualAdsEnabled, inView, slotId, adFormat]);
+  }, [manualAdsEnabled, inView, slotId, adFormat, isHydrated]);
 
   // Fill / no-fill / blocked detection — used only for graceful fallback UI.
   useEffect(() => {
@@ -163,7 +170,7 @@ function AdUnitBase({
         </div>
       )}
 
-      {!manualAdsEnabled ? (
+      {!manualAdsEnabled || !isHydrated ? (
         adsConfig.enableTestMode ? (
           <AdPlaceholder minHeight={reserved.minHeight as string} />
         ) : null
@@ -172,7 +179,7 @@ function AdUnitBase({
           ref={insRef}
           className="adsbygoogle block w-full"
           style={{ ...adsConfig.defaultStyle, ...reserved }}
-          data-ad-client={adsConfig.publisherId}
+          data-ad-client={getEnvPublisherId() || adsConfig.publisherId}
           data-ad-slot={slotId}
           data-ad-format={adFormat}
           {...(layoutKey ? { "data-ad-layout-key": layoutKey } : {})}

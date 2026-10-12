@@ -67,12 +67,14 @@ import { BannerAd, ResponsiveAd, SidebarAd, InArticleAd, InFeedAd } from "@/comp
 KhelGrid implements Google's User Messaging Platform (UMP) across both Web and Android platforms in compliance with Google's EU user consent policy and IAB TCF v2.2 requirements:
 
 ### Web Architecture (`src/lib/ump-web.ts` + `src/components/ads/`):
+
 - **IAB Europe TCF v2.2**: Registers standard `__tcfapiLocator` iframe and `window.__tcfapi` stub for IAB TCF v2.2 compliance.
 - **Google Privacy & Messaging (Funding Choices)**: Loads Google's official CMP script (`https://fundingchoicesmessages.google.com/i/ca-pub-XXXXXXXX?ers=1`) and signals presence via `googlefcPresent` iframe.
 - **Google Consent Mode v2**: Sets default signals (`ad_storage: 'denied'`, `ad_user_data: 'denied'`, `ad_personalization: 'denied'`, `analytics_storage: 'granted'`), automatically updated when choices are recorded.
 - **Privacy Options / Revocation**: Users can review or revoke consent choices at any time via `<CookieSettingsButton />`, which invokes `window.googlefc.showRevocationMessage()` or the in-app consent manager.
 
 ### Android Architecture (`app/src/main/java/com/khelgrid/app/ads/`):
+
 - `UserMessagingPlatform.getConsentInformation(context)`
 - `requestConsentInfoUpdate` + `loadAndShowConsentFormIfRequired`
 - `showPrivacyOptionsForm` allows users in EEA/UK or state regulation areas to modify consent anytime.
