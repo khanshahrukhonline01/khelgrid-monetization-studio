@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Trophy,
   MapPin,
@@ -61,6 +61,7 @@ export function getInitials(name: string) {
 }
 
 export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonly Trial[] }) {
+  const navigate = useNavigate();
   const { isSaved, toggleSaved } = useSavedOpportunities();
   const [selectedSportFilter, setSelectedSportFilter] = useState<string>("All");
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -383,8 +384,25 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
                   className={`${statusBadge ? "mt-2" : "mt-3"} line-clamp-2 text-sm font-bold text-foreground transition-colors group-hover:text-primary`}
                 >
                   <Link
-                    to="/trial/$id"
-                    params={{ id: trial.id }}
+                    to="/search"
+                    search={{
+                      q:
+                        trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
+                          ? "CRPF"
+                          : trial.title,
+                      sport:
+                        trial.sport && trial.sport !== "Multi-Discipline Sports Quota"
+                          ? trial.sport
+                          : "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    hash={
+                      trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
+                        ? "crpf-recruitment-notification-card"
+                        : undefined
+                    }
                     className="focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-xs"
                     aria-label={`${trial.title}, organized by ${trial.academy}`}
                   >
@@ -470,8 +488,25 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
                   </div>
 
                   <Link
-                    to="/trial/$id"
-                    params={{ id: trial.id }}
+                    to="/search"
+                    search={{
+                      q:
+                        trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
+                          ? "CRPF"
+                          : trial.title,
+                      sport:
+                        trial.sport && trial.sport !== "Multi-Discipline Sports Quota"
+                          ? trial.sport
+                          : "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    hash={
+                      trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
+                        ? "crpf-recruitment-notification-card"
+                        : undefined
+                    }
                     className={`inline-flex items-center gap-1 text-xs font-semibold transition-transform group-hover:translate-x-0.5 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-xs ${
                       statusBadge?.isExpired
                         ? "text-muted-foreground hover:text-foreground"

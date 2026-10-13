@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { TRIALS, type Trial } from "@/data/trials";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 import {
@@ -24,6 +24,7 @@ export function FeaturedTrialsRadar({
   selectedSport = "All",
   selectedCity = "All Cities",
 }: FeaturedTrialsRadarProps) {
+  const navigate = useNavigate();
   const { isSaved, toggleSaved } = useSavedOpportunities();
   const { scrollRef, scroll } = useTouchScroll(340);
 
@@ -64,6 +65,43 @@ export function FeaturedTrialsRadar({
     }
   };
 
+  const handleCardClick = (e: React.MouseEvent, trial: Trial) => {
+    // If the click is on action buttons (share, bookmark), let that button handler manage it
+    const target = e.target as HTMLElement;
+    if (target.closest("button")) {
+      return;
+    }
+
+    e.preventDefault();
+    if (trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
+      navigate({
+        to: "/search",
+        search: {
+          q: "CRPF",
+          sport: "All Sports",
+          city: "All Locations",
+          sort: "Soonest",
+          free: false,
+        },
+        hash: "crpf-recruitment-notification-card",
+      });
+    } else {
+      navigate({
+        to: "/search",
+        search: {
+          q: trial.title,
+          sport:
+            trial.sport && trial.sport !== "Multi-Discipline Sports Quota"
+              ? trial.sport
+              : "All Sports",
+          city: "All Locations",
+          sort: "Soonest",
+          free: false,
+        },
+      });
+    }
+  };
+
   return (
     <section aria-label="Featured Selection Trials" className="w-full min-w-0 max-w-full py-2">
       {/* Section Header */}
@@ -100,7 +138,8 @@ export function FeaturedTrialsRadar({
           </div>
 
           <Link
-            to="/trials"
+            to="/search"
+            search={{ sport: "All Sports", city: "All Locations" }}
             className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-0.5"
           >
             <span>All ({TRIALS.length})</span>
@@ -120,9 +159,27 @@ export function FeaturedTrialsRadar({
           return (
             <Link
               key={trial.id}
-              to="/trial/$id"
-              params={{ id: trial.id }}
-              className="snap-start shrink-0 w-[82vw] max-w-[320px] sm:w-[320px] lg:w-[340px] group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-3 sm:p-3.5 transition-all hover:border-primary/50 hover:shadow-md"
+              to="/search"
+              search={{
+                q:
+                  trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
+                    ? "CRPF"
+                    : trial.title,
+                sport:
+                  trial.sport && trial.sport !== "Multi-Discipline Sports Quota"
+                    ? trial.sport
+                    : "All Sports",
+                city: "All Locations",
+                sort: "Soonest",
+                free: false,
+              }}
+              hash={
+                trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
+                  ? "crpf-recruitment-notification-card"
+                  : undefined
+              }
+              onClick={(e) => handleCardClick(e, trial)}
+              className="snap-start shrink-0 w-[82vw] max-w-[320px] sm:w-[320px] lg:w-[340px] group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-3 sm:p-3.5 transition-all hover:border-primary/50 hover:shadow-md cursor-pointer"
             >
               <div>
                 {/* Visual Card Image Banner */}

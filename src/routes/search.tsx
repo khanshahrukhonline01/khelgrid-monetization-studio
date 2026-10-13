@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import { Fragment, useMemo, useState, useRef } from "react";
+import { Fragment, useMemo, useState, useRef, useEffect } from "react";
 import { BannerAd, InFeedAd } from "@/components/ads";
 import { TRIALS, SPORTS, CITIES, type Trial } from "@/data/trials";
 import { TrialCard } from "@/components/TrialCard";
@@ -275,6 +275,35 @@ function SearchPage() {
     () => TRIALS.find((t) => t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") || null,
     [],
   );
+
+  // Auto-scroll directly to CRPF notification card or search results when targeted from home page or URL
+  useEffect(() => {
+    const isCrpfTarget =
+      params.q.toLowerCase().includes("crpf") ||
+      (typeof window !== "undefined" && window.location.hash.includes("crpf"));
+
+    if (isCrpfTarget) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById("crpf-recruitment-notification-card");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          el.classList.add("ring-2", "ring-emerald-500", "ring-offset-2");
+          setTimeout(() => {
+            el.classList.remove("ring-2", "ring-emerald-500", "ring-offset-2");
+          }, 2400);
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    } else if (params.q || (params.sport && params.sport !== ALL_SPORT)) {
+      const timer = setTimeout(() => {
+        const resultsEl = document.getElementById("trials-results-section");
+        if (resultsEl) {
+          resultsEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [params.q, params.sport]);
 
   const update = (patch: Partial<typeof params>) =>
     navigate({ search: (prev: typeof params) => ({ ...prev, ...patch }), replace: true });
@@ -1186,7 +1215,10 @@ function SearchPage() {
           </div>
 
           {/* Active Filter Indicators Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border/60 bg-muted/20 px-3 py-2 text-xs w-full min-w-0 max-w-full">
+          <div
+            id="trials-results-section"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border/60 bg-muted/20 px-3 py-2 text-xs w-full min-w-0 max-w-full scroll-mt-24"
+          >
             <div className="flex flex-wrap items-center gap-2 min-w-0">
               <span className="font-semibold text-foreground">
                 {params.savedOnly
@@ -1235,7 +1267,7 @@ function SearchPage() {
               !params.q) && (
               <section
                 id="crpf-recruitment-notification-card"
-                className="rounded-2xl border border-emerald-500/35 bg-gradient-to-br from-emerald-500/10 via-card to-background p-4 sm:p-5 md:p-6 shadow-sm space-y-4 w-full min-w-0"
+                className="rounded-2xl border border-emerald-500/35 bg-gradient-to-br from-emerald-500/10 via-card to-background p-4 sm:p-5 md:p-6 shadow-sm space-y-4 w-full min-w-0 scroll-mt-24 transition-all duration-300"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="space-y-1.5 max-w-3xl">

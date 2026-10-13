@@ -56,12 +56,6 @@ export function useTouchScroll(stepAmount = 300) {
 
       el.style.scrollSnapType = "none";
       el.style.scrollBehavior = "auto";
-
-      try {
-        el.setPointerCapture(e.pointerId);
-      } catch {
-        // ignore if not supported
-      }
     };
 
     const onPointerMove = (e: PointerEvent) => {
@@ -69,8 +63,17 @@ export function useTouchScroll(stepAmount = 300) {
 
       const deltaX = e.clientX - pointerStartX;
       if (Math.abs(deltaX) > 6) {
+        if (!hasMoved) {
+          try {
+            el.setPointerCapture(e.pointerId);
+          } catch {
+            // ignore if not supported
+          }
+        }
         hasMoved = true;
       }
+
+      if (!hasMoved) return;
 
       const now = performance.now();
       const dt = now - pointerLastTime;
@@ -87,10 +90,12 @@ export function useTouchScroll(stepAmount = 300) {
       if (!isPointerDragging || e.pointerType === "touch") return;
       isPointerDragging = false;
 
-      try {
-        el.releasePointerCapture(e.pointerId);
-      } catch {
-        // ignore
+      if (hasMoved) {
+        try {
+          el.releasePointerCapture(e.pointerId);
+        } catch {
+          // ignore
+        }
       }
 
       el.style.scrollSnapType = "";
