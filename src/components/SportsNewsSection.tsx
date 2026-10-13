@@ -583,9 +583,7 @@ export function SportsNewsSection({
   };
 
   if (isHomeMode) {
-    const homeArticles = filteredArticles
-      .filter((article) => !article.onlyChronicle)
-      .slice(0, 3);
+    const homeArticles = filteredArticles.filter((article) => !article.onlyChronicle).slice(0, 3);
     return (
       <section
         id="sports-news-section"
@@ -1369,7 +1367,9 @@ export function SportsNewsSection({
                     className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-emerald-700"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
-                    <span>View Official PIB Press Release (PRID: {featuredArticle.pibPrid || "2321660"})</span>
+                    <span>
+                      View Official PIB Press Release (PRID: {featuredArticle.pibPrid || "2321660"})
+                    </span>
                   </a>
                   {featuredArticle.venueId && (
                     <Link
@@ -1568,7 +1568,9 @@ export function SportsNewsSection({
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:underline text-[11px]"
                             >
-                              <span>PIB {article.pibPrid ? `PRID: ${article.pibPrid}` : "Release"}</span>
+                              <span>
+                                PIB {article.pibPrid ? `PRID: ${article.pibPrid}` : "Release"}
+                              </span>
                               <ExternalLink className="h-2.5 w-2.5" />
                             </a>
                             {article.venueId && (

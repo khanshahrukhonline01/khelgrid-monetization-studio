@@ -62,7 +62,7 @@ export function useTouchScroll(stepAmount = 300) {
       if (!isPointerDragging || e.pointerType === "touch") return;
 
       const deltaX = e.clientX - pointerStartX;
-      if (Math.abs(deltaX) > 6) {
+      if (Math.abs(deltaX) > 16) {
         if (!hasMoved) {
           try {
             el.setPointerCapture(e.pointerId);
@@ -90,6 +90,11 @@ export function useTouchScroll(stepAmount = 300) {
       if (!isPointerDragging || e.pointerType === "touch") return;
       isPointerDragging = false;
 
+      const actualDelta = Math.abs(e.clientX - pointerStartX);
+      if (actualDelta < 14) {
+        hasMoved = false;
+      }
+
       if (hasMoved) {
         try {
           el.releasePointerCapture(e.pointerId);
@@ -112,7 +117,7 @@ export function useTouchScroll(stepAmount = 300) {
 
       setTimeout(() => {
         hasMoved = false;
-      }, 60);
+      }, 50);
     };
 
     const onPointerCancel = (e: PointerEvent) => {
@@ -161,10 +166,10 @@ export function useTouchScroll(stepAmount = 300) {
 
       // Detect if user intended a horizontal swipe vs vertical page scroll
       if (!isHorizontalGesture) {
-        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 6) {
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 14) {
           isHorizontalGesture = true;
           hasMoved = true;
-        } else if (Math.abs(deltaY) > 8) {
+        } else if (Math.abs(deltaY) > 10) {
           // It's a vertical page scroll - don't interfere
           isTouchActive = false;
           el.style.scrollSnapType = "";

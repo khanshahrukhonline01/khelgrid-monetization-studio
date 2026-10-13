@@ -690,30 +690,43 @@ export function TrialDetailsModal({
             Close
           </Button>
 
-          <Button
-            id="btn-modal-register-trial"
-            type="button"
-            size="sm"
-            onClick={handleRegisterClick}
-            disabled={isRegistered}
-            className={`w-full sm:w-auto text-xs font-bold px-5 gap-1.5 shadow-sm cursor-pointer ${
-              isRegistered
-                ? "bg-secondary text-secondary-foreground"
-                : "bg-primary text-primary-foreground hover:bg-primary/90"
-            }`}
-          >
-            {isRegistered ? (
-              <>
-                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                <span>Already Registered</span>
-              </>
-            ) : (
-              <>
-                <span>Register for Trial</span>
-                <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </Button>
+          {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" ? (
+            <a
+              id="btn-modal-register-trial"
+              href="https://rect.crpf.gov.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-xs font-bold px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm cursor-pointer transition-colors"
+            >
+              <span>Apply Online on rect.crpf.gov.in</span>
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          ) : (
+            <Button
+              id="btn-modal-register-trial"
+              type="button"
+              size="sm"
+              onClick={handleRegisterClick}
+              disabled={isRegistered}
+              className={`w-full sm:w-auto text-xs font-bold px-5 gap-1.5 shadow-sm cursor-pointer ${
+                isRegistered
+                  ? "bg-secondary text-secondary-foreground"
+                  : "bg-primary text-primary-foreground hover:bg-primary/90"
+              }`}
+            >
+              {isRegistered ? (
+                <>
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  <span>Already Registered</span>
+                </>
+              ) : (
+                <>
+                  <span>Register for Trial</span>
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </div>
     </>

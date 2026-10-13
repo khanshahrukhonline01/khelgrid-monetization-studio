@@ -105,7 +105,9 @@ export function normalizeVenueData(v: VenueRow | PlayoVenue | VenueDetailData): 
   const bookingPolicies = (rawAny.booking_policies as VenueBookingPoliciesData) || null;
   const rulesRestrictions = (rawAny.rules_restrictions as VenueRulesRestrictionsData) || null;
   const pibPressRelease: PibPressReleaseNotice | null =
-    ("pibPressRelease" in v && v.pibPressRelease ? (v.pibPressRelease as PibPressReleaseNotice) : null) ||
+    ("pibPressRelease" in v && v.pibPressRelease
+      ? (v.pibPressRelease as PibPressReleaseNotice)
+      : null) ||
     ("pib_press_release" in v && (v as VenueDetailData).pib_press_release
       ? (v as VenueDetailData).pib_press_release!
       : null) ||
@@ -490,7 +492,10 @@ export function VenueDetails({
                     <ShieldCheck className="h-3.5 w-3.5" />
                     Official Government Release
                   </span>
-                  <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300 font-mono text-[11px]">
+                  <Badge
+                    variant="outline"
+                    className="border-amber-500/40 text-amber-700 dark:text-amber-300 font-mono text-[11px]"
+                  >
                     {`PIB PRID: ${venue.pib_press_release.prid}`}
                   </Badge>
                 </div>
@@ -502,7 +507,10 @@ export function VenueDetails({
 
               <div className="mt-3 space-y-3">
                 <div>
-                  <h4 id="venue-pib-title" className="text-base sm:text-lg font-bold text-foreground">
+                  <h4
+                    id="venue-pib-title"
+                    className="text-base sm:text-lg font-bold text-foreground"
+                  >
                     {venue.pib_press_release.title}
                   </h4>
                   <p className="mt-1 text-xs text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -517,7 +525,10 @@ export function VenueDetails({
                   </p>
                 </div>
 
-                <p id="venue-pib-description" className="text-xs sm:text-sm text-foreground/90 leading-relaxed bg-background/60 p-3 rounded-lg border border-border/40">
+                <p
+                  id="venue-pib-description"
+                  className="text-xs sm:text-sm text-foreground/90 leading-relaxed bg-background/60 p-3 rounded-lg border border-border/40"
+                >
                   {venue.pib_press_release.description}
                 </p>
 
@@ -546,23 +557,24 @@ export function VenueDetails({
                   </div>
                 )}
 
-                {venue.pib_press_release.delegations && venue.pib_press_release.delegations.length > 0 && (
-                  <div className="space-y-1.5">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Participating Delegations:
-                    </span>
-                    <div className="flex flex-wrap gap-1">
-                      {venue.pib_press_release.delegations.map((del) => (
-                        <span
-                          key={del}
-                          className="px-1.5 py-0.5 rounded bg-muted text-muted-foreground text-[10px] font-medium"
-                        >
-                          {del}
-                        </span>
-                      ))}
+                {venue.pib_press_release.delegations &&
+                  venue.pib_press_release.delegations.length > 0 && (
+                    <div className="space-y-1.5">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        Participating Delegations:
+                      </span>
+                      <div className="flex flex-wrap gap-1">
+                        {venue.pib_press_release.delegations.map((del) => (
+                          <span
+                            key={del}
+                            className="px-1.5 py-0.5 rounded bg-muted text-muted-foreground text-[10px] font-medium"
+                          >
+                            {del}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {/* Direct PIB URL & KhelChronicle Link Buttons */}
                 <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-amber-500/20">
@@ -580,7 +592,9 @@ export function VenueDetails({
                     id="venue-pib-copy-btn"
                     variant="outline"
                     size="sm"
-                    onClick={() => copyToClipboard(venue.pib_press_release!.url, "PIB press release link")}
+                    onClick={() =>
+                      copyToClipboard(venue.pib_press_release!.url, "PIB press release link")
+                    }
                     className="h-8 text-xs font-medium gap-1.5 border-amber-500/30 hover:bg-amber-500/10 text-foreground"
                   >
                     {copiedField === "PIB press release link" ? (

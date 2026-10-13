@@ -11,6 +11,7 @@ import {
   Clock,
   Sparkles,
   MessageCircle,
+  ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TRIALS, type Trial } from "@/data/trials";
@@ -292,7 +293,41 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
               aria-label={`Opportunity ${index + 1} of ${filteredOpportunities.length}: ${trial.title}${statusBadge ? ` (${statusBadge.label})` : ""}`}
               aria-labelledby={cardTitleId}
               aria-describedby={cardDescId}
-              className={`group relative flex w-[82vw] max-w-[310px] shrink-0 snap-start flex-col justify-between rounded-2xl border border-border/80 bg-gradient-card p-4 transition-all duration-200 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg active:scale-[0.99] sm:w-auto sm:shrink ${
+              onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (target.closest("button") || target.closest("a")) return;
+                if (trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
+                  navigate({
+                    to: "/search",
+                    search: {
+                      q: "CRPF",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                      trialId: trial.id,
+                    },
+                    hash: "crpf-recruitment-notification-card",
+                  });
+                } else {
+                  navigate({
+                    to: "/search",
+                    search: {
+                      q: trial.title,
+                      sport:
+                        trial.sport && trial.sport !== "Multi-Discipline Sports Quota"
+                          ? trial.sport
+                          : "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                      trialId: trial.id,
+                    },
+                    hash: `trial-card-${trial.id}`,
+                  });
+                }
+              }}
+              className={`group relative flex w-[82vw] max-w-[310px] shrink-0 snap-start flex-col justify-between rounded-2xl border border-border/80 bg-gradient-card p-4 transition-all duration-200 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg active:scale-[0.99] sm:w-auto sm:shrink cursor-pointer select-auto ${
                 statusBadge?.isExpired ? "opacity-80 grayscale-[0.25]" : ""
               }`}
             >
@@ -397,11 +432,12 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
                       city: "All Locations",
                       sort: "Soonest",
                       free: false,
+                      trialId: trial.id,
                     }}
                     hash={
                       trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
                         ? "crpf-recruitment-notification-card"
-                        : undefined
+                        : `trial-card-${trial.id}`
                     }
                     className="focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-xs"
                     aria-label={`${trial.title}, organized by ${trial.academy}`}
@@ -487,36 +523,53 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
                     )}
                   </div>
 
-                  <Link
-                    to="/search"
-                    search={{
-                      q:
+                  <div className="flex items-center gap-2">
+                    {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" && (
+                      <a
+                        href="https://rect.crpf.gov.in"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 text-[11px] font-bold shadow-xs transition-colors cursor-pointer"
+                        aria-label="Apply online directly on CRPF official recruitment portal"
+                      >
+                        <span>Apply</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
+
+                    <Link
+                      to="/search"
+                      search={{
+                        q:
+                          trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
+                            ? "CRPF"
+                            : trial.title,
+                        sport:
+                          trial.sport && trial.sport !== "Multi-Discipline Sports Quota"
+                            ? trial.sport
+                            : "All Sports",
+                        city: "All Locations",
+                        sort: "Soonest",
+                        free: false,
+                        trialId: trial.id,
+                      }}
+                      hash={
                         trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
-                          ? "CRPF"
-                          : trial.title,
-                      sport:
-                        trial.sport && trial.sport !== "Multi-Discipline Sports Quota"
-                          ? trial.sport
-                          : "All Sports",
-                      city: "All Locations",
-                      sort: "Soonest",
-                      free: false,
-                    }}
-                    hash={
-                      trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
-                        ? "crpf-recruitment-notification-card"
-                        : undefined
-                    }
-                    className={`inline-flex items-center gap-1 text-xs font-semibold transition-transform group-hover:translate-x-0.5 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-xs ${
-                      statusBadge?.isExpired
-                        ? "text-muted-foreground hover:text-foreground"
-                        : "text-primary"
-                    }`}
-                    aria-label={`View full details for ${trial.title}${statusBadge?.isExpired ? " (Registration Closed)" : ""}`}
-                  >
-                    {statusBadge?.isExpired ? "View Archive" : "Details"}{" "}
-                    <span aria-hidden="true">→</span>
-                  </Link>
+                          ? "crpf-recruitment-notification-card"
+                          : `trial-card-${trial.id}`
+                      }
+                      className={`inline-flex items-center gap-1 text-xs font-semibold transition-transform group-hover:translate-x-0.5 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-xs ${
+                        statusBadge?.isExpired
+                          ? "text-muted-foreground hover:text-foreground"
+                          : "text-primary"
+                      }`}
+                      aria-label={`View full details for ${trial.title}${statusBadge?.isExpired ? " (Registration Closed)" : ""}`}
+                    >
+                      {statusBadge?.isExpired ? "View Archive" : "Details"}{" "}
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </article>

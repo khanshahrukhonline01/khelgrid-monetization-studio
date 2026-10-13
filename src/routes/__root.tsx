@@ -104,7 +104,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "India's Sports Opportunity Network · Discover trials, book venues, join games, enroll in coaching, and manage Sports CV.",
+          "India's premier sports platform for discovery and development. Find sports selection trials, government recruitments (CRPF 2026), turf venues, coaching academies, and athlete CVs.",
+      },
+      {
+        name: "keywords",
+        content:
+          "sports trials India, sports opportunities, CRPF recruitment 2026, meritorious sportspersons recruitment, selection trials, book sports turf, cricket trials, football academy combines, athletics trials, badminton selection, sports CV India",
       },
       { name: "author", content: "KhelGrid" },
       { property: "og:site_name", content: "KhelGrid" },
@@ -112,7 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "India's Sports Opportunity Network · Discover trials, book venues, join games, enroll in coaching, and manage Sports CV.",
+          "India's premier sports platform for discovery and development. Find sports selection trials, government recruitments (CRPF 2026), turf venues, coaching academies, and athlete CVs.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://khelgrid.com/og-image.svg" },

@@ -186,11 +186,13 @@ describe("VenueDetails", () => {
       pibPressRelease: {
         prid: "2321660",
         url: "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2321660&reg=48&lang=2",
-        title: "India to Host BRICS Traditional and Indigenous Sports Demonstration Games 2026 in Ahmedabad",
+        title:
+          "India to Host BRICS Traditional and Indigenous Sports Demonstration Games 2026 in Ahmedabad",
         authority: "Ministry of Youth Affairs and Sports (MYAS), Government of India",
         collaborator: "Government of Gujarat",
         eventDate: "October 12, 2026",
-        description: "Official Host Venue: Selected by MYAS to host the BRICS Traditional and Indigenous Sports Demonstration Games 2026.",
+        description:
+          "Official Host Venue: Selected by MYAS to host the BRICS Traditional and Indigenous Sports Demonstration Games 2026.",
         sports: ["Mallakhamb", "Yogasana", "Kalaripayattu", "Wushu"],
         infrastructure: "Constructed at ₹825 crore across 21 acres.",
       },
@@ -200,14 +202,18 @@ describe("VenueDetails", () => {
     expect(html).toContain('id="venue-pib-press-release-card"');
     expect(html).toContain("Official Government Release");
     expect(html).toContain("PIB PRID: 2321660");
-    expect(html).toContain("India to Host BRICS Traditional and Indigenous Sports Demonstration Games 2026");
+    expect(html).toContain(
+      "India to Host BRICS Traditional and Indigenous Sports Demonstration Games 2026",
+    );
     expect(html).toContain("Ministry of Youth Affairs and Sports (MYAS)");
     expect(html).toContain("Government of Gujarat");
     expect(html).toContain("October 12, 2026");
     expect(html).toContain("Mallakhamb");
     expect(html).toContain("Yogasana");
     expect(html).toContain('id="venue-pib-external-link"');
-    expect(html).toContain("https://www.pib.gov.in/PressReleasePage.aspx?PRID=2321660&amp;reg=48&amp;lang=2");
+    expect(html).toContain(
+      "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2321660&amp;reg=48&amp;lang=2",
+    );
     expect(html).toContain('id="venue-pib-copy-btn"');
     expect(html).toContain("Copy PIB URL");
     expect(html).toContain('id="venue-pib-chronicle-link"');

@@ -158,6 +158,7 @@ const searchSchema = z.object({
   officialOnly: fallback(z.boolean(), false).default(false),
   savedOnly: fallback(z.boolean(), false).default(false),
   view: fallback(z.enum(["grid", "list"]), "grid").default("grid"),
+  trialId: fallback(z.string(), "").default(""),
 });
 
 export const Route = createFileRoute("/search")({
@@ -166,12 +167,20 @@ export const Route = createFileRoute("/search")({
     const sSport = search?.sport && search.sport !== ALL_SPORT ? search.sport : "";
     const sCity = search?.city && search.city !== ALL_CITY ? search.city : "";
     const sQ = search?.q ? `"${search.q}"` : "";
+    const isCrpf =
+      (search?.q && search.q.toLowerCase().includes("crpf")) ||
+      (search?.trialId && search.trialId.toLowerCase().includes("crpf"));
 
     let pageTitle = "Search Trials and Opportunities in India · KhelGrid";
     let metaDesc =
       "Filter and discover sports selection trials, tournaments, recruitment drives, coaching camps, and academy opportunities across India by sport, age group, and city.";
 
-    if (sSport && sCity) {
+    if (isCrpf) {
+      pageTitle =
+        "CRPF Meritorious Sportspersons Recruitment 2026 (521 Posts) · Official Apply · KhelGrid";
+      metaDesc =
+        "Official Central Reserve Police Force (CRPF) Sports Quota Recruitment 2026 for 521 Head Constable & Constable (GD) posts across 22 sports disciplines. Apply online at rect.crpf.gov.in.";
+    } else if (sSport && sCity) {
       pageTitle = `${sSport} Trials and Opportunities in ${sCity} (2026) · KhelGrid`;
       metaDesc = `Discover verified ${sSport} selection trials, recruitment drives, academy combines, and state tournaments in ${sCity}. Check venue details, age eligibility, and registration dates on KhelGrid.`;
     } else if (sSport) {
@@ -185,7 +194,7 @@ export const Route = createFileRoute("/search")({
     }
 
     const searchUrl = "https://khelgrid.com/search";
-    const structuredData = [
+    const structuredData: Array<Record<string, unknown>> = [
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
@@ -217,6 +226,32 @@ export const Route = createFileRoute("/search")({
       },
       {
         "@context": "https://schema.org",
+        "@type": "JobPosting",
+        title: "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
+        description:
+          "Central Reserve Police Force invites online applications from eligible meritorious Indian sportspersons for 182 Head Constable (GD) and 339 Constable (GD) posts across 22 sports disciplines under Sports Quota 2026.",
+        datePosted: "2026-10-12",
+        validThrough: "2026-11-11T23:59:59+05:30",
+        employmentType: "FULL_TIME",
+        hiringOrganization: {
+          "@type": "GovernmentOrganization",
+          name: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",
+          sameAs: "https://rect.crpf.gov.in",
+        },
+        jobLocation: {
+          "@type": "Place",
+          address: {
+            "@type": "PostalAddress",
+            addressCountry: "IN",
+            addressRegion: "Pan-India",
+          },
+        },
+        totalJobOpenings: 521,
+        directApply: true,
+        url: "https://rect.crpf.gov.in",
+      },
+      {
+        "@context": "https://schema.org",
         "@type": "FAQPage",
         mainEntity: [
           {
@@ -225,6 +260,14 @@ export const Route = createFileRoute("/search")({
             acceptedAnswer: {
               "@type": "Answer",
               text: "Athletes can filter opportunities by sport and city, review age eligibility and venue dates, and register directly or download trial confirmation passes.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Where can meritorious sportspersons apply for CRPF Sports Quota 2026?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Sportspersons can apply directly on the official CRPF recruitment portal at rect.crpf.gov.in between October 12 and November 11, 2026.",
             },
           },
           {
@@ -252,7 +295,7 @@ export const Route = createFileRoute("/search")({
       description: metaDesc,
       canonicalPath: "/search",
       noindex: false,
-      keywords: `${sSport ? sSport + " trials, " : ""}sports trials India, sports opportunities, CRPF meritorious sportspersons recruitment 2026, cricket selection trials, football academy combine, athletics trials, badminton state selections, open sports trials 2026`,
+      keywords: `${sSport ? sSport + " trials, " : ""}CRPF recruitment 2026, CRPF meritorious sportspersons recruitment 2026, rect.crpf.gov.in apply online, sports trials India, sports opportunities, sports quota 2026, cricket selection trials, football academy combine, athletics trials, badminton state selections, open sports trials 2026`,
       type: "website",
       customSchema: structuredData,
     });
@@ -280,6 +323,7 @@ function SearchPage() {
   useEffect(() => {
     const isCrpfTarget =
       params.q.toLowerCase().includes("crpf") ||
+      params.trialId?.toLowerCase().includes("crpf") ||
       (typeof window !== "undefined" && window.location.hash.includes("crpf"));
 
     if (isCrpfTarget) {
@@ -294,6 +338,22 @@ function SearchPage() {
         }
       }, 100);
       return () => clearTimeout(timer);
+    } else if (params.trialId) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(`trial-card-${params.trialId}`);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          el.classList.add("ring-2", "ring-primary", "ring-offset-2");
+          setTimeout(() => {
+            el.classList.remove("ring-2", "ring-primary", "ring-offset-2");
+          }, 2400);
+        }
+        const targetedTrial = TRIALS.find((t) => t.id === params.trialId);
+        if (targetedTrial) {
+          setDetailsTrial(targetedTrial);
+        }
+      }, 150);
+      return () => clearTimeout(timer);
     } else if (params.q || (params.sport && params.sport !== ALL_SPORT)) {
       const timer = setTimeout(() => {
         const resultsEl = document.getElementById("trials-results-section");
@@ -303,7 +363,7 @@ function SearchPage() {
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [params.q, params.sport]);
+  }, [params.q, params.sport, params.trialId]);
 
   const update = (patch: Partial<typeof params>) =>
     navigate({ search: (prev: typeof params) => ({ ...prev, ...patch }), replace: true });
@@ -464,6 +524,11 @@ function SearchPage() {
   }, [params, auth.boostedTrials, savedIds]);
 
   const handleApply = (trial: Trial) => {
+    if (trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
+      window.open("https://rect.crpf.gov.in", "_blank", "noopener,noreferrer");
+      toast.success("Opening official CRPF portal (rect.crpf.gov.in) to Apply!");
+      return;
+    }
     if (auth.applications.includes(trial.id)) return;
     if (auth.canApply(trial.id)) {
       auth.applyToTrial(trial.id);
@@ -1394,24 +1459,25 @@ function SearchPage() {
                 {/* Action Buttons */}
                 <div className="flex flex-wrap items-center gap-2.5 pt-1">
                   <a
-                    href="https://rect.crpf.gov.in/Upload/Recruitment/Meritorious_Sportspersons_315092026-672.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition-all shadow-xs cursor-pointer"
-                  >
-                    <FileText className="h-4 w-4" />
-                    <span>View Official Notification PDF</span>
-                    <ExternalLink className="h-3 w-3 opacity-80" />
-                  </a>
-
-                  <a
+                    id="crpf-apply-online-button"
                     href="https://rect.crpf.gov.in"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg cursor-pointer ring-2 ring-emerald-500/20 active:scale-95"
                   >
-                    <span>Apply on rect.crpf.gov.in</span>
-                    <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                    <span>Apply Online on rect.crpf.gov.in (Official Website)</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+
+                  <a
+                    href="https://rect.crpf.gov.in/Upload/Recruitment/Meritorious_Sportspersons_315092026-672.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-4 py-2.5 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
+                  >
+                    <FileText className="h-4 w-4 text-primary" />
+                    <span>View Official Notification PDF</span>
+                    <ExternalLink className="h-3 w-3 opacity-70" />
                   </a>
 
                   {crpfTrial && (

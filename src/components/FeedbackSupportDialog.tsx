@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/context/AuthContext";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { toast } from "sonner";
 import {
   Bug,
@@ -107,8 +108,8 @@ export function FeedbackSupportDialog({
 
     setIsSubmitting(true);
 
-    // Simulate reliable persistence & ticket dispatch
-    setTimeout(() => {
+    // Persist to Supabase if configured & local fallback
+    setTimeout(async () => {
       const ticketId = `KG-${type.toUpperCase().slice(0, 3)}-${Math.floor(1000 + Math.random() * 9000)}`;
       const newTicket: SubmittedTicket = {
         id: ticketId,
@@ -122,6 +123,33 @@ export function FeedbackSupportDialog({
           minute: "2-digit",
         }),
       };
+
+      if (isSupabaseConfigured) {
+        try {
+          await supabase.from("feedback_tickets").insert({
+            type,
+            category,
+            title: title.trim(),
+            description: description.trim(),
+            user_email: email.trim() || user?.email || null,
+            severity:
+              type === "bug" ? (severity as "low" | "normal" | "high" | "urgent") : "normal",
+            device_info: includeDiagnostics
+              ? {
+                  url: typeof window !== "undefined" ? window.location.href : "",
+                  userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+                  screen:
+                    typeof window !== "undefined"
+                      ? `${window.innerWidth}x${window.innerHeight}`
+                      : "",
+                }
+              : {},
+            status: "open",
+          });
+        } catch (dbErr) {
+          console.warn("Supabase feedback insert error:", dbErr);
+        }
+      }
 
       try {
         const existing = JSON.parse(localStorage.getItem("khelgrid_user_feedback") || "[]");

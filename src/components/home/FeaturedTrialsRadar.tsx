@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { TRIALS, type Trial } from "@/data/trials";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 import {
@@ -24,7 +24,6 @@ export function FeaturedTrialsRadar({
   selectedSport = "All",
   selectedCity = "All Cities",
 }: FeaturedTrialsRadarProps) {
-  const navigate = useNavigate();
   const { isSaved, toggleSaved } = useSavedOpportunities();
   const { scrollRef, scroll } = useTouchScroll(340);
 
@@ -62,43 +61,6 @@ export function FeaturedTrialsRadar({
       toast.success(`Saved "${title}"`);
     } else {
       toast.info(`Removed from saved`);
-    }
-  };
-
-  const handleCardClick = (e: React.MouseEvent, trial: Trial) => {
-    // If the click is on action buttons (share, bookmark), let that button handler manage it
-    const target = e.target as HTMLElement;
-    if (target.closest("button")) {
-      return;
-    }
-
-    e.preventDefault();
-    if (trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
-      navigate({
-        to: "/search",
-        search: {
-          q: "CRPF",
-          sport: "All Sports",
-          city: "All Locations",
-          sort: "Soonest",
-          free: false,
-        },
-        hash: "crpf-recruitment-notification-card",
-      });
-    } else {
-      navigate({
-        to: "/search",
-        search: {
-          q: trial.title,
-          sport:
-            trial.sport && trial.sport !== "Multi-Discipline Sports Quota"
-              ? trial.sport
-              : "All Sports",
-          city: "All Locations",
-          sort: "Soonest",
-          free: false,
-        },
-      });
     }
   };
 
@@ -172,14 +134,14 @@ export function FeaturedTrialsRadar({
                 city: "All Locations",
                 sort: "Soonest",
                 free: false,
+                trialId: trial.id,
               }}
               hash={
                 trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026"
                   ? "crpf-recruitment-notification-card"
-                  : undefined
+                  : `trial-card-${trial.id}`
               }
-              onClick={(e) => handleCardClick(e, trial)}
-              className="snap-start shrink-0 w-[82vw] max-w-[320px] sm:w-[320px] lg:w-[340px] group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-3 sm:p-3.5 transition-all hover:border-primary/50 hover:shadow-md cursor-pointer"
+              className="snap-start shrink-0 w-[82vw] max-w-[320px] sm:w-[320px] lg:w-[340px] group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-3 sm:p-3.5 transition-all hover:border-primary/50 hover:shadow-md cursor-pointer select-auto"
             >
               <div>
                 {/* Visual Card Image Banner */}

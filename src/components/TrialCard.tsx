@@ -12,6 +12,7 @@ import {
   Copy,
   MessageCircle,
   Info,
+  ExternalLink,
 } from "lucide-react";
 import type { Trial } from "@/data/trials";
 import { Link } from "@tanstack/react-router";
@@ -309,26 +310,39 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              onApply();
-            }}
-            disabled={applied || statusBadge?.isExpired}
-            className="flex-1 min-w-0 h-9 text-xs sm:text-sm font-bold truncate px-2 sm:px-3 rounded-xl shadow-xs"
-            variant={applied || statusBadge?.isExpired ? "secondary" : "default"}
-          >
-            {applied ? (
-              <>
-                <Check className="mr-1 h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">Applied</span>
-              </>
-            ) : statusBadge?.isExpired ? (
-              <span className="truncate">Closed</span>
-            ) : (
-              <span className="truncate">Apply</span>
-            )}
-          </Button>
+          {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" ? (
+            <a
+              href="https://rect.crpf.gov.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex-1 min-w-0 h-9 inline-flex items-center justify-center gap-1.5 text-xs font-bold truncate px-2.5 rounded-xl shadow-xs bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition-colors"
+            >
+              <span className="truncate">Apply on CRPF Portal</span>
+              <ExternalLink className="h-3.5 w-3.5 shrink-0 opacity-90" />
+            </a>
+          ) : (
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onApply();
+              }}
+              disabled={applied || statusBadge?.isExpired}
+              className="flex-1 min-w-0 h-9 text-xs sm:text-sm font-bold truncate px-2 sm:px-3 rounded-xl shadow-xs"
+              variant={applied || statusBadge?.isExpired ? "secondary" : "default"}
+            >
+              {applied ? (
+                <>
+                  <Check className="mr-1 h-3.5 w-3.5 shrink-0" />
+                  <span className="truncate">Applied</span>
+                </>
+              ) : statusBadge?.isExpired ? (
+                <span className="truncate">Closed</span>
+              ) : (
+                <span className="truncate">Apply</span>
+              )}
+            </Button>
+          )}
 
           {showBoostAction && !boosted && (
             <Button

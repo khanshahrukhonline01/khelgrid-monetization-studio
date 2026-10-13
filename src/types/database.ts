@@ -72,6 +72,7 @@ export interface Database {
           title: string;
           sport: string;
           city: string;
+          state?: string | null;
           venue_name: string | null;
           trial_date: string;
           reporting_time: string | null;
@@ -79,12 +80,23 @@ export interface Database {
           spots_total: number;
           spots_available: number;
           tag: string;
+          age_category?: string | null;
+          gender?: string | null;
+          verified_label?: string | null;
+          urgency_text?: string | null;
+          badge?: string | null;
           eligibility: string | null;
           required_documents: string[];
           selection_process: string | null;
           registration_deadline: string | null;
           source_url: string | null;
           source_label: string | null;
+          sources?: Json | null;
+          timelines?: Json | null;
+          organizer_contacts?: Json | null;
+          apply_url?: string | null;
+          is_government_quota?: boolean;
+          quota_details?: Json | null;
           last_verified: string;
           status: "active" | "upcoming" | "completed" | "cancelled";
           deleted_at?: string | null;
@@ -313,6 +325,69 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["audit_logs"]["Insert"]>;
       };
+      saved_opportunities: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          user_email: string;
+          trial_id: string;
+          notes: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["saved_opportunities"]["Row"],
+          "id" | "created_at" | "updated_at"
+        > & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["saved_opportunities"]["Insert"]>;
+      };
+      feedback_tickets: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          user_email: string | null;
+          type: "bug" | "feature" | "general";
+          category: string;
+          title: string;
+          description: string;
+          severity: "low" | "normal" | "high" | "urgent";
+          device_info: Json;
+          status: "open" | "in_progress" | "resolved" | "closed";
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["feedback_tickets"]["Row"],
+          "id" | "created_at" | "updated_at"
+        > & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["feedback_tickets"]["Insert"]>;
+      };
+      venue_reviews: {
+        Row: {
+          id: string;
+          venue_id: string;
+          user_id: string | null;
+          user_name: string;
+          rating: number;
+          comment: string | null;
+          sport: string | null;
+          verified_booking: boolean;
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["venue_reviews"]["Row"], "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["venue_reviews"]["Insert"]>;
+      };
     };
     Functions: {
       get_venue_slot_availability: {
@@ -391,6 +466,41 @@ export interface Database {
           booking_id?: string;
           error_code?: string;
           message: string;
+        };
+      };
+      search_trials: {
+        Args: {
+          p_query?: string | null;
+          p_sport?: string | null;
+          p_city?: string | null;
+          p_category?: string | null;
+          p_limit?: number;
+          p_offset?: number;
+        };
+        Returns: Array<Database["public"]["Tables"]["trials"]["Row"] & { rank_score: number }>;
+      };
+      get_trials_summary_stats: {
+        Args: Record<string, never>;
+        Returns: {
+          total_trials: number;
+          active_trials: number;
+          govt_quota_trials: number;
+          total_vacancies: number;
+          distinct_sports: number;
+          distinct_cities: number;
+          generated_at: string;
+        };
+      };
+      toggle_saved_opportunity: {
+        Args: {
+          p_user_email: string;
+          p_trial_id: string;
+          p_notes?: string | null;
+        };
+        Returns: {
+          success: boolean;
+          is_saved: boolean;
+          trial_id: string;
         };
       };
     };
