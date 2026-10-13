@@ -24,6 +24,7 @@ import {
   MessageCircle,
   Send,
   Sparkles,
+  Newspaper,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -59,7 +60,7 @@ import {
 } from "@/components/ui/dialog";
 import { VenueBookingForm } from "@/components/venue-booking";
 import type { Database } from "@/types/database";
-import type { Venue as PlayoVenue } from "@/data/playo";
+import type { Venue as PlayoVenue, PibPressReleaseNotice } from "@/data/playo";
 
 export type VenueRow = Database["public"]["Tables"]["venues"]["Row"];
 
@@ -86,6 +87,7 @@ export interface VenueDetailData {
   operating_hours?: VenueOperatingHoursData | null;
   booking_policies?: VenueBookingPoliciesData | null;
   rules_restrictions?: VenueRulesRestrictionsData | null;
+  pib_press_release?: PibPressReleaseNotice | null;
 }
 
 /**
@@ -102,6 +104,12 @@ export function normalizeVenueData(v: VenueRow | PlayoVenue | VenueDetailData): 
   const operatingHours = (rawAny.operating_hours as VenueOperatingHoursData) || null;
   const bookingPolicies = (rawAny.booking_policies as VenueBookingPoliciesData) || null;
   const rulesRestrictions = (rawAny.rules_restrictions as VenueRulesRestrictionsData) || null;
+  const pibPressRelease: PibPressReleaseNotice | null =
+    ("pibPressRelease" in v && v.pibPressRelease ? (v.pibPressRelease as PibPressReleaseNotice) : null) ||
+    ("pib_press_release" in v && (v as VenueDetailData).pib_press_release
+      ? (v as VenueDetailData).pib_press_release!
+      : null) ||
+    null;
 
   if ("price_per_hour" in v) {
     return {
@@ -127,6 +135,7 @@ export function normalizeVenueData(v: VenueRow | PlayoVenue | VenueDetailData): 
       operating_hours: operatingHours,
       booking_policies: bookingPolicies,
       rules_restrictions: rulesRestrictions,
+      pib_press_release: pibPressRelease,
     };
   }
 
@@ -152,6 +161,7 @@ export function normalizeVenueData(v: VenueRow | PlayoVenue | VenueDetailData): 
     operating_hours: operatingHours,
     booking_policies: bookingPolicies,
     rules_restrictions: rulesRestrictions,
+    pib_press_release: pibPressRelease,
   };
 }
 
@@ -467,6 +477,131 @@ export function VenueDetails({
               ))}
             </div>
           </div>
+
+          {/* Official PIB Press Release & National Games Designation */}
+          {venue.pib_press_release && (
+            <div
+              id="venue-pib-press-release-card"
+              className="relative overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent p-5 shadow-xs"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/20 px-2.5 py-0.5 text-xs font-bold text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    Official Government Release
+                  </span>
+                  <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300 font-mono text-[11px]">
+                    {`PIB PRID: ${venue.pib_press_release.prid}`}
+                  </Badge>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                  <Calendar className="h-3.5 w-3.5 text-amber-500" />
+                  <span>{venue.pib_press_release.eventDate}</span>
+                </div>
+              </div>
+
+              <div className="mt-3 space-y-3">
+                <div>
+                  <h4 id="venue-pib-title" className="text-base sm:text-lg font-bold text-foreground">
+                    {venue.pib_press_release.title}
+                  </h4>
+                  <p className="mt-1 text-xs text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="font-semibold text-foreground/80">Authority:</span>
+                    <span>{venue.pib_press_release.authority}</span>
+                    {venue.pib_press_release.collaborator && (
+                      <>
+                        <span>•</span>
+                        <span>{venue.pib_press_release.collaborator}</span>
+                      </>
+                    )}
+                  </p>
+                </div>
+
+                <p id="venue-pib-description" className="text-xs sm:text-sm text-foreground/90 leading-relaxed bg-background/60 p-3 rounded-lg border border-border/40">
+                  {venue.pib_press_release.description}
+                </p>
+
+                {venue.pib_press_release.infrastructure && (
+                  <div className="text-xs text-muted-foreground bg-muted/40 p-2.5 rounded-lg border border-border/30">
+                    <span className="font-semibold text-foreground">Infrastructure: </span>
+                    {venue.pib_press_release.infrastructure}
+                  </div>
+                )}
+
+                {venue.pib_press_release.sports && venue.pib_press_release.sports.length > 0 && (
+                  <div className="space-y-1.5">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Featured Disciplines:
+                    </span>
+                    <div id="venue-pib-sports-list" className="flex flex-wrap gap-1.5">
+                      {venue.pib_press_release.sports.map((sp) => (
+                        <span
+                          key={sp}
+                          className="px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-800 dark:text-amber-200 text-[11px] font-medium border border-amber-500/20"
+                        >
+                          {sp}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {venue.pib_press_release.delegations && venue.pib_press_release.delegations.length > 0 && (
+                  <div className="space-y-1.5">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Participating Delegations:
+                    </span>
+                    <div className="flex flex-wrap gap-1">
+                      {venue.pib_press_release.delegations.map((del) => (
+                        <span
+                          key={del}
+                          className="px-1.5 py-0.5 rounded bg-muted text-muted-foreground text-[10px] font-medium"
+                        >
+                          {del}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Direct PIB URL & KhelChronicle Link Buttons */}
+                <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-amber-500/20">
+                  <a
+                    id="venue-pib-external-link"
+                    href={venue.pib_press_release.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-xs transition-colors"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    <span>View Official PIB Release (PRID: {venue.pib_press_release.prid})</span>
+                  </a>
+                  <Button
+                    id="venue-pib-copy-btn"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => copyToClipboard(venue.pib_press_release!.url, "PIB press release link")}
+                    className="h-8 text-xs font-medium gap-1.5 border-amber-500/30 hover:bg-amber-500/10 text-foreground"
+                  >
+                    {copiedField === "PIB press release link" ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-500" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
+                    <span>Copy PIB URL</span>
+                  </Button>
+                  <a
+                    id="venue-pib-chronicle-link"
+                    href="/chronicle"
+                    className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg border border-border bg-background hover:bg-muted text-xs font-medium text-foreground transition-colors"
+                  >
+                    <Newspaper className="h-3.5 w-3.5 text-primary" />
+                    <span>View in KhelChronicle</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Contact Details Card */}
           <div className="rounded-xl border border-border/70 bg-card p-4 space-y-3">

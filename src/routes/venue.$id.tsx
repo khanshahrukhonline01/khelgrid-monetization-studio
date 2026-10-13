@@ -33,12 +33,17 @@ export const Route = createFileRoute("/venue/$id")({
       });
     }
 
+    const primarySport = venue.sports?.[0] || "Sports";
+    const description = venue.pibPressRelease
+      ? `${venue.name} (${venue.area}, ${venue.city}) - Official host venue for the ${venue.pibPressRelease.title} (PIB PRID: ${venue.pibPressRelease.prid}). World-class facilities for ${venue.sports.join(", ")}.`
+      : `Book sports turf & courts at ${venue.name} in ${venue.area}, ${venue.city}. View available slots, pricing starting at ₹${venue.pricePerHour}/hr, amenities, cancellation policies, and player rules.`;
+
     return buildSeoHead({
-      title: `${venue.name} · ${venue.sport} Turf Booking in ${venue.city}`,
-      description: `Book sports turf & courts at ${venue.name} in ${venue.area}, ${venue.city}. View available slots, pricing starting at ₹${venue.pricePerHour}/hr, amenities, cancellation policies, and player rules.`,
+      title: `${venue.name} · ${primarySport} Turf Booking in ${venue.city}`,
+      description,
       canonicalPath: `/venue/${venue.id}`,
-      keywords: `${venue.name}, ${venue.sport} in ${venue.city}, turf booking ${venue.area}, book sports ground ${venue.city}`,
-      image: venue.images?.[0] || venue.image,
+      keywords: `${venue.name}, ${primarySport} in ${venue.city}, turf booking ${venue.area}, book sports ground ${venue.city}${venue.pibPressRelease ? `, PIB ${venue.pibPressRelease.prid}, BRICS 2026` : ""}`,
+      image: venue.image,
       type: "website",
     });
   },
