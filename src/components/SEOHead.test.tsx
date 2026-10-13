@@ -122,7 +122,7 @@ describe("SEOHead & JSON-LD Structured Data", () => {
 
       const searchItem = navList.itemListElement.find((i) => i.url === `${SITE_URL}/search`);
       expect(searchItem).toBeDefined();
-      expect(searchItem?.name).toBe("Search Trials");
+      expect(searchItem?.name).toBe("Search Trials and Opportunities");
 
       const playItem = navList.itemListElement.find((i) => i.url === `${SITE_URL}/play`);
       expect(playItem).toBeDefined();

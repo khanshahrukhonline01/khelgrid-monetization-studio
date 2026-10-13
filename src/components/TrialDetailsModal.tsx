@@ -118,6 +118,26 @@ export function getOrganizerContact(trial: Partial<Trial | TrialDiscoveryItem>):
   }
 
   if (
+    academy.includes("CRPF") ||
+    academy.includes("Central Reserve Police Force") ||
+    trial.title?.includes("CRPF")
+  ) {
+    return {
+      name: "CRPF Sports Recruitment Directorate",
+      role: "Directorate General, CRPF (Recruitment Branch - MHA)",
+      email: "rectt@crpf.gov.in",
+      phone: "+91 11 2616 0255",
+      helpline: "1800-11-2773 (CRPF Candidate Helpline)",
+      address:
+        trial.venue ||
+        "Directorate General, CRPF, Block No. 1, CGO Complex, Lodhi Road, New Delhi 110003",
+      website:
+        trial.sourceUrl ||
+        "https://rect.crpf.gov.in/Upload/Recruitment/Meritorious_Sportspersons_315092026-672.pdf",
+    };
+  }
+
+  if (
     academy.includes("Wushu") ||
     academy.includes("Rashtriya Raksha University") ||
     trial.title.includes("Wushu") ||

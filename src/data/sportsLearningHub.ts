@@ -362,6 +362,418 @@ export const SPORT_OVERVIEWS: Record<string, SportLearningOverview> = {
       "Scorebook for Notation",
     ],
   },
+  Archery: {
+    slug: "archery",
+    name: "Archery",
+    emoji: "🏹",
+    tagline: "Recurve & compound anchor mechanics, wind drift correction & mental bullseye focus",
+    governingBody: "World Archery Federation (WA)",
+    governingBodyIndia: "Archery Association of India (AAI)",
+    olympicStatus: "Summer Olympic Sport (Recurve Men & Women Individual / Team / Mixed)",
+    quickRulesSummary: [
+      "Shooters fire arrows at a 122cm target face set at exactly 70m (Olympic recurve).",
+      "Olympic set system: Sets of 3 arrows per archer. 2 set points for win, 1 for tie. First to 6 set points wins match.",
+      "Archers have 20 seconds per arrow (or 80s for 4-arrow ends in team events).",
+      "Arrow touching target ring dividing line scores higher value.",
+    ],
+    courtOrFieldSummary:
+      "Outdoor shooting range 70m distance (Recurve) or 50m (Compound). Target butt set at 15-degree tilt.",
+    scoringSummary:
+      "Target has 10 concentric scoring zones (1 to 10 points), plus inner-10 'X' ring used for tie-breaks.",
+    keyEquipment: [
+      "Recurve / Compound Bow",
+      "Carbon Fiber Arrows with Vanes",
+      "Finger Tab (Recurve) or Mechanical Release Aid (Compound)",
+      "Chest Guard & Arm Guard",
+      "Bow Sight & Long Rod Stabilizer System",
+      "Quiver",
+    ],
+  },
+  Shooting: {
+    slug: "shooting",
+    name: "Shooting",
+    emoji: "🎯",
+    tagline: "Trigger control, respiratory pacing, optical alignment & ballistic precision",
+    governingBody: "International Shooting Sport Federation (ISSF)",
+    governingBodyIndia: "National Rifle Association of India (NRAI)",
+    olympicStatus: "Summer Olympic Sport (Rifle, Pistol & Shotgun Disciplines)",
+    quickRulesSummary: [
+      "10m Air Rifle and Air Pistol athletes shoot 60 qualification shots in 75 minutes at electronic targets.",
+      "Top 8 qualification athletes progress to elimination final rounds.",
+      "Finals format: Series of shots followed by cumulative elimination every 2 shots until Gold/Silver duel.",
+      "Strict trigger weight specifications (e.g. minimum 500g for air pistol).",
+    ],
+    courtOrFieldSummary:
+      "Enclosed indoor range with Sius Ascor electronic scoring targets. Distances: 10m, 25m, 50m, and outdoor shotgun layout.",
+    scoringSummary:
+      "Decimal scoring in 10m finals (10.0 to 10.9 per inner ring). Highest cumulative score secures championship.",
+    keyEquipment: [
+      "PCP Air Rifle (0.177 caliber / 4.5mm) or Air Pistol",
+      "Stiff Canvas / Leather Shooting Jacket & Trousers",
+      "Flat-soled Shooting Boots",
+      "Shooting Glasses with Iris Blinder",
+      "Ear Defenders / Sound Attenuating Plugs",
+    ],
+  },
+  Volleyball: {
+    slug: "volleyball",
+    name: "Volleyball",
+    emoji: "🏐",
+    tagline:
+      "Rotation patterns, spike approaches, libero serve reception & tactical block formations",
+    governingBody: "Fédération Internationale de Volleyball (FIVB)",
+    governingBodyIndia: "Volleyball Federation of India (VFI)",
+    olympicStatus: "Summer Olympic Sport (Indoor & Beach Volleyball)",
+    quickRulesSummary: [
+      "6 players per team on court; teams rotate clockwise when winning serve from opponent.",
+      "Maximum 3 touches per side (excluding block contact) before sending ball over net.",
+      "No carrying, catching, or double contacting the ball.",
+      "Libero is a defensive specialist who wears contrasting jersey and cannot attack or serve (under standard rules).",
+    ],
+    courtOrFieldSummary:
+      "18m x 9m court divided into 9m x 9m halves. Net height: 2.43m (Men), 2.24m (Women). Attack line 3m from net.",
+    scoringSummary:
+      "Rally point system. Best of 5 sets. First 4 sets played to 25 points; 5th deciding set to 15 points (must win by 2).",
+    keyEquipment: [
+      "FIVB Approved Volleyball (65–67cm circumference, 260–280g)",
+      "High-grip Indoor Court Shoes",
+      "Padded Knee Pads",
+      "Net Antennas (80cm height above net)",
+    ],
+  },
+  Gymnastics: {
+    slug: "gymnastics",
+    name: "Gymnastics",
+    emoji: "🤸",
+    tagline: "Artistic tumbling, apparatus dismounts, kinetic rotational control & aesthetic form",
+    governingBody: "Fédération Internationale de Gymnastique (FIG)",
+    governingBodyIndia: "Gymnastics Federation of India (GFI)",
+    olympicStatus: "Core Summer Olympic Sport (Artistic, Rhythmic & Trampoline)",
+    quickRulesSummary: [
+      "Judged on two scores: Difficulty (D-score, open-ended) and Execution (E-score, starts at 10.0 with deductions).",
+      "Men compete on 6 apparatus: Floor, Pommel Horse, Still Rings, Vault, Parallel Bars, Horizontal Bar.",
+      "Women compete on 4 apparatus: Vault, Uneven Bars, Balance Beam, Floor Exercise.",
+      "Deductions applied for steps on landing, bent knees, flexed toes, pauses, or falls off apparatus (1.00 deduction for fall).",
+    ],
+    courtOrFieldSummary:
+      "Spring floor arena (12m x 12m), vault runway (25m), and regulated safety landing mats (20cm thick).",
+    scoringSummary:
+      "Total Score = D-Score + E-Score - Neutral Deductions (e.g. stepping out of bounds or time violations).",
+    keyEquipment: [
+      "Gymnastics Leotard & Singlet",
+      "Leather Dowel Grips with Wrist Straps",
+      "Magnesium Carbonate (Gymnastics Chalk)",
+      "Ankle & Wrist Support Straps",
+    ],
+  },
+  Handball: {
+    slug: "handball",
+    name: "Handball",
+    emoji: "🤾",
+    tagline:
+      "Explosive jump shots, rapid fast-breaks, pivot screening & aggressive 6-0 zone defence",
+    governingBody: "International Handball Federation (IHF)",
+    governingBodyIndia: "Handball Federation of India (HFI)",
+    olympicStatus: "Summer Olympic Sport",
+    quickRulesSummary: [
+      "7 players per team (6 court players + 1 goalkeeper). 2 halves of 30 minutes each.",
+      "Players can hold ball for maximum 3 seconds and take maximum 3 steps without bouncing.",
+      "No field player allowed inside the 6-meter goal area (crease); airborne players must release shot before landing.",
+      "Passive play warning given if attacking team makes no recognizable attempt to shoot.",
+    ],
+    courtOrFieldSummary:
+      "40m x 20m rectangular indoor court. Goal size 3m wide x 2m high. 6m goal line crease and 9m free throw line.",
+    scoringSummary:
+      "1 goal awarded when whole ball crosses goal line. Games typically feature 50–70 total goals.",
+    keyEquipment: [
+      "Handball (Size 3 for Men, Size 2 for Women) with resin glue for grip",
+      "Indoor Court Pivot Shoes",
+      "Goalkeeper Padded Sweats",
+      "Knee & Elbow Protective Guards",
+    ],
+  },
+  Judo: {
+    slug: "judo",
+    name: "Judo",
+    emoji: "🥋",
+    tagline:
+      "Maximum efficiency with minimum effort: kuzushi off-balancing, throws & ground submission",
+    governingBody: "International Judo Federation (IJF)",
+    governingBodyIndia: "Judo Federation of India (JFI)",
+    olympicStatus: "Summer Olympic Sport (Men & Women 7 weight divisions each + Mixed Team)",
+    quickRulesSummary: [
+      "Contest duration: 4 minutes of active contest time.",
+      "Ippon (instant victory) scored by throwing opponent on back with speed, force, and control, or 20s pin (osaekomi), or armlock / choke surrender.",
+      "Waza-ari (half point) scored for throw lacking one element or 10-19s pin. Two Waza-ari equal Ippon (Waza-ari-awasete-ippon).",
+      "Penalties (Shido) given for passivity, gripping violations, or stepping outside mat. 3 Shido equals Hansoku-make (disqualification).",
+    ],
+    courtOrFieldSummary:
+      "Tatami mat arena: Contest area 8m x 8m (or 10m x 10m) surrounded by 3m safety border.",
+    scoringSummary:
+      "Ippon = Immediate victory. If time expires, highest score (Waza-ari) wins. In a tie, Golden Score sudden-death applies.",
+    keyEquipment: [
+      "IJF Approved Judogi (Cotton Gi in White and Blue)",
+      "Obi (Rank/Competition Belt)",
+      "Tatami Foam Shock-Absorbing Mats",
+    ],
+  },
+  Karate: {
+    slug: "karate",
+    name: "Karate",
+    emoji: "🥋",
+    tagline: "Precision distance control (Ma-ai), explosive strikes (Kime) & Kata synchronicity",
+    governingBody: "World Karate Federation (WKF)",
+    governingBodyIndia: "Karate India Organisation (KIO)",
+    olympicStatus: "Recognized International Martial Art (World Games / Asian Games)",
+    quickRulesSummary: [
+      "Two competitive disciplines: Kumite (sparring) and Kata (demonstration of solo choreographed forms).",
+      "Kumite duration: 3 minutes. Points scored when technique lands on valid target area with good form, attitude, and zanshin (awareness).",
+      "Ippon (3 points): Jodan kicks to head or sweeps/throws followed by scoring strike.",
+      "Waza-ari (2 points): Chudan kicks to torso. Yuko (1 point): Chudan or Jodan punches.",
+      "Senshu (first uncontested score advantage) breaks ties if bout finishes level.",
+    ],
+    courtOrFieldSummary: "8m x 8m non-slip matted competition tatami with 1m safety perimeter.",
+    scoringSummary:
+      "Match won by achieving an 8-point lead or highest score at end of regulation time.",
+    keyEquipment: [
+      "White Karate Gi",
+      "Red (Aka) and Blue (Ao) Belts, Gloves & Shin/Foot Guards",
+      "Mouthguard (Gumshield)",
+      "Body Protector & Female Chest Guard",
+    ],
+  },
+  Taekwondo: {
+    slug: "taekwondo",
+    name: "Taekwondo",
+    emoji: "🥋",
+    tagline:
+      "The way of the foot and fist: high-speed head kicks, spinning back kicks & electronic PSS scoring",
+    governingBody: "World Taekwondo (WT)",
+    governingBodyIndia: "India Taekwondo",
+    olympicStatus: "Summer Olympic Sport (Kyorugi Sparring 4 weight categories per gender)",
+    quickRulesSummary: [
+      "Bout consists of best-of-3 rounds (2 minutes per round). Round winner decided independently.",
+      "Electronic Protector and Scoring System (PSS) with magnet sensors in socks triggers points on impact threshold.",
+      "Points: 1 point for punch, 2 points for body kick, 3 points for head kick, 4 points for turning body kick, 5 points for turning head kick.",
+      "Gam-jeom (penalty) awarded for stepping out of boundary, falling, holding, or hitting below waist. 5 Gam-jeom in a round forfeits that round.",
+    ],
+    courtOrFieldSummary: "8m x 8m octagonal competition mat with 2m surrounding safety margin.",
+    scoringSummary:
+      "Round won by athlete with more points. Match won by winning 2 out of 3 rounds.",
+    keyEquipment: [
+      "WT Approved Dobok Uniform",
+      "Electronic Sensor Chest Guard (Hogu) & Sensor Headgear",
+      "Sensor Foot Socks (Electronic E-socks)",
+      "Forearm Guards, Shin Guards & Mouthguard",
+    ],
+  },
+  "Water Sports": {
+    slug: "water-sports",
+    name: "Water Sports (Canoeing, Kayaking & Rowing)",
+    emoji: "🛶",
+    tagline:
+      "Hydrodynamic hull glide, synchronized stroke cadence, catch efficiency & sprint regattas",
+    governingBody: "International Canoe Federation (ICF) & World Rowing (FISA)",
+    governingBodyIndia:
+      "Indian Kayaking and Canoeing Association (IKCA) & Rowing Federation of India (RFI)",
+    olympicStatus: "Summer Olympic Core Disciplines (Canoe Sprint, Canoe Slalom & Rowing)",
+    quickRulesSummary: [
+      "Sprint racing contested in designated buoyed lanes over 200m, 500m, 1000m, and 2000m (Rowing).",
+      "In Kayak (K1, K2, K4), athletes sit forward-facing and paddle with double-bladed paddle.",
+      "In Canoe (C1, C2), athletes kneel on one knee and use single-bladed paddle.",
+      "In Rowing (Single Scull, Double, Coxless Four, Eight), athletes face backward using sliding seats with oars attached to outriggers.",
+      "False start rules strictly enforced; false start triggers restart, second violation causes disqualification.",
+    ],
+    courtOrFieldSummary:
+      "Albano-buoyed 8-lane regatta course, minimum 2000m length and 3m water depth.",
+    scoringSummary: "First bow-ball of boat crossing finish line timer photofinish beam wins.",
+    keyEquipment: [
+      "Carbon Fiber Racing Kayak / Canoe / Rowing Shell",
+      "Wing Blade Carbon Paddles / Sculling Oars",
+      "ISO Approved Racing Lifejacket / PFD",
+      "GPS SpeedCoach / Stroke Rate Sensor",
+    ],
+  },
+  Weightlifting: {
+    slug: "weightlifting",
+    name: "Weightlifting",
+    emoji: "🏋️",
+    tagline: "Pure explosive power: Snatch speed under the bar, Clean & Jerk overhead lockouts",
+    governingBody: "International Weightlifting Federation (IWF)",
+    governingBodyIndia: "Indian Weightlifting Federation (IWLF)",
+    olympicStatus: "Core Summer Olympic Sport",
+    quickRulesSummary: [
+      "Competition contested in two lifts: The Snatch (one continuous movement overhead) and The Clean & Jerk (two phases: to shoulders then overhead).",
+      "Athletes have 3 attempts in Snatch followed by 3 attempts in Clean & Jerk.",
+      "1 minute clock to start lift after barbell is loaded (2 minutes if taking consecutive attempts).",
+      "Referees (3 judges) signal Good Lift (white lights) or No Lift (red lights). 2 out of 3 white lights required.",
+      "Disallowed: Press-out (bending and re-extending elbows), touching platform with knees, dropping bar before down signal.",
+    ],
+    courtOrFieldSummary: "4m x 4m wooden lifting platform raised 10cm above competition floor.",
+    scoringSummary:
+      "Total Score = Best Snatch + Best Clean & Jerk (measured in kilograms). Tied totals broken by who achieved total first.",
+    keyEquipment: [
+      "IWF Standard Men's Bar (20kg, 28mm) / Women's Bar (15kg, 25mm)",
+      "Calibrated Urethane Bumper Plates & Metal Collars (2.5kg each)",
+      "Weightlifting Singlet & Stiff Heel Lifting Shoes",
+      "Lifting Belt (max width 12cm)",
+      "Wrist Wraps & Knee Sleeves",
+    ],
+  },
+  Wushu: {
+    slug: "wushu",
+    name: "Wushu",
+    emoji: "🥋",
+    tagline: "Sanda full-contact kickboxing throws & Taolu acrobatic martial artistry",
+    governingBody: "International Wushu Federation (IWUF)",
+    governingBodyIndia: "Wushu Association of India (WAI)",
+    olympicStatus: "Youth Olympic Games Sport; Asian Games & World Games Feature",
+    quickRulesSummary: [
+      "Sanda (combat): Full-contact striking (punches, kicks) combined with wrestling takedowns on a raised platform (Lei Tai).",
+      "Taolu (forms): Choreographed routines judged on quality of movements, degree of difficulty (Nandu), and overall performance.",
+      "In Sanda: Forcing opponent off Lei Tai platform scores 2 points; clean takedown with thrower remaining standing scores 2 points.",
+      "Sanda matches are best-of-3 rounds, each round lasting 2 minutes.",
+    ],
+    courtOrFieldSummary:
+      "Sanda: 8m x 8m raised Lei Tai platform (60cm height) surrounded by safety cushions. Taolu: 14m x 8m carpeted spring floor.",
+    scoringSummary:
+      "Sanda round awarded to fighter winning more points. Taolu scored out of 10.0 points by panel of judges.",
+    keyEquipment: [
+      "Sanda Boxing Gloves, Headguard & Chest Protector",
+      "Shin Guards, Groin Guard & Mouthguard",
+      "Taolu Competition Uniform & Traditional Weapons (Daoshu, Jianshu, Qiang, Gun)",
+    ],
+  },
+  Wrestling: {
+    slug: "wrestling",
+    name: "Wrestling (Freestyle & Greco-Roman)",
+    emoji: "🤼",
+    tagline: "Takedown leverage, gut wrenches, par terre turns & pinning power",
+    governingBody: "United World Wrestling (UWW)",
+    governingBodyIndia: "Wrestling Federation of India (WFI)",
+    olympicStatus: "Ancient & Modern Summer Olympic Core Sport (Freestyle & Greco-Roman)",
+    quickRulesSummary: [
+      "Match consists of two 3-minute periods with a 30-second break.",
+      "In Freestyle: Wrestlers can use legs for offense and defense. In Greco-Roman: Touching or holding opponent below belt is forbidden.",
+      "Fall (Pin): Holding opponent's shoulders flat to mat for instantaneous count results in immediate victory.",
+      "Points: Takedown (2-4 pts), Reversal (1 pt), Exposing back past 90 degrees (2 pts), Passivity violation (1 pt).",
+      "Technical Superiority: 10-point lead in Freestyle or 8-point lead in Greco-Roman ends match immediately.",
+    ],
+    courtOrFieldSummary:
+      "Circular competition mat of 9m diameter. Central wrestling circle (7m) surrounded by 1m red passivity zone and 1m protection border.",
+    scoringSummary:
+      "Highest cumulative technical points wins if no fall occurred. Ties broken by highest-value move or last point scored.",
+    keyEquipment: [
+      "UWW Approved Singlet (Red or Blue)",
+      "High-top Wrestling Shoes with concealed laces",
+      "Ear Guards / Wrestling Headgear (Optional/Allowed)",
+      "Knee Pads",
+    ],
+  },
+  Yoga: {
+    slug: "yoga",
+    name: "Yoga & Yogasana Sports",
+    emoji: "🧘",
+    tagline:
+      "Biomechanics of stillness, spinal flexibility, balance stability & artistic yogasana flow",
+    governingBody: "World Yogasana Sports Federation (WYSF)",
+    governingBodyIndia: "National Yogasana Sports Federation (NYSF) & Yogasana Bharat",
+    olympicStatus: "Officially Recognized Indian National Sport (Khelo India & National Games)",
+    quickRulesSummary: [
+      "Competitive disciplines: Traditional Yogasana, Artistic Yogasana (Solo & Pair), Rhythmic Yogasana (Pair & Group).",
+      "In Traditional Yogasana: Athletes perform 7 mandatory and optional asanas from specified syllabus categories (forward bend, backward bend, twist, hand balance, leg balance).",
+      "Mandatory hold time: Each posture must be held motionless for 15 seconds.",
+      "Deductions applied for shaking, foot adjustments during hold, loss of balance, or failing to maintain final posture.",
+    ],
+    courtOrFieldSummary:
+      "Non-slip certified competition yoga mat (minimum 6mm thickness) on raised wooden stage.",
+    scoringSummary:
+      "Each asana scored for difficulty index and perfection of execution (alignment, breath control, grace, hold stillness) by technical judges.",
+    keyEquipment: [
+      "Regulation Non-Slip Yogasana Mat",
+      "Compression Form-Fitting Yogasana Uniform",
+      "Digital Hold Timer Screen",
+    ],
+  },
+  "Table Tennis": {
+    slug: "table-tennis",
+    name: "Table Tennis",
+    emoji: "🏓",
+    tagline: "Topspin brush speed, deceptive reverse pendulums, counter-looping & footwork agility",
+    governingBody: "International Table Tennis Federation (ITTF)",
+    governingBodyIndia: "Table Tennis Federation of India (TTFI)",
+    olympicStatus: "Summer Olympic Sport (Men & Women Singles, Teams & Mixed Doubles)",
+    quickRulesSummary: [
+      "Games played to 11 points (must win by 2). Matches best of 5 or 7 games.",
+      "Service: Ball must rest freely on open palm, tossed vertically at least 16cm, and struck as it descends behind endline.",
+      "Servers alternate every 2 points (or every point if score reaches 10-10 deuce).",
+      "Ball must bounce once on server's side then cross net and bounce on receiver's side during serve.",
+      "Touching table with free hand during rally is a fault.",
+    ],
+    courtOrFieldSummary:
+      "Table dimensions: 2.74m length x 1.525m width x 76cm height. Net height: 15.25cm. Court playing area min 14m x 7m.",
+    scoringSummary:
+      "1 point awarded to opponent on any failed return, ball hit off table, double bounce, or net fault.",
+    keyEquipment: [
+      "ITTF Approved 40+ Plastic Ball (40mm diameter, 2.7g)",
+      "Custom Wooden Blade with Red/Black Pimpled / Inverted Rubber Sheets",
+      "High-grip Low-profile Court Shoes",
+    ],
+  },
+  Fencing: {
+    slug: "fencing",
+    name: "Fencing",
+    emoji: "🤺",
+    tagline: "Speed of thought: Piste footwork, parry-riposte timing & electronic weapon tip hits",
+    governingBody: "Fédération Internationale d'Escrime (FIE)",
+    governingBodyIndia: "Fencing Association of India (FAI)",
+    olympicStatus: "Core Summer Olympic Sport (Foil, Épée & Sabre)",
+    quickRulesSummary: [
+      "Three distinct weapons with different target areas and rules:",
+      "1. Foil: Torso only. Thrust only. Right-of-way (priority) rules apply.",
+      "2. Épée: Entire body (head to toes). Thrust only. No right-of-way (double touches awarded simultaneously).",
+      "3. Sabre: Entire body above waist (including arms and mask). Cuts and thrusts score. Right-of-way rules apply.",
+      "Bouts contested in 3 periods of 3 minutes up to 15 points (direct elimination) or 5 points in poules.",
+    ],
+    courtOrFieldSummary: "Conductive metallic mesh Piste (strip): 14m long by 1.5m to 2.0m wide.",
+    scoringSummary:
+      "Electronic wireless or reel-tethered apparatus registers hits. Green/red light indicates valid touch; white light indicates off-target hit in Foil.",
+    keyEquipment: [
+      "FIE Homologated 800N Kevlar/Dyneema Fencing Jacket, Breeches & Plastron",
+      "1600N Steel Mesh Mask with Electric Bib",
+      "Electric Foil, Épée, or Sabre Weapon",
+      "Conductive Lame Vest (Foil and Sabre)",
+      "Body Cord & Glove",
+    ],
+  },
+  Equestrian: {
+    slug: "equestrian",
+    name: "Equestrian",
+    emoji: "🏇",
+    tagline:
+      "Horse-athlete harmony: Show jumping stadium clears, dressage test precision & eventing endurance",
+    governingBody: "Fédération Équestre Internationale (FEI)",
+    governingBodyIndia: "Equestrian Federation of India (EFI)",
+    olympicStatus:
+      "Summer Olympic Sport (Jumping, Dressage & Eventing - completely gender-neutral)",
+    quickRulesSummary: [
+      "Jumping: Horse and rider navigate course of 12-16 obstacles up to 1.65m height. Faults given for knockdown (4 faults), refusal/disobedience (4 faults), or exceeding time limit.",
+      "Dressage: Horse and rider perform predetermined sequence of artistic movements (piaffe, passage, pirouette, half-pass) scored on 0-10 scale by 5 to 7 judges.",
+      "Eventing: Three-day triathlon comprising Dressage, Cross-Country endurance course with solid fences, and Show Jumping.",
+      "Fall of horse or rider results in immediate elimination for rider safety.",
+    ],
+    courtOrFieldSummary:
+      "Sand/fiber arena 60m x 20m for Dressage; jumping arena minimum 2,500 sq meters; cross-country course 5,700m length.",
+    scoringSummary:
+      "In Jumping: Lowest penalties wins; jump-off against clock decides ties. In Dressage: Highest total percentage score wins.",
+    keyEquipment: [
+      "Show Jumping / Dressage Saddle with Girth & Stirrups",
+      "Snaffle / Double Bridle with Bits",
+      "Certified Safety Riding Helmet & Protective Body Vest",
+      "Tall Riding Boots with Spurs (optional)",
+      "Protective Horse Boots / Bandages",
+    ],
+  },
 };
 
 export const LEARNING_RESOURCES: LearningResource[] = [
@@ -1381,5 +1793,323 @@ It is an offense if a player:
       },
     ],
     tags: ["Badminton Quiz", "BWF Rules", "Service Height", "Doubles Rotation"],
+  },
+  // ===================== NEW NOTIFICATION SPORTS RESOURCES =====================
+  {
+    id: "book-archery-total",
+    title: "Total Archery: Inside the Archer",
+    sport: "Archery",
+    sportEmoji: "🏹",
+    sourceType: "book",
+    level: "Advanced",
+    authorOrCreator: "Coach Kisik Lee & Tyler Benner",
+    organizationOrPublisher: "World Archery / Astra Archery",
+    estimatedTime: "280 pages (Biomechanics Bible)",
+    summary:
+      "The definitive manual on the KSL Shot Cycle, developed by legendary Olympic coach Kisik Lee. Breaks down the 12 steps of the shot cycle: stance, setup, draw, anchor, transfer, expansion, release, and follow-through using angular biomechanics and angular acceleration.",
+    keyTakeaways: [
+      "Linear vs Angular movement: Using rotational back tension rather than linear pulling muscles.",
+      "Anchor point consistency: Bone-on-bone contact at the jawline and string alignment with chin/nose.",
+      "Transfer and expansion: Shifting holding force completely onto scapular rhomboid muscles.",
+      "Wind drift adaptation: Reading flag angles and micro-adjusting sight windage pins during gusts.",
+    ],
+    chapters: [
+      {
+        page: "Step 1–4",
+        title: "Stance, Grip & Nocking",
+        summary: "Biomechanical base, open stance stability, and pressure point in bow grip.",
+      },
+      {
+        page: "Step 5–8",
+        title: "Setup, Draw & Anchor",
+        summary: "Maintaining relaxed forearm and establishing absolute anchor repeatability.",
+      },
+      {
+        page: "Step 9–12",
+        title: "Expansion, Release & Follow-through",
+        summary: "Dynamic release without finger pluck and maintaining line of sight through shot.",
+      },
+    ],
+    tags: ["Archery", "KSL Shot Cycle", "Recurve", "Olympic", "Biomechanics"],
+    featured: true,
+  },
+  {
+    id: "text-shooting-issf-handbook",
+    title: "ISSF Official 10m Air Rifle & Pistol Regulations & Precision Shooting Manual",
+    sport: "Shooting",
+    sportEmoji: "🎯",
+    sourceType: "text",
+    level: "Intermediate",
+    authorOrCreator: "ISSF Technical Committee & NRAI",
+    organizationOrPublisher: "International Shooting Sport Federation",
+    estimatedTime: "22 min read (Complete Guidelines)",
+    summary:
+      "Comprehensive regulatory and technical breakdown of 10m Air Rifle and Air Pistol competition shooting. Covers zeroing, natural point of aim (NPA), sight alignment vs sight picture, diaphragm breath staging, trigger sear release, and electronic target calibration.",
+    keyTakeaways: [
+      "Natural Point of Aim: Aligning body posture so sights settle on the target center without muscular tension.",
+      "Trigger release dynamics: Steady, subconscious squeeze directly parallel to barrel axis to avoid muzzle cant.",
+      "Follow-through: Maintaining sight alignment and mental focus for 1.5 seconds post pellet exit.",
+      "Breathing cycle: Firing during respiratory pause between inhalation and exhalation.",
+    ],
+    fullTextContent: `### Foundational Stance & Natural Point of Aim
+In precision target shooting, muscular effort generates tremors. The skeletal frame must support the rifle or pistol.
+
+#### The 5 Pillars of the 10m Shot:
+1. **Stance**: Feet shoulder-width apart, weight balanced 50/50 across ball and heel.
+2. **Breathing**: Inhale deeply, exhale halfway into the comfortable natural respiratory pause (holding for 4–6 seconds maximum).
+3. **Sight Picture**: Focus razor-sharp on the front aperture / front blade; target is intentionally allowed to appear slightly blurred.
+4. **Trigger Squeeze**: Progressive, uniform pressure on the trigger shoe without jerking or anticipating recoil.
+5. **Follow-Through**: Retain position, cheek weld, and eye focus for 1 full second after shot acoustic signature.`,
+    tags: ["Shooting", "ISSF", "10m Air Rifle", "Air Pistol", "NRAI"],
+    featured: true,
+  },
+  {
+    id: "video-weightlifting-snatch-mechanics",
+    title: "Olympic Weightlifting: Snatch & Clean & Jerk Technical Masterclass",
+    sport: "Weightlifting",
+    sportEmoji: "🏋️",
+    sourceType: "video",
+    level: "Advanced",
+    authorOrCreator: "SAI NCOE & IWLF Elite Coaching Panel",
+    organizationOrPublisher: "Indian Weightlifting Federation (IWLF)",
+    estimatedTime: "24 min watch",
+    videoDurationSeconds: 1440,
+    summary:
+      "Frame-by-frame biomechanical film breakdown of the Olympic Snatch and Clean & Jerk. Explores the 1st pull off the platform, knee transition (double knee bend), triple extension of ankles-knees-hips, turnover velocity, and squat catch recovery.",
+    keyTakeaways: [
+      "First pull speed discipline: Do not rip bar off floor; accelerate progressively to maintain upright spine angle.",
+      "Barbell proximity: Keep bar within millimeters of shins and thighs to maximize vertical kinetic transfer.",
+      "Triple extension: Simultaneous violent extension of ankles, knees, and hips creates weightless barbell window.",
+      "Split jerk footwork: Front foot lands flat pointing slightly inward; back foot lands on ball with knee bent.",
+    ],
+    chapters: [
+      {
+        timestamp: "00:00",
+        title: "Snatch Setup & Grip Width",
+        summary: "Hook grip security and hip-crease measurement for optimal bar height.",
+      },
+      {
+        timestamp: "06:15",
+        title: "The Double Knee Bend Transition",
+        summary: "Re-bending knees under the bar at mid-thigh to harness the stretch reflex.",
+      },
+      {
+        timestamp: "14:20",
+        title: "The Clean: Catch & Front Squat Recovery",
+        summary: "High elbow rack position, core bracing, and driving out of the deep squat.",
+      },
+      {
+        timestamp: "19:40",
+        title: "Split Jerk Overhead Lockout",
+        summary: "Head through the window, active shoulders, and recovering front foot first.",
+      },
+    ],
+    tags: ["Weightlifting", "Snatch", "Clean & Jerk", "IWLF", "SAI NCOE"],
+    featured: true,
+  },
+  {
+    id: "book-wrestling-takedown-leverage",
+    title: "Championship Freestyle Wrestling: Takedowns, Par Terre & Mat Strategy",
+    sport: "Wrestling",
+    sportEmoji: "🤼",
+    sourceType: "book",
+    level: "Intermediate",
+    authorOrCreator: "WFI Technical Commission & SAI Patiala",
+    organizationOrPublisher: "Wrestling Federation of India & Sports Authority of India",
+    estimatedTime: "220 pages (Illustrated Mat Manual)",
+    summary:
+      "A comprehensive technical blueprint on Olympic freestyle wrestling. Covers penetration steps, head-inside single leg, double leg drive, high crotch finishes, duck-unders, ankle picks, gut-wrench rotations in par terre, and defense against lace locks.",
+    keyTakeaways: [
+      "Level changes before penetration: Drop your hips before shooting rather than bending at the waist.",
+      "Head position as a steering wheel: Where your forehead drives against the opponent's temple dictates takedown control.",
+      "Par terre defense: Keep hips heavy to the mat, elbows tight to ribs, and never give space under chest.",
+      "Tactical pacing across 2x3 minute periods: Pushing pace to force 30-second shot-clock passivity warnings.",
+    ],
+    chapters: [
+      {
+        page: "Ch 1–3",
+        title: "Stance, Hand-Fighting & Tie-Ups",
+        summary: "Underhook, collar tie, and 2-on-1 Russian tie control.",
+      },
+      {
+        page: "Ch 4–7",
+        title: "Primary Leg Attacks",
+        summary: "Double leg, sweep single, and high-crotch with corner turn finishes.",
+      },
+      {
+        page: "Ch 8–10",
+        title: "Throws & Upper Body Attacks",
+        summary: "Fireman's carry, lateral drop, and arm throw mechanics.",
+      },
+      {
+        page: "Ch 11–14",
+        title: "Par Terre Scoring & Pinning",
+        summary: "Gut wrench torque, leg lace entrapment, and cradle holds.",
+      },
+    ],
+    tags: ["Wrestling", "Freestyle", "Takedowns", "WFI", "Akharas", "SAI"],
+    featured: true,
+  },
+  {
+    id: "text-gymnastics-fig-code",
+    title: "FIG Code of Points & Artistic Gymnastics Movement Foundations",
+    sport: "Gymnastics",
+    sportEmoji: "🤸",
+    sourceType: "text",
+    level: "Coach & Referee",
+    authorOrCreator: "Gymnastics Federation of India & FIG",
+    organizationOrPublisher: "Fédération Internationale de Gymnastique",
+    estimatedTime: "18 min read (Technical Rules)",
+    summary:
+      "Complete operational breakdown of the FIG Code of Points for Artistic Gymnastics. Explains D-score calculation (Difficulty value of 8 highest elements + Connection Value + Composition Requirements) and E-score deduction scales for posture, dynamics, amplitude, and landings.",
+    keyTakeaways: [
+      "Difficulty element values: Scaled alphabetically from A (0.1) to J (1.0).",
+      "Landing deductions: Small step (0.10), large step > 1 meter (0.30), fall to knees or hands (1.00).",
+      "Composition requirements: Each apparatus routine must satisfy 4 specific elemental groups (0.50 each).",
+      "Neutral deductions: Stepping outside boundary line (0.10 one foot, 0.30 two feet), coach spotting touch (0.50).",
+    ],
+    tags: ["Gymnastics", "FIG", "Code of Points", "Artistic Gymnastics", "GFI"],
+  },
+  {
+    id: "quiz-volleyball-rules-iq",
+    title: "FIVB Volleyball Rules & Court IQ Certification Quiz",
+    sport: "Volleyball",
+    sportEmoji: "🏐",
+    sourceType: "quiz",
+    level: "Intermediate",
+    authorOrCreator: "VFI Referee Board",
+    organizationOrPublisher: "Volleyball Federation of India & FIVB",
+    estimatedTime: "8 min quiz",
+    summary:
+      "Challenge your understanding of modern volleyball rules: Libero restrictions, rotational overlap faults, net touch infractions, back-row attack regulations, and antenna boundary calls.",
+    keyTakeaways: [
+      "Understand when a block contact counts towards the team's 3 allowable touches (it does not count).",
+      "Clarify the exact rule for net contact (only contact during action of playing ball or interfering with play is a fault).",
+      "Master back-row attack regulations regarding the 3-meter line.",
+    ],
+    quiz: [
+      {
+        question:
+          "Can a player in the back row jump from behind the 3-meter attack line and spike the ball above the height of the net into the opponent's court?",
+        options: [
+          "No, back-row players can never attack above net height",
+          "Yes, provided their take-off foot did not touch or cross the 3-meter line",
+          "Only if the Libero set the ball with bump pass",
+          "Only during set 5 tiebreaker",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Under FIVB Rule 13.2.2, a back-row player may complete an attack hit at any height from behind the front zone, as long as their feet do not touch or cross the attack line at take-off.",
+      },
+      {
+        question:
+          "During a block attempt, a blocker touches the ball at the top of the net. Does this touch count as the first of the team's three allowable hits?",
+        options: [
+          "Yes, all contacts count as team hits",
+          "No, a block contact is not counted as a team hit",
+          "Only if two blockers touch it simultaneously",
+          "It counts as half a touch",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Under FIVB Rule 14.4.1, a block contact is NOT counted as a team hit. Consequently, after a block, the team still has three hits to return the ball.",
+      },
+      {
+        question:
+          "Can the designated Libero serve the ball under standard international FIVB rules?",
+        options: [
+          "Yes, in any rotation position",
+          "No, under FIVB standard rules, the Libero is not allowed to serve",
+          "Only once per set",
+          "Only if the captain is substituted",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Under standard international FIVB rules (Rule 19.3.1.1), the Libero is restricted to perform as a back-row player and is not allowed to complete an attack hit from anywhere or to serve.",
+      },
+    ],
+    tags: ["Volleyball Quiz", "FIVB Rules", "Libero", "Rotation", "VFI"],
+  },
+  {
+    id: "text-yoga-yogasana-competition-syllabus",
+    title: "Yogasana Bharat: Official National Sports Syllabus & Scoring Guidelines",
+    sport: "Yoga",
+    sportEmoji: "🧘",
+    sourceType: "text",
+    level: "Intermediate",
+    authorOrCreator: "National Yogasana Sports Federation (NYSF)",
+    organizationOrPublisher: "Yogasana Bharat & Ministry of Youth Affairs & Sports",
+    estimatedTime: "15 min read",
+    summary:
+      "The official technical competition rulebook for competitive Yogasana in India. Codifies the 5 categories of competitive postures: Forward Bending (Paschimottanasana), Backward Bending (Chakrasana), Twisting (Ardha Matsyendrasana), Hand Balance (Bakasana / Mayurasana), and Leg Balance (Natarajasana) with strict 15-second holding criteria.",
+    keyTakeaways: [
+      "The 15-second mandatory static hold rule: Timing begins once the posture is fully expressed.",
+      "Base of stability: Zero micro-twitches or foot readjustments during the timed hold.",
+      "Grading scale: Base Difficulty (A, B, C, D tiers) multiplied by Execution accuracy (alignment, breathing, grace).",
+      "Artistic Pair and Rhythmic Yogasana synchronicity protocols set to soothing instrumental classical compositions.",
+    ],
+    tags: ["Yoga", "Yogasana", "NYSF", "Khelo India", "Yogasana Bharat"],
+    featured: true,
+  },
+  {
+    id: "book-judo-kodokan-foundations",
+    title: "Kodokan Judo: The Definitive Guide by Jigoro Kano",
+    sport: "Judo",
+    sportEmoji: "🥋",
+    sourceType: "book",
+    level: "Beginner",
+    authorOrCreator: "Jigoro Kano (Founder of Judo)",
+    organizationOrPublisher: "Kodokan Judo Institute / Kodansha",
+    estimatedTime: "264 pages (Foundational Classic)",
+    summary:
+      "The foundational text written by the founder of Judo, Jigoro Kano. Outlines the philosophies of Seiryoku Zenyo (maximum efficiency) and Jita Kyoei (mutual welfare). Details the Gokyo no Waza (40 throws of the Kodokan), foot sweeps, hip throws, shoulder throws, ground holds (Osaekomi-waza), and joint locks (Kansetsu-waza).",
+    keyTakeaways: [
+      "Kuzushi (off-balancing): A throw succeeds not by muscle strength, but by directing the opponent's momentum.",
+      "Tsukuri (fitting in) & Kake (execution): Entering the throw seamlessly as the opponent loses equilibrium.",
+      "Ukemi (breakfalling): The non-negotiable prerequisite to prevent injury during dynamic throws.",
+      "Transition from Tachi-waza (standing) to Ne-waza (groundwork): Capitalizing on failed throws to secure pins.",
+    ],
+    tags: ["Judo", "Kodokan", "Martial Arts", "JFI", "Throws", "Olympic"],
+  },
+  {
+    id: "video-taekwondo-olympic-kicks",
+    title: "World Taekwondo Olympic Sparring: High-Speed Kicks & Electronic PSS Mastery",
+    sport: "Taekwondo",
+    sportEmoji: "🥋",
+    sourceType: "video",
+    level: "Advanced",
+    authorOrCreator: "India Taekwondo Technical Staff & World Taekwondo",
+    organizationOrPublisher: "India Taekwondo",
+    estimatedTime: "20 min watch",
+    videoDurationSeconds: 1200,
+    summary:
+      "High-speed video analysis of modern electronic scoring sparring (Kyorugi). Demonstrates the front-leg cut kick, back kick counter (Dwi Chagi), tornado turning kick (Dollyo Chagi), spinning hook kick to the head (Huryeo Chagi), and footwork clashing strategies inside the 8-meter octagon.",
+    keyTakeaways: [
+      "Electronic sock contact angle: Hitting with the instep and heel sensors directly on the hogu magnet zones.",
+      "Front leg fencing: Controlling distance with the cut kick while concealing intentions.",
+      "Counter timing: Firing the turning back kick when the opponent initiates their forward push.",
+      "Avoiding Gam-jeom: Staying within the boundary lines while under relentless offensive pressure.",
+    ],
+    tags: ["Taekwondo", "Kyorugi", "World Taekwondo", "Olympic", "Martial Arts"],
+  },
+  {
+    id: "text-water-sports-kayak-rowing-guide",
+    title: "Sprint Kayaking & Olympic Rowing: Hydrodynamics, Stroke Rates & 2000m Race Strategy",
+    sport: "Water Sports",
+    sportEmoji: "🛶",
+    sourceType: "text",
+    level: "Intermediate",
+    authorOrCreator: "IKCA & Rowing Federation of India",
+    organizationOrPublisher: "Indian Kayaking & Canoeing Association / RFI",
+    estimatedTime: "16 min read",
+    summary:
+      "Technical manual covering sprint kayak paddle biomechanics and Olympic rowing stroke phases: The Catch, The Drive, The Finish, and The Recovery. Outlines energy system distribution across 200m, 500m, 1000m, and 2000m championship races.",
+    keyTakeaways: [
+      "The Catch in Rowing: Squaring the blade in air and placing it smoothly into water before driving with the legs.",
+      "Leg drive power: In rowing, 65% of power comes from the leg drive, 25% from hip swing, 10% from arm pull.",
+      "Wing paddle mechanics in Kayaking: Slicing the paddle outward away from the boat hull to generate lift like an airplane wing.",
+      "Pacing strategy: High cadence start (42–46 strokes/min), settling into cruising rhythm (34–36 strokes/min), and final 250m sprint surge.",
+    ],
+    tags: ["Water Sports", "Kayaking", "Rowing", "IKCA", "RFI", "Regatta"],
   },
 ];

@@ -57,9 +57,31 @@ describe("SportsLearningHub Component", () => {
     expect(SPORT_OVERVIEWS["Badminton"]).toBeDefined();
     expect(SPORT_OVERVIEWS["Kabaddi"]).toBeDefined();
     expect(SPORT_OVERVIEWS["Tennis"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Archery"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Shooting"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Volleyball"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Gymnastics"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Handball"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Judo"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Karate"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Taekwondo"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Water Sports"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Weightlifting"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Wushu"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Wrestling"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Yoga"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Table Tennis"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Fencing"]).toBeDefined();
+    expect(SPORT_OVERVIEWS["Equestrian"]).toBeDefined();
     expect(SPORT_OVERVIEWS["Cricket"].governingBody).toBe("International Cricket Council (ICC)");
     expect(SPORT_OVERVIEWS["Cricket"].governingBodyIndia).toBe(
       "Board of Control for Cricket in India (BCCI)",
+    );
+    expect(SPORT_OVERVIEWS["Archery"].governingBodyIndia).toBe(
+      "Archery Association of India (AAI)",
+    );
+    expect(SPORT_OVERVIEWS["Weightlifting"].governingBodyIndia).toBe(
+      "Indian Weightlifting Federation (IWLF)",
     );
   });
 

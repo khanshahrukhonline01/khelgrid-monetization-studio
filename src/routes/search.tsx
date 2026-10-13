@@ -5,6 +5,7 @@ import { Fragment, useMemo, useState, useRef } from "react";
 import { BannerAd, InFeedAd } from "@/components/ads";
 import { TRIALS, SPORTS, CITIES, type Trial } from "@/data/trials";
 import { TrialCard } from "@/components/TrialCard";
+import { TrialDetailsModal } from "@/components/TrialDetailsModal";
 import { TrialNewsletterSignup } from "@/components/TrialNewsletterSignup";
 import { CheckoutModal } from "@/components/CheckoutModal";
 import { BoostModal } from "@/components/BoostModal";
@@ -53,6 +54,7 @@ import {
   Heart,
   CheckCircle2,
   Award,
+  FileText,
 } from "lucide-react";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";
@@ -93,10 +95,46 @@ const SPORT_ICONS: Record<string, string> = {
   Wrestling: "🤼",
   Pickleball: "🏓",
   Wushu: "🥋",
+  Gymnastics: "🤸",
+  Handball: "🤾",
+  Judo: "🥋",
+  Karate: "🥋",
+  Taekwondo: "🥋",
+  "Water Sports": "🛶",
+  Weightlifting: "🏋️",
+  Yoga: "🧘",
+  Fencing: "🤺",
+  Equestrian: "🏇",
+  "Multi-Discipline Sports Quota": "🎖️",
 };
+
+const CRPF_SPORTS_DISCIPLINES = [
+  "Athletics",
+  "Swimming",
+  "Archery",
+  "Badminton",
+  "Basketball",
+  "Boxing",
+  "Football",
+  "Gymnastics",
+  "Handball",
+  "Hockey",
+  "Judo",
+  "Kabaddi",
+  "Karate",
+  "Shooting",
+  "Taekwondo",
+  "Volleyball",
+  "Water Sports",
+  "Weightlifting",
+  "Wushu",
+  "Wrestling",
+  "Yoga",
+] as const;
 
 const POPULAR_SEARCHES = [
   { label: "❤️ My Favorites", savedOnly: true },
+  { label: "🎖️ CRPF Sports Quota (521 Posts)", query: "CRPF" },
   { label: "KCA U-14 Kanpur", query: "KCA Kanpur", sport: "Cricket", city: "Kanpur" },
   { label: "🏀 Green Park Basketball", query: "Basketball", sport: "Basketball", city: "Kanpur" },
   { label: "U-19 Cricket", query: "Cricket", sport: "Cricket" },
@@ -129,21 +167,21 @@ export const Route = createFileRoute("/search")({
     const sCity = search?.city && search.city !== ALL_CITY ? search.city : "";
     const sQ = search?.q ? `"${search.q}"` : "";
 
-    let pageTitle = "Find Sports Trials, Tournaments & Academy Selections in India · KhelGrid";
+    let pageTitle = "Search Trials and Opportunities in India · KhelGrid";
     let metaDesc =
-      "Filter and discover open sports trials, tournaments, coaching camps, and academy opportunities across India by sport, age group, and city.";
+      "Filter and discover sports selection trials, tournaments, recruitment drives, coaching camps, and academy opportunities across India by sport, age group, and city.";
 
     if (sSport && sCity) {
-      pageTitle = `${sSport} Trials & Selections in ${sCity} (2026) · KhelGrid`;
-      metaDesc = `Discover verified ${sSport} selection trials, academy combines, and state tournaments in ${sCity}. Check venue details, age eligibility, and registration dates on KhelGrid.`;
+      pageTitle = `${sSport} Trials and Opportunities in ${sCity} (2026) · KhelGrid`;
+      metaDesc = `Discover verified ${sSport} selection trials, recruitment drives, academy combines, and state tournaments in ${sCity}. Check venue details, age eligibility, and registration dates on KhelGrid.`;
     } else if (sSport) {
-      pageTitle = `${sSport} Trials & Selections Across India (2026) · KhelGrid`;
-      metaDesc = `Find upcoming ${sSport} selection trials, junior state camps, and club academy trials across India. Verified dates, eligibility criteria, and open spots on KhelGrid.`;
+      pageTitle = `${sSport} Trials and Opportunities Across India (2026) · KhelGrid`;
+      metaDesc = `Find upcoming ${sSport} selection trials, junior state camps, club academy trials, and sports quota recruitments across India. Verified dates, eligibility criteria, and open spots on KhelGrid.`;
     } else if (sCity) {
-      pageTitle = `Sports Selection Trials in ${sCity} (2026) · KhelGrid`;
-      metaDesc = `Browse open sports selection trials, tournaments, and coaching combines in ${sCity} across Cricket, Football, Badminton, Athletics, and more.`;
+      pageTitle = `Sports Selection Trials and Opportunities in ${sCity} (2026) · KhelGrid`;
+      metaDesc = `Browse open sports selection trials, recruitment drives, tournaments, and coaching combines in ${sCity} across Athletics, Cricket, Football, Badminton, and more.`;
     } else if (sQ) {
-      pageTitle = `Search Results for ${sQ} · Sports Trials on KhelGrid`;
+      pageTitle = `Search Results for ${sQ} · Sports Trials and Opportunities on KhelGrid`;
     }
 
     const searchUrl = "https://khelgrid.com/search";
@@ -151,7 +189,7 @@ export const Route = createFileRoute("/search")({
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: "KhelGrid Sports Trials Portal",
+        name: "KhelGrid Sports Trials and Opportunities Portal",
         url: searchUrl,
         potentialAction: {
           "@type": "SearchAction",
@@ -172,7 +210,7 @@ export const Route = createFileRoute("/search")({
           {
             "@type": "ListItem",
             position: 2,
-            name: "Search Trials",
+            name: "Search Trials and Opportunities",
             item: searchUrl,
           },
         ],
@@ -214,7 +252,7 @@ export const Route = createFileRoute("/search")({
       description: metaDesc,
       canonicalPath: "/search",
       noindex: false,
-      keywords: `${sSport ? sSport + " trials, " : ""}sports trials India, cricket selection trials, football academy combine, athletics trials, badminton state selections, open sports trials 2026, sports opportunities India`,
+      keywords: `${sSport ? sSport + " trials, " : ""}sports trials India, sports opportunities, CRPF meritorious sportspersons recruitment 2026, cricket selection trials, football academy combine, athletics trials, badminton state selections, open sports trials 2026`,
       type: "website",
       customSchema: structuredData,
     });
@@ -226,11 +264,17 @@ function SearchPage() {
   const auth = useAuth();
   const params = Route.useSearch();
   const navigate = useNavigate({ from: "/search" });
-  const { savedIds: rawSavedIds = [] } = useSavedOpportunities();
+  const { savedIds: rawSavedIds = [], toggleSaved } = useSavedOpportunities();
   const savedIds = useMemo(() => (Array.isArray(rawSavedIds) ? rawSavedIds : []), [rawSavedIds]);
   const [checkout, setCheckout] = useState<Trial | null>(null);
   const [boost, setBoost] = useState<Trial | null>(null);
+  const [detailsTrial, setDetailsTrial] = useState<Trial | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+
+  const crpfTrial = useMemo(
+    () => TRIALS.find((t) => t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") || null,
+    [],
+  );
 
   const update = (patch: Partial<typeof params>) =>
     navigate({ search: (prev: typeof params) => ({ ...prev, ...patch }), replace: true });
@@ -240,8 +284,14 @@ function SearchPage() {
     const counts: Record<string, number> = { [ALL_SPORT]: TRIALS.length };
     for (const s of SPORTS) counts[s] = 0;
     for (const t of TRIALS) {
-      if (counts[t.sport] !== undefined) counts[t.sport]++;
-      else counts[t.sport] = 1;
+      if (t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
+        for (const cs of CRPF_SPORTS_DISCIPLINES) {
+          if (counts[cs] !== undefined) counts[cs]++;
+        }
+      } else {
+        if (counts[t.sport] !== undefined) counts[t.sport]++;
+        else counts[t.sport] = 1;
+      }
     }
     return counts;
   }, []);
@@ -250,10 +300,32 @@ function SearchPage() {
   const results = useMemo(() => {
     const q = params.q.trim().toLowerCase();
     let list = TRIALS.filter((t) => {
-      if (params.sport !== ALL_SPORT && t.sport !== params.sport) return false;
-      if (params.city !== ALL_CITY && t.city !== params.city) return false;
-      if (params.free && t.fee > 0) return false;
-      if (params.officialOnly && !t.tag.toLowerCase().includes("official")) return false;
+      if (params.sport !== ALL_SPORT) {
+        if (t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
+          const matchesDiscipline =
+            t.sport.toLowerCase() === params.sport.toLowerCase() ||
+            CRPF_SPORTS_DISCIPLINES.some((d) => d.toLowerCase() === params.sport.toLowerCase());
+          if (!matchesDiscipline) return false;
+        } else if (t.sport !== params.sport) {
+          return false;
+        }
+      }
+      if (params.city !== ALL_CITY) {
+        if (t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
+          if (params.city !== "Delhi") return false;
+        } else if (t.city !== params.city) {
+          return false;
+        }
+      }
+      if (params.free && t.fee > 0 && t.id !== "t-crpf-meritorious-sportspersons-recruitment-2026")
+        return false;
+      if (
+        params.officialOnly &&
+        !t.tag.toLowerCase().includes("official") &&
+        !t.tag.toLowerCase().includes("govt") &&
+        !(t.verifiedLabel && t.verifiedLabel.toLowerCase().includes("official"))
+      )
+        return false;
       if (params.savedOnly && !savedIds.includes(t.id)) return false;
 
       // Region Filter
@@ -502,14 +574,14 @@ function SearchPage() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-3.5 w-full min-w-0 max-w-full">
         <div className="flex items-center gap-2.5 min-w-0">
           <h1 className="text-lg sm:text-2xl font-bold tracking-tight text-foreground truncate">
-            Search Sports Selection Trials in India
+            Search Trials and Opportunities
           </h1>
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
             <ShieldCheck className="h-3.5 w-3.5" />
             <span>Verified</span>
           </span>
           <span className="text-xs text-muted-foreground hidden md:inline">
-            ({results.total} trials available)
+            ({results.total} trials &amp; opportunities available)
           </span>
         </div>
 
@@ -1154,6 +1226,177 @@ function SearchPage() {
             </div>
           </div>
 
+          {/* CRPF MERITORIOUS SPORTSPERSONS 2026 OFFICIAL RECRUITMENT NOTIFICATION CARD */}
+          {(!params.savedOnly ||
+            savedIds.includes("t-crpf-meritorious-sportspersons-recruitment-2026")) &&
+            (params.sport === ALL_SPORT ||
+              CRPF_SPORTS_DISCIPLINES.some((d) => d.toLowerCase() === params.sport.toLowerCase()) ||
+              params.q.toLowerCase().includes("crpf") ||
+              !params.q) && (
+              <section
+                id="crpf-recruitment-notification-card"
+                className="rounded-2xl border border-emerald-500/35 bg-gradient-to-br from-emerald-500/10 via-card to-background p-4 sm:p-5 md:p-6 shadow-sm space-y-4 w-full min-w-0"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="space-y-1.5 max-w-3xl">
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                      <span className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                        <ShieldCheck className="h-3.5 w-3.5" />
+                        Official Government Recruitment
+                      </span>
+                      <span aria-hidden="true">·</span>
+                      <span>Ministry of Home Affairs (MHA)</span>
+                      <span aria-hidden="true">·</span>
+                      <span className="font-semibold text-foreground">521 Vacancies</span>
+                    </div>
+
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-foreground">
+                      CRPF Meritorious Sportspersons Recruitment 2026
+                    </h2>
+
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                      Central Reserve Police Force invites online applications from eligible
+                      meritorious Indian sportspersons for <strong>182 Head Constable (GD)</strong>{" "}
+                      and <strong>339 Constable (GD)</strong> posts across 22 sports disciplines
+                      under Sports Quota 2026.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 shrink-0">
+                    <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-3 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                      Applications Open
+                    </span>
+                    {crpfTrial && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          toggleSaved(crpfTrial.id);
+                          if (!savedIds.includes(crpfTrial.id)) {
+                            toast.success("Saved CRPF Recruitment to Favorites! ❤️");
+                          } else {
+                            toast.info("Removed CRPF Recruitment from Favorites");
+                          }
+                        }}
+                        className={`h-8 gap-1.5 text-xs font-semibold rounded-lg cursor-pointer ${
+                          savedIds.includes(crpfTrial.id)
+                            ? "border-rose-500/50 bg-rose-500/10 text-rose-500"
+                            : "border-border text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        <Heart
+                          className={`h-3.5 w-3.5 ${
+                            savedIds.includes(crpfTrial.id) ? "fill-rose-500 text-rose-500" : ""
+                          }`}
+                        />
+                        <span>{savedIds.includes(crpfTrial.id) ? "Saved" : "Save"}</span>
+                      </Button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Key Notification Matrix */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
+                  <div className="rounded-xl border border-border/80 bg-background/70 p-3">
+                    <span className="text-[11px] text-muted-foreground block">Total Posts</span>
+                    <span className="font-bold text-foreground text-sm sm:text-base">
+                      521 Spots
+                    </span>
+                    <span className="text-[10px] text-muted-foreground block mt-0.5">
+                      182 HC (GD) · 339 CT (GD)
+                    </span>
+                  </div>
+
+                  <div className="rounded-xl border border-border/80 bg-background/70 p-3">
+                    <span className="text-[11px] text-muted-foreground block">
+                      Application Dates
+                    </span>
+                    <span className="font-bold text-foreground text-sm sm:text-base">
+                      Oct 12 – Nov 11, 2026
+                    </span>
+                    <span className="text-[10px] text-muted-foreground block mt-0.5">
+                      Edit Window: Nov 12–14, 2026
+                    </span>
+                  </div>
+
+                  <div className="rounded-xl border border-border/80 bg-background/70 p-3">
+                    <span className="text-[11px] text-muted-foreground block">Age Eligibility</span>
+                    <span className="font-bold text-foreground text-sm sm:text-base">
+                      18 – 23 Years
+                    </span>
+                    <span className="text-[10px] text-muted-foreground block mt-0.5">
+                      As on 01/08/2026 (Relaxable)
+                    </span>
+                  </div>
+
+                  <div className="rounded-xl border border-border/80 bg-background/70 p-3">
+                    <span className="text-[11px] text-muted-foreground block">Application Fee</span>
+                    <span className="font-bold text-foreground text-sm sm:text-base">
+                      ₹100 / ₹0
+                    </span>
+                    <span className="text-[10px] text-muted-foreground block mt-0.5">
+                      ₹0 for SC, ST &amp; All Female
+                    </span>
+                  </div>
+                </div>
+
+                {/* 22 Disciplines Strip */}
+                <div className="rounded-xl border border-border/60 bg-background/50 p-3 space-y-1.5">
+                  <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                    22 Eligible Sports Disciplines Mentioned in Notification:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5 text-[11px]">
+                    {CRPF_SPORTS_DISCIPLINES.map((sport) => (
+                      <span
+                        key={sport}
+                        className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-secondary-foreground"
+                      >
+                        <span>{SPORT_ICONS[sport] || "🏆"}</span>
+                        <span>{sport}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                  <a
+                    href="https://rect.crpf.gov.in/Upload/Recruitment/Meritorious_Sportspersons_315092026-672.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition-all shadow-xs cursor-pointer"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span>View Official Notification PDF</span>
+                    <ExternalLink className="h-3 w-3 opacity-80" />
+                  </a>
+
+                  <a
+                    href="https://rect.crpf.gov.in"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
+                  >
+                    <span>Apply on rect.crpf.gov.in</span>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                  </a>
+
+                  {crpfTrial && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setDetailsTrial(crpfTrial)}
+                      className="h-9 text-xs text-primary hover:underline cursor-pointer"
+                    >
+                      <span>View Full PST &amp; Selection Criteria →</span>
+                    </Button>
+                  )}
+                </div>
+              </section>
+            )}
+
           {/* FEATURED / BOOSTED TRIALS */}
           {results.boosted.length > 0 && (
             <section className="space-y-3 pt-2 w-full min-w-0 max-w-full">
@@ -1422,6 +1665,14 @@ function SearchPage() {
           onOpenChange={(o) => !o && setBoost(null)}
           trialId={boost.id}
           trialTitle={boost.title}
+        />
+      )}
+      {detailsTrial && (
+        <TrialDetailsModal
+          trial={detailsTrial}
+          isOpen={!!detailsTrial}
+          onClose={() => setDetailsTrial(null)}
+          onRegister={() => handleApply(detailsTrial)}
         />
       )}
     </main>

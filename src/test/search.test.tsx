@@ -133,13 +133,25 @@ describe("Search Trials Page & SEO Optimization", () => {
     it("renders the search heading, desktop filter sidebar, and sport switcher bar", () => {
       const html = renderToString(<SearchPage />);
 
-      expect(html).toContain("Search Sports Selection Trials in India");
+      expect(html).toContain("Search Trials and Opportunities");
       expect(html).toContain("desktop-filter-sidebar");
       expect(html).toContain("Refine Trials");
       expect(html).toContain("Cricket");
       expect(html).toContain("Football");
       expect(html).toContain("Trending Searches:");
       expect(html).toContain("About Sports Selection Trials on KhelGrid");
+    });
+
+    it("renders the CRPF meritorious sportspersons recruitment notification card with PDF link", () => {
+      const html = renderToString(<SearchPage />);
+
+      expect(html).toContain("CRPF Meritorious Sportspersons Recruitment 2026");
+      expect(html).toContain(
+        "https://rect.crpf.gov.in/Upload/Recruitment/Meritorious_Sportspersons_315092026-672.pdf",
+      );
+      expect(html).toContain("View Official Notification PDF");
+      expect(html).toContain("521 Spots");
+      expect(html).toContain("rect.crpf.gov.in");
     });
 
     it("renders trial cards in grid view by default", () => {

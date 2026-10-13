@@ -88,7 +88,7 @@ export function buildBreadcrumbsFromPath(
     guide: { label: "Guides", to: "/guides" },
     tool: { label: "Tools & calculators", to: "/tools" },
     venue: { label: "Book venues", to: "/book" },
-    trial: { label: "Search trials", to: "/search" },
+    trial: { label: "Search Trials and Opportunities", to: "/search" },
   };
 
   let accumulatedPath = "";
@@ -179,7 +179,7 @@ export function generateSitelinksNavigationSchema() {
       {
         "@type": "SiteNavigationElement",
         position: 1,
-        name: "Search Trials",
+        name: "Search Trials and Opportunities",
         url: `${SITE_URL}/search`,
         description: "Discover upcoming sports trials, selection camps, and scouting calls.",
       },

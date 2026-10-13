@@ -46,6 +46,86 @@ export interface Trial {
 
 export const TRIALS: Trial[] = [
   {
+    id: "t-crpf-meritorious-sportspersons-recruitment-2026",
+    title: "CRPF Meritorious Sportspersons Recruitment 2026",
+    academy: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",
+    sport: "Athletics", // Primary featured discipline, with 22 disciplines eligible
+    city: "Delhi",
+    date: "Oct 12 - Nov 11, 2026",
+    registrationDeadline: "Nov 11, 2026",
+    fee: 100, // ₹100 for Gen/OBC/EWS Male (₹0 for SC/ST and All Female Candidates)
+    spots: 521, // 182 Head Constable GD, 339 Constable GD
+    tag: "Govt Sports Quota",
+    ageCategory: "Senior Open (18-23 Yrs)",
+    gender: "Men & Women",
+    verifiedLabel: "Official CRPF & MHA Govt Notification",
+    urgencyText: "521 Vacancies (182 HC + 339 GD) · Apply by Nov 11",
+    badge: "New",
+    sourceUrl:
+      "https://rect.crpf.gov.in/Upload/Recruitment/Meritorious_Sportspersons_315092026-672.pdf",
+    sourceLabel: "Official Notification PDF (rect.crpf.gov.in)",
+    sources: [
+      {
+        label: "Official Notification PDF (rect.crpf.gov.in)",
+        url: "https://rect.crpf.gov.in/Upload/Recruitment/Meritorious_Sportspersons_315092026-672.pdf",
+      },
+      {
+        label: "CRPF Official Recruitment Portal",
+        url: "https://rect.crpf.gov.in",
+      },
+    ],
+    timelines: [
+      {
+        label: "Online Application Commencement",
+        date: "Oct 12, 2026",
+        description: "Application window opened on rect.crpf.gov.in portal",
+      },
+      {
+        label: "Online Application Closing Date",
+        date: "Nov 11, 2026 (23:59 hrs)",
+        description: "Last date for submission of online application & fee",
+      },
+      {
+        label: "Online Correction Window",
+        date: "Nov 12 - Nov 14, 2026",
+        description: "Correction/modification window for submitted forms",
+      },
+      {
+        label: "PST, Sports Trial Test & Selection Phase",
+        date: "December 2026",
+        description:
+          "Physical Standard Test (PST), Sports Trial Test (50 marks, 20 qualifying), document verification & medical",
+      },
+    ],
+    organizerContacts: [
+      {
+        title: "Recruitment Branch",
+        name: "Directorate General, CRPF (Recruitment Branch)",
+        email: "rectt@crpf.gov.in",
+        phone: "+91 11 2616 0255",
+      },
+      {
+        title: "Toll-Free Recruitment Helpline",
+        name: "CRPF Candidate Help Desk",
+        phone: "1800-11-2773",
+      },
+    ],
+    eligibility:
+      "Age: 18 to 23 years as on 01/08/2026 (Upper age relaxation: UR +5 yrs, OBC-NCL +8 yrs, SC/ST +10 yrs). Education: 10+2 (Intermediate) for Head Constable (GD); Matriculation (10th) for Constable (GD). Sports Achievement: Represented Country in International Tournaments / State in National Championships / University in Inter-University Tournaments / State Schools Team in National School Games between Sept 30, 2024 and Sept 30, 2026 across 22 recognized sports disciplines.",
+    requiredDocuments: [
+      "10th / 12th Board Marksheet & Certificate (Date of birth & minimum education proof)",
+      "Sports Merit Certificate (Form 1 / 2 / 3 issued by recognized National Federation / State Association / University / School Games Federation)",
+      "Aadhaar Card / Government Photo ID Card",
+      "Caste / Category Certificate (SC/ST/OBC-NCL/EWS if seeking age relaxation or fee exemption)",
+      "Recent Passport Size Digital Photographs & Scanned Signature",
+      "Medical Fitness Certificate / Domicile Certificate",
+    ],
+    selectionProcess:
+      "1. Scrutiny of online applications & sports certificates. 2. Physical Standard Test (PST). 3. Sports Trial Test (50 Marks, qualifying mark 20). 4. Detailed Medical Examination (DME/RME). Final merit list is framed based on sports trial score and sports achievement marks.",
+    venue:
+      "CRPF Group Centres / Signal Training Centres / Kadarpur (Gurugram) & Designated Zonal Centres across India",
+  },
+  {
     id: "t-kca-u14-cricket-trials-kanpur-2026",
     title: "Kanpur Cricket Association (KCA) U-14 Selection Trials",
     academy: "Kanpur Cricket Association (KCA) & UPCA",
@@ -719,8 +799,25 @@ export const SPORTS = [
   "Hockey",
   "Tennis",
   "Wrestling",
-  "Pickleball",
+  "Boxing",
+  "Archery",
+  "Shooting",
+  "Swimming",
+  "Volleyball",
+  "Gymnastics",
+  "Handball",
+  "Judo",
+  "Kabaddi",
+  "Karate",
+  "Taekwondo",
+  "Table Tennis",
+  "Water Sports",
+  "Weightlifting",
   "Wushu",
+  "Yoga",
+  "Pickleball",
+  "Fencing",
+  "Equestrian",
 ] as const;
 export const CITIES = [
   "Delhi",

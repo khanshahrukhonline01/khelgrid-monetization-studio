@@ -60,7 +60,12 @@ export type NavItem = {
  */
 export const NAV_ITEMS: NavItem[] = [
   { to: "/", label: "Home", icon: Home, surfaces: ["primary"] },
-  { to: "/search", label: "Search trials", icon: Search, surfaces: ["primary", "features"] },
+  {
+    to: "/search",
+    label: "Search Trials and Opportunities",
+    icon: Search,
+    surfaces: ["primary", "features"],
+  },
   { to: "/live-scores", label: "Live Scores", icon: Activity, surfaces: ["primary", "features"] },
   { to: "/trials", label: "Live Trials", icon: Radio, surfaces: [] },
   { to: "/opportunities", label: "Opportunities", icon: Briefcase, surfaces: [] },
