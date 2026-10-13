@@ -72,8 +72,7 @@ export const SPORTS_NEWS_CATALOG: SportsNewsArticle[] = [
     trending: true,
     featured: true,
     onlyChronicle: true,
-    officialSourceUrl:
-      "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2321660&reg=48&lang=2",
+    officialSourceUrl: "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2321660&reg=48&lang=2",
     pibPrid: "2321660",
     venueId: "v-veer-savarkar-sports-complex-ahmedabad",
     venueName: "Veer Savarkar Sports Complex, Ahmedabad",

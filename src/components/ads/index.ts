@@ -31,3 +31,15 @@ export {
   type AdSenseInitOptions,
   type AdSenseServiceState,
 } from "@/services/adsense.service";
+export {
+  useAdSenseDiagnostics,
+  type AdSenseLoadStatus,
+  type AdSenseIssueSeverity,
+  type AdSenseIssueCode,
+  type AdSenseDiagnosticIssue,
+  type AdSenseQueueStatus,
+  type AdSenseDiagnosticState,
+  type AdSenseDiagnosticOptions,
+  type AdSenseDiagnosticReport,
+  type UseAdSenseDiagnosticsReturn,
+} from "@/hooks/use-adsense-diagnostics";
