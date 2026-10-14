@@ -27,6 +27,7 @@ import { buildSeoHead, SITE_URL } from "@/lib/seo";
 import { useAuth } from "@/context/AuthContext";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { DEMO_ACCOUNTS, ROLE_DEFINITIONS } from "@/types/auth";
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 
 export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>): { redirect?: string } => ({
@@ -545,6 +546,25 @@ function LoginPage() {
                   </p>
                 </div>
 
+                {/* 1-Click Google Sign Up */}
+                <div className="space-y-4">
+                  <GoogleSignInButton
+                    mode="signup"
+                    redirectTo={redirectTarget || resolveTargetRoute(selectedRole)}
+                  />
+
+                  <div className="relative my-4">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t border-border/70" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-3 text-[11px] font-semibold text-muted-foreground tracking-wider">
+                        Or create with email & password
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
                 <form onSubmit={handleSignUpSubmit} className="space-y-4">
                   <div>
                     <Label htmlFor="signup-name" className="text-xs font-semibold">
@@ -724,6 +744,25 @@ function LoginPage() {
                     >
                       <KeyRound className="mr-1 inline-block h-3 w-3" /> Password
                     </button>
+                  </div>
+                </div>
+
+                {/* 1-Click Google Sign In */}
+                <div className="mt-6 space-y-4">
+                  <GoogleSignInButton
+                    mode="signin"
+                    redirectTo={redirectTarget || resolveTargetRoute(selectedRole)}
+                  />
+
+                  <div className="relative my-2">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t border-border/70" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-3 text-[11px] font-semibold text-muted-foreground tracking-wider">
+                        Or sign in with mobile / password
+                      </span>
+                    </div>
                   </div>
                 </div>
 

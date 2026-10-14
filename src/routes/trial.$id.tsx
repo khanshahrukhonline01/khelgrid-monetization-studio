@@ -188,7 +188,8 @@ function TrialDetailPage() {
             {JSON.stringify({
               "@context": "https://schema.org",
               "@type": "JobPosting",
-              title: "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
+              title:
+                "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
               description:
                 "Central Reserve Police Force invites online applications from eligible meritorious Indian sportspersons for 182 Head Constable (GD) and 339 Constable (GD) posts across 22 sports disciplines under Sports Quota 2026. Apply online at rect.crpf.gov.in.",
               identifier: {

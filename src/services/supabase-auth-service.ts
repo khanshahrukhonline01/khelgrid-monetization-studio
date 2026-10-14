@@ -283,6 +283,49 @@ export class SupabaseAuthService {
   }
 
   /**
+   * Initiates Google OAuth Sign-In or Sign-Up via Supabase.
+   */
+  public async signInWithGoogle(
+    redirectTo?: string,
+  ): Promise<AuthResponse<{ url?: string | null }>> {
+    if (!this.isConfigured()) {
+      return {
+        success: false,
+        error: "Supabase authentication is not configured in this environment.",
+      };
+    }
+
+    try {
+      const targetRedirect =
+        redirectTo ||
+        (typeof window !== "undefined" ? `${window.location.origin}/login` : undefined);
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: targetRedirect,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+        },
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      return {
+        success: true,
+        data: { url: data.url },
+      };
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to initiate Google sign-in.";
+      return { success: false, error: message };
+    }
+  }
+
+  /**
    * Signs out the current user and invalidates their session.
    */
   public async signOut(): Promise<AuthResponse<void>> {

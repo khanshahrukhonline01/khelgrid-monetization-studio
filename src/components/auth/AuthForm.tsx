@@ -48,6 +48,7 @@ import { useAuth } from "@/context/AuthContext";
 import { DEMO_ACCOUNTS, ROLE_DEFINITIONS } from "@/types/auth";
 import { SPORTS, CITIES } from "@/data/trials";
 import { ForgotPasswordForm } from "./ForgotPasswordForm";
+import { GoogleSignInButton } from "./GoogleSignInButton";
 
 export interface AuthFormProps {
   /**
@@ -477,6 +478,29 @@ export function AuthForm({
             <AlertDescription className="ml-1 text-xs">{errorMessage}</AlertDescription>
           </Alert>
         )}
+
+        {/* 1-Click Fast Google Sign-In */}
+        <div className="space-y-3">
+          <GoogleSignInButton
+            mode={activeTab}
+            redirectTo={targetRoute}
+            onSuccess={() => {
+              if (onSuccess) onSuccess();
+              navigate({ to: targetRoute });
+            }}
+          />
+
+          <div className="relative my-3">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-border/70" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2.5 text-[10px] font-semibold text-muted-foreground tracking-wider">
+                Or continue with credentials
+              </span>
+            </div>
+          </div>
+        </div>
 
         {/* Tabs: Sign In / Sign Up */}
         <Tabs
