@@ -140,6 +140,8 @@ export function AuthForm({
     return "/dashboard";
   };
 
+  const targetRoute = resolveTargetRoute(role);
+
   // Handle Sign In submission
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();

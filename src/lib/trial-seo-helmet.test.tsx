@@ -4,6 +4,7 @@ import { renderToString } from "react-dom/server";
 import { HelmetProvider } from "react-helmet-async";
 import { buildSeoHead } from "@/lib/seo";
 import { TRIALS } from "@/data/trials";
+import { SearchTrialsHelmetSEO } from "@/components/seo/SearchTrialsHelmetSEO";
 
 describe("Official Selection Trial SEO & React Helmet Integration", () => {
   const saiTrial = TRIALS.find((t) => t.id === "t-sai-wrestling-mumbai-2026")!;
@@ -78,5 +79,56 @@ describe("Official Selection Trial SEO & React Helmet Integration", () => {
     );
 
     expect(html).toContain("KhelGrid SEO Shell");
+  });
+
+  it("verifies SearchTrialsHelmetSEO dynamically configures CRPF metadata and Schema.org JobPosting", () => {
+    const meta = getSearchTrialsSeoMetadata({
+      query: "crpf recruitment",
+      sport: "Athletics",
+      city: "All Locations",
+    });
+
+    expect(meta.isCrpf).toBe(true);
+    expect(meta.pageTitle).toContain("CRPF Meritorious Sportspersons Recruitment 2026");
+    expect(meta.metaDescription).toContain("521 vacancies");
+    expect(meta.metaDescription).toContain("rect.crpf.gov.in");
+    expect(meta.canonicalUrl).toContain("q=crpf+recruitment");
+    expect(meta.keywords).toContain("CRPF recruitment 2026");
+
+    const jobPosting = meta.jsonLdData.find((s) => s["@type"] === "JobPosting");
+    expect(jobPosting).toBeDefined();
+    expect((jobPosting as any)?.identifier?.value).toBe("CRPF-SPORTS-QUOTA-2026-521");
+    expect((jobPosting as any)?.hiringOrganization?.sameAs).toBe("https://rect.crpf.gov.in");
+
+    const faqPage = meta.jsonLdData.find((s) => s["@type"] === "FAQPage");
+    expect(faqPage).toBeDefined();
+
+    // Verify component mounts without error inside HelmetProvider
+    const helmetContext = {};
+    const html = renderToString(
+      <HelmetProvider context={helmetContext}>
+        <SearchTrialsHelmetSEO
+          query="crpf recruitment"
+          sport="Athletics"
+          city="All Locations"
+        />
+      </HelmetProvider>,
+    );
+    expect(html).toBeDefined();
+  });
+
+  it("verifies SearchTrialsHelmetSEO constructs sport and city targeted titles for regional discovery", () => {
+    const meta = getSearchTrialsSeoMetadata({
+      sport: "Badminton",
+      city: "Bengaluru",
+    });
+
+    expect(meta.isCrpf).toBe(false);
+    expect(meta.pageTitle).toContain("Badminton Selection Trials & Opportunities in Bengaluru");
+    expect(meta.metaDescription).toContain("Bengaluru");
+    expect(meta.metaDescription).toContain("Badminton");
+    expect(meta.canonicalUrl).toContain("sport=Badminton");
+    expect(meta.canonicalUrl).toContain("city=Bengaluru");
+    expect(meta.keywords).toContain("Badminton trials 2026");
   });
 });
