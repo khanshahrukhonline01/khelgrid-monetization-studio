@@ -181,6 +181,63 @@ function TrialDetailPage() {
             })}
           </script>
         )}
+
+        {/* Official JobPosting JSON-LD Structured Data for CRPF Recruitment */}
+        {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "JobPosting",
+              title: "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
+              description:
+                "Central Reserve Police Force invites online applications from eligible meritorious Indian sportspersons for 182 Head Constable (GD) and 339 Constable (GD) posts across 22 sports disciplines under Sports Quota 2026. Apply online at rect.crpf.gov.in.",
+              identifier: {
+                "@type": "PropertyValue",
+                name: "Central Reserve Police Force",
+                value: "CRPF-SPORTS-QUOTA-2026-521",
+              },
+              datePosted: "2026-10-12",
+              validThrough: "2026-11-11T23:59:59+05:30",
+              employmentType: "FULL_TIME",
+              hiringOrganization: {
+                "@type": "GovernmentOrganization",
+                name: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",
+                sameAs: "https://rect.crpf.gov.in",
+                url: "https://rect.crpf.gov.in",
+                logo: "https://khelgrid.com/og-image.svg",
+              },
+              jobLocation: {
+                "@type": "Place",
+                address: {
+                  "@type": "PostalAddress",
+                  addressCountry: "IN",
+                  addressRegion: "Pan-India",
+                },
+              },
+              baseSalary: {
+                "@type": "MonetaryAmount",
+                currency: "INR",
+                value: {
+                  "@type": "QuantitativeValue",
+                  minValue: 21700,
+                  maxValue: 81100,
+                  unitText: "MONTH",
+                },
+              },
+              qualifications:
+                "10+2 for Head Constable (GD); 10th for Constable (GD). Must have represented Country/State/University/National School Games in recognized tournaments between 30/09/2024 and 30/09/2026 across 22 disciplines.",
+              totalJobOpenings: 521,
+              directApply: true,
+              applicationContact: {
+                "@type": "ContactPoint",
+                name: "CRPF Recruitment Branch",
+                telephone: "+91-11-26160255",
+                email: "rectt@crpf.gov.in",
+                url: "https://rect.crpf.gov.in",
+              },
+            })}
+          </script>
+        )}
       </Helmet>
 
       <Link to="/search" className="text-sm text-muted-foreground hover:text-foreground">

@@ -58,6 +58,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";
+import { SearchTrialsHelmetSEO } from "@/components/seo/SearchTrialsHelmetSEO";
 
 const ALL_SPORT = "All Sports";
 const ALL_CITY = "All Locations";
@@ -664,6 +665,19 @@ function SearchPage() {
       id="search-trials-page"
       className="mx-auto max-w-7xl px-3 sm:px-4 py-4 sm:py-6 w-full min-w-0 max-w-full overflow-x-hidden"
     >
+      {/* Standardized SEO Meta-Tag Manager using react-helmet-async */}
+      <SearchTrialsHelmetSEO
+        query={params.q}
+        sport={params.sport}
+        city={params.city}
+        sort={params.sort}
+        free={params.free}
+        trialId={params.trialId}
+        savedOnly={params.savedOnly}
+        totalResults={results.total}
+        featuredTrial={crpfTrial}
+      />
+
       {/* Sleek Compact Header (No wasted vertical space) */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-3.5 w-full min-w-0 max-w-full">
         <div className="flex items-center gap-2.5 min-w-0">
