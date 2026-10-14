@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/accordion";
 import { ArrowRight } from "lucide-react";
 import { generateFaqs, faqsToJsonLd } from "@/lib/faq-generator";
-import { noindexMeta } from "@/lib/seo";
-
 const PAGE_SIZE = 6;
 
 const CATEGORY_BY_SLUG: Record<string, Tool["category"]> = {
@@ -36,21 +34,34 @@ export const Route = createFileRoute("/best-tools/$category")({
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [] };
+    const canonicalUrl = `https://khelgrid.com/best-tools/${params.category}`;
     return {
       meta: [
-        noindexMeta(),
+        {
+          name: "robots",
+          content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+        },
         { title: `Best ${loaderData.category.toLowerCase()}s for athletes · KhelGrid` },
         {
           name: "description",
           content: `Free ${loaderData.category.toLowerCase()}s built for Indian athletes — trial prep, training load, scholarships and more.`,
         },
+        { property: "og:site_name", content: "KhelGrid" },
         { property: "og:title", content: `Best ${loaderData.category.toLowerCase()}s on KhelGrid` },
         {
           property: "og:description",
           content: `Hand-picked ${loaderData.category.toLowerCase()}s for athletes, parents and coaches.`,
         },
+        { property: "og:url", content: canonicalUrl },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: `Best ${loaderData.category.toLowerCase()}s · KhelGrid` },
+        {
+          name: "twitter:description",
+          content: `Hand-picked ${loaderData.category.toLowerCase()}s for athletes, parents and coaches.`,
+        },
       ],
-      links: [{ rel: "canonical", href: `/best-tools/${params.category}` }],
+      links: [{ rel: "canonical", href: canonicalUrl }],
     };
   },
   notFoundComponent: () => (

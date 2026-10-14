@@ -152,10 +152,7 @@ export const trialsDatabaseService = {
     }
 
     try {
-      const insertCaller = supabase.from as unknown as (table: string) => {
-        insert: (row: Record<string, unknown>) => Promise<{ error: { message: string } | null }>;
-      };
-      const { error } = await insertCaller("venue_reviews").insert({
+      const { error } = await supabase.from("venue_reviews").insert({
         venue_id: params.venueId,
         user_name: params.userName.trim(),
         rating: Math.min(5, Math.max(1, params.rating)),

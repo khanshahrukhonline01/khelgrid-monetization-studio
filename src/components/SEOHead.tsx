@@ -126,7 +126,41 @@ export function SEOHead(props: SEOHeadProps = {}) {
         : `${props.title} · ${DEFAULT_SITE_NAME}`;
       document.title = formattedTitle;
     }
-  }, [jsonLdString, props.title]);
+
+    // Synchronize canonical link tag in document.head
+    const fullCanonical = activePathname.startsWith("http")
+      ? activePathname
+      : `${SITE_URL}${activePathname.startsWith("/") ? activePathname : `/${activePathname}`}`;
+
+    let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonicalLink) {
+      canonicalLink = document.createElement("link");
+      canonicalLink.rel = "canonical";
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = fullCanonical;
+
+    let ogUrl = document.querySelector('meta[property="og:url"]') as HTMLMetaElement | null;
+    if (!ogUrl) {
+      ogUrl = document.createElement("meta");
+      ogUrl.setAttribute("property", "og:url");
+      document.head.appendChild(ogUrl);
+    }
+    ogUrl.content = fullCanonical;
+
+    if (props.description) {
+      const descMeta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+      if (descMeta) {
+        descMeta.content = props.description;
+      }
+      const ogDesc = document.querySelector(
+        'meta[property="og:description"]',
+      ) as HTMLMetaElement | null;
+      if (ogDesc) {
+        ogDesc.content = props.description;
+      }
+    }
+  }, [jsonLdString, props.title, props.description, activePathname]);
 
   return (
     <script

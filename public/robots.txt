@@ -3,6 +3,10 @@ Allow: /
 Allow: /ads.txt
 Disallow: /dashboard
 Disallow: /login
+Disallow: /onboarding
+Disallow: /settings
+Disallow: /forgot-password
+Disallow: /profile
 
 User-agent: Google-adstxt
 Allow: /ads.txt

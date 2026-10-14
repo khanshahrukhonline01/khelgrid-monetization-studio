@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/accordion";
 import { Clock, ArrowRight } from "lucide-react";
 import { generateFaqs, faqsToJsonLd } from "@/lib/faq-generator";
-import { noindexMeta } from "@/lib/seo";
-
 const PAGE_SIZE = 6;
 
 const CATEGORY_BY_SLUG: Record<string, Guide["category"]> = {
@@ -40,21 +38,34 @@ export const Route = createFileRoute("/top-guides/$category")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) return { meta: [] };
+    const canonicalUrl = `https://khelgrid.com/top-guides/${loaderData.slug}`;
     return {
       meta: [
-        noindexMeta(),
+        {
+          name: "robots",
+          content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+        },
         { title: `Top ${loaderData.category} guides for Indian athletes · KhelGrid` },
         {
           name: "description",
           content: `The most read ${loaderData.category.toLowerCase()} guides on KhelGrid — checklists, scripts and frameworks built for Indian sport.`,
         },
+        { property: "og:site_name", content: "KhelGrid" },
         { property: "og:title", content: `Top ${loaderData.category} guides` },
         {
           property: "og:description",
           content: `Hand-picked ${loaderData.category.toLowerCase()} playbooks for athletes, parents and coaches in India.`,
         },
+        { property: "og:url", content: canonicalUrl },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: `Top ${loaderData.category} guides · KhelGrid` },
+        {
+          name: "twitter:description",
+          content: `Hand-picked ${loaderData.category.toLowerCase()} playbooks for athletes, parents and coaches in India.`,
+        },
       ],
-      links: [{ rel: "canonical", href: `/top-guides/${loaderData.slug}` }],
+      links: [{ rel: "canonical", href: canonicalUrl }],
     };
   },
   notFoundComponent: () => (
