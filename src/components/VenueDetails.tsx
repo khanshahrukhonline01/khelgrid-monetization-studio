@@ -464,9 +464,59 @@ export function VenueDetails({
             </div>
           </div>
 
+          {/* BCCI Arunachal Pradesh Ranji Selection Ground & Domestic Card */}
+          {(venue.id.includes("bcci") || venue.city === "Itanagar") && (
+            <div className="rounded-2xl border border-sky-500/40 bg-gradient-to-r from-sky-500/10 via-background to-secondary/30 p-4 sm:p-5 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <Badge className="bg-sky-500 text-white font-semibold text-xs">
+                  🏏 Official BCCI Recognized Domestic Cricket Facility
+                </Badge>
+                <span className="text-xs text-muted-foreground font-medium">
+                  Direct BCCI Domestic Directive
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-foreground">
+                BCCI to Conduct Trials to Ensure Arunachal Pradesh's Ranji Participation
+              </h3>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                Official BCCI selection venue in Arunachal Pradesh. The BCCI-appointed 3-member
+                independent selection committee (Satya Gopal Chakraborty, Jayanta Chowdhury, Deep
+                Bora, convened by Apex Council member M. Khairul Jamal Majumdar) conducts
+                transparent open trials for Ranji Trophy, C.K. Nayudu Trophy, and Women's state
+                squads.
+              </p>
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                <Button
+                  asChild
+                  size="sm"
+                  className="rounded-full bg-primary text-primary-foreground font-semibold text-xs"
+                >
+                  <Link to="/trial/t-bcci-arunachal-pradesh-ranji-trials-2026">
+                    View BCCI Trial Card →
+                  </Link>
+                </Button>
+                <a
+                  href="https://www.bcci.tv"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline px-2 py-1"
+                >
+                  BCCI Official Portal <ExternalLink className="h-3 w-3" />
+                </a>
+                <a
+                  href="https://www.hindustantimes.com/cricket/bcci-to-conduct-trials-to-ensure-arunachal-pradeshs-ranji-participation-101791969126681.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1"
+                >
+                  Hindustan Times Report <ExternalLink className="h-3 w-3" />
+                </a>
+              </div>
+            </div>
+          )}
+
           {/* DDCA Selection Trials & Association Card */}
-          {(venue.id.includes("ddca") ||
-            ("trialId" in venue && Boolean((venue as { trialId?: string }).trialId))) && (
+          {venue.id.includes("ddca") && (
             <div className="rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 via-background to-secondary/30 p-4 sm:p-5 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Badge className="bg-primary text-primary-foreground font-semibold text-xs">

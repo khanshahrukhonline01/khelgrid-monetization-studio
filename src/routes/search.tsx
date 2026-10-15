@@ -546,6 +546,13 @@ function SearchPage() {
   }, [params, auth.boostedTrials, savedIds, trialsList]);
 
   const handleApply = (trial: Trial) => {
+    if (trial.id === "t-bcci-arunachal-pradesh-ranji-trials-2026") {
+      window.open("https://www.bcci.tv/domestic", "_blank", "noopener,noreferrer");
+      toast.success(
+        "Opening official BCCI Domestic Portal (bcci.tv) for Arunachal Pradesh Ranji Trials!",
+      );
+      return;
+    }
     if (trial.id === "t-khel-maharan-3-assam-2026") {
       window.open("https://khelmaharan.com/khel", "_blank", "noopener,noreferrer");
       toast.success(

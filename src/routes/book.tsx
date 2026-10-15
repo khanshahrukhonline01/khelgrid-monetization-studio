@@ -212,6 +212,19 @@ function BookVenues() {
             🏏 Delhi · DDCA Arun Jaitley Ground
           </button>
           <button
+            onClick={() => {
+              setCity("Itanagar");
+              setSport("Cricket");
+            }}
+            className={`rounded-full px-3 py-1 font-semibold transition-all border ${
+              city === "Itanagar" && sport === "Cricket"
+                ? "bg-primary text-primary-foreground border-primary"
+                : "border-sky-500/40 bg-sky-500/5 text-sky-600 dark:text-sky-400 hover:bg-sky-500/10"
+            }`}
+          >
+            🏏 Arunachal · BCCI Yupia Stadium
+          </button>
+          <button
             onClick={() => setCity("Delhi")}
             className={`rounded-full px-3 py-1 font-medium transition-all border ${
               city === "Delhi" && sport !== "Cricket"
@@ -222,12 +235,22 @@ function BookVenues() {
             All Delhi Venues
           </button>
           <button
+            onClick={() => setCity("Itanagar")}
+            className={`rounded-full px-3 py-1 font-medium transition-all border ${
+              city === "Itanagar" && sport !== "Cricket"
+                ? "bg-secondary text-foreground border-foreground/20"
+                : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            All Arunachal Venues
+          </button>
+          <button
             onClick={() => {
               setCity("All");
               setSport("Cricket");
             }}
             className={`rounded-full px-3 py-1 font-medium transition-all border ${
-              sport === "Cricket" && city !== "Delhi"
+              sport === "Cricket" && city !== "Delhi" && city !== "Itanagar"
                 ? "bg-secondary text-foreground border-foreground/20"
                 : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
             }`}
@@ -249,8 +272,76 @@ function BookVenues() {
         </div>
       </div>
 
+      {/* BCCI Official Arunachal Pradesh Ranji Trials & Ground Spotlight Banner */}
+      {(city === "Itanagar" || city === "All" || sport === "Cricket") && (
+        <div className="mt-6 rounded-2xl border border-sky-500/40 bg-gradient-to-r from-sky-500/10 via-primary/5 to-background p-4 sm:p-5">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge className="bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30 text-[11px] font-bold">
+                  🏏 BCCI Domestic Intervention
+                </Badge>
+                <Badge
+                  variant="outline"
+                  className="text-[11px] border-emerald-500/40 text-emerald-500 font-medium"
+                >
+                  Ranji Trophy & Age-Group Trials
+                </Badge>
+                <span className="text-[11px] text-muted-foreground">
+                  Yupia, Itanagar (Arunachal Pradesh)
+                </span>
+              </div>
+              <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
+                BCCI to Conduct Trials to Ensure Arunachal Pradesh's Ranji Participation
+              </h2>
+              <p className="text-xs sm:text-sm text-muted-foreground max-w-3xl leading-relaxed">
+                Yupia Cricket Stadium & Rajiv Gandhi Stadium in Itanagar are the official
+                BCCI-recognized grounds for direct open selection trials by the BCCI-appointed
+                3-member independent selection committee (Chairman Satya Gopal Chakraborty) to field
+                state teams for Ranji Trophy, C.K. Nayudu Trophy, and Women's state teams.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <Button
+                asChild
+                size="sm"
+                className="rounded-full bg-primary text-primary-foreground font-semibold text-xs sm:text-sm h-9 px-4 shadow-sm"
+              >
+                <Link to="/trial/t-bcci-arunachal-pradesh-ranji-trials-2026">
+                  View BCCI Trial Card →
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="rounded-full text-xs sm:text-sm h-9 px-3"
+              >
+                <Link to="/venue/v-bcci-yupia-cricket-ground-itanagar">Yupia Stadium</Link>
+              </Button>
+              <a
+                href="https://www.bcci.tv"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 transition-colors"
+              >
+                bcci.tv <ExternalLink className="h-3 w-3" />
+              </a>
+              <a
+                href="https://www.hindustantimes.com/cricket/bcci-to-conduct-trials-to-ensure-arunachal-pradeshs-ranji-participation-101791969126681.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 transition-colors"
+              >
+                Hindustan Times <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* DDCA Official Trials & Ground Spotlight Banner */}
-      <div className="mt-6 rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 via-primary/5 to-background p-4 sm:p-5">
+      <div className="mt-4 rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 via-primary/5 to-background p-4 sm:p-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-center gap-2">

@@ -23,6 +23,7 @@ export const PLAYO_CITIES = [
   "Chandigarh",
   "Kanpur",
   "Ahmedabad",
+  "Itanagar",
 ] as const;
 
 export interface PibPressReleaseNotice {
@@ -159,6 +160,44 @@ export interface Membership {
 const IMG = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=900&q=70`;
 
 export const VENUES: Venue[] = [
+  {
+    id: "v-bcci-yupia-cricket-ground-itanagar",
+    name: "Yupia Cricket Stadium & BCCI Regional Coaching Hub",
+    area: "Yupia, Papum Pare District",
+    city: "Itanagar",
+    distanceKm: 3.2,
+    rating: 4.92,
+    reviews: 168,
+    sports: ["Cricket", "Box Cricket", "Net Practice", "Fitness & Conditioning"],
+    pricePerHour: 0,
+    featured: true,
+    bookable: true,
+    image:
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80",
+    officialUrl: "https://www.bcci.tv/domestic",
+    trialId: "t-bcci-arunachal-pradesh-ranji-trials-2026",
+    trialTitle: "BCCI Official Open Trials for Arunachal Pradesh Ranji & Domestic Squads",
+    association: "Board of Control for Cricket in India (BCCI)",
+  },
+  {
+    id: "v-bcci-rajiv-gandhi-stadium-naharlagun",
+    name: "Rajiv Gandhi Stadium BCCI Recognized Cricket Arena",
+    area: "Naharlagun Sports Complex",
+    city: "Itanagar",
+    distanceKm: 4.5,
+    rating: 4.88,
+    reviews: 142,
+    sports: ["Cricket", "Athletics", "Fitness & Conditioning"],
+    pricePerHour: 0,
+    featured: true,
+    bookable: true,
+    image:
+      "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1200&q=80",
+    officialUrl: "https://www.bcci.tv",
+    trialId: "t-bcci-arunachal-pradesh-ranji-trials-2026",
+    trialTitle: "BCCI Independent Selection Trials (Men & Women Age Groups)",
+    association: "Board of Control for Cricket in India (BCCI)",
+  },
   {
     id: "v-ddca-arun-jaitley-stadium-delhi",
     name: "Arun Jaitley Stadium & DDCA Cricket Complex",

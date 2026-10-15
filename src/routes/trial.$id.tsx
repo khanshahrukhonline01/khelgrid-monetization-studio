@@ -246,6 +246,85 @@ function TrialDetailPage() {
     });
   }
 
+  if (
+    trial.id === "t-bcci-arunachal-pradesh-ranji-trials-2026" ||
+    trial.title.toLowerCase().includes("arunachal pradesh's ranji")
+  ) {
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      name: "BCCI Selection Trials for Arunachal Pradesh Ranji Trophy & Domestic Season 2026–27",
+      description:
+        "Official open selection trials conducted by the Board of Control for Cricket in India (BCCI) to select Arunachal Pradesh teams for Ranji Trophy, Col. C.K. Nayudu Trophy, and Senior Women's T20 Trophy.",
+      startDate: "2026-11-01",
+      endDate: "2026-11-18",
+      eventStatus: "https://schema.org/EventScheduled",
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      location: {
+        "@type": "Place",
+        name: "Yupia Cricket Stadium & Rajiv Gandhi Stadium",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Itanagar",
+          addressRegion: "Arunachal Pradesh",
+          addressCountry: "IN",
+        },
+      },
+      organizer: {
+        "@type": "SportsOrganization",
+        name: "Board of Control for Cricket in India (BCCI)",
+        url: "https://www.bcci.tv",
+      },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "INR",
+        availability: "https://schema.org/InStock",
+        url: canonicalUrl,
+      },
+      isAccessibleForFree: true,
+    });
+
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Why is the BCCI conducting open trials directly in Arunachal Pradesh?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The BCCI intervened directly following an internal dispute and legal deadlock in the Arunachal Cricket Association to safeguard player futures and ensure Arunachal Pradesh participates in the Ranji Trophy and other domestic tournaments.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Who comprises the BCCI Independent Selection Committee for Arunachal Pradesh?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The committee is led by former Assam first-class cricketer Satya Gopal Chakraborty (Chairman), with Jayanta Chowdhury and Deep Bora as members, convened by BCCI Apex Council member M. Khairul Jamal Majumdar.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Where are the BCCI Arunachal Pradesh cricket trials held?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The selection trials are being held at the Yupia Cricket Stadium and Rajiv Gandhi Stadium in Itanagar, Arunachal Pradesh.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What tournaments are selected through these BCCI trials?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The independent committee is selecting teams for the Ranji Trophy (Senior Men), Col. C.K. Nayudu Trophy (Men's U-23), Senior Women's T20 Trophy, and junior domestic tournaments.",
+          },
+        },
+      ],
+    });
+  }
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
       {/* Reusable SEO Component using react-helmet-async */}

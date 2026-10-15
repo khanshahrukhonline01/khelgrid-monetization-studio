@@ -85,6 +85,7 @@ export const REGIONS: RegionDefinition[] = [
       "Namchi",
       "Gangtok",
       "Guwahati",
+      "Itanagar",
       "Bhubaneswar",
       "Patna",
       "Ranchi",

@@ -46,6 +46,100 @@ export interface Trial {
 
 export const TRIALS: Trial[] = [
   {
+    id: "t-bcci-arunachal-pradesh-ranji-trials-2026",
+    title: "BCCI to Conduct Trials to Ensure Arunachal Pradesh's Ranji Participation",
+    academy: "Board of Control for Cricket in India (BCCI)",
+    sport: "Cricket",
+    city: "Itanagar",
+    date: "Nov 01 - Nov 18, 2026",
+    registrationDeadline: "Oct 31, 2026",
+    fee: 0,
+    spots: 80,
+    tag: "BCCI National State Combine",
+    ageCategory: "Senior Men (Ranji Trophy), U-23 (C.K. Nayudu), Senior Women & Age Groups",
+    gender: "Men & Women",
+    verifiedLabel: "Direct BCCI Apex Council & Independent Selection Committee",
+    urgencyText: "BCCI Appointed Committee · Direct Open Trials to Field State Teams",
+    badge: "New",
+    venue: "Yupia Cricket Ground & Rajiv Gandhi Stadium, Itanagar, Arunachal Pradesh",
+    sourceUrl:
+      "https://www.hindustantimes.com/cricket/bcci-to-conduct-trials-to-ensure-arunachal-pradeshs-ranji-participation-101791969126681.html",
+    sourceLabel: "Hindustan Times Sports / Official BCCI Domestic Notification",
+    sources: [
+      {
+        label: "Hindustan Times Special Report",
+        url: "https://www.hindustantimes.com/cricket/bcci-to-conduct-trials-to-ensure-arunachal-pradeshs-ranji-participation-101791969126681.html",
+      },
+      {
+        label: "BCCI Official Website (bcci.tv)",
+        url: "https://www.bcci.tv",
+      },
+      {
+        label: "BCCI Domestic Cricket Circulars",
+        url: "https://www.bcci.tv/domestic",
+      },
+    ],
+    timelines: [
+      {
+        label: "BCCI Open Call & Registration Window",
+        date: "Oct 15 - Oct 31, 2026",
+        description:
+          "Open call advertised across public media by BCCI for cricketers with Arunachal Pradesh domicile / registration",
+      },
+      {
+        label: "Phase 1: Open Net Trials & Skill Assessment",
+        date: "Nov 01 - Nov 05, 2026",
+        description:
+          "Independent Selection Committee (Satya Gopal Chakraborty, Jayanta Chowdhury, Deep Bora) evaluates players at Yupia Cricket Ground",
+      },
+      {
+        label: "Phase 2: Match Simulations & Fitness Screenings",
+        date: "Nov 07 - Nov 12, 2026",
+        description:
+          "Intra-squad practice matches monitored by BCCI Apex Council Convener M. Khairul Jamal Majumdar",
+      },
+      {
+        label: "Final Ranji & State Squad Announcement",
+        date: "Nov 18, 2026",
+        description:
+          "Official announcement of Arunachal Pradesh Senior Men Ranji Trophy and age-group squads to prevent tournament forfeit",
+      },
+    ],
+    organizerContacts: [
+      {
+        title: "BCCI Independent Selection Committee Convener",
+        name: "M. Khairul Jamal Majumdar (BCCI Apex Council Member)",
+        email: "domesticcricket@bcci.tv",
+        phone: "+91 22 2289 8800",
+      },
+      {
+        title: "Selection Committee Chairman",
+        name: "Satya Gopal Chakraborty (Former Assam First-Class Cricketer)",
+        email: "operations@bcci.tv",
+        phone: "+91 360 221 2100",
+      },
+      {
+        title: "BCCI Headquarters",
+        name: "Cricket Centre, Wankhede Stadium, D-Road, Churchgate, Mumbai",
+        email: "contact@bcci.tv",
+        phone: "+91 22 6759 8800",
+      },
+    ],
+    eligibility:
+      "Open to all bona fide cricketers residing or studying in Arunachal Pradesh with valid Domicile / Permanent Resident Certificate (PRC) or prior state BCCI player registration. Trials cover multiple categories: Senior Men (Ranji Trophy), Men's U-23 (Col. C.K. Nayudu Trophy), Senior Women's T20, and Under-16/Under-19 junior tournaments. Selections are strictly merit-based, conducted directly by the BCCI-appointed independent 3-member panel to insulate players from local association administrative deadlocks.",
+    requiredDocuments: [
+      "Permanent Resident Certificate (PRC) of Arunachal Pradesh / Domicile Certificate issued by District Commissioner",
+      "Digitized Birth Certificate registered with statutory municipal/panchayat authority",
+      "BCCI Player Registration Card / Prior State Representation Certificates (if applicable)",
+      "Aadhaar Card / Government Photo ID Card (showing Arunachal Pradesh address)",
+      "School / College Bonafide Certificate for age-group participants",
+      "Medical Fitness Certificate from a certified physician",
+      "Four passport-size color photographs in official cricket whites",
+    ],
+    selectionProcess:
+      "Direct, neutral, transparent assessment by BCCI-appointed independent panel: 1) Open skill assessment nets for batting, pace bowling, spin bowling, and wicket-keeping; 2) Physical fitness and agility testing; 3) Multi-day practice match simulations at Yupia Cricket Stadium under BCCI Apex Council observers to select the official squads for the 2026–27 domestic season.",
+  },
+  {
     id: "t-khel-maharan-3-assam-2026",
     title: "Khel Maharan 3.0 to Begin on November 7, Registration Opens Across Assam",
     academy: "Department of Sports & Youth Welfare, Government of Assam",
@@ -1010,4 +1104,5 @@ export const CITIES = [
   "Gandhinagar",
   "Kanpur",
   "Guwahati",
+  "Itanagar",
 ] as const;
