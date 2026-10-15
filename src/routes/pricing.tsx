@@ -5,6 +5,7 @@ import { Check, Crown, Zap, Flame } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";
+import { SEO } from "@/components/seo/SEO";
 
 export const Route = createFileRoute("/pricing")({
   head: () =>
@@ -66,6 +67,12 @@ function Pricing() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-16">
+      <SEO
+        title="Membership Plans & Pricing for Athletes & Academies · KhelGrid"
+        description="Transparent pricing for aspiring athletes, verified coaches, and sports academies. Explore Free, Pro Athlete, and Academy Listing Boost tiers."
+        canonicalUrl="/pricing"
+        keywords="KhelGrid pricing, sports academy subscription, athlete pro plan, trial boost"
+      />
       <div className="text-center">
         <Badge variant="outline" className="border-primary/40 bg-primary/5 text-primary">
           Pricing

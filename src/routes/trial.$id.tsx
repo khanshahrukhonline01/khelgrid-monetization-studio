@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/seo/SEO";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, CheckCircle2, FileText, MapPin, ShieldCheck, Users } from "lucide-react";
@@ -126,121 +126,94 @@ function TrialDetailPage() {
     isAccessibleForFree: trial.fee === 0,
   };
 
+  // Assemble Schema.org JSON-LD structured data objects
+  const trialSchemas: Array<Record<string, unknown>> = [sportsEventSchema];
+
+  if (
+    trial.id === "t-fit-india-namchi-sikkim-2026" ||
+    trial.title.toLowerCase().includes("fit india") ||
+    trial.city.toLowerCase() === "namchi"
+  ) {
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FIT_INDIA_FAQS.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    });
+  }
+
+  if (trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "JobPosting",
+      title: "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
+      description:
+        "Central Reserve Police Force invites online applications from eligible meritorious Indian sportspersons for 182 Head Constable (GD) and 339 Constable (GD) posts across 22 sports disciplines under Sports Quota 2026. Apply online at rect.crpf.gov.in.",
+      identifier: {
+        "@type": "PropertyValue",
+        name: "Central Reserve Police Force",
+        value: "CRPF-SPORTS-QUOTA-2026-521",
+      },
+      datePosted: "2026-10-12",
+      validThrough: "2026-11-11T23:59:59+05:30",
+      employmentType: "FULL_TIME",
+      hiringOrganization: {
+        "@type": "GovernmentOrganization",
+        name: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",
+        sameAs: "https://rect.crpf.gov.in",
+        url: "https://rect.crpf.gov.in",
+        logo: "https://khelgrid.com/og-image.svg",
+      },
+      jobLocation: {
+        "@type": "Place",
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "IN",
+          addressRegion: "Pan-India",
+        },
+      },
+      baseSalary: {
+        "@type": "MonetaryAmount",
+        currency: "INR",
+        value: {
+          "@type": "QuantitativeValue",
+          minValue: 21700,
+          maxValue: 81100,
+          unitText: "MONTH",
+        },
+      },
+      qualifications:
+        "10+2 for Head Constable (GD); 10th for Constable (GD). Must have represented Country/State/University/National School Games in recognized tournaments between 30/09/2024 and 30/09/2026 across 22 disciplines.",
+      totalJobOpenings: 521,
+      directApply: true,
+      applicationContact: {
+        "@type": "ContactPoint",
+        name: "CRPF Recruitment Branch",
+        telephone: "+91-11-26160255",
+        email: "rectt@crpf.gov.in",
+        url: "https://rect.crpf.gov.in",
+      },
+    });
+  }
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
-      {/* React Helmet for Dynamic SEO and Social Sharing (Open Graph & Twitter Cards) */}
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <link rel="canonical" href={canonicalUrl} />
-        <meta
-          name="keywords"
-          content={`${trial.title}, ${trial.sport} trials ${trial.city}, ${trial.academy}, Fit India school games, selection trials ${trial.city}, youth sports competition India, government trials 2026`}
-        />
-        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
-
-        {/* Open Graph Meta Tags for Facebook, WhatsApp, LinkedIn, Discord */}
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={DEFAULT_SITE_NAME} />
-        <meta property="og:title" content={`${trial.title} · ${trial.city}`} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={ogImageUrl} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={`${trial.title} - Official Selection Trials`} />
-        <meta property="og:locale" content="en_IN" />
-
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content={TWITTER_HANDLE} />
-        <meta name="twitter:creator" content={TWITTER_HANDLE} />
-        <meta name="twitter:title" content={`${trial.title} · ${trial.city}`} />
-        <meta name="twitter:description" content={pageDescription} />
-        <meta name="twitter:image" content={ogImageUrl} />
-        <meta name="twitter:image:alt" content={`${trial.title} - ${trial.sport}`} />
-
-        {/* Specific SportsEvent JSON-LD Structured Data */}
-        <script type="application/ld+json">{JSON.stringify(sportsEventSchema)}</script>
-
-        {/* Specific FAQPage JSON-LD Structured Data for Fit India Trials */}
-        {(trial.id === "t-fit-india-namchi-sikkim-2026" ||
-          trial.title.toLowerCase().includes("fit india") ||
-          trial.city.toLowerCase() === "namchi") && (
-          <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: FIT_INDIA_FAQS.map((faq) => ({
-                "@type": "Question",
-                name: faq.question,
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: faq.answer,
-                },
-              })),
-            })}
-          </script>
-        )}
-
-        {/* Official JobPosting JSON-LD Structured Data for CRPF Recruitment */}
-        {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" && (
-          <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "JobPosting",
-              title:
-                "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
-              description:
-                "Central Reserve Police Force invites online applications from eligible meritorious Indian sportspersons for 182 Head Constable (GD) and 339 Constable (GD) posts across 22 sports disciplines under Sports Quota 2026. Apply online at rect.crpf.gov.in.",
-              identifier: {
-                "@type": "PropertyValue",
-                name: "Central Reserve Police Force",
-                value: "CRPF-SPORTS-QUOTA-2026-521",
-              },
-              datePosted: "2026-10-12",
-              validThrough: "2026-11-11T23:59:59+05:30",
-              employmentType: "FULL_TIME",
-              hiringOrganization: {
-                "@type": "GovernmentOrganization",
-                name: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",
-                sameAs: "https://rect.crpf.gov.in",
-                url: "https://rect.crpf.gov.in",
-                logo: "https://khelgrid.com/og-image.svg",
-              },
-              jobLocation: {
-                "@type": "Place",
-                address: {
-                  "@type": "PostalAddress",
-                  addressCountry: "IN",
-                  addressRegion: "Pan-India",
-                },
-              },
-              baseSalary: {
-                "@type": "MonetaryAmount",
-                currency: "INR",
-                value: {
-                  "@type": "QuantitativeValue",
-                  minValue: 21700,
-                  maxValue: 81100,
-                  unitText: "MONTH",
-                },
-              },
-              qualifications:
-                "10+2 for Head Constable (GD); 10th for Constable (GD). Must have represented Country/State/University/National School Games in recognized tournaments between 30/09/2024 and 30/09/2026 across 22 disciplines.",
-              totalJobOpenings: 521,
-              directApply: true,
-              applicationContact: {
-                "@type": "ContactPoint",
-                name: "CRPF Recruitment Branch",
-                telephone: "+91-11-26160255",
-                email: "rectt@crpf.gov.in",
-                url: "https://rect.crpf.gov.in",
-              },
-            })}
-          </script>
-        )}
-      </Helmet>
+      {/* Reusable SEO Component using react-helmet-async */}
+      <SEO
+        title={pageTitle}
+        description={pageDescription}
+        canonicalUrl={canonicalUrl}
+        keywords={`${trial.title}, ${trial.sport} trials ${trial.city}, ${trial.academy}, Fit India school games, selection trials ${trial.city}, youth sports competition India, government trials 2026`}
+        ogImage={ogImageUrl}
+        imageAlt={`${trial.title} - Official Selection Trials`}
+        schema={trialSchemas}
+      />
 
       <Link to="/search" className="text-sm text-muted-foreground hover:text-foreground">
         ← Back to search

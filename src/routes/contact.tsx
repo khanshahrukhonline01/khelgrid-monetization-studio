@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Mail, ShieldCheck } from "lucide-react";
 import { buildSeoHead } from "@/lib/seo";
+import { SEO } from "@/components/seo/SEO";
 
 export const Route = createFileRoute("/contact")({
   head: () =>
@@ -19,6 +20,12 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-14">
+      <SEO
+        title="Contact KhelGrid · Support, Academy Onboarding & Listing Corrections"
+        description="Get in touch with the KhelGrid support and editorial team for listing corrections, academy partnerships, scout verification, or user assistance."
+        canonicalUrl="/contact"
+        keywords="contact KhelGrid, sports support India, sports academy onboarding, trial corrections"
+      />
       <div className="flex items-center gap-3">
         <Mail className="h-6 w-6 text-primary" />
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Contact</p>

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, Mail, ShieldCheck } from "lucide-react";
 import { buildSeoHead } from "@/lib/seo";
+import { SEO } from "@/components/seo/SEO";
 
 export const Route = createFileRoute("/about")({
   head: () =>
@@ -26,6 +27,12 @@ const PRINCIPLES = [
 function AboutPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-14">
+      <SEO
+        title="About KhelGrid · Mission, Vision & Athlete Opportunity Network"
+        description="Learn about KhelGrid's mission to organize India's grassroots and professional sports ecosystem. How our editorial team reviews trials, verifies academies, and empowers youth athletes."
+        canonicalUrl="/about"
+        keywords="about KhelGrid, sports platform India, grassroots sports, athlete scouting, sports transparency"
+      />
       <div className="max-w-3xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Our mission</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
