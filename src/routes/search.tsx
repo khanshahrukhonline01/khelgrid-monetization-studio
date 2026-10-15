@@ -546,6 +546,18 @@ function SearchPage() {
   }, [params, auth.boostedTrials, savedIds, trialsList]);
 
   const handleApply = (trial: Trial) => {
+    if (trial.id === "t-khel-maharan-3-assam-2026") {
+      window.open("https://khelmaharan.com/khel", "_blank", "noopener,noreferrer");
+      toast.success(
+        "Opening official Khel Maharan 3.0 registration portal (khelmaharan.com/khel)!",
+      );
+      return;
+    }
+    if (trial.id === "t-ddca-delhi-womens-u15-cricket-2026") {
+      window.open("https://ddca.in", "_blank", "noopener,noreferrer");
+      toast.success("Opening official DDCA portal (ddca.in) for Women's U-15 Open Trials!");
+      return;
+    }
     if (trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
       window.open("https://rect.crpf.gov.in", "_blank", "noopener,noreferrer");
       toast.success("Opening official CRPF portal (rect.crpf.gov.in) to Apply!");

@@ -202,6 +202,50 @@ function TrialDetailPage() {
     });
   }
 
+  if (
+    trial.id === "t-khel-maharan-3-assam-2026" ||
+    trial.title.toLowerCase().includes("khel maharan")
+  ) {
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "When does Khel Maharan 3.0 begin in Assam?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Khel Maharan 3.0 officially begins on November 7, 2026, commencing with village and urban ward heats across all 35 districts of Assam.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How can athletes register for Khel Maharan 3.0?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Athletes can register free of charge online at khelmaharan.com/khel or visit their local Gaon Panchayat / Municipal Ward offices across Assam.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What sports disciplines are included in Khel Maharan 3.0?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The initiative features Athletics, Football, Volleyball, Kabaddi, Swimming, Chess, Cycling, Yogasana, Aquathlon, and Boxing.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is Shoushab Krida Samaroh in Khel Maharan 3.0?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Shoushab Krida Samaroh is the specialized Under-12 category introduced by the Government of Assam featuring state cash scholarships for young sporting talents.",
+          },
+        },
+      ],
+    });
+  }
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
       {/* Reusable SEO Component using react-helmet-async */}
