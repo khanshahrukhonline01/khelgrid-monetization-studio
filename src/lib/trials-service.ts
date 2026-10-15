@@ -32,6 +32,9 @@ export interface TrialDiscoveryItem {
   isGovernmentQuota?: boolean;
   status?: string;
   isSupabaseOrigin?: boolean;
+  requiredDocuments?: string[];
+  selectionProcess?: string;
+  lastVerified?: string;
 }
 
 /**
@@ -79,6 +82,15 @@ export function normalizeSupabaseTrial(row: TrialRow): TrialDiscoveryItem {
     isGovernmentQuota: row.is_government_quota || false,
     status: row.status,
     isSupabaseOrigin: true,
+    requiredDocuments: Array.isArray(row.required_documents) ? row.required_documents : undefined,
+    selectionProcess: row.selection_process || undefined,
+    lastVerified: row.last_verified
+      ? new Date(row.last_verified).toLocaleDateString("en-IN", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
+      : undefined,
   };
 }
 

@@ -12,10 +12,11 @@ import { KcaKanpurCricketDetails } from "@/components/KcaKanpurCricketDetails";
 import { GreenParkBasketballDetails } from "@/components/GreenParkBasketballDetails";
 import { TrialSocialShare } from "@/components/TrialSocialShare";
 import { TrialNewsletterSignup } from "@/components/TrialNewsletterSignup";
+import { trialsDatabaseService } from "@/services/trials-database-service";
 
 export const Route = createFileRoute("/trial/$id")({
-  loader: ({ params }) => {
-    const trial = TRIALS.find((item) => item.id === params.id);
+  loader: async ({ params }) => {
+    const trial = await trialsDatabaseService.getTrialById(params.id);
     if (!trial) throw notFound();
     return { trial };
   },

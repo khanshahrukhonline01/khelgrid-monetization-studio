@@ -5,6 +5,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { buildSeoHead } from "@/lib/seo";
 import { TRIALS } from "@/data/trials";
 import { SearchTrialsHelmetSEO } from "@/components/seo/SearchTrialsHelmetSEO";
+import { getSearchTrialsSeoMetadata } from "@/lib/search-trials-seo";
 
 describe("Official Selection Trial SEO & React Helmet Integration", () => {
   const saiTrial = TRIALS.find((t) => t.id === "t-sai-wrestling-mumbai-2026")!;
@@ -107,11 +108,7 @@ describe("Official Selection Trial SEO & React Helmet Integration", () => {
     const helmetContext = {};
     const html = renderToString(
       <HelmetProvider context={helmetContext}>
-        <SearchTrialsHelmetSEO
-          query="crpf recruitment"
-          sport="Athletics"
-          city="All Locations"
-        />
+        <SearchTrialsHelmetSEO query="crpf recruitment" sport="Athletics" city="All Locations" />
       </HelmetProvider>,
     );
     expect(html).toBeDefined();

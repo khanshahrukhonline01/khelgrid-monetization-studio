@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Fragment, useMemo, useState, useRef, useEffect } from "react";
 import { BannerAd, InFeedAd } from "@/components/ads";
 import { TRIALS, SPORTS, CITIES, type Trial } from "@/data/trials";
+import { fetchAvailableTrialsFromSupabase } from "@/lib/trials-service";
 import { TrialCard } from "@/components/TrialCard";
 import { TrialDetailsModal } from "@/components/TrialDetailsModal";
 import { TrialNewsletterSignup } from "@/components/TrialNewsletterSignup";
@@ -315,9 +316,29 @@ function SearchPage() {
   const [detailsTrial, setDetailsTrial] = useState<Trial | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  const [trialsList, setTrialsList] = useState<Trial[]>(TRIALS);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchAvailableTrialsFromSupabase().then((res) => {
+      if (isMounted && res.isSupabaseLive && res.trials.length > 0) {
+        const map = new Map<string, Trial>();
+        TRIALS.forEach((t) => map.set(t.id, t));
+        res.trials.forEach((t) => {
+          map.set(t.id, t as unknown as Trial);
+        });
+        setTrialsList(Array.from(map.values()));
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const crpfTrial = useMemo(
-    () => TRIALS.find((t) => t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") || null,
-    [],
+    () =>
+      trialsList.find((t) => t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") || null,
+    [trialsList],
   );
 
   // Auto-scroll directly to CRPF notification card or search results when targeted from home page or URL
@@ -349,7 +370,7 @@ function SearchPage() {
             el.classList.remove("ring-2", "ring-primary", "ring-offset-2");
           }, 2400);
         }
-        const targetedTrial = TRIALS.find((t) => t.id === params.trialId);
+        const targetedTrial = trialsList.find((t) => t.id === params.trialId);
         if (targetedTrial) {
           setDetailsTrial(targetedTrial);
         }
@@ -364,16 +385,16 @@ function SearchPage() {
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [params.q, params.sport, params.trialId]);
+  }, [params.q, params.sport, params.trialId, trialsList]);
 
   const update = (patch: Partial<typeof params>) =>
     navigate({ search: (prev: typeof params) => ({ ...prev, ...patch }), replace: true });
 
   // Count trials per sport for badges
   const sportCounts = useMemo(() => {
-    const counts: Record<string, number> = { [ALL_SPORT]: TRIALS.length };
+    const counts: Record<string, number> = { [ALL_SPORT]: trialsList.length };
     for (const s of SPORTS) counts[s] = 0;
-    for (const t of TRIALS) {
+    for (const t of trialsList) {
       if (t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
         for (const cs of CRPF_SPORTS_DISCIPLINES) {
           if (counts[cs] !== undefined) counts[cs]++;
@@ -384,12 +405,12 @@ function SearchPage() {
       }
     }
     return counts;
-  }, []);
+  }, [trialsList]);
 
   // Filtered and sorted results
   const results = useMemo(() => {
     const q = params.q.trim().toLowerCase();
-    let list = TRIALS.filter((t) => {
+    let list = trialsList.filter((t) => {
       if (params.sport !== ALL_SPORT) {
         if (t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
           const matchesDiscipline =
@@ -522,7 +543,7 @@ function SearchPage() {
     const boosted = list.filter((t) => auth.boostedTrials.includes(t.id));
     const regular = list.filter((t) => !auth.boostedTrials.includes(t.id));
     return { boosted, regular, total: list.length, all: list };
-  }, [params, auth.boostedTrials, savedIds]);
+  }, [params, auth.boostedTrials, savedIds, trialsList]);
 
   const handleApply = (trial: Trial) => {
     if (trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
