@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   MapPin,
   Phone,
@@ -462,6 +463,57 @@ export function VenueDetails({
               <span>{fullAddress}</span>
             </div>
           </div>
+
+          {/* DDCA Selection Trials & Association Card */}
+          {(venue.id.includes("ddca") ||
+            ("trialId" in venue && Boolean((venue as { trialId?: string }).trialId))) && (
+            <div className="rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 via-background to-secondary/30 p-4 sm:p-5 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <Badge className="bg-primary text-primary-foreground font-semibold text-xs">
+                  🏏 Official DDCA State Selection Ground
+                </Badge>
+                <span className="text-xs text-muted-foreground font-medium">
+                  BCCI Affiliated Association
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-foreground">
+                DDCA Invites Applications for Delhi Women’s U-15 Team Open Trials (2026–27)
+              </h3>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                Arun Jaitley Stadium & DDCA Practice Complex is the official venue for the Delhi
+                Women's U-15 state selection trials. Open trials for all eligible players born
+                between September 1, 2011 and August 31, 2013. Last date to register is November 2,
+                2026.
+              </p>
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                <Button
+                  asChild
+                  size="sm"
+                  className="rounded-full bg-primary text-primary-foreground font-semibold text-xs"
+                >
+                  <Link to="/trial/t-ddca-delhi-womens-u15-cricket-2026">
+                    View Trial & Opportunity Card →
+                  </Link>
+                </Button>
+                <a
+                  href="https://ddca.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline px-2 py-1"
+                >
+                  Official DDCA Portal <ExternalLink className="h-3 w-3" />
+                </a>
+                <a
+                  href="https://www.deccanchronicle.com/amp/sports/ddca-invites-applications-for-delhi-womens-u-15-team-open-trials-for-202627-season-1995820"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1"
+                >
+                  Deccan Chronicle Circular <ExternalLink className="h-3 w-3" />
+                </a>
+              </div>
+            </div>
+          )}
 
           {/* Sports Supported */}
           <div className="space-y-2.5">

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { VENUES, PLAYO_SPORTS, PLAYO_CITIES, type Venue } from "@/data/playo";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +28,7 @@ import {
   CheckCircle2,
   ChevronRight,
   Eye,
+  ExternalLink,
 } from "lucide-react";
 import {
   Dialog,
@@ -192,6 +193,112 @@ function BookVenues() {
               ))}
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Quick Filter Chips for Delhi DDCA and Top Sports */}
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-muted-foreground font-medium hidden sm:inline">Quick links:</span>
+          <button
+            onClick={() => {
+              setCity("Delhi");
+              setSport("Cricket");
+            }}
+            className={`rounded-full px-3 py-1 font-semibold transition-all border ${
+              city === "Delhi" && sport === "Cricket"
+                ? "bg-primary text-primary-foreground border-primary"
+                : "border-primary/40 bg-primary/5 text-primary hover:bg-primary/10"
+            }`}
+          >
+            🏏 Delhi · DDCA Arun Jaitley Ground
+          </button>
+          <button
+            onClick={() => setCity("Delhi")}
+            className={`rounded-full px-3 py-1 font-medium transition-all border ${
+              city === "Delhi" && sport !== "Cricket"
+                ? "bg-secondary text-foreground border-foreground/20"
+                : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            All Delhi Venues
+          </button>
+          <button
+            onClick={() => {
+              setCity("All");
+              setSport("Cricket");
+            }}
+            className={`rounded-full px-3 py-1 font-medium transition-all border ${
+              sport === "Cricket" && city !== "Delhi"
+                ? "bg-secondary text-foreground border-foreground/20"
+                : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Cricket Pitches & Nets
+          </button>
+          {(city !== "All" || sport !== "All" || q.trim() !== "") && (
+            <button
+              onClick={() => {
+                setCity("All");
+                setSport("All");
+                setQ("");
+              }}
+              className="text-xs text-muted-foreground hover:text-foreground underline ml-auto"
+            >
+              Reset filters
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* DDCA Official Trials & Ground Spotlight Banner */}
+      <div className="mt-6 rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 via-primary/5 to-background p-4 sm:p-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge className="bg-primary/20 text-primary border-primary/30 text-[11px] font-bold">
+                🏏 Delhi State Cricket Notice
+              </Badge>
+              <Badge
+                variant="outline"
+                className="text-[11px] border-emerald-500/40 text-emerald-500 font-medium"
+              >
+                Official Selection Venue
+              </Badge>
+              <span className="text-[11px] text-muted-foreground">Season 2026–27</span>
+            </div>
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
+              DDCA Invites Applications for Delhi Women’s U-15 Team Open Trials for 2026–27 Season
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-3xl leading-relaxed">
+              Arun Jaitley Stadium & DDCA Practice Complex is the designated venue for Delhi State
+              selection trials. Eligible female cricketers born between 01-09-2011 and 31-08-2013
+              can submit applications until November 2, 2026.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <Button
+              asChild
+              size="sm"
+              className="rounded-full bg-primary text-primary-foreground font-semibold text-xs sm:text-sm h-9 px-4 shadow-sm"
+            >
+              <Link to="/trial/t-ddca-delhi-womens-u15-cricket-2026">View U-15 Trial Card →</Link>
+            </Button>
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="rounded-full text-xs sm:text-sm h-9 px-3"
+            >
+              <Link to="/venue/v-ddca-arun-jaitley-stadium-delhi">DDCA Venue Page</Link>
+            </Button>
+            <a
+              href="https://ddca.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 transition-colors"
+            >
+              ddca.in <ExternalLink className="h-3 w-3" />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -572,8 +679,16 @@ function VenueCard({
   onBook: () => void;
   onViewDetails: () => void;
 }) {
+  const isDdcaOrTrialVenue = Boolean(v.trialId || v.id.includes("ddca"));
+
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-gradient-card transition-all hover:-translate-y-0.5 hover:border-border/80 flex flex-col justify-between">
+    <div
+      className={`overflow-hidden rounded-2xl border transition-all hover:-translate-y-0.5 flex flex-col justify-between ${
+        isDdcaOrTrialVenue
+          ? "border-primary/50 bg-gradient-to-b from-primary/5 via-card to-card shadow-md shadow-primary/5 hover:border-primary"
+          : "border-border bg-gradient-card hover:border-border/80"
+      }`}
+    >
       <div>
         <div
           className="relative aspect-[16/10] w-full overflow-hidden bg-secondary cursor-pointer group"
@@ -591,17 +706,22 @@ function VenueCard({
             </span>
           </div>
           {v.featured && (
-            <span className="absolute left-3 top-3 rounded-md bg-yellow-500/95 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-black">
+            <span className="absolute left-3 top-3 rounded-md bg-yellow-500/95 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-black shadow-sm">
               Featured
             </span>
           )}
-          {v.bookable && (
-            <span className="absolute right-3 top-3 rounded-md bg-primary/95 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
+          {isDdcaOrTrialVenue && (
+            <span className="absolute right-3 top-3 rounded-md bg-primary text-primary-foreground px-2 py-1 text-[10px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1">
+              <Sparkles className="h-3 w-3" /> State Selection
+            </span>
+          )}
+          {!isDdcaOrTrialVenue && v.bookable && (
+            <span className="absolute right-3 top-3 rounded-md bg-primary/95 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
               Bookable
             </span>
           )}
         </div>
-        <div className="p-4">
+        <div className="p-4 space-y-2.5">
           <div className="flex items-start justify-between gap-2">
             <h3
               onClick={onViewDetails}
@@ -615,36 +735,94 @@ function VenueCard({
               <span className="text-muted-foreground">({v.reviews})</span>
             </div>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
             {v.area} · ~{v.distanceKm} km
           </p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
+
+          <div className="flex flex-wrap gap-1.5">
             {v.sports.map((s) => (
-              <Badge key={s} variant="outline" className="border-border text-[10px]">
+              <Badge key={s} variant="outline" className="border-border text-[10px] px-2 py-0.5">
                 {s}
               </Badge>
             ))}
           </div>
+
+          {/* DDCA Official Trials Integration Notice */}
+          {v.trialId && (
+            <div className="mt-2.5 rounded-xl border border-primary/30 bg-primary/10 p-2.5 text-xs space-y-1.5">
+              <div className="flex items-center justify-between gap-1">
+                <span className="font-bold text-primary flex items-center gap-1 text-[11px]">
+                  🏏 Active Selection Trials
+                </span>
+                <span className="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-semibold">
+                  Season 2026–27
+                </span>
+              </div>
+              <p className="text-[11px] text-foreground font-medium line-clamp-2">
+                {v.trialTitle ||
+                  "DDCA Invites Applications for Delhi Women’s U-15 Team Open Trials"}
+              </p>
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-primary/20">
+                <Link
+                  to={`/trial/${v.trialId}`}
+                  className="font-bold text-primary hover:underline inline-flex items-center gap-0.5 text-[11px]"
+                >
+                  Apply / View Trial Card →
+                </Link>
+                {v.officialUrl && (
+                  <a
+                    href={v.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-muted-foreground hover:text-foreground inline-flex items-center gap-0.5"
+                  >
+                    ddca.in <ExternalLink className="h-2.5 w-2.5" />
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="p-4 pt-0">
-        <div className="mt-2 flex items-center justify-between gap-2 border-t border-border/50 pt-3">
-          <div className="text-sm">
-            <span className="text-muted-foreground text-xs">from </span>
-            <span className="font-bold text-foreground">₹{v.pricePerHour}</span>
-            <span className="text-muted-foreground text-xs">/hr</span>
+        <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-border/50 pt-3">
+          <div className="text-xs sm:text-sm flex items-center justify-between sm:justify-start gap-1">
+            <span className="text-muted-foreground text-xs">
+              {v.pricePerHour === 0 ? "Entry: " : "from "}
+            </span>
+            <span className="font-bold text-foreground">
+              {v.pricePerHour === 0
+                ? isDdcaOrTrialVenue
+                  ? "Free (State Trials)"
+                  : "Free Entry"
+                : `₹${v.pricePerHour}`}
+            </span>
+            {v.pricePerHour > 0 && <span className="text-muted-foreground text-xs">/hr</span>}
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+            {v.trialId && (
+              <Button
+                asChild
+                size="sm"
+                className="h-8 text-xs rounded-full px-3 bg-primary text-primary-foreground font-semibold flex-1 sm:flex-initial"
+              >
+                <Link to={`/trial/${v.trialId}`}>View Trials</Link>
+              </Button>
+            )}
             <Button
               size="sm"
               variant="outline"
               onClick={onViewDetails}
-              className="h-8 text-xs px-2.5 rounded-full"
+              className="h-8 text-xs px-2.5 rounded-full flex-1 sm:flex-initial"
             >
               Details
             </Button>
-            <Button size="sm" onClick={onBook} className="h-8 text-xs rounded-full px-3">
+            <Button
+              size="sm"
+              onClick={onBook}
+              className="h-8 text-xs rounded-full px-3 flex-1 sm:flex-initial"
+            >
               Book Slot
             </Button>
           </div>

@@ -46,6 +46,94 @@ export interface Trial {
 
 export const TRIALS: Trial[] = [
   {
+    id: "t-ddca-delhi-womens-u15-cricket-2026",
+    title: "DDCA Invites Applications for Delhi Women’s U-15 Team Open Trials for 2026–27 Season",
+    academy: "Delhi & District Cricket Association (DDCA)",
+    sport: "Cricket",
+    city: "Delhi",
+    date: "Nov 05 - Nov 20, 2026",
+    registrationDeadline: "Nov 02, 2026",
+    fee: 0,
+    spots: 60,
+    tag: "BCCI State Selection",
+    ageCategory: "Women U-15 (Born 01-09-2011 to 31-08-2013)",
+    gender: "Women / Girls",
+    verifiedLabel: "Verified DDCA State Cricket Circular",
+    urgencyText: "Applications Open for 2026–27 Domestic Season · Closes Nov 2",
+    badge: "New",
+    venue: "Arun Jaitley Stadium & DDCA Practice Complex, Feroz Shah Kotla, Delhi",
+    sourceUrl:
+      "https://www.deccanchronicle.com/amp/sports/ddca-invites-applications-for-delhi-womens-u-15-team-open-trials-for-202627-season-1995820",
+    sourceLabel: "Deccan Chronicle / DDCA Official Circular",
+    sources: [
+      {
+        label: "Deccan Chronicle Official Report",
+        url: "https://www.deccanchronicle.com/amp/sports/ddca-invites-applications-for-delhi-womens-u-15-team-open-trials-for-202627-season-1995820",
+      },
+      {
+        label: "DDCA Official Portal",
+        url: "https://ddca.in",
+      },
+    ],
+    timelines: [
+      {
+        label: "Registration & Application Window",
+        date: "Oct 15 - Nov 02, 2026",
+        description:
+          "Submit registration forms along with digitized MCD birth certificate and school bonafide certificate",
+      },
+      {
+        label: "Document & Age Verification",
+        date: "Nov 03 - Nov 04, 2026",
+        description:
+          "Scrutiny of date of birth and Delhi NCR residency proofs by DDCA verification committee",
+      },
+      {
+        label: "Open Net Trials (Phase 1)",
+        date: "Nov 05 - Nov 10, 2026",
+        description:
+          "Batting, bowling, and wicket-keeping skill tests under Junior Women Selection Committee at Arun Jaitley Stadium",
+      },
+      {
+        label: "Fitness Drills & Intra-squad Matches (Phase 2)",
+        date: "Nov 12 - Nov 16, 2026",
+        description: "Yo-Yo and sprint tests, match simulations and tactical evaluation",
+      },
+      {
+        label: "Final Delhi U-15 Squad Announcement",
+        date: "Nov 20, 2026",
+        description:
+          "Announcement of final Delhi team and reserves for BCCI Women's U-15 One Day Trophy",
+      },
+    ],
+    organizerContacts: [
+      {
+        title: "DDCA Cricket Operations",
+        name: "Junior Selection Committee, Delhi & District Cricket Association",
+        email: "cricketops@ddca.in",
+        phone: "+91 11 2331 9323",
+      },
+      {
+        title: "DDCA Stadium Office",
+        name: "Arun Jaitley Stadium, Feroz Shah Kotla Ground, Delhi",
+        email: "support@ddca.in",
+        phone: "+91 11 2331 4220",
+      },
+    ],
+    eligibility:
+      "Female cricketers born on or between 01-09-2011 and 31-08-2013 (U-15 category for BCCI Domestic Cricket Season 2026–27). Applicants must be studying in a recognized Delhi school or residing in Delhi NCR for at least 3 years with valid documentation.",
+    requiredDocuments: [
+      "Digitized Birth Certificate issued by MCD / competent municipal authority (registered within 3 years of birth)",
+      "School Bonafide Certificate / School Photo ID Card stating Date of Birth from a recognized Delhi school",
+      "Address Proof of Delhi NCR (Aadhaar Card / Passport / Voter ID of parents)",
+      "Medical Fitness Certificate from registered MBBS medical practitioner",
+      "Four recent passport-size color photographs in cricket white kit",
+      "Parent / Guardian consent declaration form for state trial participation",
+    ],
+    selectionProcess:
+      "Open net trial evaluation by DDCA Junior Women Selection Committee covering batting technique, bowling accuracy/pace/spin, agility in wicket-keeping, followed by fitness screening and intra-squad practice matches at Arun Jaitley Stadium.",
+  },
+  {
     id: "t-crpf-meritorious-sportspersons-recruitment-2026",
     title: "CRPF Meritorious Sportspersons Recruitment 2026",
     academy: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",

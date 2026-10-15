@@ -52,6 +52,10 @@ export interface Venue {
   bookable?: boolean;
   image: string;
   pibPressRelease?: PibPressReleaseNotice;
+  officialUrl?: string;
+  trialId?: string;
+  trialTitle?: string;
+  association?: string;
 }
 
 export interface CoachingProgram {
@@ -155,6 +159,25 @@ export interface Membership {
 const IMG = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=900&q=70`;
 
 export const VENUES: Venue[] = [
+  {
+    id: "v-ddca-arun-jaitley-stadium-delhi",
+    name: "Arun Jaitley Stadium & DDCA Cricket Complex",
+    area: "Feroz Shah Kotla, Bahadur Shah Zafar Marg",
+    city: "Delhi",
+    distanceKm: 0.8,
+    rating: 4.96,
+    reviews: 520,
+    sports: ["Cricket", "Box Cricket", "Fitness & Conditioning", "Net Practice"],
+    pricePerHour: 0,
+    featured: true,
+    bookable: true,
+    image:
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80",
+    officialUrl: "https://ddca.in",
+    trialId: "t-ddca-delhi-womens-u15-cricket-2026",
+    trialTitle: "DDCA Delhi Women’s U-15 Open Selection Trials (2026–27)",
+    association: "Delhi & District Cricket Association (DDCA)",
+  },
   {
     id: "v-veer-savarkar-sports-complex-ahmedabad",
     name: "Veer Savarkar Sports Complex",
