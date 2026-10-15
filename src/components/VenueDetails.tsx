@@ -515,6 +515,55 @@ export function VenueDetails({
             </div>
           )}
 
+          {/* J&K Kho-Kho Selection Trials Card */}
+          {(venue.id.includes("green-play-field") || venue.city === "Jammu") && (
+            <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-r from-emerald-500/10 via-background to-secondary/30 p-4 sm:p-5 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <Badge className="bg-emerald-600 text-white font-semibold text-xs">
+                  🏃 Official J&K State Selection Ground
+                </Badge>
+                <span className="text-xs text-muted-foreground font-medium">
+                  J&K Kho-Kho Association & Sports Council
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-foreground">
+                Kho-Kho Selection Trials on Oct 19 & 20 for 45th Junior National Championship
+              </h3>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                Designated selection venue for Jammu and Kashmir UT junior boys and girls teams.
+                Open selection trials for the 45th Junior National Kho-Kho Championship in Gujarat.
+                Eligible players under 18 years report at 2:30 PM with district consent letters.
+              </p>
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                <Button
+                  asChild
+                  size="sm"
+                  className="rounded-full bg-primary text-primary-foreground font-semibold text-xs"
+                >
+                  <Link to="/trial/t-jk-kho-kho-junior-national-trials-2026">
+                    View Kho-Kho Trial Card →
+                  </Link>
+                </Button>
+                <a
+                  href="https://jksportscouncil.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline px-2 py-1"
+                >
+                  J&K Sports Council <ExternalLink className="h-3 w-3" />
+                </a>
+                <a
+                  href="https://www.dailyexcelsior.com/kho-kho-selection-trials-on-oct-19-20/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1"
+                >
+                  Daily Excelsior Notice <ExternalLink className="h-3 w-3" />
+                </a>
+              </div>
+            </div>
+          )}
+
           {/* DDCA Selection Trials & Association Card */}
           {venue.id.includes("ddca") && (
             <div className="rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 via-background to-secondary/30 p-4 sm:p-5 space-y-3">

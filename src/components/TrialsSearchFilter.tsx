@@ -57,6 +57,7 @@ export const REGIONS: RegionDefinition[] = [
       "Gurugram",
       "Noida",
       "Punjab",
+      "Jammu",
     ],
   },
   {

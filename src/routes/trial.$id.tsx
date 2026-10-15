@@ -325,6 +325,78 @@ function TrialDetailPage() {
     });
   }
 
+  if (
+    trial.id === "t-jk-kho-kho-junior-national-trials-2026" ||
+    trial.title.toLowerCase().includes("kho-kho selection trials")
+  ) {
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      name: "Jammu and Kashmir Kho-Kho Selection Trials for 45th Junior National Championship",
+      description:
+        "Official selection trials organized by Jammu and Kashmir Kho-Kho Association for junior boys and girls teams to represent J&K in the 45th Junior National Kho-Kho Championship in Gujarat.",
+      startDate: "2026-10-19T14:30:00+05:30",
+      endDate: "2026-10-20T18:00:00+05:30",
+      eventStatus: "https://schema.org/EventScheduled",
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      location: {
+        "@type": "Place",
+        name: "Green Play Field",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Gandhi Nagar",
+          addressLocality: "Jammu",
+          addressRegion: "Jammu & Kashmir",
+          addressCountry: "IN",
+        },
+      },
+      organizer: {
+        "@type": "SportsOrganization",
+        name: "Jammu and Kashmir Kho-Kho Association",
+        url: "https://jksportscouncil.in",
+      },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "INR",
+        availability: "https://schema.org/InStock",
+        url: canonicalUrl,
+      },
+      isAccessibleForFree: true,
+    });
+
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "When and where are the J&K Kho-Kho selection trials being held?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The selection trials are scheduled for October 19 and 20, 2026, at Green Play Field, Gandhi Nagar, Jammu, starting at 2:30 PM.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Who is eligible to participate in the Kho-Kho selection trials?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Junior boys and girls under 18 years of age as of November 25, 2026 (born after 25-11-2008) residing in Jammu & Kashmir with consent letters from affiliated district units.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Which tournament are these trials selecting for?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "These trials are selecting the Jammu and Kashmir UT boys and girls squads for the 45th Junior National Kho-Kho Championship scheduled in Gujarat from November 21 to 25, 2026.",
+          },
+        },
+      ],
+    });
+  }
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
       {/* Reusable SEO Component using react-helmet-async */}

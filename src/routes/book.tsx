@@ -246,6 +246,19 @@ function BookVenues() {
           </button>
           <button
             onClick={() => {
+              setCity("Jammu");
+              setSport("Kho-Kho");
+            }}
+            className={`rounded-full px-3 py-1 font-semibold transition-all border ${
+              city === "Jammu" && sport === "Kho-Kho"
+                ? "bg-primary text-primary-foreground border-primary"
+                : "border-emerald-500/40 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10"
+            }`}
+          >
+            🏃 Jammu · Green Play Field
+          </button>
+          <button
+            onClick={() => {
               setCity("All");
               setSport("Cricket");
             }}

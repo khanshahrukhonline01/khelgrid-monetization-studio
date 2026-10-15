@@ -46,6 +46,92 @@ export interface Trial {
 
 export const TRIALS: Trial[] = [
   {
+    id: "t-jk-kho-kho-junior-national-trials-2026",
+    title: "Kho-Kho Selection Trials on Oct 19 & 20 for 45th Junior National Championship",
+    academy: "Jammu and Kashmir Kho-Kho Association (JKKKA) & J&K Sports Council",
+    sport: "Kho-Kho",
+    city: "Jammu",
+    date: "Oct 19 - Oct 20, 2026",
+    registrationDeadline: "Oct 19, 2026",
+    fee: 0,
+    spots: 40,
+    tag: "State Junior National Selection",
+    ageCategory: "Junior Boys & Girls (Born after Nov 25, 2008 / Under-18 as on 25-11-2026)",
+    gender: "Boys & Girls",
+    verifiedLabel: "Official J&K Kho-Kho Association Circular",
+    urgencyText: "Trials on Oct 19 & 20 at Green Play Field, Gandhi Nagar, Jammu · Report 2:30 PM",
+    badge: "New",
+    venue: "Green Play Field, Gandhi Nagar, Jammu, Jammu & Kashmir",
+    sourceUrl: "https://www.dailyexcelsior.com/kho-kho-selection-trials-on-oct-19-20/",
+    sourceLabel: "Daily Excelsior Sports / J&K Kho-Kho Association",
+    sources: [
+      {
+        label: "Daily Excelsior Official News Report",
+        url: "https://www.dailyexcelsior.com/kho-kho-selection-trials-on-oct-19-20/",
+      },
+      {
+        label: "Kho Kho Federation of India (KKFI)",
+        url: "https://khokho.org",
+      },
+      {
+        label: "J&K Sports Council",
+        url: "https://jksportscouncil.in",
+      },
+    ],
+    timelines: [
+      {
+        label: "Trial Reporting & District Verification",
+        date: "Oct 19, 2026 (2:30 PM)",
+        description:
+          "Reporting of junior boys and girls with consent letters from affiliated district units at Green Play Field, Gandhi Nagar",
+      },
+      {
+        label: "Day 1: Speed, Agility & Running Screening",
+        date: "Oct 19, 2026",
+        description:
+          "Dodging, chain formation, and sprint assessment under JKKKA selection committee",
+      },
+      {
+        label: "Day 2: Chasing Drills & Match Trials",
+        date: "Oct 20, 2026",
+        description: "Pole dives, sudden turns, tap drills, and match simulations",
+      },
+      {
+        label: "Coaching Camp & J&K Squad Departure",
+        date: "Nov 01 - Nov 18, 2026",
+        description:
+          "Intensive coaching camp before participating in the 45th Junior National Kho-Kho Championship in Gujarat (Nov 21-25, 2026)",
+      },
+    ],
+    organizerContacts: [
+      {
+        title: "General Secretary",
+        name: "Jammu and Kashmir Kho-Kho Association",
+        email: "jkkka.sports@gmail.com",
+        phone: "+91 191 243 0088",
+      },
+      {
+        title: "Venue Coordinator",
+        name: "Green Play Field Sports Office, Gandhi Nagar, Jammu",
+        email: "support@jksportscouncil.in",
+        phone: "+91 191 254 3945",
+      },
+    ],
+    eligibility:
+      "Open to junior boys and girls residing in Jammu and Kashmir. Participants must be below 18 years of age as of November 25, 2026 (born after 25-11-2008). Players must report with an official consent letter / nomination from their respective affiliated district Kho-Kho units. Selected players will represent Jammu & Kashmir UT in the 45th Junior National Kho-Kho Championship scheduled to be held in Gujarat from November 21 to 25, 2026.",
+    requiredDocuments: [
+      "Consent letter from the affiliated district Kho-Kho unit of Jammu & Kashmir",
+      "Digitized Birth Certificate / 10th Board Certificate proving age under 18 as on 25-11-2026",
+      "Domicile Certificate / PRC of Jammu & Kashmir",
+      "Aadhaar Card / Government Photo ID Card",
+      "School / College Bonafide Certificate",
+      "Four recent passport-size color photographs in sports kit",
+      "Parent / Guardian consent declaration",
+    ],
+    selectionProcess:
+      "Two-day state open selection trial evaluated by the JKKKA Technical Committee: Day 1 focuses on physical endurance, dodging agility, footwork speed, and running endurance. Day 2 features chasing techniques (pole dives, sky dives, sudden direction shifts) and full-length match trials at Green Play Field, Gandhi Nagar, Jammu. Top players advance to the official state coaching camp for the 45th Junior National Kho-Kho Championship in Gujarat.",
+  },
+  {
     id: "t-bcci-arunachal-pradesh-ranji-trials-2026",
     title: "BCCI to Conduct Trials to Ensure Arunachal Pradesh's Ranji Participation",
     academy: "Board of Control for Cricket in India (BCCI)",
@@ -1093,6 +1179,7 @@ export const SPORTS = [
   "Pickleball",
   "Fencing",
   "Equestrian",
+  "Kho-Kho",
 ] as const;
 export const CITIES = [
   "Delhi",
@@ -1105,4 +1192,5 @@ export const CITIES = [
   "Kanpur",
   "Guwahati",
   "Itanagar",
+  "Jammu",
 ] as const;

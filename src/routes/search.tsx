@@ -546,6 +546,17 @@ function SearchPage() {
   }, [params, auth.boostedTrials, savedIds, trialsList]);
 
   const handleApply = (trial: Trial) => {
+    if (trial.id === "t-jk-kho-kho-junior-national-trials-2026") {
+      window.open(
+        "https://www.dailyexcelsior.com/kho-kho-selection-trials-on-oct-19-20/",
+        "_blank",
+        "noopener,noreferrer",
+      );
+      toast.success(
+        "Opening official J&K Kho-Kho Association trials notification on Daily Excelsior!",
+      );
+      return;
+    }
     if (trial.id === "t-bcci-arunachal-pradesh-ranji-trials-2026") {
       window.open("https://www.bcci.tv/domestic", "_blank", "noopener,noreferrer");
       toast.success(

@@ -47,6 +47,106 @@ const image = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "asian-para-games-2026-full-schedule-18-sports-disciplines-aichi-nagoya",
+    title:
+      "Asian Para Games 2026: Full Schedule, 18 Sports Disciplines, Dates & Venues for Aichi-Nagoya Announced",
+    metaTitle: "Asian Para Games 2026: 18 Sports Disciplines & Full Schedule in Aichi-Nagoya",
+    metaDescription:
+      "Official Asian Paralympic Committee confirmation via Yahoo Sports: Aichi-Nagoya 2026 Asian Para Games will feature 18 sports across athletics, badminton, cycling, swimming, and wheelchair disciplines from Oct 18-24, 2026.",
+    excerpt:
+      "The Asian Paralympic Committee (APC) and Aichi-Nagoya 2026 Organising Committee have announced the full programme of 18 sports disciplines and competition dates for the 5th Asian Para Games in Japan from October 18 to 24, 2026.",
+    category: "Sports career",
+    author: "Yahoo Sports / KhelChronicle Desk",
+    authorRole: "International Para-Sports Bureau",
+    publishedAt: "2026-10-15",
+    updatedAt: "2026-10-15",
+    readMins: 5,
+    coverImage:
+      "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=1200&q=78",
+    tags: [
+      "Asian Para Games 2026",
+      "Aichi-Nagoya",
+      "Para Sports",
+      "Paralympic Games",
+      "PCI",
+      "TOPS",
+      "Yahoo Sports",
+    ],
+    keywords:
+      "Asian Para Games 2026, Aichi-Nagoya 2026, Yahoo Sports Asian Para Games, 18 sports disciplines, Para Athletics, Para Badminton, Paralympic Committee of India",
+    faqs: [
+      {
+        question: "When and where will the Asian Para Games 2026 be held?",
+        answer:
+          "The 5th Asian Para Games will take place in Aichi Prefecture and Nagoya City, Japan, from October 18 to October 24, 2026.",
+      },
+      {
+        question: "How many sports disciplines are included in Aichi-Nagoya 2026?",
+        answer:
+          "A total of 18 sports disciplines are confirmed, all of which are official Paralympic Games events.",
+      },
+      {
+        question: "Which sports are included in the Asian Para Games 2026?",
+        answer:
+          "Para Archery, Para Athletics, Para Badminton, Blind Football, Boccia, Para Cycling (Road and Track), Goalball, Para Judo, Para Powerlifting, Shooting Para Sport, Sitting Volleyball, Para Swimming, Para Table Tennis, Para Taekwondo, Wheelchair Basketball, Wheelchair Fencing, Wheelchair Rugby, and Wheelchair Tennis.",
+      },
+      {
+        question: "How is India preparing for the 2026 Asian Para Games?",
+        answer:
+          "Following a record haul of 111 medals at Hangzhou, India's Paralympic Committee (PCI) and the Ministry of Youth Affairs and Sports are preparing elite squads through the Target Olympic Podium Scheme (TOPS) and specialized SAI National Centres of Excellence.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Historic Milestone: Japan Hosts 5th Asian Para Games",
+        paragraphs: [
+          "The Asian Paralympic Committee (APC) and the Aichi-Nagoya 2026 Asian Para Games Organising Committee (AINAPGOC) have officially confirmed the full competition roster of 18 sports disciplines for the 5th Asian Para Games, scheduled to take place in Aichi Prefecture and Nagoya City from October 18 to October 24, 2026.",
+          "Marking the first time that Japan hosts the Asian Para Games, the continental showcase will gather thousands of elite para-athletes across Asia. The games follow directly on the heels of the 20th Asian Games 2026, utilizing shared accessible sporting infrastructure throughout Nagoya and the surrounding prefecture.",
+        ],
+      },
+      {
+        heading: "The 18 Confirmed Sports Disciplines",
+        paragraphs: [
+          "Every single discipline featured on the Aichi-Nagoya 2026 programme is a recognized Paralympic event, ensuring that Asian para-athletes compete on certified, world-record-eligible stages with direct implications for global qualification rankings.",
+        ],
+        bullets: [
+          "Para Archery (Compound, Recurve, W1)",
+          "Para Athletics (Track, Field, Marathon)",
+          "Para Badminton (Singles, Doubles, Mixed)",
+          "Blind Football (5-a-side)",
+          "Boccia (Individual, Pairs, Team)",
+          "Para Cycling (Road & Track)",
+          "Goalball (Men & Women)",
+          "Para Judo",
+          "Para Powerlifting",
+          "Shooting Para Sport (Rifle & Pistol)",
+          "Sitting Volleyball",
+          "Para Swimming",
+          "Para Table Tennis",
+          "Para Taekwondo",
+          "Wheelchair Basketball",
+          "Wheelchair Fencing",
+          "Wheelchair Rugby",
+          "Wheelchair Tennis",
+        ],
+      },
+      {
+        heading: "India's High-Performance Outlook for 2026",
+        paragraphs: [
+          "India heads into the Aichi-Nagoya cycle riding immense momentum from the 4th Asian Para Games in Hangzhou, where the Indian contingent captured an unprecedented 111 medals (29 Gold, 31 Silver, and 51 Bronze), finishing 5th on the overall medal tally.",
+          "Through the Target Olympic Podium Scheme (TOPS) and the Sports Authority of India's National Centres of Excellence (NCOE), specialized coaching camps and international exposure tours are underway across key medal-producing sports like Para Athletics (led by javelin, club throw, and high jump prodigies), Para Badminton, Shooting Para Sport, and Para Archery.",
+        ],
+      },
+      {
+        heading: "Official Coverage & Primary Source Attribution",
+        paragraphs: [
+          "This report is compiled in KhelChronicle based on official updates from the Asian Paralympic Committee and international coverage reported via Yahoo Sports.",
+          "Official Source Link: https://sports.yahoo.com/articles/asian-para-games-2026-full-164320224.html",
+        ],
+      },
+    ],
+  },
+  {
     slug: "green-park-stadium-kanpur-junior-basketball-selection-trials",
     title:
       "Green Park Stadium Kanpur Hosts District & Divisional Junior Basketball Selection Trials on Oct 12 & 13",

@@ -37,6 +37,43 @@ export interface SportsNewsArticle {
 
 export const SPORTS_NEWS_CATALOG: SportsNewsArticle[] = [
   {
+    id: "news-yahoo-asian-para-games-2026-full-schedule-sports",
+    slug: "asian-para-games-2026-full-schedule-18-sports-disciplines-aichi-nagoya",
+    blogSlug: "asian-para-games-2026-full-schedule-18-sports-disciplines-aichi-nagoya",
+    title:
+      "Asian Para Games 2026: Full Schedule, 18 Sports Disciplines, Dates & Venues for Aichi-Nagoya Announced",
+    headline:
+      "Asian Paralympic Committee confirms 18 Paralympic-standard sports disciplines for Aichi-Nagoya 2026 Asian Para Games scheduled from October 18 to 24 in Japan.",
+    excerpt:
+      "Official Asian Paralympic Committee announcement via Yahoo Sports: The 5th Asian Para Games in Aichi-Nagoya, Japan (October 18–24, 2026) will feature 18 sports including Para Athletics, Para Badminton, Blind Football, Boccia, Wheelchair Rugby, and Para Swimming.",
+    content:
+      "The Asian Paralympic Committee (APC) and the Aichi-Nagoya 2026 Asian Para Games Organising Committee have officially confirmed the full roster of 18 sports disciplines and key competition dates for the 5th Asian Para Games, scheduled to take place in Aichi Prefecture and Nagoya City, Japan, from October 18 to October 24, 2026.\n\nAll 18 sporting disciplines included on the Aichi-Nagoya 2026 competition programme are sanctioned Paralympic events, providing elite Asian para-athletes with crucial international qualification milestones ahead of global championships.\n\nFull List of 18 Confirmed Sports:\n1. Para Archery\n2. Para Athletics\n3. Para Badminton\n4. Blind Football (5-a-side)\n5. Boccia\n6. Para Cycling (Road and Track)\n7. Goalball\n8. Para Judo\n9. Para Powerlifting\n10. Shooting Para Sport\n11. Sitting Volleyball\n12. Para Swimming\n13. Para Table Tennis\n14. Para Taekwondo\n15. Wheelchair Basketball\n16. Wheelchair Fencing\n17. Wheelchair Rugby\n18. Wheelchair Tennis\n\nIndia's Para-Sports Preparation Pathway:\nFollowing India's historic performance at the Hangzhou Asian Para Games where Indian para-athletes clinched a record 111 medals (29 Gold, 31 Silver, 51 Bronze), the Paralympic Committee of India (PCI) and the Ministry of Youth Affairs and Sports (MYAS) through the Target Olympic Podium Scheme (TOPS) and SAI National Centres of Excellence (NCOEs) have mobilized high-performance training camps targeting gold-medal disciplines in athletics, badminton, archery, shooting, and powerlifting.\n\nAichi-Nagoya 2026 marks the first time that Japan hosts the Asian Para Games, utilizing state-of-the-art accessible venues across Nagoya City and the wider Aichi prefecture to showcase the pinnacle of para-athletic achievement.",
+    sport: "Multi-Sport",
+    category: "Championships",
+    publishedAt: "2026-10-15T15:00:00.000Z",
+    readTime: "4 min read",
+    imageUrl:
+      "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=1200&q=80",
+    author: {
+      name: "Yahoo Sports / KhelChronicle Desk",
+      role: "International Para-Sports Bureau",
+    },
+    tags: [
+      "Asian Para Games 2026",
+      "Aichi-Nagoya 2026",
+      "Para Sports",
+      "Paralympics",
+      "PCI",
+      "TOPS",
+      "Yahoo Sports",
+    ],
+    trending: true,
+    featured: true,
+    onlyChronicle: true,
+    officialSourceUrl:
+      "https://sports.yahoo.com/articles/asian-para-games-2026-full-164320224.html",
+  },
+  {
     id: "news-pib-2321660-brics-sports-ahmedabad-veer-savarkar-2026",
     slug: "india-hosts-brics-indigenous-sports-demonstration-games-2026-ahmedabad-veer-savarkar",
     title:

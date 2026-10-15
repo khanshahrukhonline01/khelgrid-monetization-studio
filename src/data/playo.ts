@@ -11,6 +11,7 @@ export const PLAYO_SPORTS = [
   "Table Tennis",
   "Swimming",
   "Volleyball",
+  "Kho-Kho",
 ] as const;
 
 export const PLAYO_CITIES = [
@@ -24,6 +25,7 @@ export const PLAYO_CITIES = [
   "Kanpur",
   "Ahmedabad",
   "Itanagar",
+  "Jammu",
 ] as const;
 
 export interface PibPressReleaseNotice {
@@ -160,6 +162,25 @@ export interface Membership {
 const IMG = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=900&q=70`;
 
 export const VENUES: Venue[] = [
+  {
+    id: "v-green-play-field-gandhi-nagar-jammu",
+    name: "Green Play Field & Sports Arena",
+    area: "Gandhi Nagar",
+    city: "Jammu",
+    distanceKm: 1.8,
+    rating: 4.9,
+    reviews: 128,
+    sports: ["Kho-Kho", "Football", "Athletics", "Kabaddi", "Volleyball"],
+    pricePerHour: 0,
+    featured: true,
+    bookable: true,
+    image:
+      "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&w=1200&q=80",
+    officialUrl: "https://jksportscouncil.in",
+    trialId: "t-jk-kho-kho-junior-national-trials-2026",
+    trialTitle: "J&K Kho-Kho Selection Trials for 45th Junior National Championship",
+    association: "Jammu and Kashmir Kho-Kho Association (JKKKA) & J&K Sports Council",
+  },
   {
     id: "v-bcci-yupia-cricket-ground-itanagar",
     name: "Yupia Cricket Stadium & BCCI Regional Coaching Hub",
