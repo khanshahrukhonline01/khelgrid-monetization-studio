@@ -52,6 +52,7 @@ const COLUMNS: Array<{ title: string; items: ReturnType<typeof pick> }> = [
     title: "Compete",
     items: pick([
       "/search",
+      "/calendar",
       "/trials",
       "/opportunities",
       "/events",

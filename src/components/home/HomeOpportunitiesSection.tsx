@@ -203,6 +203,14 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
             </Button>
           </div>
           <Link
+            to="/calendar"
+            className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold rounded-lg border border-border/80 bg-card px-2.5 py-1 text-foreground hover:bg-secondary hover:text-primary transition shadow-xs"
+            aria-label="View Sports Selection Trials Calendar"
+          >
+            <CalendarDays className="h-3.5 w-3.5 text-primary" />
+            <span>Calendar</span>
+          </Link>
+          <Link
             to="/search"
             className="text-sm font-semibold text-primary hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             aria-label={`Browse all ${trials.length} sports opportunities`}

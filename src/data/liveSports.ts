@@ -59,7 +59,7 @@ export const LIVE_SPORTS_UPDATES: LiveMatchUpdate[] = [
     statusText: "In-Play · 2nd T20I (5-Match Bilateral Series)",
     venueOrOvers: "Starts 7:00 PM IST",
     liveTime: "JSCA International Stadium Complex, Ranchi",
-    source: "Official BCCI Match Feed",
+    source: "Google Sports / Official BCCI Match Feed",
     hasSchedule: true,
   },
   // 2. South Africa vs Australia 1st Test

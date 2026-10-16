@@ -7,6 +7,7 @@ import { TRIALS, SPORTS, CITIES, type Trial } from "@/data/trials";
 import { fetchAvailableTrialsFromSupabase } from "@/lib/trials-service";
 import { TrialCard } from "@/components/TrialCard";
 import { TrialDetailsModal } from "@/components/TrialDetailsModal";
+import { SportsCalendar } from "@/components/calendar/SportsCalendar";
 import { TrialNewsletterSignup } from "@/components/TrialNewsletterSignup";
 import { CheckoutModal } from "@/components/CheckoutModal";
 import { BoostModal } from "@/components/BoostModal";
@@ -41,6 +42,7 @@ import {
   IndianRupee,
   Check,
   Calendar,
+  CalendarDays,
   Users,
   ShieldCheck,
   Sparkles,
@@ -168,7 +170,7 @@ const searchSchema = z.object({
   free: fallback(z.boolean(), false).default(false),
   officialOnly: fallback(z.boolean(), false).default(false),
   savedOnly: fallback(z.boolean(), false).default(false),
-  view: fallback(z.enum(["grid", "list"]), "grid").default("grid"),
+  view: fallback(z.enum(["grid", "list", "calendar"]), "grid").default("grid"),
   trialId: fallback(z.string(), "").default(""),
 });
 
@@ -1061,6 +1063,18 @@ function SearchPage() {
                 >
                   <ListIcon className="h-4 w-4" />
                 </button>
+                <button
+                  type="button"
+                  onClick={() => update({ view: "calendar" })}
+                  title="Calendar View"
+                  className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                    params.view === "calendar"
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <CalendarDays className="h-4 w-4" />
+                </button>
               </div>
 
               {/* Mobile Filter Button (Opens Bottom Sheet / Vertical Filter) */}
@@ -1640,6 +1654,14 @@ function SearchPage() {
                   </div>
                 </div>
               )
+            ) : params.view === "calendar" ? (
+              /* CENTRALIZED SPORTS CALENDAR VIEW */
+              <div className="w-full">
+                <SportsCalendar
+                  initialTrials={results.trials}
+                  onSelectTrial={(t) => handleApply(t)}
+                />
+              </div>
             ) : params.view === "list" ? (
               /* COMPACT LIST VIEW */
               <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm w-full min-w-0 max-w-full">

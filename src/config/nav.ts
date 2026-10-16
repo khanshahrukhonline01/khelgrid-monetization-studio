@@ -66,6 +66,12 @@ export const NAV_ITEMS: NavItem[] = [
     icon: Search,
     surfaces: ["primary", "features"],
   },
+  {
+    to: "/calendar",
+    label: "Sports Calendar",
+    icon: CalendarDays,
+    surfaces: ["primary", "features"],
+  },
   { to: "/live-scores", label: "Live Scores", icon: Activity, surfaces: ["primary", "features"] },
   { to: "/trials", label: "Live Trials", icon: Radio, surfaces: [] },
   { to: "/opportunities", label: "Opportunities", icon: Briefcase, surfaces: [] },
