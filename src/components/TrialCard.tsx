@@ -75,11 +75,19 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
           {/* Visual Card Image Banner */}
           <div className="relative aspect-[16/10] w-full min-w-0 max-w-full overflow-hidden rounded-xl bg-muted mb-3 shrink-0">
             <img
-              src={getTrialCardImage(trial.sport)}
+              src={trial.posterUrl || trial.imageUrl || getTrialCardImage(trial.sport)}
               alt={`${trial.title} - ${trial.sport} Selection Trial`}
               loading="lazy"
               decoding="async"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget as HTMLImageElement;
+                if (trial.posterUrl && !target.src.includes("sai_trial_poster.jpeg")) {
+                  target.src = "/sai_trial_poster.jpeg";
+                } else {
+                  target.src = getTrialCardImage(trial.sport);
+                }
+              }}
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />

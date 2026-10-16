@@ -76,7 +76,18 @@ export const REGIONS: RegionDefinition[] = [
   {
     id: "west",
     name: "West Zone",
-    cities: ["Mumbai", "Pune", "Ahmedabad", "Goa", "Nagpur", "Surat", "Vadodara", "Gandhinagar"],
+    cities: [
+      "Mumbai",
+      "Pune",
+      "Ahmedabad",
+      "Goa",
+      "Nagpur",
+      "Surat",
+      "Vadodara",
+      "Gandhinagar",
+      "Chhatrapati Sambhajinagar",
+      "Aurangabad",
+    ],
   },
   {
     id: "east_ne",
@@ -112,7 +123,7 @@ export const SPORT_TYPES: SportTypeDefinition[] = [
   {
     id: "team_ball",
     name: "Team & Ball Sports",
-    sports: ["Cricket", "Football", "Hockey", "Basketball", "Volleyball", "Handball"],
+    sports: ["Cricket", "Football", "Hockey", "Basketball", "Volleyball", "Handball", "Kho-Kho"],
     icon: "⚽",
   },
   {

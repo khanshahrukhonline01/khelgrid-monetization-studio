@@ -397,6 +397,88 @@ function TrialDetailPage() {
     });
   }
 
+  if (
+    trial.id === "t-sai-ncoe-aurangabad-women-boxing-trials-2026" ||
+    trial.title.toLowerCase().includes("sai ncoe women boxing")
+  ) {
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      name: "SAI NCOE Women Boxing Open Selection Trials (5 Vacancies)",
+      description:
+        "Official open selection trials conducted by Sports Authority of India (SAI) at NCOE Chhatrapati Sambhajinagar (Aurangabad) for U-14, U-17, U-19 female boxers to fill 5 residential scholarship vacancies.",
+      startDate: "2026-10-23T07:00:00+05:30",
+      endDate: "2026-10-25T18:00:00+05:30",
+      eventStatus: "https://schema.org/EventScheduled",
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      location: {
+        "@type": "Place",
+        name: "Sports Authority of India NCOE",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Dr. Babasaheb Ambedkar Marathwada University Campus",
+          addressLocality: "Chhatrapati Sambhajinagar",
+          addressRegion: "Maharashtra",
+          postalCode: "431005",
+          addressCountry: "IN",
+        },
+      },
+      organizer: {
+        "@type": "GovernmentOrganization",
+        name: "Sports Authority of India (SAI)",
+        url: "https://sportsauthorityofindia.nic.in",
+      },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "INR",
+        availability: "https://schema.org/InStock",
+        url: canonicalUrl,
+      },
+      image: [trial.posterUrl || ogImageUrl],
+      isAccessibleForFree: true,
+    });
+
+    trialSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "When are the SAI NCOE Aurangabad Women Boxing trials held?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The selection trials are conducted on October 23, 24, and 25, 2026, starting at 7:00 AM at SAI NCOE Chhatrapati Sambhajinagar (Aurangabad).",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How many vacancies are available in this SAI Boxing trial?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "There are only 5 residential scholarship vacancies available for elite female boxers across U-14, U-17, and U-19 age categories.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Who is eligible to participate in the SAI Women Boxing trials?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Female boxers in U-14, U-17, and U-19 age categories who are National/International Medalists, State Gold Medalists, or National Rankers up to rank 8. Age Verification Test (AVT) is compulsory for U-15 girls.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Who are the contact persons for the SAI Aurangabad trials?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Candidates can contact Senior Boxing Coaches Varsha Tripathi (9131531244) and Sonu Tak (8446271067).",
+          },
+        },
+      ],
+    });
+  }
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
       {/* Reusable SEO Component using react-helmet-async */}
@@ -450,6 +532,43 @@ function TrialDetailPage() {
           value={trial.fee === 0 ? "Free entry" : `₹${trial.fee}`}
         />
       </section>
+
+      {/* Official Circular / Notice Poster Banner */}
+      {(trial.posterUrl || trial.imageUrl) && (
+        <section className="mt-8 overflow-hidden rounded-2xl border border-primary/30 bg-card p-4 sm:p-6 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div className="flex items-center gap-2">
+              <Badge className="bg-primary text-primary-foreground font-bold text-xs">
+                📜 Official Selection Trial Circular
+              </Badge>
+              <span className="text-xs text-muted-foreground font-medium">
+                Verified Govt Circular &amp; Poster
+              </span>
+            </div>
+            <a
+              href={trial.posterUrl || trial.imageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
+            >
+              Open Original Poster <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          </div>
+          <div className="relative overflow-hidden rounded-xl border border-border/80 bg-black/5 max-h-[550px] flex justify-center items-center">
+            <img
+              src={trial.posterUrl || trial.imageUrl}
+              alt={`${trial.title} official notice`}
+              className="max-h-[550px] w-auto object-contain rounded-lg"
+              onError={(e) => {
+                const target = e.currentTarget as HTMLImageElement;
+                if (!target.src.includes("sai_trial_poster.jpeg")) {
+                  target.src = "/sai_trial_poster.jpeg";
+                }
+              }}
+            />
+          </div>
+        </section>
+      )}
 
       {/* Social Media Sharing Section */}
       <section className="mt-6" aria-label="Share trial announcement">

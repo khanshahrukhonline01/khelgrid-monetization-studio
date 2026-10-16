@@ -413,6 +413,48 @@ export function TrialDetailsModal({
           </div>
         </div>
 
+        {/* OFFICIAL SELECTION CIRCULAR / POSTER NOTICE */}
+        {(trial.posterUrl || trial.imageUrl) && (
+          <div
+            id="modal-official-notice-banner"
+            className="rounded-xl border border-primary/40 bg-gradient-to-b from-primary/10 via-card to-card p-4 space-y-3 shadow-xs"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+                <FileText className="h-4 w-4" /> Official Selection Notice / Circular
+              </span>
+              <a
+                href={trial.posterUrl || trial.imageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1"
+              >
+                <ExternalLink className="h-3.5 w-3.5" /> View Full Resolution
+              </a>
+            </div>
+
+            <div className="relative overflow-hidden rounded-lg border border-border/80 bg-muted/60 flex items-center justify-center p-1">
+              <img
+                src={trial.posterUrl || trial.imageUrl}
+                alt={`${trial.title} Official Circular Notice Poster`}
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.currentTarget as HTMLImageElement;
+                  if (!target.src.includes("sai_trial_poster.jpeg")) {
+                    target.src = "/sai_trial_poster.jpeg";
+                  }
+                }}
+                className="w-full max-h-[380px] object-contain rounded-md"
+              />
+            </div>
+            <p className="text-[11px] text-muted-foreground text-center">
+              Verified official gazetted circular published by {trial.academy}
+            </p>
+          </div>
+        )}
+
         {/* 1. EXPANDED VENUE LOCATION SECTION */}
         <div
           id="modal-venue-location-section"

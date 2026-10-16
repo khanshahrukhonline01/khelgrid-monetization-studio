@@ -1,5 +1,6 @@
 import type { Trial } from "@/data/trials";
 import { SITE_URL, DEFAULT_SITE_NAME } from "@/lib/seo";
+import { generateTrialsFaqSchema } from "@/data/trials-faq";
 
 export interface SearchTrialsHelmetSEOProps {
   query?: string;
@@ -232,45 +233,8 @@ export function getSearchTrialsSeoMetadata(
     },
   });
 
-  // 4. FAQPage Schema for Sports Opportunities & CRPF Guidance
-  jsonLdData.push({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How can sportspersons apply for the CRPF Meritorious Sportspersons Recruitment 2026?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Eligible sportspersons must submit their applications exclusively online on the official CRPF recruitment portal at rect.crpf.gov.in between October 12, 2026 and November 11, 2026 (23:59 hrs). Applications sent by post or physical modes will not be accepted.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What are the vacancy counts and pay scales for CRPF Sports Quota 2026?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "There are 521 total vacancies: 182 posts for Head Constable (General Duty) in Pay Level-4 (₹25,500 – ₹81,100) and 339 posts for Constable (General Duty) in Pay Level-3 (₹21,700 – ₹69,100), plus allowances as admissible to Central Government employees.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is the age limit and relaxation for CRPF Sports Quota recruitment?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Candidates must be between 18 and 23 years of age as on August 01, 2026. Upper age relaxation is provided: 5 years for Unreserved (UR), 8 years for OBC (Non-Creamy Layer), and 10 years for SC/ST candidates.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How does the sports trial selection process work on KhelGrid?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "KhelGrid lists verified selection trials and recruitment combines from government departments, state sports associations, and elite youth academies across India. You can filter by sport, city, age bracket, and registration fee, then apply directly through official portals or organizer registration forms.",
-        },
-      },
-    ],
-  });
+  // 4. FAQPage Schema for Sports Opportunities & Guidance
+  jsonLdData.push(generateTrialsFaqSchema());
 
   const ogImageUrl = `${SITE_URL}/og-image.svg`;
 

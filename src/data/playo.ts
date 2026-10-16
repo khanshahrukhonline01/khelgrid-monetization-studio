@@ -26,6 +26,7 @@ export const PLAYO_CITIES = [
   "Ahmedabad",
   "Itanagar",
   "Jammu",
+  "Chhatrapati Sambhajinagar",
 ] as const;
 
 export interface PibPressReleaseNotice {
@@ -162,6 +163,25 @@ export interface Membership {
 const IMG = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=900&q=70`;
 
 export const VENUES: Venue[] = [
+  {
+    id: "v-sai-ncoe-aurangabad-sports-complex",
+    name: "SAI National Centre of Excellence (NCOE) Sports Complex",
+    area: "Dr. BAMU Campus",
+    city: "Chhatrapati Sambhajinagar",
+    distanceKm: 2.4,
+    rating: 4.95,
+    reviews: 194,
+    sports: ["Boxing", "Athletics", "Gymnastics", "Wrestling", "Fitness & Conditioning"],
+    pricePerHour: 0,
+    featured: true,
+    bookable: true,
+    image:
+      "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=1200&q=80",
+    officialUrl: "https://sportsauthorityofindia.nic.in",
+    trialId: "t-sai-ncoe-aurangabad-women-boxing-trials-2026",
+    trialTitle: "SAI NCOE Women Boxing Open Selection Trials (5 Vacancies)",
+    association: "Sports Authority of India (SAI) & Khelo India",
+  },
   {
     id: "v-green-play-field-gandhi-nagar-jammu",
     name: "Green Play Field & Sports Arena",

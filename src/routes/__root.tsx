@@ -105,24 +105,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "robots",
         content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
       },
-      { title: "KhelGrid · India's Sports Opportunity Network" },
+      { title: "KhelGrid · Game, Sport & Play · India's #1 Sports Opportunity Network" },
       {
         name: "description",
         content:
-          "India's premier sports platform for discovery and development. Find sports selection trials, government recruitments (CRPF 2026), turf venues, coaching academies, and athlete CVs.",
+          "India's #1 network for game, sport, and play. Discover open sports selection trials, SAI NCOE recruitments, government sports quotas, book local turf maidans, badminton courts, box cricket, and build your verified Sports CV.",
       },
       {
         name: "keywords",
         content:
-          "sports trials India, sports opportunities, CRPF recruitment 2026, meritorious sportspersons recruitment, selection trials, book sports turf, cricket trials, football academy combines, athletics trials, badminton selection, sports CV India",
+          "game, sport, play, khel, khiladi, khel kud, maidan, turf, turf booking near me, box cricket near me, box cricket turf, futsal turf, selection trials 2026, sports trials India, open trials, sports recruitment, sports quota recruitment, CRPF recruitment 2026, cricket trials, football trials, badminton court booking, athletics trials, kho-kho selection trials, kho-kho junior national, kabaddi panga, kabaddi trials, akhada, dangal, wrestling trials, SAI NCOE trials, Khelo India, sports academy near me, pickup games near me, sports CV India, desi sports, desi khel, mitti ka khel, net practice, gully cricket, ranji trophy trials, sports tournament registration, athlete resume maker, grassroots sports India",
       },
       { name: "author", content: "KhelGrid" },
       { property: "og:site_name", content: "KhelGrid" },
-      { property: "og:title", content: "KhelGrid · India's Sports Opportunity Network" },
+      {
+        property: "og:title",
+        content: "KhelGrid · Game, Sport & Play · India's #1 Sports Opportunity Network",
+      },
       {
         property: "og:description",
         content:
-          "India's premier sports platform for discovery and development. Find sports selection trials, government recruitments (CRPF 2026), turf venues, coaching academies, and athlete CVs.",
+          "India's #1 network for game, sport, and play. Discover open sports selection trials, SAI NCOE recruitments, government sports quotas, book local turf maidans, badminton courts, box cricket, and build your verified Sports CV.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://khelgrid.com/og-image.svg" },

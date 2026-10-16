@@ -262,6 +262,20 @@ export const SPORTS_CATALOG: Sport[] = [
     ],
   },
   {
+    slug: "kho-kho",
+    name: "Kho-Kho",
+    tagline:
+      "Junior & Senior National championships, KKFI state trials & Ultimate Kho Kho combine pathways",
+    level: "National",
+    ageBand: "Junior (U-18) & Senior",
+    emoji: "🏃‍♂️",
+    highlights: [
+      "Kho Kho Federation of India (KKFI) affiliated state selection trials",
+      "Junior National & Senior National Championship state squad selections",
+      "Ultimate Kho Kho franchise league draft, agility testing & combine pathways",
+    ],
+  },
+  {
     slug: "wushu",
     name: "Wushu",
     tagline: "All India Inter-University championships, Sanda combat & Taolu routines",

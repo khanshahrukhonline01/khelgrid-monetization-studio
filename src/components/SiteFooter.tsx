@@ -195,6 +195,284 @@ export function SiteFooter() {
         </div>
       </div>
 
+      {/* Game, Sport & Play Across India: Popular Slang, Trials & Turf Searches */}
+      <section className="border-t border-border bg-card/60 py-8">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                Game, Sport &amp; Play Across India · Popular Slang &amp; Search Directory
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Connecting India&apos;s grassroots khiladis, maidans, turfs, akhadas, and national
+                sports trials
+              </p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 text-xs">
+            <div>
+              <h4 className="font-semibold text-foreground mb-2">
+                Game, Sport &amp; Play Essentials
+              </h4>
+              <ul className="space-y-1.5 text-muted-foreground">
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "game",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Game &amp; Match Finder
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "sport",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Sport Academies &amp; Selections
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/play" className="hover:text-primary transition">
+                    Play Pickup Matches &amp; Box Games
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "khiladi",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Khiladi (खिलाड़ी) Talent Directory
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sports" className="hover:text-primary transition">
+                    Desi Khel &amp; Olympic Disciplines
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-foreground mb-2">
+                Maidan, Turf &amp; Net Practice
+              </h4>
+              <ul className="space-y-1.5 text-muted-foreground">
+                <li>
+                  <Link to="/book" className="hover:text-primary transition">
+                    Book Turf Near Me (मैदान)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/book" className="hover:text-primary transition">
+                    Box Cricket Turf &amp; Nets
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/book" className="hover:text-primary transition">
+                    Badminton Court Hourly Booking
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/book" className="hover:text-primary transition">
+                    Futsal Arenas &amp; 5v5 Pitches
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/play" className="hover:text-primary transition">
+                    Gully Cricket &amp; Community Games
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-foreground mb-2">Akhada, Dangal &amp; Combat</h4>
+              <ul className="space-y-1.5 text-muted-foreground">
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "akhada",
+                      sport: "Wrestling",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Akhada (अखाड़ा) &amp; Wrestling Camps
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "dangal",
+                      sport: "Wrestling",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Dangal (दंगल) &amp; Kusti Combines
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "kabaddi",
+                      sport: "Kabaddi",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Kabaddi Panga &amp; Raid Trials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "boxing",
+                      sport: "Boxing",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    SAI NCOE Boxing Selection Trials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "kho-kho",
+                      sport: "Kho-Kho",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Kho-Kho Junior National Trials
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-foreground mb-2">National Trials &amp; Quotas</h4>
+              <ul className="space-y-1.5 text-muted-foreground">
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "SAI",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Sports Authority of India (SAI) Trials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "quota",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Government Sports Quota Recruitment
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "CRPF",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    CRPF Meritorious Sportspersons 2026
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "Ranji",
+                      sport: "Cricket",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    BCCI Ranji Trophy Cricket Trials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "Khel Maharan",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Khel Maharan 3.0 Assam Registrations
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* IPR, AI & Copyright Footbar Strip (Ultra-Compact) */}
       <section className="border-t border-border bg-muted/15 py-3">
         <div className="mx-auto flex max-w-7xl flex-col gap-2.5 px-4 text-xs md:flex-row md:items-center md:justify-between md:px-6">

@@ -56,10 +56,18 @@ import {
   CheckCircle2,
   Award,
   FileText,
+  HelpCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";
 import { SearchTrialsHelmetSEO } from "@/components/seo/SearchTrialsHelmetSEO";
+import { TRIALS_AND_OPPORTUNITIES_FAQS, generateTrialsFaqSchema } from "@/data/trials-faq";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const ALL_SPORT = "All Sports";
 const ALL_CITY = "All Locations";
@@ -84,6 +92,7 @@ const SPORT_ICONS: Record<string, string> = {
   Basketball: "🏀",
   Badminton: "🏸",
   Athletics: "🏃",
+  "Kho-Kho": "🏃‍♂️",
   Tennis: "🎾",
   Kabaddi: "🤼",
   Swimming: "🏊",
@@ -252,45 +261,10 @@ export const Route = createFileRoute("/search")({
         directApply: true,
         url: "https://rect.crpf.gov.in",
       },
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: "How can athletes apply for sports selection trials on KhelGrid?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Athletes can filter opportunities by sport and city, review age eligibility and venue dates, and register directly or download trial confirmation passes.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Where can meritorious sportspersons apply for CRPF Sports Quota 2026?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Sportspersons can apply directly on the official CRPF recruitment portal at rect.crpf.gov.in between October 12 and November 11, 2026.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Are sports trials on KhelGrid free to attend?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Many government, state association, and academy trials are free (₹0 entry fee). Filter by 'Free Entry' to discover zero-fee selection camps.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "What documents are required for state sports trials in India?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Candidates typically need age verification proof (Aadhaar or birth certificate), previous competition certificates, medical fitness slip, and their KhelGrid Sports CV.",
-            },
-          },
-        ],
-      },
+      generateTrialsFaqSchema(),
     ];
+
+    const faqSchema = generateTrialsFaqSchema();
 
     return buildSeoHead({
       title: pageTitle,
@@ -300,6 +274,12 @@ export const Route = createFileRoute("/search")({
       keywords: `${sSport ? sSport + " trials, " : ""}CRPF recruitment 2026, CRPF meritorious sportspersons recruitment 2026, rect.crpf.gov.in apply online, sports trials India, sports opportunities, sports quota 2026, cricket selection trials, football academy combine, athletics trials, badminton state selections, open sports trials 2026`,
       type: "website",
       customSchema: structuredData,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(faqSchema),
+        },
+      ],
     });
   },
   component: SearchPage,
@@ -546,6 +526,17 @@ function SearchPage() {
   }, [params, auth.boostedTrials, savedIds, trialsList]);
 
   const handleApply = (trial: Trial) => {
+    if (trial.id === "t-sai-ncoe-aurangabad-women-boxing-trials-2026") {
+      window.open(
+        "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
+        "_blank",
+        "noopener,noreferrer",
+      );
+      toast.success(
+        "Opening official SAI NCOE selection trials notice (sportsauthorityofindia.nic.in)!",
+      );
+      return;
+    }
     if (trial.id === "t-jk-kho-kho-junior-national-trials-2026") {
       window.open(
         "https://www.dailyexcelsior.com/kho-kho-selection-trials-on-oct-19-20/",
@@ -1808,6 +1799,56 @@ function SearchPage() {
                   directly to your Sports CV for verified scouting.
                 </p>
               </div>
+            </div>
+
+            {/* Interactive FAQs for Athletes & Parents */}
+            <div id="trials-opportunities-faq" className="pt-6 border-t border-border/60 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+                    <HelpCircle className="h-5 w-5 text-primary" />
+                    Frequently Asked Questions · Trials &amp; Opportunities
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Essential answers to guide your trials selection, age eligibility, quota
+                    recruitments, and academy combines
+                  </p>
+                </div>
+                <Badge
+                  variant="outline"
+                  className="w-fit text-[11px] font-semibold text-primary border-primary/30"
+                >
+                  {TRIALS_AND_OPPORTUNITIES_FAQS.length} Verified Answers
+                </Badge>
+              </div>
+
+              <Accordion type="single" collapsible className="w-full space-y-2.5">
+                {TRIALS_AND_OPPORTUNITIES_FAQS.map((faq, idx) => (
+                  <AccordionItem
+                    key={faq.id}
+                    value={faq.id}
+                    className="border border-border/70 rounded-xl px-4 py-1 bg-secondary/15 hover:bg-secondary/30 transition-colors"
+                  >
+                    <AccordionTrigger className="text-left font-semibold text-xs sm:text-sm hover:no-underline py-3 cursor-pointer">
+                      <span className="flex items-center gap-2.5">
+                        <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-[11px] font-bold">
+                          {idx + 1}
+                        </span>
+                        <span>{faq.question}</span>
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-xs sm:text-sm text-muted-foreground leading-relaxed pt-1 pb-3 pl-7">
+                      <p>{faq.answer}</p>
+                      <div className="mt-2.5 flex items-center gap-2 text-[11px] text-muted-foreground">
+                        <span className="font-semibold text-foreground/80">Category:</span>
+                        <span className="rounded-md bg-muted px-2 py-0.5 text-foreground/70 font-medium">
+                          {faq.category}
+                        </span>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </section>
         </div>

@@ -11,6 +11,8 @@ export const SITE_URL = "https://khelgrid.com";
 export const DEFAULT_OG_IMAGE = "https://khelgrid.com/og-image.png";
 export const DEFAULT_SITE_NAME = "KhelGrid";
 export const TWITTER_HANDLE = "@KhelGrid";
+export const DEFAULT_KEYWORDS =
+  "game, sport, play, khel, khiladi, khel kud, maidan, turf, turf booking near me, box cricket near me, box cricket turf, futsal turf, selection trials 2026, sports trials India, open trials, sports recruitment, sports quota recruitment, CRPF recruitment 2026, cricket trials, football trials, badminton court booking, athletics trials, kho-kho selection trials, kho-kho junior national, kabaddi panga, kabaddi trials, akhada, dangal, wrestling trials, SAI NCOE trials, Khelo India, sports academy near me, pickup games near me, sports CV India, desi sports, desi khel, mitti ka khel, net practice, gully cricket, ranji trophy trials, sports tournament registration, athlete resume maker, grassroots sports India";
 
 export interface BreadcrumbItemSchema {
   "@type": "ListItem";
@@ -151,6 +153,8 @@ export function generateSitelinksSearchboxSchema() {
     alternateName: [
       "KhelGrid",
       "Khel Grid",
+      "KhelGrid · Game, Sport & Play",
+      "Khel & Khiladi Grid",
       "KhelGrid India",
       "India's Sports Opportunity Network",
     ],
@@ -502,7 +506,10 @@ export function buildSeoHead(options: SeoOptions) {
   const meta: Array<Record<string, string>> = [
     { title: formattedTitle },
     { name: "description", content: options.description },
-    ...(options.keywords ? [{ name: "keywords", content: options.keywords }] : []),
+    {
+      name: "keywords",
+      content: options.keywords ? `${options.keywords}, ${DEFAULT_KEYWORDS}` : DEFAULT_KEYWORDS,
+    },
     {
       name: "robots",
       content: options.noindex

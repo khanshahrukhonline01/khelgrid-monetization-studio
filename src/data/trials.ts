@@ -26,6 +26,8 @@ export interface Trial {
   fee: number;
   spots: number;
   tag: string;
+  posterUrl?: string;
+  imageUrl?: string;
   sourceUrl?: string;
   sourceLabel?: string;
   sources?: TrialSource[];
@@ -45,6 +47,105 @@ export interface Trial {
 }
 
 export const TRIALS: Trial[] = [
+  {
+    id: "t-sai-ncoe-aurangabad-women-boxing-trials-2026",
+    title: "SAI NCOE Women Boxing Open Selection Trials (Only 5 Vacancies)",
+    academy: "Sports Authority of India (SAI) & Khelo India",
+    sport: "Boxing",
+    city: "Chhatrapati Sambhajinagar",
+    date: "Oct 23, 24 & 25, 2026",
+    registrationDeadline: "Oct 23, 2026",
+    fee: 0,
+    spots: 5,
+    tag: "SAI NCOE Elite Quota",
+    ageCategory: "U-14, U-17, U-19 (With Age Verification Test AVT for Girls U-15)",
+    gender: "Girls / Women",
+    verifiedLabel: "Official SAI & Ministry of Youth Affairs and Sports Circular",
+    urgencyText: "Only 5 Vacancies · Oct 23-25 at SAI NCOE Aurangabad · Report 7:00 AM",
+    badge: "Hot",
+    venue:
+      "SAI NCOE Chhatrapati Sambhajinagar (Aurangabad), Dr. Babasaheb Ambedkar Marathwada University Campus",
+    posterUrl:
+      "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
+    imageUrl:
+      "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
+    sourceUrl:
+      "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
+    sourceLabel: "Sports Authority of India Official Notice (sportsauthorityofindia.nic.in)",
+    sources: [
+      {
+        label: "SAI Official Notice Poster",
+        url: "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
+      },
+      {
+        label: "Sports Authority of India Official Portal",
+        url: "https://sportsauthorityofindia.nic.in",
+      },
+      {
+        label: "Khelo India Scheme",
+        url: "https://kheloindia.gov.in",
+      },
+    ],
+    timelines: [
+      {
+        label: "Reporting & Document Verification",
+        date: "Oct 23, 2026 (7:00 AM)",
+        description:
+          "Reporting at SAI NCOE Chhatrapati Sambhajinagar with original documents, 1 set of photocopies, and sport kit",
+      },
+      {
+        label: "Day 1: Physical Fitness & Medical Screening",
+        date: "Oct 23, 2026",
+        description:
+          "Weight measurement, general physical fitness tests, and Age Verification Test (AVT) for U-15 girls",
+      },
+      {
+        label: "Day 2: Technical Boxing Skill & Sparring Bouts",
+        date: "Oct 24, 2026",
+        description:
+          "Punching technique, footwork agility, defensive reflexes, and controlled sparring under Senior Coaches",
+      },
+      {
+        label: "Day 3: Final Selection Bouts & Induction",
+        date: "Oct 25, 2026",
+        description:
+          "Final performance evaluation to fill the 5 exclusive residential scholar vacancies at NCOE Aurangabad",
+      },
+    ],
+    organizerContacts: [
+      {
+        title: "Senior Boxing Coach",
+        name: "Varsha Tripathi",
+        phone: "+91 9131531244",
+        email: "ncoe.aurangabad@gov.in",
+      },
+      {
+        title: "Senior Boxing Coach",
+        name: "Sonu Tak",
+        phone: "+91 8446271067",
+        email: "ncoe.aurangabad@gov.in",
+      },
+      {
+        title: "NCOE Campus Office",
+        name: "Sports Authority of India, Dr. BAMU Campus, Chhatrapati Sambhajinagar 431005",
+        phone: "+91 240 240 0431",
+        email: "sai.ncoeabad@nic.in",
+      },
+    ],
+    eligibility:
+      "Eligible female boxers in age groups U-14, U-17, and U-19. Candidates must meet at least one achievement standard: 1) National or International Medalist; 2) State Gold Medalist; 3) National Rankers up to Rank 8. Age Verification Test (AVT) is compulsory for U-15 girls. All athletes must bring their own equipment (boxing gloves, wraps, headgear, mouthguard) and sport kit. No accommodation or food provided by SAI during trials.",
+    requiredDocuments: [
+      "Date of Birth (DOB) Certificate",
+      "Educational Certificate / School Marksheet",
+      "Aadhaar Card",
+      "Passport Size Photograph – 2 Nos",
+      "Sports Achievement Certificate (National/International Medal / State Gold / National Top 8)",
+      "One complete set of photocopies along with original documents",
+      "Medical Fitness Certificate from registered MBBS medical practitioner",
+    ],
+    selectionProcess:
+      "Comprehensive 3-day expert evaluation at SAI NCOE Aurangabad: 1) Initial weight check and document authentication; 2) Standard physical fitness battery; 3) Boxing skill, stance, and combination assessment; 4) Ring sparring rounds supervised by Senior Coaches Varsha Tripathi and Sonu Tak to select 5 athletes for full residential sports scholarship.",
+  },
   {
     id: "t-jk-kho-kho-junior-national-trials-2026",
     title: "Kho-Kho Selection Trials on Oct 19 & 20 for 45th Junior National Championship",
@@ -1193,4 +1294,5 @@ export const CITIES = [
   "Guwahati",
   "Itanagar",
   "Jammu",
+  "Chhatrapati Sambhajinagar",
 ] as const;

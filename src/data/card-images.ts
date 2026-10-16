@@ -199,6 +199,14 @@ export const TRIAL_IMAGES: Record<string, string> = {
     sportLabel: "Pickleball State Selection",
     subLabel: "PWR 400 Delhi",
   }),
+  "Kho-Kho": createSportSvg({
+    themeColor1: "#d97706", // Amber / soil court
+    themeColor2: "#451a03", // Deep earth
+    sportIcon: "🏃‍♂️",
+    fieldPattern: "track",
+    sportLabel: "Kho-Kho National Trials",
+    subLabel: "KKFI State Selection",
+  }),
   Wushu: createSportSvg({
     themeColor1: "#b91c1c", // Martial crimson / combat red
     themeColor2: "#450a0a", // Deep arena dark

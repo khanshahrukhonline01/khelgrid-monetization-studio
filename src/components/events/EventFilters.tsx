@@ -111,6 +111,7 @@ export const EVENT_SPORT_ICONS: Record<string, string> = {
   Swimming: "🏊",
   Athletics: "🏃",
   Kabaddi: "🤼",
+  "Kho-Kho": "🏃‍♂️",
   Volleyball: "🏐",
   Boxing: "🥊",
 };

@@ -120,6 +120,7 @@ export const SPORT_ICONS: Record<string, string> = {
   Athletics: "🏃",
   Boxing: "🥊",
   Volleyball: "🏐",
+  "Kho-Kho": "🏃",
 };
 
 export interface TrainFiltersProps {

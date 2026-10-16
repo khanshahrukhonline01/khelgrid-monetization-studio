@@ -29,11 +29,14 @@ export const SPORTS = [
   "Football",
   "Badminton",
   "Athletics",
+  "Kho-Kho",
   "Hockey",
   "Tennis",
   "Wrestling",
   "Kabaddi",
+  "Boxing",
   "Basketball",
+  "Pickleball",
 ] as const;
 
 export const LOCATIONS = [
@@ -46,6 +49,9 @@ export const LOCATIONS = [
   "Pune",
   "Kolkata",
   "Chennai",
+  "Jammu",
+  "Chhatrapati Sambhajinagar",
+  "Guwahati",
 ] as const;
 
 export const AGE_CATEGORIES = [
@@ -58,11 +64,12 @@ export const AGE_CATEGORIES = [
 ] as const;
 
 export const QUICK_TAGS = [
-  { label: "SAI National Trials", sport: "Athletics", q: "SAI" },
-  { label: "Cricket Selections", sport: "Cricket", q: "Cricket" },
+  { label: "SAI NCOE Trials", sport: "Boxing", q: "SAI" },
+  { label: "Kho-Kho National Trials", sport: "Kho-Kho", q: "Kho-Kho" },
+  { label: "Turf Maidans & Box Cricket", sport: "Cricket", q: "Turf" },
+  { label: "Ranji & State Selections", sport: "Cricket", q: "Ranji" },
+  { label: "Akhada Dangal Wrestling", sport: "Wrestling", q: "Wrestling" },
   { label: "Football Youth Academies", sport: "Football", q: "Football" },
-  { label: "Badminton Ranking", sport: "Badminton", q: "Badminton" },
-  { label: "State Wrestling Camps", sport: "Wrestling", q: "Wrestling" },
 ] as const;
 
 export const HERO_STATS = [
