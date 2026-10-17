@@ -20,6 +20,10 @@ import {
 } from "@/lib/sports-cv-storage";
 import { updateUserProfile } from "@/lib/user-profile-service";
 import { SportsCVCard } from "@/components/SportsCVCard";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -58,6 +62,9 @@ import {
   Globe,
   Activity,
   Layers,
+  Gamepad2,
+  Target,
+  Swords,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -71,10 +78,189 @@ const SPORTS_LIST: { name: SportType; icon: string }[] = [
   { name: "Athletics", icon: "🏃" },
   { name: "Tennis", icon: "🎾" },
   { name: "Kabaddi", icon: "🤼" },
+  { name: "Kho-Kho", icon: "🏃‍♂️" },
   { name: "Swimming", icon: "🏊" },
   { name: "Hockey", icon: "🏑" },
   { name: "Other", icon: "🎯" },
 ];
+
+export const ALL_SECONDARY_SPORTS = [
+  { name: "Cricket", icon: "🏏" },
+  { name: "Football", icon: "⚽" },
+  { name: "Badminton", icon: "🏸" },
+  { name: "Kho-Kho", icon: "🏃‍♂️" },
+  { name: "Kabaddi", icon: "🤼" },
+  { name: "Basketball", icon: "🏀" },
+  { name: "Athletics", icon: "🏃" },
+  { name: "Tennis", icon: "🎾" },
+  { name: "Pickleball", icon: "🏓" },
+  { name: "Swimming", icon: "🏊" },
+  { name: "Hockey", icon: "🏑" },
+];
+
+export const POPULAR_GAME_FORMATS: Record<SportType, string[]> = {
+  Cricket: [
+    "Box Cricket Turf Match",
+    "T20 Gully League",
+    "Leather Ball Tournament",
+    "Tennis Ball Cricket",
+    "Power Play Specialist",
+    "Death Overs Finisher",
+  ],
+  Football: [
+    "7v7 Turf Futsal",
+    "5v5 Box Pitch",
+    "11v11 League Match",
+    "Youth Combine Trial",
+    "Tiki-Taka Playmaker",
+    "Counter Attack Poacher",
+  ],
+  Basketball: [
+    "3v3 Half-Court Streetball",
+    "5v5 Full-Court League",
+    "Fast Break Runner",
+    "3-Point Sniper",
+  ],
+  Badminton: [
+    "Singles Shuttle Clash",
+    "Doubles Smash Match",
+    "Mixed Doubles Rally",
+    "Net Trickster Match",
+  ],
+  Athletics: [
+    "100m/200m Sprint Combine",
+    "400m/800m Middle Distance",
+    "State Relay Squad",
+    "Field Events Trials",
+  ],
+  Tennis: ["Clay Court Baseliner", "Hardcourt Singles", "Serve & Volley Match", "Club Doubles Cup"],
+  Kabaddi: ["Pro Mat Panga", "Super Raid Specialist", "Corner Lock Defense", "Mud Ground Akhada"],
+  "Kho-Kho": [
+    "Pole Dive Attack",
+    "Active Chaser Tag",
+    "Dodging Dream Batch",
+    "Ultimate Kho Kho (UKK) Combine",
+    "Sudden Attack Rush",
+    "National School Games SGFI",
+  ],
+  Swimming: ["Freestyle 50m Splash", "Individual Medley", "State Aquatic Meet", "Relay Anchor"],
+  Hockey: ["AstroTurf 11v11", "Penalty Corner Drag Flick", "5s Mini Hockey", "Midfield Playmaker"],
+  Other: [
+    "Open Selection Combine",
+    "Inter-Collegiate Tournament",
+    "Fitness & Stamina Challenge",
+    "Club Match Play",
+  ],
+};
+
+export const PROFICIENCY_TIERS = [
+  {
+    id: "Beginner" as const,
+    title: "Beginner / Gully Casual",
+    tagline: "Gully Play & Weekend Games",
+    description:
+      "Enjoying casual games with friends, box cricket turf pick-ups, and building athletic fundamentals.",
+    badge: "Level 1: Grassroots Play",
+    color: "border-blue-500/40 bg-blue-500/5 text-blue-500",
+  },
+  {
+    id: "Intermediate" as const,
+    title: "Intermediate / Club Contender",
+    tagline: "Turf Wars & Club Combines",
+    description:
+      "Regular competitive matches, district school leagues, box tournaments, and structured academy coaching.",
+    badge: "Level 2: Competitive Club",
+    color: "border-emerald-500/40 bg-emerald-500/5 text-emerald-500",
+  },
+  {
+    id: "Advanced" as const,
+    title: "Advanced / State Contender",
+    tagline: "State Combines & SGFI / Khelo India",
+    description:
+      "Represented district or state in championships, SGFI school games, Khelo India, or elite youth academies.",
+    badge: "Level 3: State Level",
+    color: "border-amber-500/40 bg-amber-500/5 text-amber-500",
+  },
+  {
+    id: "Elite" as const,
+    title: "Elite / Pro Quota Athlete",
+    tagline: "National Championships, Pro Leagues & Govt Quota",
+    description:
+      "National podium winner, Senior Nationals, Ranji / ISL / Pro Kabaddi / UKK, SAI NCOE, or CRPF 2026 Sports Quota aspirant.",
+    badge: "Level 4: National & Pro",
+    color: "border-purple-500/40 bg-purple-500/5 text-purple-500",
+  },
+];
+
+export const SLANG_PLAYING_STYLES: Record<SportType, string[]> = {
+  Cricket: [
+    "Power Hitter / Finisher",
+    "Death Overs Yorker Specialist",
+    "Top-Order Anchor",
+    "Swing King Seamer",
+    "Mystery Spin Wizard",
+    "Gully Legend Box Batter",
+  ],
+  Football: [
+    "Clinical Poacher",
+    "Box-to-Box Midfield Engine",
+    "Tiki-Taka Playmaker",
+    "Rapid Flank Winger",
+    "Stopper Back Enforcer",
+    "Sweeper Keeper",
+  ],
+  Basketball: [
+    "Pure Shooter / Sniper",
+    "Floor General Playmaker",
+    "Lockdown Perimeter Defender",
+    "Rim Protector & Rebound Beast",
+    "Fast-Break Slashing Wing",
+  ],
+  Badminton: [
+    "Steep Smash Specialist",
+    "Deceptive Net Trickster",
+    "Relentless Baseline Grinder",
+    "Attacking Doubles Interceptor",
+  ],
+  Athletics: [
+    "Explosive Block Starter",
+    "Closing Lap Kick Specialist",
+    "Endurance Pacer",
+    "Speed-Endurance Sprinter",
+  ],
+  Tennis: [
+    "Heavy Topspin Baseliner",
+    "Aggressive Serve & Volleyer",
+    "Counterpuncher",
+    "All-Court Tactician",
+  ],
+  Kabaddi: [
+    "Do-or-Die Bonus Raider",
+    "Super Raid Specialist",
+    "Ankle Hold Master",
+    "Corner Lock Enforcer",
+    "Chain Defender Leader",
+  ],
+  "Kho-Kho": [
+    "Pole Diver Specialist",
+    "Active Chaser Tag Master",
+    "Dodging Runner (Dream Batch)",
+    "Sudden Attack Sky Diver",
+    "First Batch Survivalist",
+  ],
+  Swimming: [
+    "Underwater Dolphin Specialist",
+    "Fast Breakout Sprinter",
+    "Even-Split Distance Pacer",
+  ],
+  Hockey: [
+    "Penalty Corner Drag Flicker",
+    "Lightning Scoop Finisher",
+    "Turnover Ball Winner",
+    "Circle Entry Playmaker",
+  ],
+  Other: ["Versatile Multi-Sport Athlete", "Clutch Match Winner", "High-Intensity Competitor"],
+};
 
 const AGE_CATEGORIES = [
   "U-14 (Sub-Junior)",
@@ -850,11 +1036,90 @@ export function AthleteOnboardingWizard({
                     </button>
                   ))}
                 </div>
+
+                {/* Secondary Sports & Favorite Games Interests */}
+                <div className="pt-3 border-t border-border/60 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                      <Gamepad2 className="h-3.5 w-3.5 text-primary" /> Secondary Sports & Games You
+                      Play
+                    </Label>
+                    <span className="text-[11px] text-muted-foreground">Select all that apply</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {ALL_SECONDARY_SPORTS.map((sp) => {
+                      const currentSec = data.secondarySports || [];
+                      const isSelected = currentSec.includes(sp.name);
+                      return (
+                        <button
+                          key={sp.name}
+                          type="button"
+                          onClick={() => {
+                            const updated = isSelected
+                              ? currentSec.filter((s) => s !== sp.name)
+                              : [...currentSec, sp.name];
+                            updateField("secondarySports", updated);
+                          }}
+                          className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition-all ${
+                            isSelected
+                              ? "border-primary bg-primary/10 text-primary font-bold shadow-xs ring-1 ring-primary/40"
+                              : "border-border/80 bg-card hover:bg-secondary/40 text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <span>{sp.icon}</span>
+                          <span>{sp.name}</span>
+                          {isSelected && <Check className="h-3 w-3 text-primary" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Popular Game Formats & Slang Badges */}
+                <div className="pt-2 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                      <Target className="h-3.5 w-3.5 text-primary" /> Favorite Game Formats & Match
+                      Playstyles
+                    </Label>
+                    <span className="text-[10px] text-muted-foreground uppercase font-mono">
+                      Gully to Stadium
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(POPULAR_GAME_FORMATS[data.sport] || POPULAR_GAME_FORMATS.Cricket).map(
+                      (format) => {
+                        const curFormats = data.favoriteFormats || [];
+                        const isSelected = curFormats.includes(format);
+                        return (
+                          <button
+                            key={format}
+                            type="button"
+                            onClick={() => {
+                              const updated = isSelected
+                                ? curFormats.filter((f) => f !== format)
+                                : [...curFormats, format];
+                              updateField("favoriteFormats", updated);
+                            }}
+                            className={`rounded-md border px-2 py-0.5 text-[11px] transition-colors ${
+                              isSelected
+                                ? "border-primary bg-primary text-primary-foreground font-semibold"
+                                : "border-border/80 bg-secondary/30 text-muted-foreground hover:text-foreground hover:border-primary/40"
+                            }`}
+                          >
+                            {format}
+                          </button>
+                        );
+                      },
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
-          {/* STEP 2: ATHLETIC ROLE & SPECIALIZATION */}
+          {/* STEP 2: ATHLETIC ROLE, PROFICIENCY & SPECIALIZATION */}
           {currentStep === 2 && (
             <div
               id="wizard-step-2"
@@ -868,9 +1133,135 @@ export function AthleteOnboardingWizard({
                   </h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Specify your exact on-field position, playing style, and academy training
-                  background.
+                  Select your sports proficiency level, competitive game experience, and on-field
+                  slang playstyle.
                 </p>
+              </div>
+
+              {/* 4 Interactive Proficiency Level Cards (shadcn Card) */}
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                    <Trophy className="h-3.5 w-3.5 text-primary" /> Select Athletic Proficiency
+                    Level *
+                  </Label>
+                  <span className="text-[11px] text-primary font-semibold">
+                    {data.proficiencyLevel || "Intermediate"} Tier
+                  </span>
+                </div>
+
+                <div className="grid gap-2.5 sm:grid-cols-2">
+                  {PROFICIENCY_TIERS.map((tier) => {
+                    const isSelected = (data.proficiencyLevel || "Intermediate") === tier.id;
+                    return (
+                      <Card
+                        key={tier.id}
+                        onClick={() => updateField("proficiencyLevel", tier.id)}
+                        className={`cursor-pointer transition-all border p-3.5 ${
+                          isSelected
+                            ? "border-primary ring-2 ring-primary/30 bg-primary/5 shadow-sm"
+                            : "border-border/80 hover:border-border hover:bg-secondary/20"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold text-foreground">
+                                {tier.title}
+                              </span>
+                              <Badge
+                                variant="outline"
+                                className={`text-[10px] py-0 px-1.5 ${tier.color}`}
+                              >
+                                {tier.badge}
+                              </Badge>
+                            </div>
+                            <div className="text-[11px] font-medium text-primary">
+                              {tier.tagline}
+                            </div>
+                            <p className="text-[11px] text-muted-foreground leading-relaxed">
+                              {tier.description}
+                            </p>
+                          </div>
+                          <div
+                            className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
+                              isSelected
+                                ? "border-primary bg-primary text-primary-foreground"
+                                : "border-muted-foreground/40"
+                            }`}
+                          >
+                            {isSelected && <Check className="h-2.5 w-2.5" />}
+                          </div>
+                        </div>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Skill Proficiency Rating Slider & Weekly Hours */}
+              <div className="grid gap-4 sm:grid-cols-2 rounded-xl border border-border/80 bg-secondary/15 p-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="flex items-center gap-1">
+                      <Zap className="h-3.5 w-3.5 text-amber-500" /> Self-Rated Skill Score:
+                    </span>
+                    <Badge variant="secondary" className="font-mono text-xs">
+                      {data.performanceMetrics?.[0]?.score
+                        ? Math.round(data.performanceMetrics[0].score / 10)
+                        : 8}
+                      /10
+                    </Badge>
+                  </div>
+                  <Slider
+                    defaultValue={[
+                      data.performanceMetrics?.[0]?.score
+                        ? Math.round(data.performanceMetrics[0].score / 10)
+                        : 8,
+                    ]}
+                    min={1}
+                    max={10}
+                    step={1}
+                    onValueChange={(val) => {
+                      const rating = val[0];
+                      if (data.performanceMetrics && data.performanceMetrics.length > 0) {
+                        const updated = [...data.performanceMetrics];
+                        updated[0] = { ...updated[0], score: rating * 10 };
+                        updateField("performanceMetrics", updated);
+                      }
+                    }}
+                    className="py-1"
+                  />
+                  <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
+                    <span>1: Gully Rookie</span>
+                    <span>5: Club Regular</span>
+                    <span>10: National Pro</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="flex items-center gap-1">
+                      <Activity className="h-3.5 w-3.5 text-emerald-500" /> Weekly Play & Training:
+                    </span>
+                    <Badge variant="secondary" className="font-mono text-xs">
+                      {data.weeklyHours || 10} hrs/week
+                    </Badge>
+                  </div>
+                  <Slider
+                    defaultValue={[data.weeklyHours || 10]}
+                    min={2}
+                    max={30}
+                    step={2}
+                    onValueChange={(val) => updateField("weeklyHours", val[0])}
+                    className="py-1"
+                  />
+                  <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
+                    <span>Casual (2h)</span>
+                    <span>Club (10h)</span>
+                    <span>Pro Camp (25h+)</span>
+                  </div>
+                </div>
               </div>
 
               {/* Position selector with sport-specific recommendations */}
@@ -882,7 +1273,7 @@ export function AthleteOnboardingWizard({
                   id="wiz-pos"
                   value={data.position}
                   onChange={(e) => updateField("position", e.target.value)}
-                  placeholder="e.g. Right-Arm Fast Bowler"
+                  placeholder="e.g. Right-Arm Fast Bowler or Pole Diver Specialist"
                   className="h-10 text-sm font-medium"
                 />
 
@@ -890,7 +1281,7 @@ export function AthleteOnboardingWizard({
                 {SPORT_POSITION_PRESETS[data.sport] && (
                   <div className="pt-1 space-y-1">
                     <span className="text-[11px] text-muted-foreground font-medium">
-                      Common {data.sport} Positions:
+                      Common {data.sport} Positions & Slang Roles:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {SPORT_POSITION_PRESETS[data.sport].map((pos) => (
@@ -908,6 +1299,49 @@ export function AthleteOnboardingWizard({
                         </button>
                       ))}
                     </div>
+                  </div>
+                )}
+              </div>
+
+              {/* On-Field Playing Style & Sports Slang */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label
+                    htmlFor="wiz-playing-style"
+                    className="text-xs font-semibold flex items-center gap-1.5"
+                  >
+                    <Swords className="h-3.5 w-3.5 text-primary" /> On-Field Playstyle & Slang
+                    Specialty
+                  </Label>
+                  <span className="text-[11px] text-muted-foreground">
+                    e.g. Finisher, Poacher, Pole Diver
+                  </span>
+                </div>
+                <Input
+                  id="wiz-playing-style"
+                  value={data.playingStyle || ""}
+                  onChange={(e) => updateField("playingStyle", e.target.value)}
+                  placeholder="e.g. Death Overs Yorker Specialist, Chaser Pole Diver, Tiki-Taka Playmaker"
+                  className="h-10 text-sm"
+                />
+
+                {/* Popular Slang Chips */}
+                {SLANG_PLAYING_STYLES[data.sport] && (
+                  <div className="flex flex-wrap gap-1.5 pt-0.5">
+                    {SLANG_PLAYING_STYLES[data.sport].map((slang) => (
+                      <button
+                        key={slang}
+                        type="button"
+                        onClick={() => updateField("playingStyle", slang)}
+                        className={`rounded-md border px-2 py-0.5 text-[11px] transition-colors ${
+                          data.playingStyle === slang
+                            ? "border-primary bg-primary text-primary-foreground font-semibold"
+                            : "border-border/70 bg-secondary/30 text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {slang}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>

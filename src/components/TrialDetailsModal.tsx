@@ -378,6 +378,20 @@ export function TrialDetailsModal({
 
       {/* MODAL BODY */}
       <div className="p-5 sm:p-6 space-y-6">
+        {/* OFFICIAL TRIAL POSTER / BANNER */}
+        {trial.imageUrl && (
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border/80 bg-muted shrink-0 shadow-sm">
+            <img
+              src={trial.imageUrl}
+              alt={`${trial.title} official notification`}
+              loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
+
         {/* QUICK SNAPSHOT STATS */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 rounded-xl border border-border/80 bg-secondary/20 p-3.5 text-xs">
           <div className="space-y-0.5">

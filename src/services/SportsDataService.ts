@@ -10,7 +10,7 @@ export interface SportsTeam {
 
 export interface SportsMatch {
   id: string;
-  sport: "Cricket" | "Football" | "Badminton" | "Hockey" | "Kabaddi" | "Tennis";
+  sport: "Cricket" | "Football" | "Badminton" | "Hockey" | "Kabaddi" | "Tennis" | "Kho-Kho";
   status: "LIVE" | "UPCOMING" | "RECENT";
   tournament: string;
   stage?: string;
@@ -46,6 +46,7 @@ export const SPORTS_FILTER_LIST: SportFilterType[] = [
   "Football",
   "Badminton",
   "Kabaddi",
+  "Kho-Kho",
   "Hockey",
   "Tennis",
 ];

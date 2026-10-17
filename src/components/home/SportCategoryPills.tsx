@@ -14,6 +14,8 @@ export const SPORTS_LIST = [
   { id: "Tennis", name: "Tennis", emoji: "🎾" },
   { id: "Hockey", name: "Hockey", emoji: "🏑" },
   { id: "Basketball", name: "Basketball", emoji: "🏀" },
+  { id: "Kabaddi", name: "Kabaddi", emoji: "⚡" },
+  { id: "Kho-Kho", name: "Kho-Kho", emoji: "🏃‍♂️" },
   { id: "Pickleball", name: "Pickleball", emoji: "🏓" },
 ] as const;
 

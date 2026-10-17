@@ -147,7 +147,7 @@ export function FeaturedTrialsRadar({
                 {/* Visual Card Image Banner */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-muted mb-3 shrink-0">
                   <img
-                    src={getTrialCardImage(trial.sport)}
+                    src={trial.imageUrl || getTrialCardImage(trial.sport)}
                     alt={`${trial.title} - ${trial.sport} Selection Trial`}
                     loading="lazy"
                     decoding="async"

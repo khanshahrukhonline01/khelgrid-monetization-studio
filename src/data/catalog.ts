@@ -136,6 +136,19 @@ export const SPORTS_CATALOG: Sport[] = [
     highlights: ["Raid and defence roles", "State competition research", "Mat-trial preparation"],
   },
   {
+    slug: "kho-kho",
+    name: "Kho-Kho",
+    tagline: "National league, federation selection & state championship pathways",
+    level: "Elite & Grassroots",
+    ageBand: "U-14 to Senior",
+    emoji: "🏃‍♂️",
+    highlights: [
+      "Ultimate Kho Kho (UKK) drafting & scouting combines",
+      "National school games & federation cup trials",
+      "Speed, agility and diving tag assessment preparation",
+    ],
+  },
+  {
     slug: "basketball",
     name: "Basketball",
     tagline: "Club, school and league competition pathways",
@@ -416,6 +429,19 @@ export const SPORTS_CATALOG: Sport[] = [
       "Equestrian Federation of India (EFI) national events",
       "Show jumping course faults, dressage test scoring & cross-country",
       "Remount Veterinary Corps, Army & Central Police Equestrian teams",
+    ],
+  },
+  {
+    slug: "kho-kho",
+    name: "Kho-Kho",
+    tagline: "National championships, Ultimate Kho Kho (UKK), pole dives & fast-tag combines",
+    level: "National",
+    ageBand: "Junior to Senior",
+    emoji: "🏃‍♂️",
+    highlights: [
+      "Kho Kho Federation of India (KKFI) national selection trials",
+      "Ultimate Kho Kho (UKK) franchise drafts & scouting combines",
+      "Pole dive attacks, sudden rush defense & dream batch endurance testing",
     ],
   },
 ];

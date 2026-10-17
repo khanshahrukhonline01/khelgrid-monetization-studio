@@ -90,8 +90,11 @@ export function getSearchTrialsSeoMetadata(
   const queryString = params.toString();
   const canonicalUrl = queryString ? `${SITE_URL}/search?${queryString}` : `${SITE_URL}/search`;
 
-  // Targeted Keywords
+  // Targeted Keywords with top ranking terms: game, sport, play, and slang
   const baseKeywords = [
+    "game",
+    "sport",
+    "play",
     "sports trials India",
     "sports selection trials 2026",
     "sports opportunities",
@@ -99,6 +102,16 @@ export function getSearchTrialsSeoMetadata(
     "sports quota jobs",
     "academy combines",
     "junior selection trials",
+    "pickup games",
+    "turf war",
+    "box cricket tournament",
+    "gully to stadium",
+    "futsal turf",
+    "badminton court play",
+    "kho-kho selection trials",
+    "kabaddi panga",
+    "sports cv builder",
+    "athlete scouting radar",
   ];
 
   if (isCrpf) {

@@ -118,6 +118,7 @@ const SPORT_ICONS: Record<string, string> = {
   Yoga: "🧘",
   Fencing: "🤺",
   Equestrian: "🏇",
+  "Kho-Kho": "🏃‍♂️",
   "Multi-Discipline Sports Quota": "🎖️",
 };
 

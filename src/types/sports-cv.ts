@@ -6,6 +6,7 @@ export type SportType =
   | "Athletics"
   | "Tennis"
   | "Kabaddi"
+  | "Kho-Kho"
   | "Swimming"
   | "Hockey"
   | "Other";
@@ -128,6 +129,12 @@ export interface SportsCVData {
     phoneOrEmail?: string;
   };
   availability: "Open for Trials" | "Club Contracted" | "Free Agent" | "Academy Trainee";
+  proficiencyLevel?: "Beginner" | "Intermediate" | "Advanced" | "Elite";
+  secondarySports?: string[];
+  favoriteFormats?: string[];
+  playInterests?: string[];
+  playingStyle?: string;
+  weeklyHours?: number;
   lastUpdated: string;
 }
 
@@ -189,6 +196,14 @@ export const SPORT_POSITION_PRESETS: Record<SportType, string[]> = {
     "Left Corner Defender",
     "Cover Defender",
     "All-Rounder",
+  ],
+  "Kho-Kho": [
+    "Active Chaser",
+    "Pole Diver Specialist",
+    "Dodging Runner",
+    "First Batch Runner",
+    "All-Rounder Chaser & Defender",
+    "Sudden Attack Specialist",
   ],
   Swimming: [
     "Freestyle Sprinter (50m/100m)",
@@ -474,6 +489,40 @@ export const COMMON_METRIC_PRESETS: Record<SportType, Array<Omit<PerformanceMetr
       benchmark: "Target: <5.10s",
     },
   ],
+  "Kho-Kho": [
+    {
+      name: "30m Dash Speed",
+      value: "3.92",
+      unit: "s",
+      category: "Speed",
+      score: 93,
+      benchmark: "National Combine: <4.0s",
+    },
+    {
+      name: "Diving Tag Accuracy",
+      value: "88",
+      unit: "%",
+      category: "Sport-Specific",
+      score: 90,
+      benchmark: "UKK Standard: 85%+",
+    },
+    {
+      name: "Dodging Survival Time",
+      value: "3.45",
+      unit: "min",
+      category: "Endurance",
+      score: 91,
+      benchmark: "Target: 3.0+ min",
+    },
+    {
+      name: "Agility T-Test",
+      value: "9.24",
+      unit: "s",
+      category: "Athleticism",
+      score: 94,
+      benchmark: "Elite Target: <9.5s",
+    },
+  ],
   Other: [
     {
       name: "Yo-Yo / Beep Endurance",
@@ -567,6 +616,14 @@ export const SPORT_STAT_TEMPLATES: Record<SportType, SportStatTemplate> = {
     stat1Label: "Raid Pts",
     stat2Label: "Tackle Pts",
     stat3Label: "Super 10s",
+  },
+  "Kho-Kho": {
+    primaryLabel: "Attacking Points (Skydive)",
+    secondaryLabel: "Defending Time (Min)",
+    tertiaryLabel: "Pole Dives / Tags",
+    stat1Label: "Touch Points",
+    stat2Label: "Running Time",
+    stat3Label: "Dream Batches",
   },
   Swimming: {
     primaryLabel: "50m Free PB",
