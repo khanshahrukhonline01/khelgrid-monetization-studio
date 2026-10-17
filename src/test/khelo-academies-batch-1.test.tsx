@@ -1,7 +1,12 @@
 import { describe, it, expect, vi } from "vitest";
 import { renderToString } from "react-dom/server";
 import { COACHING } from "@/data/playo";
-import { AcademyDirectoryPage } from "@/routes/academy";
+import { AcademyPage } from "@/routes/academy";
+import {
+  AccreditedAcademyList,
+  DEFAULT_BATCH_1_ACADEMIES,
+} from "@/components/academy/AccreditedAcademyList";
+import { AccreditedAcademyCard } from "@/components/academy/AccreditedAcademyCard";
 
 // Mock Tanstack Router
 vi.mock("@tanstack/react-router", () => ({
@@ -12,11 +17,24 @@ vi.mock("@tanstack/react-router", () => ({
   }),
   useNavigate: () => vi.fn(),
   useRouterState: () => ({ location: { search: {}, pathname: "/academy" } }),
-  Link: ({ to, children, ...props }: any) => (
-    <a href={typeof to === "string" ? to : "#"} {...props}>
-      {children}
-    </a>
-  ),
+  Link: ({ to, params, search, children, ...props }: any) => {
+    let href = typeof to === "string" ? to : "#";
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        href = href.replace(`$${k}`, String(v));
+      });
+    }
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    );
+  },
+}));
+
+// Mock react-helmet-async
+vi.mock("react-helmet-async", () => ({
+  Helmet: ({ children }: any) => <div data-testid="mock-helmet">{children}</div>,
 }));
 
 describe("Khelo India & SAI Accredited Academies (Batch 1)", () => {
@@ -26,6 +44,7 @@ describe("Khelo India & SAI Accredited Academies (Batch 1)", () => {
 
   it("contains exactly 20 accredited academies in Batch 1", () => {
     expect(batch1.length).toBe(20);
+    expect(DEFAULT_BATCH_1_ACADEMIES.length).toBe(20);
   });
 
   it("has valid locations, sports and accreditations for each academy in Batch 1", () => {
@@ -58,8 +77,37 @@ describe("Khelo India & SAI Accredited Academies (Batch 1)", () => {
     expect(academyNames).toContain("National Cricket Academy (BCCI COE)");
   });
 
-  it("renders the 20 academy cards properly in AcademyDirectoryPage", () => {
-    const html = renderToString(<AcademyDirectoryPage />);
+  it("renders AccreditedAcademyCard with semantic Schema.org microdata and internal links", () => {
+    const asi = batch1[0];
+    const html = renderToString(<AccreditedAcademyCard academy={asi} />);
+
+    // Schema.org Microdata
+    expect(html.toLowerCase()).toContain("itemscope");
+    expect(html).toContain("schema.org/SportsActivityLocation");
+    expect(html).toContain(asi.academyName!);
+    expect(html).toContain(asi.city);
+    expect(html).toContain(asi.area);
+
+    // Internal links for SEO & discoverability
+    expect(html).toContain('href="/sport/archery"');
+    expect(html).toContain('href="/city/pune"');
+    expect(html).toContain('href="/search"');
+    expect(html).toContain('href="/train"');
+  });
+
+  it("renders AccreditedAcademyList component with full 20 cards and structured schema", () => {
+    const html = renderToString(<AccreditedAcademyList academies={batch1} />);
+    expect(html).toContain("First 20 Sports Academies");
+    expect(html).toContain("Army Sports Institute (ASI) Pune");
+    expect(html).toContain("Tata Archery Academy (TAA)");
+    expect(html).toContain("Usha School of Athletics");
+    expect(html).toContain("National Cricket Academy (BCCI COE)");
+    expect(html).toContain('type="application/ld+json"');
+    expect(html).toContain("SportsActivityLocation");
+  });
+
+  it("renders the 20 academy cards properly in AcademyPage route", () => {
+    const html = renderToString(<AcademyPage />);
     expect(html).toContain("Khelo India &amp; SAI Accredited");
     expect(html).toContain("Batch 1: 20 Premier Academies");
     expect(html).toContain("Army Sports Institute (ASI) Pune");
