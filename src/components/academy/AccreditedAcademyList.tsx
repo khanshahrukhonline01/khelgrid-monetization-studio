@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   ArrowRight,
   ExternalLink,
+  Layers,
 } from "lucide-react";
 import { COACHING, type CoachingProgram } from "@/data/playo";
 import { SPORT_ICONS } from "@/components/train/TrainFilters";
@@ -31,14 +32,24 @@ import {
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/seo";
 
-// Default to the first 20 extracted Khelo India & SAI Accredited Academies
-export const DEFAULT_BATCH_1_ACADEMIES = COACHING.filter(
+// All 40 extracted Khelo India & SAI Accredited Academies
+export const ALL_KHELO_ACADEMIES = COACHING.filter(
   (c) => c.entityType === "academy" && c.id.startsWith("academy-khelo-"),
-).slice(0, 20);
+).slice(0, 40);
+
+// Batch 1 (First 20 Academies)
+export const DEFAULT_BATCH_1_ACADEMIES = ALL_KHELO_ACADEMIES.slice(0, 20);
+
+// Batch 2 (Next 20 Academies)
+export const DEFAULT_BATCH_2_ACADEMIES = ALL_KHELO_ACADEMIES.slice(20, 40);
+
+export type BatchFilterType = "all" | "batch1" | "batch2";
 
 export interface AccreditedAcademyListProps {
-  /** Array of academies to render. Defaults to the first 20 extracted Khelo India academies */
+  /** Array of academies to render. Defaults to all 40 extracted Khelo India academies */
   academies?: CoachingProgram[];
+  /** Initial batch view: "all" | "batch1" | "batch2" */
+  initialBatch?: BatchFilterType;
   /** Section heading title */
   title?: string;
   /** Section description */
@@ -52,13 +63,15 @@ export interface AccreditedAcademyListProps {
 }
 
 export function AccreditedAcademyList({
-  academies = DEFAULT_BATCH_1_ACADEMIES,
+  academies = ALL_KHELO_ACADEMIES,
+  initialBatch = "all",
   title = "Khelo India & SAI Accredited Sports Academies",
-  subtitle = "Official directory of the first 20 accredited sports academies, National Centres of Excellence (NCOE), and elite youth sports institutions across India.",
+  subtitle = "Official directory of accredited sports academies, National Centres of Excellence (NCOE), and elite youth sports institutions across India.",
   showFilters = true,
   showSeoMetadata = true,
   className = "",
 }: AccreditedAcademyListProps) {
+  const [selectedBatch, setSelectedBatch] = useState<BatchFilterType>(initialBatch);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSport, setSelectedSport] = useState("All");
   const [selectedCity, setSelectedCity] = useState("All");
@@ -74,7 +87,18 @@ export function AccreditedAcademyList({
     notes: "",
   });
 
-  // Extract unique sports and cities from provided academies
+  // Filter by selected batch first
+  const batchFilteredList = useMemo(() => {
+    if (selectedBatch === "batch1") {
+      return academies.slice(0, 20);
+    }
+    if (selectedBatch === "batch2") {
+      return academies.slice(20, 40);
+    }
+    return academies;
+  }, [academies, selectedBatch]);
+
+  // Extract unique sports and cities from active batch pool
   const availableSports = useMemo(() => {
     const set = new Set<string>();
     academies.forEach((a) => set.add(a.sport));
@@ -87,9 +111,9 @@ export function AccreditedAcademyList({
     return ["All", ...Array.from(set).sort()];
   }, [academies]);
 
-  // Filter academies dynamically
+  // Filter academies dynamically based on search, sport, city, and scholarship
   const filteredAcademies = useMemo(() => {
-    return academies.filter((item) => {
+    return batchFilteredList.filter((item) => {
       if (selectedSport !== "All" && item.sport !== selectedSport) {
         return false;
       }
@@ -122,16 +146,16 @@ export function AccreditedAcademyList({
       }
       return true;
     });
-  }, [academies, searchTerm, selectedSport, selectedCity, scholarshipOnly]);
+  }, [batchFilteredList, searchTerm, selectedSport, selectedCity, scholarshipOnly]);
 
-  // Schema.org structured data for SEO crawlers
+  // Schema.org structured data for SEO crawlers covering all academies
   const jsonLdSchema = useMemo(() => {
     return {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      name: "First 20 Khelo India & SAI Accredited Sports Academies in India",
+      name: "40 Khelo India & SAI Accredited Sports Academies in India",
       description:
-        "Comprehensive roster of verified Khelo India Accredited Academies (KIAA) and SAI National Centres of Excellence across India.",
+        "Comprehensive roster of 40 verified Khelo India Accredited Academies (KIAA) and SAI National Centres of Excellence (NCOE) across India with residential boarding and scholarships.",
       numberOfItems: academies.length,
       itemListElement: academies.map((item, index) => ({
         "@type": "ListItem",
@@ -184,22 +208,22 @@ export function AccreditedAcademyList({
       {/* 1. DYNAMIC REACT HELMET SEO METADATA */}
       {showSeoMetadata && (
         <Helmet>
-          <title>Top 20 Khelo India & SAI Accredited Sports Academies · Directory | KhelGrid</title>
+          <title>Top 40 Khelo India & SAI Accredited Sports Academies · Directory | KhelGrid</title>
           <meta
             name="description"
-            content="Explore the first 20 verified sports academies extracted from the official Khelo India & SAI accredited directory. Residential coaching, Olympic mentors, and sports scholarships across India."
+            content="Explore 40 verified sports academies extracted from the official Khelo India & SAI accredited directory. Residential coaching, NIS Patiala, Sonepat, Lucknow, Kolkata, Rohtak, Mohali, and scholarship programs."
           />
           <meta
             name="keywords"
-            content="khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, gopichand badminton academy, mary kom boxing academy, chhatrasal stadium, national cricket academy, sports academies in india, game, sport, play, sports trials 2026"
+            content="khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, nis patiala, sai sonepat, sai lucknow, sai rohtak, roundglass sports academy, minerva academy fc, gagan narang gun for glory, mrf pace foundation, sports academies in india, game, sport, play, sports trials 2026"
           />
           <meta
             property="og:title"
-            content="Top 20 Khelo India & SAI Accredited Sports Academies · KhelGrid"
+            content="Top 40 Khelo India & SAI Accredited Sports Academies · KhelGrid"
           />
           <meta
             property="og:description"
-            content="Directory of the first 20 accredited sports academies and National Centres of Excellence in India with verified locations and scholarships."
+            content="Official directory of 40 accredited sports academies and National Centres of Excellence in India with verified locations and scholarships."
           />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${SITE_URL}/academy`} />
@@ -208,7 +232,7 @@ export function AccreditedAcademyList({
         </Helmet>
       )}
 
-      {/* 2. SECTION HEADER & BATCH BADGE */}
+      {/* 2. SECTION HEADER & BATCH CONTROLS */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/70">
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -222,7 +246,7 @@ export function AccreditedAcademyList({
 
             <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 border border-primary/30 px-2.5 py-0.5 text-xs font-bold text-primary">
               <Sparkles className="h-3.5 w-3.5" />
-              <span>First 20 Sports Academies (Batch 1 of 20)</span>
+              <span>40 Accredited Academies Active (Batches 1 & 2)</span>
             </span>
           </div>
 
@@ -261,99 +285,142 @@ export function AccreditedAcademyList({
         </div>
       </div>
 
-      {/* 3. INTERACTIVE DISCOVERY FILTERS */}
+      {/* 3. BATCH SWITCHER TABS & INTERACTIVE DISCOVERY FILTERS */}
       {showFilters && (
-        <div className="mt-6 rounded-2xl border border-border bg-card p-4 shadow-xs">
-          <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-            {/* Search Input */}
-            <div className="relative flex-1 min-w-[220px]">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search by academy name, city, coach (e.g. Mary Kom, Tata, Pune)..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9.5 h-9 text-xs bg-background border-border"
-              />
-              {searchTerm && (
-                <button
-                  type="button"
-                  onClick={() => setSearchTerm("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground cursor-pointer"
-                >
-                  Clear
-                </button>
-              )}
+        <div className="mt-6 space-y-3">
+          {/* Batch Selector Tabs */}
+          <div className="flex flex-wrap items-center justify-between gap-2 bg-muted/40 p-1.5 rounded-xl border border-border/70">
+            <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground pl-1">
+              <Layers className="h-4 w-4 text-primary" />
+              <span>Roster Batch:</span>
             </div>
 
-            {/* Sport Filter */}
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
-                <span>Sport:</span>
-                <select
-                  aria-label="Filter by sport"
-                  value={selectedSport}
-                  onChange={(e) => setSelectedSport(e.target.value)}
-                  className="h-8.5 rounded-lg border border-border bg-background px-2.5 text-xs font-semibold text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary cursor-pointer"
-                >
-                  {availableSports.map((sp) => (
-                    <option key={sp} value={sp}>
-                      {sp === "All" ? "All Sports" : `${SPORT_ICONS[sp] || "🏆"} ${sp}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* City Filter */}
-              <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
-                <span>City:</span>
-                <select
-                  aria-label="Filter by city"
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="h-8.5 rounded-lg border border-border bg-background px-2.5 text-xs font-semibold text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary cursor-pointer"
-                >
-                  {availableCities.map((ct) => (
-                    <option key={ct} value={ct}>
-                      {ct === "All" ? "All Locations" : ct}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* ₹0 Scholarship Toggle */}
+            <div className="flex flex-wrap items-center gap-1">
               <Button
                 type="button"
-                variant={scholarshipOnly ? "default" : "outline"}
+                variant={selectedBatch === "all" ? "default" : "ghost"}
                 size="sm"
-                onClick={() => setScholarshipOnly(!scholarshipOnly)}
-                className="h-8.5 text-xs font-semibold gap-1.5 cursor-pointer"
+                onClick={() => setSelectedBatch("all")}
+                className="h-7.5 px-3 text-xs font-semibold cursor-pointer"
               >
-                <Award className="h-3.5 w-3.5" />
-                <span>₹0 Scholarship</span>
+                All 40 Academies
               </Button>
 
-              {/* Reset Filters */}
-              {(searchTerm ||
-                selectedSport !== "All" ||
-                selectedCity !== "All" ||
-                scholarshipOnly) && (
+              <Button
+                type="button"
+                variant={selectedBatch === "batch1" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setSelectedBatch("batch1")}
+                className="h-7.5 px-3 text-xs font-semibold cursor-pointer"
+              >
+                Batch 1 (1–20)
+              </Button>
+
+              <Button
+                type="button"
+                variant={selectedBatch === "batch2" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setSelectedBatch("batch2")}
+                className="h-7.5 px-3 text-xs font-semibold cursor-pointer"
+              >
+                Batch 2 (21–40) ✨
+              </Button>
+            </div>
+          </div>
+
+          {/* Search & Filter Bar */}
+          <div className="rounded-2xl border border-border bg-card p-4 shadow-xs">
+            <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+              {/* Search Input */}
+              <div className="relative flex-1 min-w-[220px]">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Search by academy name, city, coach (e.g. NIS Patiala, Sonepat, Mary Kom, RoundGlass)..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-9.5 h-9 text-xs bg-background border-border"
+                />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchTerm("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+
+              {/* Sport Filter */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+                  <span>Sport:</span>
+                  <select
+                    aria-label="Filter by sport"
+                    value={selectedSport}
+                    onChange={(e) => setSelectedSport(e.target.value)}
+                    className="h-8.5 rounded-lg border border-border bg-background px-2.5 text-xs font-semibold text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary cursor-pointer"
+                  >
+                    {availableSports.map((sp) => (
+                      <option key={sp} value={sp}>
+                        {sp === "All" ? "All Sports" : `${SPORT_ICONS[sp] || "🏆"} ${sp}`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* City Filter */}
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+                  <span>City:</span>
+                  <select
+                    aria-label="Filter by city"
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                    className="h-8.5 rounded-lg border border-border bg-background px-2.5 text-xs font-semibold text-foreground focus:outline-hidden focus:ring-1 focus:ring-primary cursor-pointer"
+                  >
+                    {availableCities.map((ct) => (
+                      <option key={ct} value={ct}>
+                        {ct === "All" ? "All Locations" : ct}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* ₹0 Scholarship Toggle */}
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant={scholarshipOnly ? "default" : "outline"}
                   size="sm"
-                  onClick={() => {
-                    setSearchTerm("");
-                    setSelectedSport("All");
-                    setSelectedCity("All");
-                    setScholarshipOnly(false);
-                  }}
-                  className="h-8.5 text-xs text-muted-foreground hover:text-foreground gap-1 cursor-pointer"
+                  onClick={() => setScholarshipOnly(!scholarshipOnly)}
+                  className="h-8.5 text-xs font-semibold gap-1.5 cursor-pointer"
                 >
-                  <RotateCcw className="h-3.5 w-3.5" />
-                  <span>Reset</span>
+                  <Award className="h-3.5 w-3.5" />
+                  <span>₹0 Scholarship</span>
                 </Button>
-              )}
+
+                {/* Reset Filters */}
+                {(searchTerm ||
+                  selectedSport !== "All" ||
+                  selectedCity !== "All" ||
+                  scholarshipOnly) && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setSearchTerm("");
+                      setSelectedSport("All");
+                      setSelectedCity("All");
+                      setScholarshipOnly(false);
+                    }}
+                    className="h-8.5 text-xs text-muted-foreground hover:text-foreground gap-1 cursor-pointer"
+                  >
+                    <RotateCcw className="h-3.5 w-3.5" />
+                    <span>Reset</span>
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -363,10 +430,15 @@ export function AccreditedAcademyList({
       <div className="mt-6">
         <div className="flex items-center justify-between pb-2 mb-4">
           <span className="text-xs font-semibold text-muted-foreground">
-            Displaying {filteredAcademies.length} of {academies.length} Accredited Academies
+            Displaying {filteredAcademies.length} of {batchFilteredList.length} Academies in{" "}
+            {selectedBatch === "all"
+              ? "All Batches"
+              : selectedBatch === "batch1"
+                ? "Batch 1"
+                : "Batch 2"}
           </span>
           <span className="text-xs text-muted-foreground font-medium hidden sm:inline">
-            Batch 1 of 20 (Prompt 1 of 2)
+            Batches 1 & 2 Complete · 40 Official Academies
           </span>
         </div>
 
@@ -377,8 +449,7 @@ export function AccreditedAcademyList({
               No academies matched your filters
             </h3>
             <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
-              Try selecting "All Sports" or "All Locations" to view all 20 accredited institutions
-              in Batch 1.
+              Try selecting "All Sports" or "All Locations" or toggle to "All 40 Academies".
             </p>
             <Button
               variant="outline"
@@ -388,6 +459,7 @@ export function AccreditedAcademyList({
                 setSelectedSport("All");
                 setSelectedCity("All");
                 setScholarshipOnly(false);
+                setSelectedBatch("all");
               }}
               className="mt-4"
             >

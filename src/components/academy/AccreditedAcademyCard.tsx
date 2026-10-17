@@ -74,6 +74,16 @@ export function getCitySlug(city: string): string {
     Imphal: "imphal",
     Bhiwani: "bhiwani",
     "Navi Mumbai": "navi-mumbai",
+    Patiala: "patiala",
+    Lucknow: "lucknow",
+    Kolkata: "kolkata",
+    Gandhinagar: "gandhinagar",
+    Gwalior: "gwalior",
+    Mohali: "mohali",
+    Panchkula: "panchkula",
+    Jalandhar: "jalandhar",
+    Rohtak: "rohtak",
+    Sonepat: "sonepat",
   };
   return map[city] || city.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }

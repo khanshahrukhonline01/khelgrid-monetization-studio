@@ -75,7 +75,7 @@ export function AcademyPage() {
 
           <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 border border-primary/30 px-3 py-1 text-xs font-bold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Batch 1: 20 Premier Academies (Prompt 1 of 2)</span>
+            <span>40 Premier Academies Loaded (Batches 1 & 2 Active)</span>
           </span>
         </div>
 
@@ -91,8 +91,8 @@ export function AcademyPage() {
         {/* Quick Highlights Counter */}
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
           <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
-            <div className="text-xl sm:text-2xl font-black text-primary">20 Hubs</div>
-            <div className="text-xs text-muted-foreground font-medium">Batch 1 Loaded</div>
+            <div className="text-xl sm:text-2xl font-black text-primary">40 Hubs</div>
+            <div className="text-xs text-muted-foreground font-medium">Batches 1 & 2 Loaded</div>
           </div>
           <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
             <div className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">
@@ -107,7 +107,7 @@ export function AcademyPage() {
             <div className="text-xs text-muted-foreground font-medium">Scholarships Available</div>
           </div>
           <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
-            <div className="text-xl sm:text-2xl font-black text-foreground">16+ Cities</div>
+            <div className="text-xl sm:text-2xl font-black text-foreground">22+ Cities</div>
             <div className="text-xs text-muted-foreground font-medium">Across Pan-India</div>
           </div>
         </div>
@@ -141,25 +141,24 @@ export function AcademyPage() {
 
       {/* 2. DATA-DRIVEN COMPONENT: ACCREDITED ACADEMY LIST */}
       <AccreditedAcademyList
-        academies={DEFAULT_BATCH_1_ACADEMIES}
         title="Accredited Academies Directory"
-        subtitle="Browse the first 20 verified sports academies extracted from the official PDF roster, with rich SEO tags, facility badges, and internal discoverability links."
+        subtitle="Browse all 40 verified sports academies extracted from the official PDF roster across Batches 1 & 2, with rich Schema.org tags, facility badges, and internal discoverability links."
         showFilters={true}
         showSeoMetadata={true}
       />
 
-      {/* 3. BATCH 2 NOTICE & CONTINUATION BANNER */}
+      {/* 3. BATCH COMPLETE CELEBRATION BANNER */}
       <div className="mt-14 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8 text-center max-w-4xl mx-auto">
         <Badge variant="outline" className="border-primary/40 text-primary font-bold mb-2">
-          Prompt 1 Complete · 20 Academies Active
+          Prompts 1 & 2 Complete · All 40 Academies Active
         </Badge>
         <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-          Ready for Batch 2 (Next 20 Academies)?
+          40 Accredited Sports Academies Ready Across India
         </h3>
         <p className="mt-2 text-sm text-muted-foreground max-w-xl mx-auto">
-          We have configured and rendered the first 20 premier Khelo India Accredited Academies with
-          verified locations, sports disciplines, and full SEO metadata. Ask for the next 20 in your
-          next prompt to expand the roster to 40!
+          Both Batch 1 (1–20) and Batch 2 (21–40) of official Khelo India & SAI Accredited Academies
+          are active with verified locations, disciplines, Schema.org metadata, and direct Sports CV
+          application pathways.
         </p>
         <div className="mt-5 flex flex-wrap justify-center gap-3">
           <Button asChild size="sm" className="bg-primary text-primary-foreground">
