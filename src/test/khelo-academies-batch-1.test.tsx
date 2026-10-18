@@ -10,6 +10,7 @@ import {
   DEFAULT_BATCH_3_ACADEMIES,
   DEFAULT_BATCH_4_ACADEMIES,
   DEFAULT_BATCH_5_ACADEMIES,
+  DEFAULT_BATCH_6_ACADEMIES,
 } from "@/components/academy/AccreditedAcademyList";
 import { AccreditedAcademyCard } from "@/components/academy/AccreditedAcademyCard";
 
@@ -42,22 +43,23 @@ vi.mock("react-helmet-async", () => ({
   Helmet: ({ children }: any) => <div data-testid="mock-helmet">{children}</div>,
 }));
 
-describe("Khelo India & SAI Accredited Academies (Batches 1 to 5)", () => {
+describe("Khelo India & SAI Accredited Academies (Batches 1 to 6)", () => {
   const allAcademies = COACHING.filter(
     (c) => c.entityType === "academy" && c.id.startsWith("academy-khelo-"),
   );
 
-  it("contains exactly 100 accredited academies in total across Batches 1 to 5", () => {
-    expect(allAcademies.length).toBe(100);
-    expect(ALL_KHELO_ACADEMIES.length).toBe(100);
+  it("contains exactly 120 accredited academies in total across Batches 1 to 6", () => {
+    expect(allAcademies.length).toBe(120);
+    expect(ALL_KHELO_ACADEMIES.length).toBe(120);
     expect(DEFAULT_BATCH_1_ACADEMIES.length).toBe(20);
     expect(DEFAULT_BATCH_2_ACADEMIES.length).toBe(20);
     expect(DEFAULT_BATCH_3_ACADEMIES.length).toBe(20);
     expect(DEFAULT_BATCH_4_ACADEMIES.length).toBe(20);
     expect(DEFAULT_BATCH_5_ACADEMIES.length).toBe(20);
+    expect(DEFAULT_BATCH_6_ACADEMIES.length).toBe(20);
   });
 
-  it("has valid locations, sports and accreditations for each of the 100 academies", () => {
+  it("has valid locations, sports and accreditations for each of the 120 academies", () => {
     allAcademies.forEach((academy) => {
       expect(academy.title).toBeTruthy();
       expect(academy.academyName).toBeTruthy();
@@ -175,44 +177,69 @@ describe("Khelo India & SAI Accredited Academies (Batches 1 to 5)", () => {
     expect(names).toContain("Mohun Bagan Super Giant Youth Academy");
   });
 
-  it("renders AccreditedAcademyCard with semantic Schema.org microdata and internal links for Batch 5", () => {
-    const mb = DEFAULT_BATCH_5_ACADEMIES.find((a) => a.id === "academy-khelo-100")!; // Mohun Bagan Youth Academy
-    const html = renderToString(<AccreditedAcademyCard academy={mb} />);
+  it("includes flagship Batch 6 accredited academies (101 through 120)", () => {
+    const names = DEFAULT_BATCH_6_ACADEMIES.map((a) => a.academyName);
+    expect(names).toContain("SAI Training Centre (STC) Dharamshala");
+    expect(names).toContain("BBFS Bengaluru Apex Development Centre");
+    expect(names).toContain("SAI NCOE Indira Gandhi Stadium Complex Delhi");
+    expect(names).toContain("Odisha Naval Tata Hockey HPC");
+    expect(names).toContain("National Sports Academy Prayagraj");
+    expect(names).toContain("SAI NCOE IG Stadium Kohima");
+    expect(names).toContain("Churchill Brothers FC Youth Academy");
+    expect(names).toContain("MP State Shooting Academy Gwalior");
+    expect(names).toContain("SAI Training Centre (STC) Bareilly");
+    expect(names).toContain("Chhatrapati Shahu Maharaj Wrestling Academy");
+    expect(names).toContain("PIS Hockey Academy Jalandhar");
+    expect(names).toContain("SAI Training Centre (STC) Salem");
+    expect(names).toContain("Assam Rifles Khelo India Sports School Shillong");
+    expect(names).toContain("SAI Training Centre (STC) Bilaspur");
+    expect(names).toContain("KSSC Athletics Academy Kozhikode");
+    expect(names).toContain("SAI Training Centre (STC) Jabalpur");
+    expect(names).toContain("Vijay Hazare Cricket Academy Vadodara");
+    expect(names).toContain("SAI Training Centre (STC) Alwar");
+    expect(names).toContain("Bengal Cricket Academy Kalyani");
+    expect(names).toContain("SAI Training Centre (STC) Udhampur");
+  });
+
+  it("renders AccreditedAcademyCard with semantic Schema.org microdata and internal links for Batch 6", () => {
+    const hockeyHpc = DEFAULT_BATCH_6_ACADEMIES.find((a) => a.id === "academy-khelo-104")!; // Odisha Naval Tata Hockey HPC
+    const html = renderToString(<AccreditedAcademyCard academy={hockeyHpc} />);
 
     // Schema.org Microdata
     expect(html.toLowerCase()).toContain("itemscope");
     expect(html).toContain("schema.org/SportsActivityLocation");
-    expect(html).toContain(mb.academyName!);
-    expect(html).toContain(mb.city);
-    expect(html).toContain(mb.area);
+    expect(html).toContain(hockeyHpc.academyName!);
+    expect(html).toContain(hockeyHpc.city);
+    expect(html).toContain(hockeyHpc.area);
 
     // Internal links for SEO & discoverability
-    expect(html).toContain('href="/sport/football"');
-    expect(html).toContain('href="/city/kolkata"');
+    expect(html).toContain('href="/sport/hockey"');
+    expect(html).toContain('href="/city/bhubaneswar"');
     expect(html).toContain('href="/search"');
     expect(html).toContain('href="/train"');
   });
 
-  it("renders AccreditedAcademyList component with Batch 5 switcher active", () => {
+  it("renders AccreditedAcademyList component with Batch 6 switcher active", () => {
     const html = renderToString(
-      <AccreditedAcademyList academies={ALL_KHELO_ACADEMIES} initialBatch="batch5" />,
+      <AccreditedAcademyList academies={ALL_KHELO_ACADEMIES} initialBatch="batch6" />,
     );
-    expect(html).toContain("Batch 5 (81–100)");
-    expect(html).toContain("SAI HATC High Altitude Centre Shilaroo");
-    expect(html).toContain("Mohun Bagan Super Giant Youth Academy");
-    expect(html).toContain("East Bengal FC Residential Youth Academy");
+    expect(html).toContain("Batch 6 (101–120)");
+    expect(html).toContain("SAI Training Centre (STC) Dharamshala");
+    expect(html).toContain("Odisha Naval Tata Hockey HPC");
+    expect(html).toContain("Churchill Brothers FC Youth Academy");
     expect(html).toContain('type="application/ld+json"');
     expect(html).toContain("SportsActivityLocation");
   });
 
-  it("renders AcademyPage route with 100 academies loaded banner", () => {
+  it("renders AcademyPage route with 120 academies loaded banner", () => {
     const html = renderToString(<AcademyPage />);
     expect(html).toContain("Khelo India &amp; SAI Accredited");
-    expect(html).toContain("100 Premier Academies Loaded");
+    expect(html).toContain("120 Premier Academies Loaded");
     expect(html).toContain("Army Sports Institute (ASI) Pune");
     expect(html).toContain("NIS Patiala High-Performance Academy");
     expect(html).toContain("Inspire Institute of Sport (IIS)");
     expect(html).toContain("Chandigarh Football Academy (CFA)");
     expect(html).toContain("Mohun Bagan Super Giant Youth Academy");
+    expect(html).toContain("Odisha Naval Tata Hockey HPC");
   });
 });

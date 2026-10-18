@@ -109,6 +109,18 @@ export function getCitySlug(city: string): string {
     Nadiad: "nadiad",
     Amritsar: "amritsar",
     Thalassery: "thalassery",
+    Dharamshala: "dharamshala",
+    Prayagraj: "prayagraj",
+    Kohima: "kohima",
+    Kolhapur: "kolhapur",
+    Salem: "salem",
+    Shillong: "shillong",
+    Bilaspur: "bilaspur",
+    Vadodara: "vadodara",
+    Alwar: "alwar",
+    Kalyani: "kalyani",
+    Udhampur: "udhampur",
+    Bareilly: "bareilly",
   };
   return map[city] || city.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
