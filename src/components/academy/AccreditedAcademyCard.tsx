@@ -44,6 +44,12 @@ export function getSportSlug(sport: string): string {
     Kabaddi: "kabaddi",
     "Kho-Kho": "kho-kho",
     Pickleball: "pickleball",
+    Gymnastics: "gymnastics",
+    Judo: "judo",
+    Shooting: "shooting",
+    Rowing: "rowing",
+    Equestrian: "equestrian",
+    Fencing: "fencing",
   };
   return map[sport] || sport.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
@@ -84,6 +90,25 @@ export function getCitySlug(city: string): string {
     Jalandhar: "jalandhar",
     Rohtak: "rohtak",
     Sonepat: "sonepat",
+    Thiruvananthapuram: "thiruvananthapuram",
+    Alappuzha: "alappuzha",
+    Gurugram: "gurugram",
+    Bellary: "bellary",
+    Patna: "patna",
+    Guwahati: "guwahati",
+    Cuttack: "cuttack",
+    Gangtok: "gangtok",
+    Rourkela: "rourkela",
+    Kurukshetra: "kurukshetra",
+    Vijayawada: "vijayawada",
+    Malappuram: "malappuram",
+    Margao: "margao",
+    Shimla: "shimla",
+    Aizawl: "aizawl",
+    Visakhapatnam: "visakhapatnam",
+    Nadiad: "nadiad",
+    Amritsar: "amritsar",
+    Thalassery: "thalassery",
   };
   return map[city] || city.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }

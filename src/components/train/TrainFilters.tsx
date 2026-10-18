@@ -129,6 +129,9 @@ export const SPORT_ICONS: Record<string, string> = {
   Gymnastics: "🤸",
   Judo: "🥋",
   Shooting: "🎯",
+  Rowing: "🚣",
+  Equestrian: "🏇",
+  Fencing: "🤺",
 };
 
 export interface TrainFiltersProps {
