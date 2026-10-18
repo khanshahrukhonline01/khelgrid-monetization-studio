@@ -22,12 +22,12 @@ import { HOME_FAQ_ITEMS } from "@/data/home-faq";
 export const Route = createFileRoute("/")({
   head: () =>
     buildSeoHead({
-      title: "KhelGrid · India's Sports Opportunity Network | Game, Sport, Play & Trials",
+      title: "KhelGrid · India's Sports Opportunity Network | Trials, Combines & Turfs",
       description:
-        "India's #1 network for game, sport, and play. Discover verified selection trials (including CRPF 2026 sports quota), book sports turfs, join pickup games, and enroll in elite academies across 16+ sports.",
+        "India's premier sports platform. Discover verified selection trials (including CRPF 2026 sports quota), book sports turfs, join pickup games, and enroll in elite academies across 16+ sports.",
       canonicalPath: "/",
       keywords:
-        "game, sport, play, sports trials India, sports opportunities, selection trials 2026, CRPF meritorious sportspersons recruitment 2026, sports quota jobs, sports academies near me, book turf, pickup sports games, turf war, box cricket match, gully cricket, badminton courts, cricket trials, football academy combine, athletics trials India, kho-kho trials, sports CV builder",
+        "sports trials India, sports opportunities, selection trials 2026, CRPF meritorious sportspersons recruitment 2026, sports quota jobs, sports academies near me, book turf, pickup sports games, badminton courts, cricket trials, football academy combine, athletics trials India, sports CV",
       type: "website",
       customSchema: {
         "@type": "FAQPage",

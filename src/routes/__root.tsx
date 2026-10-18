@@ -33,7 +33,6 @@ import { adsConfig, hasValidPublisherId, hasAdSenseEnvId, getEnvPublisherId } fr
 import { analyticsConfig } from "@/config/analytics";
 import { GoogleTagLoader } from "@/components/GoogleTagLoader";
 import { SEO } from "@/components/seo/SEO";
-import { SportsLayoutHelmetSEO } from "@/components/seo/SportsLayoutHelmetSEO";
 import { SEOHead } from "@/components/SEOHead";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FeaturesSidebar } from "@/components/FeaturesSidebar";
@@ -256,7 +255,13 @@ function RootComponent() {
                     <NotificationProvider>
                       <AdConsentProvider requireConsent={false}>
                         <GoogleTagLoader />
-                        <SportsLayoutHelmetSEO />
+                        <SEO
+                          title="KhelGrid · India's Sports Opportunity Network"
+                          description="India's premier sports platform for discovery and development. Find sports selection trials, government recruitments (CRPF 2026), turf venues, coaching academies, and athlete CVs."
+                          canonicalUrl="/"
+                          keywords="sports trials India, sports opportunities, CRPF recruitment 2026, meritorious sportspersons recruitment, selection trials, book sports turf, cricket trials, football academy combines, athletics trials, badminton selection, sports CV India"
+                          formatTitle={false}
+                        />
                         <SEOHead />
                         <AdSenseLoader />
 

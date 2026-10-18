@@ -44,7 +44,6 @@ export interface Trial {
   verifiedLabel?: string;
   urgencyText?: string;
   badge?: "New" | "Closing Soon" | "High Demand" | "Scouted" | "Popular";
-  imageUrl?: string;
 }
 
 export const TRIALS: Trial[] = [
@@ -928,8 +927,6 @@ export const TRIALS: Trial[] = [
     verifiedLabel: "Ministry of Youth Affairs & Sports Verified",
     urgencyText: "Reporting 8:00 AM on Sep 30 · Free Entry",
     badge: "New",
-    imageUrl:
-      "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
     sourceUrl: "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2314372&reg=48&lang=2",
     sourceLabel: "PIB Mumbai Official Release (PRID: 2314372)",
     lastVerified: "Sep 24, 2026",
@@ -946,41 +943,6 @@ export const TRIALS: Trial[] = [
     ],
     selectionProcess:
       "Reporting at 8:00 AM on September 30, 2026 at SAI NCOE Kandivali East. Physical fitness assessment, official weigh-in according to UWW/WFI weight classes, followed by bout-based trials observed by SAI coaches for residential induction.",
-  },
-  {
-    id: "t-sai-national-selection-trials-2026",
-    title: "SAI National Selection Trials (NCOE Residential Academy Induction)",
-    academy: "Sports Authority of India (SAI)",
-    sport: "Athletics",
-    city: "Delhi",
-    date: "Nov 15 - 18, 2026",
-    registrationDeadline: "Nov 10, 2026",
-    fee: 0,
-    spots: 120,
-    tag: "Government Official",
-    ageCategory: "U-14, U-17 & U-21",
-    gender: "Boys & Girls",
-    verifiedLabel: "Sports Authority of India (MYAS) Official",
-    urgencyText: "Official SAI Notification · 100% Free Hostel & Coaching",
-    badge: "New",
-    sourceUrl:
-      "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
-    sourceLabel: "Official SAI Selection Trials Notice (sportsauthorityofindia.nic.in)",
-    imageUrl:
-      "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
-    lastVerified: "Oct 2026",
-    venue: "Jawaharlal Nehru Stadium & SAI National Centres of Excellence (NCOE)",
-    eligibility:
-      "Medalists in National Championships, Khelo India Youth Games, School Games Federation of India (SGFI), or State Championships. Open for boys and girls across Track & Field, Wrestling, Boxing, Archery, and Badminton.",
-    requiredDocuments: [
-      "Original Date of Birth Certificate & Aadhaar Card",
-      "Sports Achievement Certificates (State / National / Khelo India / SGFI)",
-      "Medical Fitness Certificate from Government Hospital",
-      "Bonafide School / College Certificate",
-      "Four passport size photographs & competition kit",
-    ],
-    selectionProcess:
-      "Physical fitness assessment, anthropometric screening, sports-specific skill & stamina test by SAI National Coaches Panel. Selected candidates receive 100% free boarding, world-class lodging, sports science support, gear, and academic schooling.",
   },
   {
     id: "t-1",

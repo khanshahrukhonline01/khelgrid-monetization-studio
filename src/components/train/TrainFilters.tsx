@@ -121,17 +121,6 @@ export const SPORT_ICONS: Record<string, string> = {
   Boxing: "🥊",
   Volleyball: "🏐",
   "Kho-Kho": "🏃",
-  Archery: "🏹",
-  Hockey: "🏑",
-  Wrestling: "🤼",
-  Kabaddi: "🤼",
-  Weightlifting: "🏋️",
-  Gymnastics: "🤸",
-  Judo: "🥋",
-  Shooting: "🎯",
-  Rowing: "🚣",
-  Equestrian: "🏇",
-  Fencing: "🤺",
 };
 
 export interface TrainFiltersProps {

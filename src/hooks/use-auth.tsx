@@ -61,14 +61,6 @@ export interface LoginOptions {
   password?: string;
 }
 
-export interface GoogleSignInOptions {
-  redirectTo?: string;
-  role?: UserRole;
-  name?: string;
-  email?: string;
-  avatarUrl?: string;
-}
-
 export interface LoginResult {
   success: boolean;
   syncedToDb: boolean;
@@ -96,9 +88,7 @@ export interface AuthContextValue extends AuthState {
   ) => Promise<
     AuthResponse<{ user: unknown; session: unknown; profile?: SupabaseUserProfile | null }>
   >;
-  signInWithGoogle: (
-    optionsOrRedirect?: string | GoogleSignInOptions,
-  ) => Promise<AuthResponse<{ url?: string | null; user?: UserAccount }>>;
+  signInWithGoogle: (redirectTo?: string) => Promise<AuthResponse<{ url?: string | null }>>;
   signOut: () => Promise<void>;
   resetPassword: (email: string, redirectTo?: string) => Promise<AuthResponse<void | null>>;
   updatePassword: (newPassword: string) => Promise<AuthResponse<void>>;
@@ -555,70 +545,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   /**
-   * Direct signInWithGoogle helper supporting live Supabase OAuth & Instant Verified Google login
+   * Direct signInWithGoogle helper
    */
   const signInWithGoogle = async (
-    optionsOrRedirect?: string | GoogleSignInOptions,
-  ): Promise<AuthResponse<{ url?: string | null; user?: UserAccount }>> => {
-    const opts: GoogleSignInOptions =
-      typeof optionsOrRedirect === "string"
-        ? { redirectTo: optionsOrRedirect }
-        : optionsOrRedirect || {};
-
-    const targetRole: UserRole = opts.role || "user";
-    const targetEmail = opts.email || "khelgrid@gmail.com";
-    const targetName =
-      opts.name ||
-      (targetEmail.toLowerCase().includes("khelgrid")
-        ? "KhelGrid Official"
-        : targetEmail
-            .split("@")[0]
-            .replace(/[._-]/g, " ")
-            .replace(/\b\w/g, (c) => c.toUpperCase()));
-
-    const targetRoute =
-      opts.redirectTo && opts.redirectTo.startsWith("/")
-        ? opts.redirectTo
-        : targetRole === "coach"
-          ? "/scout-portal"
-          : targetRole === "academy"
-            ? "/academy"
-            : "/dashboard";
-
-    let oauthUrl: string | null = null;
+    redirectTo?: string,
+  ): Promise<AuthResponse<{ url?: string | null }>> => {
     if (supabaseAuthService.isConfigured()) {
-      try {
-        const sbRes = await supabaseAuthService.signInWithGoogle(opts.redirectTo);
-        if (sbRes.success && sbRes.data?.url) {
-          oauthUrl = sbRes.data.url;
-        }
-      } catch (sbErr) {
-        console.warn("Supabase Google OAuth attempt:", sbErr);
-      }
+      return supabaseAuthService.signInWithGoogle(redirectTo);
     }
 
-    // Provision the verified Google Account
+    // In preview / demo environment without active Supabase OAuth keys:
+    // Seamlessly authenticate the user with verified Google identity
     const googleUser: UserAccount = {
-      id: `google-${targetEmail.replace(/[^a-zA-Z0-9]/g, "") || "athlete"}`,
-      name: targetName,
-      email: targetEmail,
+      id: "google-athlete",
+      name: "Google Athlete",
+      email: "khelgrid@gmail.com",
       phone: "+91 98765 43210",
-      role: targetRole,
-      avatarUrl:
-        opts.avatarUrl ||
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      role: "user",
+      avatarUrl: "https://lh3.googleusercontent.com/a/default-user=s96-c",
       city: "Bengaluru",
       primarySport: "Cricket",
       secondarySports: ["Football", "Badminton"],
-      organization:
-        targetRole === "coach"
-          ? "National Sports Federation Coach"
-          : targetRole === "academy"
-            ? "Elite Sports Academy"
-            : "KhelGrid Verified Network",
+      organization: "KhelGrid Verified Network",
       verified: true,
       lastLoginAt: new Date().toISOString(),
-      targetRoute,
+      targetRoute: "/profile",
     };
 
     const dbResult = await recordUserLoginInDatabase(googleUser);
@@ -630,14 +581,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       name: googleUser.name,
       email: googleUser.email,
       phone: googleUser.phone,
-      role: targetRole,
+      role: "user",
       lastLoginAt: dbResult.timestamp,
       lastSyncedToDb: dbResult.syncedToDb,
     }));
 
     return {
       success: true,
-      data: { url: oauthUrl, user: googleUser },
+      data: { url: null },
     };
   };
 
@@ -774,7 +725,7 @@ const fallbackAuthContext: AuthContextValue = {
   }),
   signInWithGoogle: async () => ({
     success: true,
-    data: { url: null, user: defaultUser },
+    data: { url: null },
   }),
   signOut: async () => {},
   resetPassword: async () => ({

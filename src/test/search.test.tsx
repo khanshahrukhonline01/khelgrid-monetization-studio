@@ -157,7 +157,7 @@ describe("Search Trials Page & SEO Optimization", () => {
     it("renders trial cards in grid view by default", () => {
       const html = renderToString(<SearchPage />);
 
-      expect(html).toContain(TRIALS[0].title.replace(/&/g, "&amp;"));
+      expect(html).toContain(TRIALS[0].title);
       expect(html).toContain(TRIALS[0].academy.replace(/&/g, "&amp;"));
     });
 

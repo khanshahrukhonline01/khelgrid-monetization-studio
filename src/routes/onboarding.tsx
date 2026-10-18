@@ -5,12 +5,10 @@ import { buildSeoHead } from "@/lib/seo";
 export const Route = createFileRoute("/onboarding")({
   head: () =>
     buildSeoHead({
-      title: "Athlete Onboarding Wizard · Game, Sport, Play & Sports CV · KhelGrid",
+      title: "Athlete Onboarding Wizard · Setup Sports CV & Socials · KhelGrid",
       description:
-        "Step-based sports onboarding wizard to collect sports interests, playing styles, and proficiency levels for athletes, grassroots players, and pros on KhelGrid.",
+        "Guide new sports athletes through configuring their verified Sports CV, setting performance benchmarks, and connecting social media profiles for talent scouts.",
       canonicalPath: "/onboarding",
-      keywords:
-        "game, sport, play, athlete onboarding wizard, sports interests, proficiency levels, sports CV builder, verified scout card, gully cricket, turf war, pickup games, kho-kho trials, kabaddi raider, athletic combine",
       type: "website",
     }),
   component: OnboardingPage,
