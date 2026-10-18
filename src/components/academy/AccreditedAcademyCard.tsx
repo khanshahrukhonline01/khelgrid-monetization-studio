@@ -121,6 +121,17 @@ export function getCitySlug(city: string): string {
     Kalyani: "kalyani",
     Udhampur: "udhampur",
     Bareilly: "bareilly",
+    Solan: "solan",
+    Agartala: "agartala",
+    Panaji: "panaji",
+    Kashipur: "kashipur",
+    Kollam: "kollam",
+    Dimapur: "dimapur",
+    Mayiladuthurai: "mayiladuthurai",
+    Sagar: "sagar",
+    Mapusa: "mapusa",
+    Gurdaspur: "gurdaspur",
+    Kurnool: "kurnool",
   };
   return map[city] || city.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }

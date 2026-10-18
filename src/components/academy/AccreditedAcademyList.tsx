@@ -32,10 +32,10 @@ import {
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/seo";
 
-// All 120 extracted Khelo India & SAI Accredited Academies
+// All 140 extracted Khelo India & SAI Accredited Academies
 export const ALL_KHELO_ACADEMIES = COACHING.filter(
   (c) => c.entityType === "academy" && c.id.startsWith("academy-khelo-"),
-).slice(0, 120);
+).slice(0, 140);
 
 // Batch 1 (First 20 Academies)
 export const DEFAULT_BATCH_1_ACADEMIES = ALL_KHELO_ACADEMIES.slice(0, 20);
@@ -55,11 +55,14 @@ export const DEFAULT_BATCH_5_ACADEMIES = ALL_KHELO_ACADEMIES.slice(80, 100);
 // Batch 6 (Next 20 Academies: 101 to 120)
 export const DEFAULT_BATCH_6_ACADEMIES = ALL_KHELO_ACADEMIES.slice(100, 120);
 
+// Batch 7 (Next 20 Academies: 121 to 140)
+export const DEFAULT_BATCH_7_ACADEMIES = ALL_KHELO_ACADEMIES.slice(120, 140);
+
 export type BatchFilterType =
-  "all" | "batch1" | "batch2" | "batch3" | "batch4" | "batch5" | "batch6";
+  "all" | "batch1" | "batch2" | "batch3" | "batch4" | "batch5" | "batch6" | "batch7";
 
 export interface AccreditedAcademyListProps {
-  /** Array of academies to render. Defaults to all 120 extracted Khelo India academies */
+  /** Array of academies to render. Defaults to all 140 extracted Khelo India academies */
   academies?: CoachingProgram[];
   /** Initial batch view: "all" | "batch1" | "batch2" */
   initialBatch?: BatchFilterType;
@@ -120,6 +123,9 @@ export function AccreditedAcademyList({
     if (selectedBatch === "batch6") {
       return academies.slice(100, 120);
     }
+    if (selectedBatch === "batch7") {
+      return academies.slice(120, 140);
+    }
     return academies;
   }, [academies, selectedBatch]);
 
@@ -178,9 +184,9 @@ export function AccreditedAcademyList({
     return {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      name: "120 Khelo India & SAI Accredited Sports Academies in India",
+      name: "140 Khelo India & SAI Accredited Sports Academies in India",
       description:
-        "Comprehensive roster of 120 verified Khelo India Accredited Academies (KIAA) and SAI National Centres of Excellence (NCOE) across India with residential boarding and scholarships.",
+        "Comprehensive roster of 140 verified Khelo India Accredited Academies (KIAA) and SAI National Centres of Excellence (NCOE) across India with residential boarding and scholarships.",
       numberOfItems: academies.length,
       itemListElement: academies.map((item, index) => ({
         "@type": "ListItem",
@@ -234,23 +240,23 @@ export function AccreditedAcademyList({
       {showSeoMetadata && (
         <Helmet>
           <title>
-            Top 120 Khelo India & SAI Accredited Sports Academies · Directory | KhelGrid
+            Top 140 Khelo India & SAI Accredited Sports Academies · Directory | KhelGrid
           </title>
           <meta
             name="description"
-            content="Explore 120 verified sports academies extracted from the official Khelo India & SAI accredited directory. Residential coaching, SAI NCOE centres, NIS Patiala, IIS Bellary, STC Dharamshala, BBFS Bengaluru, Odisha Naval Tata Hockey HPC, and scholarship programs across India."
+            content="Explore 140 verified sports academies extracted from the official Khelo India & SAI accredited directory. Residential coaching, SAI NCOE centres, NIS Patiala, IIS Bellary, STC Solan, Tata Steel Water Sports, STC Agartala, FC Goa, Sree Kanteerava, and scholarship programs across India."
           />
           <meta
             name="keywords"
-            content="khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, nis patiala, sai sonepat, sai lucknow, sai rohtak, roundglass sports academy, minerva academy fc, gagan narang gun for glory, mrf pace foundation, sai thiruvananthapuram, sai bhopal, inspire institute of sport, iis bellary, bbfs vedas football, chandigarh football academy, bhiwani boxing club, sai aurangabad, sai shilaroo, army rowing node, mohun bagan academy, east bengal academy, bbfs bengaluru, odisha naval tata hockey, stc dharamshala, prayagraj gymnastics, kolhapur wrestling, bareilly, udhampur, sports academies in india, game, sport, play, sports trials 2026"
+            content="khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, nis patiala, sai sonepat, sai lucknow, sai rohtak, roundglass sports academy, minerva academy fc, gagan narang gun for glory, mrf pace foundation, sai thiruvananthapuram, sai bhopal, inspire institute of sport, iis bellary, bbfs vedas football, chandigarh football academy, bhiwani boxing club, sai aurangabad, sai shilaroo, army rowing node, mohun bagan academy, east bengal academy, bbfs bengaluru, odisha naval tata hockey, stc dharamshala, prayagraj gymnastics, kolhapur wrestling, bareilly, udhampur, sai solan, agartala gymnastics, fc goa youth, kashipur athletics, nis patiala weightlifting, sree kanteerava athletics, jagatpur shooting, sports academies in india, game, sport, play, sports trials 2026"
           />
           <meta
             property="og:title"
-            content="Top 120 Khelo India & SAI Accredited Sports Academies · KhelGrid"
+            content="Top 140 Khelo India & SAI Accredited Sports Academies · KhelGrid"
           />
           <meta
             property="og:description"
-            content="Official directory of 120 accredited sports academies and National Centres of Excellence in India with verified locations and scholarships."
+            content="Official directory of 140 accredited sports academies and National Centres of Excellence in India with verified locations and scholarships."
           />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${SITE_URL}/academy`} />
@@ -273,7 +279,7 @@ export function AccreditedAcademyList({
 
             <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 border border-primary/30 px-2.5 py-0.5 text-xs font-bold text-primary">
               <Sparkles className="h-3.5 w-3.5" />
-              <span>120 Accredited Academies Active (Batches 1 to 6)</span>
+              <span>140 Accredited Academies Active (Batches 1 to 7)</span>
             </span>
           </div>
 
@@ -330,7 +336,7 @@ export function AccreditedAcademyList({
                 onClick={() => setSelectedBatch("all")}
                 className="h-7.5 px-3 text-xs font-semibold cursor-pointer"
               >
-                All 120 Academies
+                All 140 Academies
               </Button>
 
               <Button
@@ -390,7 +396,17 @@ export function AccreditedAcademyList({
                 onClick={() => setSelectedBatch("batch6")}
                 className="h-7.5 px-3 text-xs font-semibold cursor-pointer"
               >
-                Batch 6 (101–120) ✨
+                Batch 6 (101–120)
+              </Button>
+
+              <Button
+                type="button"
+                variant={selectedBatch === "batch7" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setSelectedBatch("batch7")}
+                className="h-7.5 px-3 text-xs font-semibold cursor-pointer"
+              >
+                Batch 7 (121–140) ✨
               </Button>
             </div>
           </div>
@@ -510,10 +526,12 @@ export function AccreditedAcademyList({
                       ? "Batch 4"
                       : selectedBatch === "batch5"
                         ? "Batch 5"
-                        : "Batch 6"}
+                        : selectedBatch === "batch6"
+                          ? "Batch 6"
+                          : "Batch 7"}
           </span>
           <span className="text-xs text-muted-foreground font-medium hidden sm:inline">
-            Batches 1 to 6 Complete · 120 Official Academies
+            Batches 1 to 7 Complete · 140 Official Academies
           </span>
         </div>
 

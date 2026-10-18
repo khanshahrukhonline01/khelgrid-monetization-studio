@@ -23,12 +23,12 @@ export const Route = createFileRoute("/academy")({
   head: () =>
     buildSeoHead({
       title:
-        "Khelo India & SAI Accredited Sports Academies Directory (120 Academies) · KhelGrid | Game, Sport & Play",
+        "Khelo India & SAI Accredited Sports Academies Directory (140 Academies) · KhelGrid | Game, Sport & Play",
       description:
-        "Explore 120 verified Khelo India Accredited Academies (KIAA) and SAI National Centres of Excellence (NCOE) across India. Elite residential coaching, state sports hostels, and Olympic scholarship programs.",
+        "Explore 140 verified Khelo India Accredited Academies (KIAA) and SAI National Centres of Excellence (NCOE) across India. Elite residential coaching, state sports hostels, and Olympic scholarship programs.",
       canonicalPath: "/academy",
       keywords:
-        "khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, gopichand badminton academy, mary kom boxing academy, chhatrasal stadium, bcci centre of excellence, reliance foundation young champs, inspire institute of sport, iis bellary, sai thiruvananthapuram, sai bhopal, stc dharamshala, bbfs bengaluru, odisha naval tata hockey, stc kurukshetra, cfa chandigarh, bhiwani boxing club, sai aurangabad, sai shilaroo, army rowing node, mohun bagan academy, east bengal academy, sports academies in india, game, sport, play, sports coaching 2026, residential sports hostel",
+        "khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, gopichand badminton academy, mary kom boxing academy, chhatrasal stadium, bcci centre of excellence, reliance foundation young champs, inspire institute of sport, iis bellary, sai thiruvananthapuram, sai bhopal, stc solan, tata steel water sports, stc agartala, fc goa, kashipur athletics, nis patiala weightlifting, sree kanteerava athletics, stc dharamshala, bbfs bengaluru, odisha naval tata hockey, stc kurukshetra, cfa chandigarh, bhiwani boxing club, sai aurangabad, sai shilaroo, army rowing node, mohun bagan academy, east bengal academy, sports academies in india, game, sport, play, sports coaching 2026, residential sports hostel",
       type: "website",
     }),
   component: AcademyPage,
@@ -75,7 +75,7 @@ export function AcademyPage() {
 
           <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 border border-primary/30 px-3 py-1 text-xs font-bold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>120 Premier Academies Loaded (Batches 1 to 6 Active)</span>
+            <span>140 Premier Academies Loaded (Batches 1 to 7 Active)</span>
           </span>
         </div>
 
@@ -91,8 +91,8 @@ export function AcademyPage() {
         {/* Quick Highlights Counter */}
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
           <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
-            <div className="text-xl sm:text-2xl font-black text-primary">120 Hubs</div>
-            <div className="text-xs text-muted-foreground font-medium">Batches 1 to 6 Loaded</div>
+            <div className="text-xl sm:text-2xl font-black text-primary">140 Hubs</div>
+            <div className="text-xs text-muted-foreground font-medium">Batches 1 to 7 Loaded</div>
           </div>
           <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
             <div className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">
@@ -107,7 +107,7 @@ export function AcademyPage() {
             <div className="text-xs text-muted-foreground font-medium">Scholarships Available</div>
           </div>
           <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
-            <div className="text-xl sm:text-2xl font-black text-foreground">50+ Cities</div>
+            <div className="text-xl sm:text-2xl font-black text-foreground">60+ Cities</div>
             <div className="text-xs text-muted-foreground font-medium">Across Pan-India</div>
           </div>
         </div>
@@ -142,7 +142,7 @@ export function AcademyPage() {
       {/* 2. DATA-DRIVEN COMPONENT: ACCREDITED ACADEMY LIST */}
       <AccreditedAcademyList
         title="Accredited Academies Directory"
-        subtitle="Browse all 120 verified sports academies extracted from the official PDF roster across Batches 1 to 6, with rich Schema.org tags, facility badges, and internal discoverability links."
+        subtitle="Browse all 140 verified sports academies extracted from the official PDF roster across Batches 1 to 7, with rich Schema.org tags, facility badges, and internal discoverability links."
         showFilters={true}
         showSeoMetadata={true}
       />
@@ -150,15 +150,15 @@ export function AcademyPage() {
       {/* 3. BATCH COMPLETE CELEBRATION BANNER */}
       <div className="mt-14 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8 text-center max-w-4xl mx-auto">
         <Badge variant="outline" className="border-primary/40 text-primary font-bold mb-2">
-          Prompts 1 to 6 Complete · All 120 Academies Active
+          Prompts 1 to 7 Complete · All 140 Academies Active
         </Badge>
         <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-          120 Accredited Sports Academies Ready Across India
+          140 Accredited Sports Academies Ready Across India
         </h3>
         <p className="mt-2 text-sm text-muted-foreground max-w-xl mx-auto">
-          Batches 1 (1–20), 2 (21–40), 3 (41–60), 4 (61–80), 5 (81–100), and 6 (101–120) of official
-          Khelo India & SAI Accredited Academies are active with verified locations, disciplines,
-          Schema.org metadata, and direct Sports CV application pathways.
+          Batches 1 (1–20), 2 (21–40), 3 (41–60), 4 (61–80), 5 (81–100), 6 (101–120), and 7
+          (121–140) of official Khelo India & SAI Accredited Academies are active with verified
+          locations, disciplines, Schema.org metadata, and direct Sports CV application pathways.
         </p>
         <div className="mt-5 flex flex-wrap justify-center gap-3">
           <Button asChild size="sm" className="bg-primary text-primary-foreground">
