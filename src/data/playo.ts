@@ -1,6 +1,6 @@
-// Mock seed data for Playo-style features: venues, coaching, events, games, memberships.
+// Seed data for KhelGrid sports platform: venues, coaching, events, games, memberships.
 
-export const PLAYO_SPORTS = [
+export const KHELGRID_SPORTS = [
   "Cricket",
   "Football",
   "Badminton",
@@ -27,7 +27,9 @@ export const PLAYO_SPORTS = [
   "Fencing",
 ] as const;
 
-export const PLAYO_CITIES = [
+export const PLAYO_SPORTS = KHELGRID_SPORTS;
+
+export const KHELGRID_CITIES = [
   "Bengaluru",
   "Delhi",
   "Mumbai",

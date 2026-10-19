@@ -56,7 +56,7 @@ export const Route = createFileRoute("/play")({
 
 const LEVELS = ["All", "Beginner", "Intermediate", "Advanced"];
 
-// Initial enriched games list from default playo data
+// Initial enriched games list from default khelgrid data
 const INITIAL_GAMES: EnrichedGame[] = GAMES.map((g) => ({
   ...g,
   description: `Join friendly ${g.skillLevel.toLowerCase()} ${g.sport} pickup action at ${g.venue}, ${g.city}. Please carry appropriate sports attire and arrive 15 minutes before the start time.`,

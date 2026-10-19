@@ -56,10 +56,10 @@ describe("VenueDetails", () => {
     expect(html).toContain("1,200");
   });
 
-  it("normalizes Playo venue formats cleanly", () => {
-    const playoFormat = {
-      id: "v-playo-9",
-      name: "Playo Central Turf",
+  it("normalizes KhelGrid venue formats cleanly", () => {
+    const khelgridFormat = {
+      id: "v-khelgrid-9",
+      name: "KhelGrid Central Turf",
       area: "Koramangala",
       city: "Bengaluru",
       distanceKm: 3.2,
@@ -69,11 +69,11 @@ describe("VenueDetails", () => {
       pricePerHour: 1500,
       featured: false,
       bookable: true,
-      image: "https://example.com/playo.jpg",
+      image: "https://example.com/khelgrid.jpg",
     };
 
-    const normalized = normalizeVenueData(playoFormat);
-    expect(normalized.name).toBe("Playo Central Turf");
+    const normalized = normalizeVenueData(khelgridFormat);
+    expect(normalized.name).toBe("KhelGrid Central Turf");
     expect(normalized.price_per_hour).toBe(1500);
     expect(normalized.sports).toContain("Football");
   });

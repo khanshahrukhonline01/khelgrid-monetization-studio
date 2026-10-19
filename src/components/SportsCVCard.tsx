@@ -693,19 +693,19 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
               </a>
             )}
 
-            {data.socialProfiles?.playo && (
+            {(data.socialProfiles?.khelgrid || data.socialProfiles?.playo) && (
               <a
                 href={
-                  data.socialProfiles.playo.startsWith("http")
-                    ? data.socialProfiles.playo
-                    : `https://playo.co/${data.socialProfiles.playo}`
+                  (data.socialProfiles.khelgrid || data.socialProfiles.playo)!.startsWith("http")
+                    ? (data.socialProfiles.khelgrid || data.socialProfiles.playo)!
+                    : `https://khelgrid.com/profile/${data.socialProfiles.khelgrid || data.socialProfiles.playo}`
                 }
                 target="_blank"
                 rel="noreferrer"
                 className="group flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-300 transition-all hover:bg-emerald-500/20 hover:border-emerald-500/50"
               >
                 <Globe className="h-3.5 w-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-                <span>Playo Karma</span>
+                <span>KhelGrid Karma</span>
                 <ExternalLink className="h-3 w-3 opacity-60 group-hover:opacity-100" />
               </a>
             )}

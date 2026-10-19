@@ -734,7 +734,7 @@ export function subscribeToVenueSlots(
 }
 
 /**
- * Helper to seed all default Playo venues and courts directly into the connected Supabase database
+ * Helper to seed all default KhelGrid venues and courts directly into the connected Supabase database
  */
 export async function seedAllVenuesToDatabase(): Promise<{
   success: boolean;

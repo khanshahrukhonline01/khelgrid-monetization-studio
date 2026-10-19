@@ -1481,7 +1481,7 @@ export function AthleteOnboardingWizard({
                 />
               </div>
 
-              {/* Sports Specific Profiles (CricHeroes / Strava / Playo) */}
+              {/* Sports Specific Profiles (CricHeroes / Strava / KhelGrid) */}
               <div className="space-y-3 pt-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                   India Sports Ecosystem Profiles
@@ -1514,13 +1514,16 @@ export function AthleteOnboardingWizard({
 
                   <div className="sm:col-span-2 space-y-1.5">
                     <Label className="text-xs font-semibold flex items-center gap-1.5">
-                      <Globe className="h-3.5 w-3.5 text-emerald-500" /> Playo Community / Turf
+                      <Globe className="h-3.5 w-3.5 text-emerald-500" /> KhelGrid Community / Turf
                       Profile
                     </Label>
                     <Input
-                      value={data.socialProfiles?.playo || ""}
-                      onChange={(e) => updateSocialField("playo", e.target.value)}
-                      placeholder="e.g. https://playo.co/profile/..."
+                      value={data.socialProfiles?.khelgrid || data.socialProfiles?.playo || ""}
+                      onChange={(e) => {
+                        updateSocialField("khelgrid", e.target.value);
+                        updateSocialField("playo", e.target.value);
+                      }}
+                      placeholder="e.g. https://khelgrid.com/profile/..."
                       className="h-9 text-xs"
                     />
                   </div>

@@ -1617,17 +1617,18 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="sm:col-span-2 space-y-1.5">
-            <Label htmlFor="cv-playo">Playo Profile / Community ID</Label>
+            <Label htmlFor="cv-khelgrid">KhelGrid Profile / Community ID</Label>
             <Input
-              id="cv-playo"
-              value={data.socialProfiles?.playo || ""}
+              id="cv-khelgrid"
+              value={data.socialProfiles?.khelgrid || data.socialProfiles?.playo || ""}
               onChange={(e) =>
                 updateField("socialProfiles", {
                   ...data.socialProfiles,
+                  khelgrid: e.target.value,
                   playo: e.target.value,
                 })
               }
-              placeholder="e.g. playo.co/username or karma profile link"
+              placeholder="e.g. khelgrid.com/profile/username or karma profile link"
             />
           </div>
         </div>

@@ -174,7 +174,7 @@ describe("Sports CV Component & Data Layer", () => {
           twitter: "@smriti_cricket",
           cricheroes: "https://cricheroes.com/player-profile/smriti-99",
           strava: "https://www.strava.com/athletes/123456",
-          playo: "https://playo.co/profile/smriti",
+          playo: "https://khelgrid.com/profile/smriti",
         },
       };
 
@@ -186,7 +186,7 @@ describe("Sports CV Component & Data Layer", () => {
       expect(html).toContain("@smriti_cricket");
       expect(html).toContain("CricHeroes Stats");
       expect(html).toContain("Strava Activity");
-      expect(html).toContain("Playo Karma");
+      expect(html).toContain("KhelGrid Karma");
     });
 
     it("applies theme styles (cyber, emerald, crimson, gold, classic)", () => {

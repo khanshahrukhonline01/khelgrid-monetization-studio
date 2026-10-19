@@ -61,7 +61,7 @@ import {
 } from "@/components/ui/dialog";
 import { VenueBookingForm } from "@/components/venue-booking";
 import type { Database } from "@/types/database";
-import type { Venue as PlayoVenue, PibPressReleaseNotice } from "@/data/playo";
+import type { Venue as KhelGridVenue, PibPressReleaseNotice } from "@/data/playo";
 
 export type VenueRow = Database["public"]["Tables"]["venues"]["Row"];
 
@@ -92,11 +92,13 @@ export interface VenueDetailData {
 }
 
 /**
- * Normalizes either a Supabase VenueRow or a Playo Venue object
+ * Normalizes either a Supabase VenueRow or a KhelGrid Venue object
  * into the standard VenueDetailData interface.
  */
-export function normalizeVenueData(v: VenueRow | PlayoVenue | VenueDetailData): VenueDetailData {
-  // Normalize either a Supabase VenueRow or a Playo Venue object
+export function normalizeVenueData(
+  v: VenueRow | KhelGridVenue | VenueDetailData,
+): VenueDetailData {
+  // Normalize either a Supabase VenueRow or a KhelGrid Venue object
   const rawImages =
     (v as { images?: (string | FacilityPhoto)[]; photos?: (string | FacilityPhoto)[] }).images ||
     (v as { photos?: (string | FacilityPhoto)[] }).photos;
@@ -142,7 +144,7 @@ export function normalizeVenueData(v: VenueRow | PlayoVenue | VenueDetailData): 
     };
   }
 
-  // Playo Venue format
+  // KhelGrid Venue format
   return {
     id: v.id,
     name: v.name,
@@ -169,7 +171,7 @@ export function normalizeVenueData(v: VenueRow | PlayoVenue | VenueDetailData): 
 }
 
 export interface VenueDetailsProps {
-  venue: VenueRow | PlayoVenue | VenueDetailData;
+  venue: VenueRow | KhelGridVenue | VenueDetailData;
   onBook?: (venue: VenueDetailData, selectedDate?: string, selectedTime?: string) => void;
   onClose?: () => void;
   className?: string;
