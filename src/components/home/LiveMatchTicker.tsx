@@ -41,7 +41,7 @@ export function LiveMatchTicker({ selectedSport = "All" }: LiveMatchTickerProps)
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
           </span>
           <h2 className="text-sm sm:text-base font-bold text-foreground tracking-tight flex items-center gap-1.5 truncate">
-            <span>In-Play Match Center</span>
+            <span>Live Match Center</span>
           </h2>
           <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
             LIVE
@@ -149,7 +149,7 @@ export function LiveMatchTicker({ selectedSport = "All" }: LiveMatchTickerProps)
                 {selectedMatch.teamA.name} vs {selectedMatch.teamB.name}
               </DialogTitle>
               <DialogDescription className="text-xs">
-                {selectedMatch.matchInfo || "Live In-Play Coverage"}
+                {selectedMatch.matchInfo || "Live Match Coverage"}
               </DialogDescription>
             </DialogHeader>
 

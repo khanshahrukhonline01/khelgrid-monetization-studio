@@ -155,4 +155,98 @@ describe("Reusable SEO Component (react-helmet-async)", () => {
     expect(html).toContain('property="article:modified_time" content="2026-10-15T12:00:00Z"');
     expect(html).toContain('property="article:author" content="Editorial Board"');
   });
+
+  it("automatically generates Schema.org BreadcrumbList structured data", () => {
+    const html = renderToString(
+      <HelmetProvider>
+        <SEO
+          title="Badminton Selection Trials"
+          description="Upcoming badminton trials in India."
+          canonicalUrl="/trials/badminton"
+          breadcrumbs={[
+            { name: "Home", path: "/" },
+            { name: "Trials", path: "/trials" },
+            { name: "Badminton", path: "/trials/badminton" },
+          ]}
+        />
+      </HelmetProvider>,
+    );
+
+    expect(html).toContain("BreadcrumbList");
+    expect(html).toContain('"name":"Home"');
+    expect(html).toContain('"name":"Trials"');
+    expect(html).toContain('"name":"Badminton"');
+    expect(html).toContain(`${SITE_URL}/trials/badminton`);
+  });
+
+  it("automatically generates Schema.org FAQPage structured data", () => {
+    const html = renderToString(
+      <HelmetProvider>
+        <SEO
+          title="Sports Trials FAQ"
+          description="Frequently asked questions about government trials."
+          canonicalUrl="/faq"
+          faqs={[
+            {
+              question: "What documents are required for SAI trials?",
+              answer: "Age proof, sports achievement certificates, and medical fitness form.",
+            },
+            {
+              question: "Is there any entry fee?",
+              answer: "No, all official SAI open trials are completely free of charge.",
+            },
+          ]}
+        />
+      </HelmetProvider>,
+    );
+
+    expect(html).toContain("FAQPage");
+    expect(html).toContain("What documents are required for SAI trials?");
+    expect(html).toContain("Age proof, sports achievement certificates");
+    expect(html).toContain("Is there any entry fee?");
+  });
+
+  it("handles custom robots directive and nofollow correctly", () => {
+    const htmlWithNofollow = renderToString(
+      <HelmetProvider>
+        <SEO
+          title="External Resource Hub"
+          description="Outbound links directory."
+          canonicalUrl="/resources"
+          nofollow={true}
+        />
+      </HelmetProvider>,
+    );
+    expect(htmlWithNofollow).toContain('name="robots" content="index, nofollow"');
+
+    const htmlCustomRobots = renderToString(
+      <HelmetProvider>
+        <SEO
+          title="Special Staging Page"
+          description="Staging meta."
+          canonicalUrl="/staging"
+          robots="noindex, follow, noarchive"
+        />
+      </HelmetProvider>,
+    );
+    expect(htmlCustomRobots).toContain('name="robots" content="noindex, follow, noarchive"');
+  });
+
+  it("supports primary locale and alternateLocales for multilingual SEO", () => {
+    const html = renderToString(
+      <HelmetProvider>
+        <SEO
+          title="Hindi Sports Portal"
+          description="खेल और ट्रायल की जानकारी."
+          canonicalUrl="/hi"
+          locale="hi_IN"
+          alternateLocales={["en_IN", "bn_IN"]}
+        />
+      </HelmetProvider>,
+    );
+
+    expect(html).toContain('property="og:locale" content="hi_IN"');
+    expect(html).toContain('property="og:locale:alternate" content="en_IN"');
+    expect(html).toContain('property="og:locale:alternate" content="bn_IN"');
+  });
 });

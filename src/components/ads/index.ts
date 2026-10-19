@@ -7,6 +7,13 @@ export {
   type AdSenseWrapperProps,
   type AdSenseStatus,
 } from "./AdSenseWrapper";
+export {
+  AdSenseLayoutWrapper,
+  useAdSenseLayout,
+  AutoAdInsert,
+  type AdSenseLayoutWrapperProps,
+  type AdSenseLayoutConfig,
+} from "./AdSenseLayoutWrapper";
 export { AdUnit, AdPlaceholder, type AdUnitProps } from "./AdUnit";
 export {
   BannerAd,

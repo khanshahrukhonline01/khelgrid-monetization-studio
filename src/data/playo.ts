@@ -8153,7 +8153,12 @@ export const COACHING: CoachingProgram[] = [
     entityType: "academy",
     academyName: "Maharashtra State Shooting Academy Balewadi",
     accreditation: "National Rifle Association of India (NRAI) / Maharashtra Sports Department",
-    facilities: ["Hostel / Boarding", "10m, 25m, 50m Electronic Ranges", "Armoury", "Sports Science"],
+    facilities: [
+      "Hostel / Boarding",
+      "10m, 25m, 50m Electronic Ranges",
+      "Armoury",
+      "Sports Science",
+    ],
     format: "High-Performance Combine",
     ageGroup: "U-21 Elite",
     certified: true,

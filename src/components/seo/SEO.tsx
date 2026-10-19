@@ -26,6 +26,10 @@ export interface SEOProps {
   type?: "website" | "article" | "profile" | "book" | "music.song";
   /** Prevent indexing by search engines */
   noindex?: boolean;
+  /** Prevent following links by search engines */
+  nofollow?: boolean;
+  /** Explicit robots directive override (e.g. "index, follow", "noindex, nofollow") */
+  robots?: string;
   /** Custom brand / site name (default: "KhelGrid") */
   siteName?: string;
   /** Whether to append the brand name to the title if not already present (default: true) */
@@ -40,10 +44,20 @@ export interface SEOProps {
   publishedTime?: string;
   /** ISO datetime for modified article */
   modifiedTime?: string;
+  /** Primary locale (default: "en_IN") */
+  locale?: string;
+  /** Alternate locales (e.g. ["hi_IN"]) */
+  alternateLocales?: string[];
   /** Single schema object or array of Schema.org JSON-LD objects */
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
   /** Alias for jsonLd */
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+  /** Alias for jsonLd */
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  /** Breadcrumb items to automatically generate BreadcrumbList schema */
+  breadcrumbs?: Array<{ name: string; url?: string; path?: string }>;
+  /** FAQ items to automatically generate FAQPage schema */
+  faqs?: Array<{ question: string; answer: string }>;
   /** Additional React / Helmet children elements (extra meta, links, scripts) */
   children?: React.ReactNode;
 }
@@ -55,11 +69,11 @@ export interface SEOProps {
  *
  * It manages:
  * - HTML title and standard meta description
- * - Canonical link tag
- * - Robots indexing directives
+ * - Canonical link tag with absolute URL resolution
+ * - Robots indexing directives (index/noindex, follow/nofollow)
  * - Open Graph protocol meta tags (Facebook, WhatsApp, LinkedIn, Discord)
  * - Twitter / X Card meta tags
- * - Schema.org JSON-LD structured data scripts
+ * - Schema.org JSON-LD structured data scripts (Custom, BreadcrumbList, FAQPage)
  * - Extensible child tags within react-helmet-async
  */
 export function SEO({
@@ -74,6 +88,8 @@ export function SEO({
   ogType,
   type = "website",
   noindex = false,
+  nofollow,
+  robots,
   siteName = DEFAULT_SITE_NAME,
   formatTitle = true,
   twitterCard = "summary_large_image",
@@ -81,8 +97,13 @@ export function SEO({
   author,
   publishedTime,
   modifiedTime,
+  locale = "en_IN",
+  alternateLocales,
   jsonLd,
   schema,
+  structuredData,
+  breadcrumbs,
+  faqs,
   children,
 }: SEOProps) {
   // Resolve canonical URL (accept either canonicalUrl or canonical)
@@ -110,16 +131,66 @@ export function SEO({
   }, [keywords]);
 
   // Resolve robots directive
-  const robotsDirective = noindex
-    ? "noindex, nofollow"
-    : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1";
+  const robotsDirective = useMemo(() => {
+    if (robots) return robots;
+    if (noindex) {
+      return nofollow === false ? "noindex, follow" : "noindex, nofollow";
+    }
+    if (nofollow) return "index, nofollow";
+    return "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1";
+  }, [robots, noindex, nofollow]);
+
+  // Automatic BreadcrumbList schema
+  const breadcrumbSchema = useMemo(() => {
+    if (!breadcrumbs || breadcrumbs.length === 0) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((crumb, idx) => ({
+        "@type": "ListItem",
+        position: idx + 1,
+        name: crumb.name,
+        item: resolveCanonicalUrl(crumb.url || crumb.path || "/"),
+      })),
+    };
+  }, [breadcrumbs]);
+
+  // Automatic FAQPage schema
+  const faqSchema = useMemo(() => {
+    if (!faqs || faqs.length === 0) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: f.answer,
+        },
+      })),
+    };
+  }, [faqs]);
 
   // Normalize JSON-LD schemas
   const schemas = useMemo(() => {
-    const raw = jsonLd ?? schema;
-    if (!raw) return [];
-    return Array.isArray(raw) ? raw : [raw];
-  }, [jsonLd, schema]);
+    const raw = jsonLd ?? schema ?? structuredData;
+    const list: Array<Record<string, unknown>> = [];
+    if (raw) {
+      if (Array.isArray(raw)) {
+        list.push(...raw);
+      } else {
+        list.push(raw);
+      }
+    }
+    if (breadcrumbSchema) {
+      list.push(breadcrumbSchema);
+    }
+    if (faqSchema) {
+      list.push(faqSchema);
+    }
+    return list;
+  }, [jsonLd, schema, structuredData, breadcrumbSchema, faqSchema]);
 
   return (
     <Helmet>
@@ -142,7 +213,14 @@ export function SEO({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       {imageAlt && <meta property="og:image:alt" content={imageAlt} />}
-      <meta property="og:locale" content="en_IN" />
+      <meta property="og:locale" content={locale} />
+      {alternateLocales?.map((altLocale) => (
+        <meta
+          key={`og-alt-locale-${altLocale}`}
+          property="og:locale:alternate"
+          content={altLocale}
+        />
+      ))}
 
       {/* Article-specific Open Graph tags */}
       {effectiveType === "article" && publishedTime && (

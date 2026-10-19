@@ -68,7 +68,11 @@ export function SidebarLiveScoreWidget() {
             <span className="font-bold text-foreground truncate">{currentMatch.teamA.code}</span>
           </div>
           {currentMatch.sport === "Cricket" ? (
-            <span className="text-[10px] text-primary font-bold">Google Live</span>
+            <span className="text-[10px] text-primary font-bold">
+              {currentMatch.teamA.score && currentMatch.teamA.score !== "Live"
+                ? currentMatch.teamA.score
+                : "BCCI Official"}
+            </span>
           ) : (
             <span className="font-mono text-xs font-bold text-foreground">
               {currentMatch.teamA.score}

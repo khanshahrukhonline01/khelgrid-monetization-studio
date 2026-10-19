@@ -407,7 +407,7 @@ export function LiveScoresPage() {
                   <span>LIVE CRICKET MATCH CENTER</span>
                 </span>
                 <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-                  {liveCount} Matches In-Play Now
+                  {liveCount} Matches Live Now
                 </span>
               </div>
 
@@ -663,7 +663,7 @@ export function LiveScoresPage() {
               {(
                 [
                   { id: "ALL", label: "All Matches" },
-                  { id: "LIVE", label: "Live In-Play", isLive: true },
+                  { id: "LIVE", label: "Live Matches", isLive: true },
                   { id: "UPCOMING", label: "Upcoming" },
                   { id: "RECENT", label: "Recent Results" },
                 ] as const
@@ -1343,7 +1343,7 @@ function MatchScoreCard({
       <div className="rounded-xl bg-secondary/50 p-2.5 text-[11px] space-y-1 mb-3">
         <div className="flex items-center justify-between text-[10px] text-muted-foreground font-medium">
           <span className="truncate">{match.venueOrOvers || match.sport}</span>
-          <span className="truncate">{match.liveTime || "In-Play"}</span>
+          <span className="truncate">{match.liveTime || "Live"}</span>
         </div>
         <p className="font-medium text-foreground/90 text-xs line-clamp-1">
           {match.statusText || match.highlight}

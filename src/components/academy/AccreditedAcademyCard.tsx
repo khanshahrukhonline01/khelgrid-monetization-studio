@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ShieldCheck,
   MapPin,
-  Star,
   Users,
   Share2,
   ArrowUpRight,
@@ -161,6 +160,30 @@ export function AccreditedAcademyCard({
   const sportSlug = getSportSlug(academy.sport);
   const citySlug = getCitySlug(academy.city);
 
+  // Filter out unsourced outcome claims and format scholarships
+  const cleanHighlights = useMemo(() => {
+    if (!academy.highlights) return [];
+    const banned = [
+      /produced olympian/i,
+      /direct fast-track recruitment/i,
+      /highest rated 5-star/i,
+      /nurtured olympians/i,
+      /produced indian international/i,
+      /recruitment into the armed forces/i,
+      /5-star/i,
+    ];
+    return academy.highlights
+      .filter((h) => !banned.some((b) => b.test(h)))
+      .map((h) =>
+        h.replace(/^100%\s*free\s*(residential\s*)?/i, "Scholarship: check with academy — "),
+      );
+  }, [academy.highlights]);
+
+  const isKheloIndiaAccredited = Boolean(
+    academy.accreditation &&
+    (academy.accreditation.includes("Khelo India") || academy.accreditation.includes("SAI")),
+  );
+
   const handleShare = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -185,7 +208,6 @@ export function AccreditedAcademyCard({
       <meta itemProp="name" content={academy.academyName || academy.title} />
       <meta itemProp="sport" content={academy.sport} />
       <meta itemProp="image" content={academy.image} />
-      <meta itemProp="telephone" content="+91-11-24368393" />
       <meta itemProp="url" content={`${SITE_URL}/academy#${academy.id}`} />
       <div
         itemProp="address"
@@ -196,16 +218,6 @@ export function AccreditedAcademyCard({
         <span itemProp="streetAddress">{academy.area}</span>
         <span itemProp="addressLocality">{academy.city}</span>
         <span itemProp="addressCountry">IN</span>
-      </div>
-      <div
-        itemProp="aggregateRating"
-        itemScope
-        itemType="https://schema.org/AggregateRating"
-        className="hidden"
-      >
-        <meta itemProp="ratingValue" content={String(academy.rating)} />
-        <meta itemProp="reviewCount" content={String(academy.reviewsCount || 50)} />
-        <meta itemProp="bestRating" content="5" />
       </div>
 
       <div>
@@ -221,19 +233,20 @@ export function AccreditedAcademyCard({
 
           {/* Top Badges */}
           <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5">
-            <span className="rounded-md bg-emerald-600/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-white shadow-xs flex items-center gap-1">
+            <span className="rounded-md bg-emerald-700/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-white shadow-xs flex items-center gap-1">
               <ShieldCheck className="h-3 w-3" />
-              <span>{academy.accreditation?.split("/")[0].trim() || "Accredited"}</span>
+              <span>
+                {isKheloIndiaAccredited ? "Khelo India / SAI Listing" : "Recognised Sports Academy"}
+              </span>
             </span>
 
-            <span className="rounded-md bg-black/70 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-white border border-white/20">
+            <span className="rounded-md bg-black/70 backdrop-blur-md px-2 py-0.5 text-[10px] font-medium text-white border border-white/20">
               {academy.level}
             </span>
           </div>
 
-          {/* Bottom Media Bar with Sport Link and Rating */}
+          {/* Bottom Media Bar with Sport Link (Clean - No Fake Ratings) */}
           <div className="absolute bottom-2.5 inset-x-2.5 flex items-center justify-between text-white text-xs">
-            {/* Internal link to Sport Landing Page */}
             <Link
               to="/sport/$slug"
               params={{ slug: sportSlug }}
@@ -245,10 +258,8 @@ export function AccreditedAcademyCard({
               <ArrowUpRight className="h-3 w-3 opacity-70" />
             </Link>
 
-            <span className="flex items-center gap-1 rounded bg-black/60 px-1.5 py-0.5 text-[11px] font-bold">
-              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-              <span>{academy.rating}</span>
-              <span className="text-[10px] text-white/70">({academy.reviewsCount})</span>
+            <span className="text-[10px] text-white/80 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-xs">
+              {academy.format}
             </span>
           </div>
         </div>
@@ -309,10 +320,10 @@ export function AccreditedAcademyCard({
             </div>
           )}
 
-          {/* Highlights */}
-          {academy.highlights && academy.highlights.length > 0 && (
+          {/* Highlights (Cleaned) */}
+          {cleanHighlights.length > 0 && (
             <ul className="text-[11px] text-muted-foreground space-y-0.5 pt-1">
-              {academy.highlights.slice(0, 2).map((h, i) => (
+              {cleanHighlights.slice(0, 2).map((h, i) => (
                 <li key={i} className="flex items-start gap-1 line-clamp-1">
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0 mt-0.5" />
                   <span className="truncate">{h}</span>
@@ -354,18 +365,22 @@ export function AccreditedAcademyCard({
           <div>
             {isFree ? (
               <div>
-                <span className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
-                  ₹0 Scholarship
+                <span className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                  Scholarship: check with academy
                 </span>
-                <div className="text-[10px] text-muted-foreground">Khelo India Free Boarding</div>
+                <div className="text-[10px] text-muted-foreground">
+                  Admission via selection trials
+                </div>
               </div>
             ) : (
               <div>
-                <span className="text-base font-extrabold text-foreground">
+                <span className="text-sm sm:text-base font-extrabold text-foreground">
                   ₹{academy.pricePerMonth.toLocaleString("en-IN")}
                   <span className="text-[11px] font-normal text-muted-foreground"> / mo</span>
                 </span>
-                <div className="text-[10px] text-muted-foreground">Subsidized Academy Batch</div>
+                <div className="text-[10px] text-muted-foreground">
+                  Fees subject to confirmation
+                </div>
               </div>
             )}
           </div>
@@ -386,7 +401,7 @@ export function AccreditedAcademyCard({
               onClick={() => onEnquire?.(academy)}
               className="h-8 px-3 text-xs font-semibold bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 cursor-pointer"
             >
-              {isFree ? "Apply Scholarship" : "Enquire / Join"}
+              View details
             </Button>
           </div>
         </div>

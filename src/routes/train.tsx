@@ -433,10 +433,14 @@ export function TrainPage() {
 
                           <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-2">
                             <span className="font-medium text-foreground">{c.coach}</span>
-                            <span>·</span>
-                            <span className="flex items-center gap-0.5 text-amber-500 font-semibold">
-                              <Star className="h-3 w-3 fill-current" /> {c.rating}
-                            </span>
+                            {c.entityType !== "academy" && (
+                              <>
+                                <span>·</span>
+                                <span className="flex items-center gap-0.5 text-amber-500 font-semibold">
+                                  <Star className="h-3 w-3 fill-current" /> {c.rating}
+                                </span>
+                              </>
+                            )}
                             <span>·</span>
                             <span>{c.level}</span>
                             {c.format && (
@@ -525,10 +529,12 @@ export function TrainPage() {
                             <span>{SPORT_ICONS[c.sport] || "🏆"}</span>
                             <span>{c.sport}</span>
                           </span>
-                          <span className="flex items-center gap-1 rounded bg-black/60 px-1.5 py-0.5 text-[11px] font-bold">
-                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                            <span>{c.rating}</span>
-                          </span>
+                          {c.entityType !== "academy" && (
+                            <span className="flex items-center gap-1 rounded bg-black/60 px-1.5 py-0.5 text-[11px] font-bold">
+                              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                              <span>{c.rating}</span>
+                            </span>
+                          )}
                         </div>
                       </div>
 

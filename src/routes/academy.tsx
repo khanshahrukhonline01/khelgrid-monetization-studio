@@ -11,24 +11,23 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Building2, ShieldCheck, Sparkles, Trophy, GraduationCap, ArrowRight } from "lucide-react";
+import { Building2, Trophy, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";
 import {
   AccreditedAcademyList,
-  DEFAULT_BATCH_1_ACADEMIES,
+  ALL_KHELO_ACADEMIES,
 } from "@/components/academy/AccreditedAcademyList";
 
 export const Route = createFileRoute("/academy")({
   head: () =>
     buildSeoHead({
-      title:
-        "Khelo India & SAI Accredited Sports Academies Directory (260 Academies) · KhelGrid | Game, Sport & Play",
+      title: "Sports Academies in India: Khelo India & SAI Listings | KhelGrid",
       description:
-        "Explore 260 verified Khelo India Accredited Academies (KIAA) and SAI National Centres of Excellence (NCOE) across India. Elite residential coaching, state sports hostels, and Olympic scholarship programs.",
+        "Independent directory of sports academies in India, including Khelo India accredited academies and SAI centres. Filter by sport, city, facilities and fees.",
       canonicalPath: "/academy",
       keywords:
-        "khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, gopichand badminton academy, mary kom boxing academy, chhatrasal stadium, bcci centre of excellence, reliance foundation young champs, inspire institute of sport, iis bellary, sai thiruvananthapuram, sai bhopal, stc hisar, odisha reliance athletics, bfc residential academy, chetan anand badminton, kslta tennis, stc solan, tata steel water sports, stc agartala, fc goa, kashipur athletics, nis patiala weightlifting, sree kanteerava athletics, stc dharamshala, bbfs bengaluru, odisha naval tata hockey, stc kurukshetra, cfa chandigarh, bhiwani boxing club, sai aurangabad, sai shilaroo, army rowing node, mohun bagan academy, east bengal academy, stc chennai, punnamada rowing, haryana boxing bhiwani, sai ncoe bhopal, stc barabati cuttack, mp equestrian bhopal, sai stc agartala gymnastics, haryana archery rohtak, thalassery fencing, stc jagatpur water sports, absc secunderabad, dehradun archery, jabalpur athletics, odisha reliance hpc, varanasi wrestling, ludhiana weightlifting, jn stadium delhi, stc bilaspur athletics, gachibowli fencing, tata football academy jamshedpur, udaipur archery, balewadi shooting pune, nis patiala olympic combine, sports academies in india, game, sport, play, sports coaching 2026, residential sports hostel",
+        "sports academies in india, khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, gopichand badminton academy, mary kom boxing academy, chhatrasal stadium, bcci centre of excellence, reliance foundation young champs, inspire institute of sport, iis bellary, sai thiruvananthapuram, sai bhopal, stc hisar, odisha reliance athletics, bfc residential academy, chetan anand badminton, kslta tennis, stc solan, tata steel water sports, stc agartala, fc goa, kashipur athletics, nis patiala weightlifting, sree kanteerava athletics, stc dharamshala, bbfs bengaluru, odisha naval tata hockey, stc kurukshetra, cfa chandigarh, bhiwani boxing club, sai aurangabad, sai shilaroo, army rowing node, mohun bagan academy, east bengal academy, stc chennai, punnamada rowing, haryana boxing bhiwani, sai ncoe bhopal, stc barabati cuttack, mp equestrian bhopal, sai stc agartala gymnastics, haryana archery rohtak, thalassery fencing, stc jagatpur water sports, absc secunderabad, dehradun archery, jabalpur athletics, odisha reliance hpc, varanasi wrestling, ludhiana weightlifting, jn stadium delhi, stc bilaspur athletics, gachibowli fencing, tata football academy jamshedpur, udaipur archery, balewadi shooting pune, nis patiala olympic combine, sports coaching 2026, residential sports hostel",
       type: "website",
     }),
   component: AcademyPage,
@@ -46,6 +45,9 @@ export function AcademyPage() {
     email: "",
   });
 
+  const totalAcademies = ALL_KHELO_ACADEMIES.length;
+  const totalCities = new Set(ALL_KHELO_ACADEMIES.map((a) => a.city)).size;
+
   const handleRegisterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!registerForm.name.trim() || !registerForm.phone.trim()) {
@@ -53,64 +55,35 @@ export function AcademyPage() {
       return;
     }
     toast.success(
-      `Registration received for "${registerForm.name}"! Our Sports Authority & Accreditation desk will verify your credentials and publish your academy page.`,
+      `Listing claim received for "${registerForm.name}"! Our directory desk will verify your details and update your listing.`,
     );
     setRegisterModalOpen(false);
   };
 
   return (
     <main className="mx-auto max-w-7xl px-3 sm:px-4 py-6 sm:py-10 w-full min-w-0 max-w-full overflow-x-hidden">
-      {/* 1. HERO & BATCH ANNOUNCEMENT BANNER */}
+      {/* 1. HERO SECTION */}
       <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-background to-card p-6 sm:p-10 shadow-sm relative overflow-hidden mb-8">
         <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
 
+        {/* Dynamic Source & Count Badge */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <Badge
             variant="outline"
-            className="border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold gap-1.5 px-3 py-1 text-xs"
+            className="border-primary/30 bg-primary/10 text-primary font-medium px-3 py-1 text-xs"
           >
-            <ShieldCheck className="h-4 w-4" />
-            <span>Official Khelo India & SAI Accredited Directory</span>
+            {totalAcademies} academies listed · {totalCities} cities · Source: SAI &amp; Khelo India
+            Public Directory · Last updated October 2026
           </Badge>
-
-          <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 border border-primary/30 px-3 py-1 text-xs font-bold text-primary">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>260 Premier Academies Loaded (Batches 1 to 13 Active) ⚡</span>
-          </span>
         </div>
 
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground max-w-3xl leading-tight">
-          Khelo India & SAI Accredited Sports Academies
+          Sports Academies Directory India
         </h1>
         <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
-          Official roster of verified Khelo India Accredited Academies (KIAA) and SAI National
-          Centres of Excellence (NCOE) across India. Featuring state-of-the-art sports science,
-          residential boarding, Olympic pedigree mentors, and merit scholarships.
+          An independent directory of academies across India, including those listed under Khelo
+          India and SAI centres. Filter by sport, city and level, then contact the academy directly.
         </p>
-
-        {/* Quick Highlights Counter */}
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
-          <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
-            <div className="text-xl sm:text-2xl font-black text-primary">260 Hubs</div>
-            <div className="text-xs text-muted-foreground font-medium">Batches 1 to 13 Loaded</div>
-          </div>
-          <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
-            <div className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">
-              100% Verified
-            </div>
-            <div className="text-xs text-muted-foreground font-medium">
-              SAI / Federation Recognised
-            </div>
-          </div>
-          <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
-            <div className="text-xl sm:text-2xl font-black text-amber-500">₹0 Merit</div>
-            <div className="text-xs text-muted-foreground font-medium">Scholarships Available</div>
-          </div>
-          <div className="rounded-xl border border-border/70 bg-card/60 backdrop-blur-xs p-3">
-            <div className="text-xl sm:text-2xl font-black text-foreground">95+ Cities</div>
-            <div className="text-xs text-muted-foreground font-medium">Across Pan-India</div>
-          </div>
-        </div>
 
         {/* Top Action CTAs */}
         <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -120,7 +93,7 @@ export function AcademyPage() {
             className="gap-2 bg-primary text-primary-foreground font-semibold shadow-xs cursor-pointer"
           >
             <Building2 className="h-4 w-4" />
-            <span>+ List Your Academy</span>
+            <span>Claim or Update Listing</span>
           </Button>
 
           <Button asChild variant="outline" size="sm" className="gap-2">
@@ -137,54 +110,69 @@ export function AcademyPage() {
             </Link>
           </Button>
         </div>
+
+        {/* Mandatory Independent Platform Disclaimer */}
+        <div className="mt-6 rounded-2xl border border-border/80 bg-background/80 backdrop-blur-xs p-4 sm:p-5 text-xs text-muted-foreground leading-relaxed">
+          <p>
+            KhelGrid is an independent platform. It is not affiliated with, endorsed by or operated
+            by Sports Authority of India, the Ministry of Youth Affairs and Sports, or the Khelo
+            India programme. Listings are compiled from Sports Authority of India &amp; Khelo India
+            public notifications (October 2026) and details submitted by academies. Accreditation,
+            fees, scholarships and facilities can change, so confirm them with the academy and on
+            the official Khelo India and SAI websites before applying. Found an error?{" "}
+            <Link
+              to="/contact"
+              className="underline font-semibold text-foreground hover:text-primary"
+            >
+              Report a correction
+            </Link>
+            . Run an academy?{" "}
+            <button
+              type="button"
+              onClick={() => setRegisterModalOpen(true)}
+              className="underline font-semibold text-foreground hover:text-primary cursor-pointer"
+            >
+              Claim or update your listing
+            </button>
+            .
+          </p>
+        </div>
       </div>
 
-      {/* 2. DATA-DRIVEN COMPONENT: ACCREDITED ACADEMY LIST */}
+      {/* 2. ORIGINAL CONTENT BLOCK: HOW TO CHOOSE A SPORTS ACADEMY */}
+      <section className="mb-8 rounded-2xl border border-border bg-card p-6 sm:p-8">
+        <h2 className="text-xl sm:text-2xl font-bold text-foreground">
+          How to choose a sports academy
+        </h2>
+        <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
+          Start with the sport and age group, then compare coach credentials, weekly training hours,
+          and whether boarding and schooling are included. Khelo India accredited academies and SAI
+          centres (such as National Centres of Excellence and Training Centres) are linked to
+          government programmes, but fees, intake and scholarships vary by academy and year. Visit
+          if you can, ask about trial dates and selection criteria, and get fee and scholarship
+          terms in writing.
+        </p>
+      </section>
+
+      {/* 3. DATA-DRIVEN COMPONENT: ACCREDITED ACADEMY LIST */}
       <AccreditedAcademyList
-        title="Accredited Academies Directory"
-        subtitle="Browse all 260 verified sports academies extracted from the official PDF roster across Batches 1 to 13, with rich Schema.org tags, facility badges, and internal discoverability links."
+        title="Sports Academies Directory"
+        subtitle="Filter academies by sport, city, level and facilities. Details are compiled from public directory records and academy submissions."
         showFilters={true}
         showSeoMetadata={true}
       />
 
-      {/* 3. BATCH COMPLETE CELEBRATION BANNER */}
-      <div className="mt-14 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8 text-center max-w-4xl mx-auto">
-        <Badge variant="outline" className="border-primary/40 text-primary font-bold mb-2">
-          Milestone: Prompts 1 to 13 Complete · All 260 Academies Active ⚡
-        </Badge>
-        <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-          260 Accredited Sports Academies Ready Across India
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground max-w-xl mx-auto">
-          Batches 1 (1–20), 2 (21–40), 3 (41–60), 4 (61–80), 5 (81–100), 6 (101–120), 7 (121–140), 8
-          (141–160), 9 (161–180), 10 (181–200), 11 (201–220), 12 (221–240), and 13 (241–260) of official
-          Khelo India & SAI Accredited Academies are active with verified locations, disciplines,
-          Schema.org metadata, and direct Sports CV application pathways.
-        </p>
-        <div className="mt-5 flex flex-wrap justify-center gap-3">
-          <Button asChild size="sm" className="bg-primary text-primary-foreground">
-            <Link to="/train" search={{ entityType: "academies" }}>
-              Filter Academies in Training Hub <ArrowRight className="ml-1 h-3.5 w-3.5" />
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm">
-            <Link to="/search">Explore Selection Trials</Link>
-          </Button>
-        </div>
-      </div>
-
-      {/* 4. REGISTER ACADEMY MODAL */}
+      {/* 4. REGISTER / CLAIM ACADEMY MODAL */}
       {registerModalOpen && (
         <Dialog open={registerModalOpen} onOpenChange={setRegisterModalOpen}>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
                 <Building2 className="h-5 w-5 text-primary" />
-                <span>List Your Sports Academy on KhelGrid</span>
+                <span>Claim or Update an Academy Listing</span>
               </DialogTitle>
               <DialogDescription className="text-xs">
-                Join India's official discovery network for verified sports talent, trials, and
-                coaching.
+                Submit updated contact details, fees, or facilities for your academy.
               </DialogDescription>
             </DialogHeader>
 
@@ -295,7 +283,7 @@ export function AcademyPage() {
                   size="sm"
                   className="bg-primary text-primary-foreground font-semibold"
                 >
-                  Submit for Verification
+                  Submit Listing Update
                 </Button>
               </DialogFooter>
             </form>

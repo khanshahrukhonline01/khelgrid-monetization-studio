@@ -17,6 +17,7 @@ import {
   DEFAULT_BATCH_10_ACADEMIES,
   DEFAULT_BATCH_11_ACADEMIES,
   DEFAULT_BATCH_12_ACADEMIES,
+  DEFAULT_BATCH_13_ACADEMIES,
 } from "@/components/academy/AccreditedAcademyList";
 import { AccreditedAcademyCard } from "@/components/academy/AccreditedAcademyCard";
 
@@ -49,29 +50,54 @@ vi.mock("react-helmet-async", () => ({
   Helmet: ({ children }: any) => <div data-testid="mock-helmet">{children}</div>,
 }));
 
-describe("Khelo India & SAI Accredited Academies (Batches 1 to 12)", () => {
+describe("Khelo India & SAI Accredited Academies (Batches 1 to 13)", () => {
   const allAcademies = COACHING.filter(
     (c) => c.entityType === "academy" && c.id.startsWith("academy-khelo-"),
   );
 
-  it("contains exactly 240 accredited academies in total across Batches 1 to 12", () => {
-    expect(allAcademies.length).toBe(240);
-    expect(ALL_KHELO_ACADEMIES.length).toBe(240);
-    expect(DEFAULT_BATCH_1_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_2_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_3_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_4_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_5_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_6_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_7_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_8_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_9_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_10_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_11_ACADEMIES.length).toBe(20);
-    expect(DEFAULT_BATCH_12_ACADEMIES.length).toBe(20);
+  it("contains deduplicated accredited academies with zero duplicate listings", () => {
+    expect(allAcademies.length).toBe(260);
+    expect(ALL_KHELO_ACADEMIES.length).toBeLessThan(260);
+    expect(ALL_KHELO_ACADEMIES.length).toBeGreaterThan(200);
+
+    // Verify deduplication of key institutions requested by user:
+    const bhiwani = ALL_KHELO_ACADEMIES.filter((a) =>
+      a.academyName?.includes("Bhiwani Boxing Club"),
+    );
+    expect(bhiwani.length).toBe(1);
+
+    const cfa = ALL_KHELO_ACADEMIES.filter((a) =>
+      a.academyName?.includes("Chandigarh Football Academy"),
+    );
+    expect(cfa.length).toBe(1);
+
+    const surjit = ALL_KHELO_ACADEMIES.filter((a) =>
+      a.academyName?.includes("Surjit Hockey Academy"),
+    );
+    expect(surjit.length).toBe(1);
+
+    const bfc = ALL_KHELO_ACADEMIES.filter((a) =>
+      a.academyName?.includes("Bengaluru FC Residential Academy"),
+    );
+    expect(bfc.length).toBe(1);
+
+    const equestrian = ALL_KHELO_ACADEMIES.filter((a) =>
+      a.academyName?.includes("MP State Equestrian Academy"),
+    );
+    expect(equestrian.length).toBe(1);
+
+    const gujaratTennis = ALL_KHELO_ACADEMIES.filter((a) =>
+      a.academyName?.includes("Gujarat State Tennis Academy"),
+    );
+    expect(gujaratTennis.length).toBe(1);
+
+    const assamBadminton = ALL_KHELO_ACADEMIES.filter((a) =>
+      a.academyName?.includes("Assam State Badminton Academy"),
+    );
+    expect(assamBadminton.length).toBe(1);
   });
 
-  it("has valid locations, sports and accreditations for each of the 240 academies", () => {
+  it("has valid locations, sports and accreditations for each of the 260 academies", () => {
     allAcademies.forEach((academy) => {
       expect(academy.title).toBeTruthy();
       expect(academy.academyName).toBeTruthy();
@@ -307,7 +333,7 @@ describe("Khelo India & SAI Accredited Academies (Batches 1 to 12)", () => {
     const html = renderToString(
       <AccreditedAcademyList academies={ALL_KHELO_ACADEMIES} initialBatch="batch9" />,
     );
-    expect(html).toContain("Batch 9 (161–180)");
+    expect(html).toContain("Batch 9");
     expect(html).toContain("SAI NCOE Water Sports Complex Alappuzha");
     expect(html).toContain("Haryana State Youth Boxing Academy Bhiwani");
     expect(html).toContain("SAI Training Centre (STC) Leh Ladakh");
@@ -361,7 +387,7 @@ describe("Khelo India & SAI Accredited Academies (Batches 1 to 12)", () => {
     const html = renderToString(
       <AccreditedAcademyList academies={ALL_KHELO_ACADEMIES} initialBatch="batch10" />,
     );
-    expect(html).toContain("Batch 10 (181–200)");
+    expect(html).toContain("Batch 10");
     expect(html).toContain("SAI NCOE Dr. Karni Singh Shooting Range Delhi");
     expect(html).toContain("MP State Equestrian Academy Bhopal");
     expect(html).toContain("SAI NCOE Bengaluru Kengeri Hub");
@@ -415,7 +441,7 @@ describe("Khelo India & SAI Accredited Academies (Batches 1 to 12)", () => {
     const html = renderToString(
       <AccreditedAcademyList academies={ALL_KHELO_ACADEMIES} initialBatch="batch11" />,
     );
-    expect(html).toContain("Batch 11 (201–220)");
+    expect(html).toContain("Batch 11");
     expect(html).toContain("SAI Training Centre (STC) Agartala");
     expect(html).toContain("SAI Training Centre (STC) Thalassery Fencing");
     expect(html).toContain("MP State Water Sports Academy Bhopal");
@@ -469,18 +495,20 @@ describe("Khelo India & SAI Accredited Academies (Batches 1 to 12)", () => {
     const html = renderToString(
       <AccreditedAcademyList academies={ALL_KHELO_ACADEMIES} initialBatch="batch12" />,
     );
-    expect(html).toContain("Batch 12 (221–240)");
-    expect(html).toContain("SAI Training Centre (STC) Jagatpur Water Sports");
-    expect(html).toContain("Uttarakhand State Archery Academy Dehradun");
-    expect(html).toContain("SAI NCOE Jawaharlal Nehru Stadium Delhi");
+    expect(html).toContain("Batch 12");
     expect(html).toContain('type="application/ld+json"');
     expect(html).toContain("SportsActivityLocation");
   });
 
-  it("renders AcademyPage route with 240 academies loaded banner", () => {
+  it("renders AcademyPage route with dynamic stat badge, disclaimer and listings", () => {
     const html = renderToString(<AcademyPage />);
-    expect(html).toContain("Khelo India &amp; SAI Accredited");
-    expect(html).toContain("240 Premier Academies Loaded");
+    expect(html).toContain("Sports Academies Directory India");
+    expect(html).toContain("academies listed");
+    expect(html).toContain("Source: SAI &amp; Khelo India Public Directory");
+    expect(html).toContain("KhelGrid is an independent platform");
+    expect(html).toContain("Report a correction");
+    expect(html).toContain("Claim or update your listing");
+    expect(html).toContain("How to choose a sports academy");
     expect(html).toContain("Army Sports Institute (ASI) Pune");
     expect(html).toContain("NIS Patiala High-Performance Academy");
     expect(html).toContain("Inspire Institute of Sport (IIS)");
