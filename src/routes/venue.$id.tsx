@@ -28,7 +28,8 @@ export const Route = createFileRoute("/venue/$id")({
     if (!venue) {
       return buildSeoHead({
         title: "Venue Booking · KhelGrid",
-        description: "Book sports turf, courts, and grounds across India.",
+        description:
+          "Reserve verified sports turfs, badminton courts, football pitches, and cricket nets with instant slot confirmation across Indian metropolitan hubs.",
         canonicalPath: `/venue/${params.id}`,
       });
     }

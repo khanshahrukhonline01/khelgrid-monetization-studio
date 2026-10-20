@@ -20,7 +20,8 @@ export const Route = createFileRoute("/city/$slug")({
     if (!city) {
       return buildSeoHead({
         title: "City Sports Hub · KhelGrid",
-        description: "Explore sports trials, venues, and academies in Indian cities.",
+        description:
+          "Discover verified sports selection trials, turf bookings, NIS certified coaches, and elite academies across major sporting cities in India.",
         canonicalPath: `/city/${params.slug}`,
       });
     }

@@ -43,7 +43,7 @@ export const Route = createFileRoute("/settings")({
     buildSeoHead({
       title: "Account & Application Settings · KhelGrid",
       description:
-        "Manage your KhelGrid account, notification channels, privacy visibility, and theme preferences.",
+        "Manage your KhelGrid user account, alert notifications, privacy settings, athlete profile visibility, and theme preferences.",
       canonicalPath: "/settings",
       noindex: true,
       type: "website",

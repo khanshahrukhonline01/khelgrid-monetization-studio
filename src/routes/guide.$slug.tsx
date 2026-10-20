@@ -37,7 +37,8 @@ export const Route = createFileRoute("/guide/$slug")({
     if (!guide) {
       return buildSeoHead({
         title: "Athlete Guide · KhelGrid",
-        description: "Sports career guidance, trial preparation, and player playbooks.",
+        description:
+          "Comprehensive athlete guides covering sports trial preparation, SAI selection criteria, sports quota recruitment rules, and performance development.",
         canonicalPath: `/guide/${params.slug}`,
       });
     }

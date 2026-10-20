@@ -17,7 +17,8 @@ export const Route = createFileRoute("/tools/$slug")({
     if (!tool) {
       return buildSeoHead({
         title: "Athlete Tool · KhelGrid",
-        description: "Interactive calculators and planners for athletes.",
+        description:
+          "Free interactive athletic calculators, tournament planners, and trial readiness tools to optimize training routines and scouting preparation.",
         canonicalPath: `/tools/${params.slug}`,
       });
     }

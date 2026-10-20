@@ -45,7 +45,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/live-scores")({
   head: () =>
     buildSeoHead({
-      title: "Live Cricket Scores & Fixtures · Real-Time Match Center | KhelGrid",
+      title: "Live Cricket Scores & Match Center · KhelGrid",
       description:
         "Track live cricket scores, ball-by-ball updates, upcoming international fixtures, WPL, and ICC qualifiers with real-time updates on KhelGrid.",
       canonicalPath: "/live-scores",

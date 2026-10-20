@@ -18,9 +18,9 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/posh-policy")({
   head: () =>
     buildSeoHead({
-      title: "POSH Policy · Prevention of Sexual Harassment & Safe Sports | KhelGrid",
+      title: "POSH Policy & Safe Sports Athlete Protection · KhelGrid",
       description:
-        "KhelGrid's zero-tolerance POSH Policy under the Sexual Harassment of Women at Workplace Act 2013 and National Safe Sports guidelines. Protecting athletes, coaches, and staff.",
+        "KhelGrid's zero-tolerance POSH policy under the Act 2013 and National Safe Sports guidelines, safeguarding athletes, coaches, and sports staff across India.",
       canonicalPath: "/posh-policy",
       keywords:
         "POSH policy sports India, prevention of sexual harassment sports, safe sports athlete protection, KhelGrid POSH committee, ICC complaint procedure, athlete safeguarding",

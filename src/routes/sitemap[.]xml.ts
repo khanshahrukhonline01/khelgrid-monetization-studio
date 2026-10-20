@@ -36,10 +36,13 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/search", 0.9, "daily");
   add("/opportunities", 0.9, "daily");
   add("/academy", 0.95, "daily");
+  add("/live-scores", 0.95, "always");
+  add("/calendar", 0.9, "daily");
   add("/play", 0.9, "daily");
   add("/book", 0.9, "daily");
   add("/train", 0.9, "daily");
   add("/events", 0.9, "daily");
+  add("/scout-portal", 0.85, "weekly");
   add("/guides", 0.85, "weekly");
   add("/tools", 0.85, "weekly");
   add("/blog", 0.85, "weekly");
@@ -48,7 +51,8 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/memberships", 0.8, "weekly");
   add("/sports", 0.8, "weekly");
   add("/cities", 0.8, "weekly");
-  add("/start-from-zero", 0.75, "weekly");
+  add("/start-from-zero", 0.8, "weekly");
+  add("/my-stats", 0.8, "weekly");
   add("/learning-hub", 0.75, "weekly");
   add("/talent-scanner", 0.75, "weekly");
   add("/verify", 0.75, "weekly");
@@ -68,6 +72,8 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/verification-policy", 0.3, "yearly");
   add("/correction-policy", 0.3, "yearly");
   add("/cancellation-policy", 0.3, "yearly");
+  add("/copyright-policy", 0.3, "yearly");
+  add("/ipr-policy", 0.3, "yearly");
   add("/posh-policy", 0.3, "yearly");
   add("/privacy", 0.3, "yearly");
   add("/terms", 0.3, "yearly");
@@ -75,6 +81,7 @@ export function generateSitemapEntries(): SitemapEntry[] {
   // Dynamic Trial entries (Verified Opportunities)
   for (const trial of TRIALS) {
     add(`/trial/${trial.id}`, 0.9, "weekly");
+    add(`/opportunities/${trial.id}`, 0.85, "weekly");
   }
 
   // Dynamic Verified Sports Venues & Turfs

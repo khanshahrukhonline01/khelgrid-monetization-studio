@@ -17,7 +17,8 @@ export const Route = createFileRoute("/sport/$slug")({
     if (!sport) {
       return buildSeoHead({
         title: "Sport Directory · KhelGrid",
-        description: "Explore sports trials, training, and tournaments across India.",
+        description:
+          "Discover verified sports selection trials, NIS accredited coaching academies, competitions, and government sports quota recruitments across India.",
         canonicalPath: `/sport/${params.slug}`,
       });
     }

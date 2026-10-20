@@ -33,7 +33,8 @@ export const Route = createFileRoute("/blog/write")({
   head: () =>
     buildSeoHead({
       title: "Write a Sports Article · KhelGrid Editorial",
-      description: "Create an original KhelGrid sports training or career advice article.",
+      description:
+        "Contribute an original sports training analysis, trial preparation guide, or athletic career roadmap to the KhelGrid community publication.",
       canonicalPath: "/blog/write",
       noindex: true,
       type: "website",

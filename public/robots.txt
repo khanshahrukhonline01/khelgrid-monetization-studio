@@ -19,6 +19,12 @@ User-agent: AdsBot-Google
 Allow: /
 Allow: /ads.txt
 
+User-agent: bingbot
+Allow: /
+Allow: /sitemap.xml
+Allow: /llms.txt
+Allow: /6c71a3962bfa4c5ea1f5927c81d83ee6.txt
+
 User-agent: Google-Display-Ads-Bot
 Allow: /
 Allow: /ads.txt

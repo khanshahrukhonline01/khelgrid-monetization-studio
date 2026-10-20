@@ -3,20 +3,29 @@
 
 KhelGrid connects grassroots Indian athletes across 28 sports disciplines with authentic selection combines, Sports Authority of India (SAI) National Centres of Excellence (NCOE), accredited sports academies, and public sector sports quota recruitments.
 
-## Core Opportunities & Trials
+## Documentation, APIs & Project Overview
+- [Documentation & Athlete Guides](https://www.khelgrid.com/guides): Comprehensive athlete development guides, trial preparation roadmaps, and sports quota rules.
+- [Sports Data & Trials API](https://www.khelgrid.com/api/trials): Structured REST API endpoint delivering verified national sports selection trials and combine feeds.
+- [About KhelGrid](https://www.khelgrid.com/about): Mission, governance, institutional verification standards, and brand entity profile.
+- [Trust Center & Verification Policy](https://www.khelgrid.com/trust-center): Rigorous verification methodology ensuring authentic, zero fake trials across all states.
+- [Athlete Sports CV Documentation](https://www.khelgrid.com/start-from-zero): Comprehensive guide to building standardized digital athletic resumes for scouting.
+- [Editorial & Corrections Policy](https://www.khelgrid.com/editorial-policy): Editorial review standards, gazette cross-referencing, and factual correction protocol.
+- [Terms of Service](https://www.khelgrid.com/terms): Official platform terms, athlete code of conduct, and participation guidelines.
+
+## Core Opportunities & Selection Trials
 - [Search Sports Selection Trials](https://www.khelgrid.com/search): Real-time searchable directory of verified sports selection trials across India.
 - [Verified Opportunities & Selections](https://www.khelgrid.com/opportunities): Detailed selection trials with eligibility criteria, age cutoffs, and entry requirements.
 - [Khelo India & SAI Academies](https://www.khelgrid.com/academy): Comprehensive directory of Khelo India and Sports Authority of India accredited training centres.
 - [Sports Events & Tournaments](https://www.khelgrid.com/events): Regional championships, national meets, and sports quota notifications.
-- [Verified Sports Coaches](https://www.khelgrid.com/coaches): Qualified coaches across multiple sports disciplines in India.
+- [Live Match Center & Scores](https://www.khelgrid.com/live-scores): Real-time scores, cricket commentary, and live tournament tracking.
+- [Verified Sports Coaches Directory](https://www.khelgrid.com/coaches): Qualified coaches across multiple sports disciplines in India.
 
 ## Venues, Matchmaking & Athlete Tools
 - [Book Sports Venues & Turfs](https://www.khelgrid.com/book): Turf booking, badminton courts, and cricket nets across Indian metro cities.
 - [Amateur Pickup Games](https://www.khelgrid.com/play): Community sports matchmaking and amateur friendly matches.
 - [Sports Training Programs](https://www.khelgrid.com/train): Specialized coaching camps and athletic training clinics.
-- [Athlete Sports CV Builder](https://www.khelgrid.com/start-from-zero): Digital athlete resume for trials, combines, and talent scouting.
-- [Sports Knowledge Guides](https://www.khelgrid.com/guides): Comprehensive preparation guides, trial checklists, and sports quota rules.
 - [Athletic Calculators & Tools](https://www.khelgrid.com/tools): Athletic performance, calorie, and fitness assessment calculators.
+- [Sports Calendar](https://www.khelgrid.com/calendar): Consolidated calendar of national sports trials, tournaments, and combine dates.
 
 ## Discipline Selection Trials
 - [Cricket Trials Near Me](https://www.khelgrid.com/sport/cricket): U-14 to Senior BCCI and State association selection trials.
@@ -39,7 +48,3 @@ KhelGrid connects grassroots Indian athletes across 28 sports disciplines with a
 - [Pune Sports & Trials](https://www.khelgrid.com/city/pune): Sports selection combines and venue bookings in Pune.
 - [Kolkata Sports & Trials](https://www.khelgrid.com/city/kolkata): Football, cricket, and multisport trials in Kolkata.
 - [Chennai Sports & Trials](https://www.khelgrid.com/city/chennai): Selection trials and accredited training academies in Chennai.
-
-## Optional & Verification
-- [About KhelGrid](https://www.khelgrid.com/about): Mission, verification methodology, and platform architecture.
-- [Trust Center & Verification Policy](https://www.khelgrid.com/trust-center): Rigorous verification standards ensuring zero fake trials.

@@ -26,7 +26,7 @@ export const Route = createFileRoute("/trial/$id")({
       return buildSeoHead({
         title: "Sports Opportunity · KhelGrid",
         description:
-          "Explore sports trials, scouting camps, and scholarship opportunities in India.",
+          "Discover verified sports selection trials, SAI talent scouting combines, coaching scholarships, and government sports quota recruitment drives across India.",
         canonicalPath: `/trial/${params.id}`,
       });
     }

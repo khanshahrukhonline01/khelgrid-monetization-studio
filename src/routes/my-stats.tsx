@@ -23,9 +23,9 @@ import { buildSeoHead } from "@/lib/seo";
 export const Route = createFileRoute("/my-stats")({
   head: () =>
     buildSeoHead({
-      title: "Athlete Sports CV, Position History & Career Stats · KhelGrid",
+      title: "Athlete Sports CV & Career Stats · KhelGrid",
       description:
-        "Review personal athletic CV, position history, career stats, and trial selection analytics.",
+        "Review your personal athletic Sports CV, match history, verified performance statistics, and trial scouting analytics on KhelGrid.",
       canonicalPath: "/my-stats",
       noindex: true,
       type: "website",
