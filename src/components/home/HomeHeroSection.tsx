@@ -382,6 +382,11 @@ export function HomeHeroSection() {
             <img
               src="/src/assets/images/khelgrid_hero_athletes_1790836288244.jpg"
               alt="Young Indian athletes sprinting on a modern training track"
+              width={1200}
+              height={500}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               referrerPolicy="no-referrer"
               className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
             />

@@ -230,7 +230,10 @@ function CoachCard({ coach }: { coach: CoachProfile }) {
         <img
           src={coach.image}
           alt={`${coach.name}, ${coach.sport} coach`}
+          width={400}
+          height={250}
           loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover"
         />
         <span className="absolute left-3 top-3 rounded-md bg-background/90 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-foreground backdrop-blur-sm">

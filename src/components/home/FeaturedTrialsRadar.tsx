@@ -149,6 +149,8 @@ export function FeaturedTrialsRadar({
                   <img
                     src={getTrialCardImage(trial.sport)}
                     alt={`${trial.title} - ${trial.sport} Selection Trial`}
+                    width={400}
+                    height={250}
                     loading="lazy"
                     decoding="async"
                     referrerPolicy="no-referrer"

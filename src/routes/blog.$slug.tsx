@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, lazy, Suspense } from "react";
 import {
   ArrowLeft,
   CalendarDays,
@@ -17,12 +17,38 @@ import { useBlog } from "@/context/BlogContext";
 import { BLOG_POSTS } from "@/data/blog";
 import { buildSeoHead } from "@/lib/seo";
 import { MatchStatsCard } from "@/components/blog/MatchStatsCard";
-import { MatchAnalysisFeedbackForm } from "@/components/blog/MatchAnalysisFeedbackForm";
-import { MatchStatisticsCharts } from "@/components/blog/MatchStatisticsCharts";
-import { IndiaJapanSocialFeed } from "@/components/blog/IndiaJapanSocialFeed";
-import { AsianGamesAnalytics } from "@/components/blog/AsianGamesAnalytics";
-import { MatchOutcomePredictor } from "@/components/blog/MatchOutcomePredictor";
-import { AnalyticNewsletterForm } from "@/components/blog/AnalyticNewsletterForm";
+
+// Non-critical analytical widgets lazy loaded to improve FCP/LCP
+const MatchAnalysisFeedbackForm = lazy(() =>
+  import("@/components/blog/MatchAnalysisFeedbackForm").then((m) => ({
+    default: m.MatchAnalysisFeedbackForm,
+  })),
+);
+const MatchStatisticsCharts = lazy(() =>
+  import("@/components/blog/MatchStatisticsCharts").then((m) => ({
+    default: m.MatchStatisticsCharts,
+  })),
+);
+const IndiaJapanSocialFeed = lazy(() =>
+  import("@/components/blog/IndiaJapanSocialFeed").then((m) => ({
+    default: m.IndiaJapanSocialFeed,
+  })),
+);
+const AsianGamesAnalytics = lazy(() =>
+  import("@/components/blog/AsianGamesAnalytics").then((m) => ({
+    default: m.AsianGamesAnalytics,
+  })),
+);
+const MatchOutcomePredictor = lazy(() =>
+  import("@/components/blog/MatchOutcomePredictor").then((m) => ({
+    default: m.MatchOutcomePredictor,
+  })),
+);
+const AnalyticNewsletterForm = lazy(() =>
+  import("@/components/blog/AnalyticNewsletterForm").then((m) => ({
+    default: m.AnalyticNewsletterForm,
+  })),
+);
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
@@ -193,8 +219,17 @@ function BlogArticle() {
         </div>
       </div>
 
-      <div className="mx-auto mt-8 max-w-5xl overflow-hidden rounded-2xl border border-border bg-secondary">
-        <img src={post.coverImage} alt={post.title} className="max-h-[480px] w-full object-cover" />
+      <div className="mx-auto mt-8 max-w-5xl overflow-hidden rounded-2xl border border-border bg-secondary aspect-[16/9] sm:aspect-[21/9]">
+        <img
+          src={post.coverImage}
+          alt={post.title}
+          width={1200}
+          height={630}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          className="h-full w-full object-cover"
+        />
       </div>
 
       <div className="mx-auto mt-8 grid max-w-5xl gap-10 lg:grid-cols-[minmax(0,1fr)_260px]">
@@ -322,16 +357,18 @@ function BlogArticle() {
 
             {/* Active Analytics Tool */}
             <div className="pt-1">
-              {activeAnalyticsHub === "asiad" ? (
-                <AsianGamesAnalytics />
-              ) : activeAnalyticsHub === "predictor" ? (
-                <MatchOutcomePredictor />
-              ) : (
-                <div className="space-y-6">
-                  <MatchStatisticsCharts />
-                  <IndiaJapanSocialFeed />
-                </div>
-              )}
+              <Suspense fallback={<div className="h-64 w-full rounded-xl bg-muted/30 animate-pulse" />}>
+                {activeAnalyticsHub === "asiad" ? (
+                  <AsianGamesAnalytics />
+                ) : activeAnalyticsHub === "predictor" ? (
+                  <MatchOutcomePredictor />
+                ) : (
+                  <div className="space-y-6">
+                    <MatchStatisticsCharts />
+                    <IndiaJapanSocialFeed />
+                  </div>
+                )}
+              </Suspense>
             </div>
           </section>
 
@@ -367,22 +404,26 @@ function BlogArticle() {
           )}
 
           {/* Monetization & Scouting Intelligence Newsletter Subscription Lead Capture */}
-          <AnalyticNewsletterForm
-            postSlug={post.slug}
-            postTitle={post.title}
-            postCategory={post.category}
-          />
+          <Suspense fallback={<div className="h-32 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+            <AnalyticNewsletterForm
+              postSlug={post.slug}
+              postTitle={post.title}
+              postCategory={post.category}
+            />
+          </Suspense>
 
           {/* Interactive SEO-Optimized Discussion & Feedback Form */}
-          <MatchAnalysisFeedbackForm
-            postSlug={post.slug}
-            postTitle={post.title}
-            readMins={post.readMins}
-            wordCount={wordCount}
-            metaTitle={post.metaTitle}
-            metaDescription={post.metaDescription}
-            keywords={post.keywords}
-          />
+          <Suspense fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+            <MatchAnalysisFeedbackForm
+              postSlug={post.slug}
+              postTitle={post.title}
+              readMins={post.readMins}
+              wordCount={wordCount}
+              metaTitle={post.metaTitle}
+              metaDescription={post.metaDescription}
+              keywords={post.keywords}
+            />
+          </Suspense>
 
           <div className="mt-10 rounded-2xl border border-primary/30 bg-primary/5 p-5">
             <h2 className="font-semibold">Turn the tactical advice into action</h2>

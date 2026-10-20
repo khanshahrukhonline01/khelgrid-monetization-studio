@@ -222,11 +222,14 @@ export function AccreditedAcademyCard({
 
       <div>
         {/* Card Header & Visual Media */}
-        <div className="relative aspect-16/10 w-full overflow-hidden bg-muted">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
           <img
             src={academy.image}
             alt={`${academy.academyName || academy.title} - ${academy.sport} Academy in ${academy.city}`}
+            width={400}
+            height={250}
             loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />

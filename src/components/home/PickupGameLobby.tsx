@@ -116,6 +116,8 @@ export function PickupGameLobby({
                   <img
                     src={getPickupGameCardImage(game.sport)}
                     alt={`${game.title} - ${game.sport} Pickup Match`}
+                    width={400}
+                    height={250}
                     loading="lazy"
                     decoding="async"
                     referrerPolicy="no-referrer"

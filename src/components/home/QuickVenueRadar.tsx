@@ -89,10 +89,12 @@ export function QuickVenueRadar({
           >
             <div>
               {/* Venue Image / Visual Banner */}
-              <div className="relative h-36 sm:h-32 w-full overflow-hidden rounded-xl bg-muted shrink-0">
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-muted shrink-0">
                 <img
                   src={getVenueCardImage(venue.id, venue.sports[0])}
                   alt={`${venue.name} - Sports Turf in ${venue.city}`}
+                  width={400}
+                  height={250}
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"

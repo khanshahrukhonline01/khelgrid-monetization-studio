@@ -174,6 +174,8 @@ export function FeaturedAcademiesSection() {
                 <img
                   src={getAcademyCardImage(academy.id)}
                   alt={`${academy.name} - Sports Academy in ${academy.city}`}
+                  width={400}
+                  height={250}
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"

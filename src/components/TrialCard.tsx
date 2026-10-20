@@ -77,6 +77,8 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
             <img
               src={trial.posterUrl || trial.imageUrl || getTrialCardImage(trial.sport)}
               alt={`${trial.title} - ${trial.sport} Selection Trial`}
+              width={400}
+              height={250}
               loading="lazy"
               decoding="async"
               referrerPolicy="no-referrer"

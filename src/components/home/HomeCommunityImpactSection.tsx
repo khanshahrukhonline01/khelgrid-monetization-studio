@@ -55,6 +55,10 @@ export function HomeCommunityImpactSection() {
               <img
                 src="/src/assets/images/khelgrid_academy_showcase_1790836301666.jpg"
                 alt="Modern Indian sports training and athlete trial center"
+                width={800}
+                height={600}
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 className="h-full w-full object-cover object-center"
               />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   AppHeaderBanner,
@@ -7,17 +7,33 @@ import {
   LiveMatchTicker,
   FeaturedTrialsRadar,
   QuickVenueRadar,
-  PickupGameLobby,
-  AthletePathwayCard,
-  NativeAppBanner,
-  HomeNewsWireSection,
-  FeaturedAcademiesSection,
-  HomeCommunityImpactSection,
 } from "@/components/home";
-import { HomeFaqSection } from "@/components/HomeFaqSection";
 import { BannerAd, ResponsiveAd } from "@/components/ads";
 import { buildSeoHead } from "@/lib/seo";
 import { HOME_FAQ_ITEMS } from "@/data/home-faq";
+
+// Non-critical below-the-fold components lazy-loaded to optimize Critical Rendering Path (FCP & LCP)
+const PickupGameLobby = lazy(() =>
+  import("@/components/home/PickupGameLobby").then((m) => ({ default: m.PickupGameLobby })),
+);
+const AthletePathwayCard = lazy(() =>
+  import("@/components/home/AthletePathwayCard").then((m) => ({ default: m.AthletePathwayCard })),
+);
+const HomeNewsWireSection = lazy(() =>
+  import("@/components/home/HomeNewsWireSection").then((m) => ({ default: m.HomeNewsWireSection })),
+);
+const NativeAppBanner = lazy(() =>
+  import("@/components/home/NativeAppBanner").then((m) => ({ default: m.NativeAppBanner })),
+);
+const FeaturedAcademiesSection = lazy(() =>
+  import("@/components/home/FeaturedAcademiesSection").then((m) => ({ default: m.FeaturedAcademiesSection })),
+);
+const HomeCommunityImpactSection = lazy(() =>
+  import("@/components/home/HomeCommunityImpactSection").then((m) => ({ default: m.HomeCommunityImpactSection })),
+);
+const HomeFaqSection = lazy(() =>
+  import("@/components/HomeFaqSection").then((m) => ({ default: m.HomeFaqSection })),
+);
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -95,27 +111,41 @@ function Home() {
         {/* 7. Instant Turf & Court Booking */}
         <QuickVenueRadar selectedCity={selectedCity} selectedSport={selectedSport} />
 
-        {/* 8. Community Pickup Games Lobby */}
-        <PickupGameLobby selectedCity={selectedCity} selectedSport={selectedSport} />
+        {/* 8. Community Pickup Games Lobby (Lazy-loaded with zero-shift fallback) */}
+        <Suspense fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <PickupGameLobby selectedCity={selectedCity} selectedSport={selectedSport} />
+        </Suspense>
 
         {/* 9. Athlete Passport & Verified Sports CV Feature */}
-        <AthletePathwayCard />
+        <Suspense fallback={<div className="h-40 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <AthletePathwayCard />
+        </Suspense>
 
         {/* 10. National Sports Wire & Live Editorial */}
-        <HomeNewsWireSection />
+        <Suspense fallback={<div className="h-64 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <HomeNewsWireSection />
+        </Suspense>
 
         {/* 11. Multi-Platform PWA, Android & iOS Native App Showcase */}
-        <NativeAppBanner />
+        <Suspense fallback={<div className="h-32 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <NativeAppBanner />
+        </Suspense>
 
         {/* 12. Featured Training Institutions & Sports Academies */}
-        <FeaturedAcademiesSection />
+        <Suspense fallback={<div className="h-56 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <FeaturedAcademiesSection />
+        </Suspense>
 
         {/* 13. Zero Fake Trials Standard & Community Trust Audit */}
-        <HomeCommunityImpactSection />
+        <Suspense fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <HomeCommunityImpactSection />
+        </Suspense>
 
         {/* 14. Frequently Asked Questions Accordion */}
         <div className="pt-2">
-          <HomeFaqSection />
+          <Suspense fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+            <HomeFaqSection />
+          </Suspense>
         </div>
 
         {/* 15. Responsive Footer Ad Unit */}
