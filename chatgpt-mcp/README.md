@@ -12,7 +12,7 @@ An isolated, read-only MCP endpoint for ChatGPT to search public Khelgrid sports
 - `SUPABASE_URL`: the Khelgrid Supabase project URL.
 - `SUPABASE_ANON_KEY`: the project's public anon/publishable key.
 
-Do not set a service-role key. The endpoint uses the anon key so Supabase Row Level Security remains in force. Before enabling the app publicly, verify that the opportunities table has a SELECT policy exposing only intended public records. If no public policy exists, the endpoint should return no rows until that policy is designed and reviewed; do not bypass RLS.
+Do not set a service-role key. The endpoint uses the anon key so Supabase Row Level Security remains in force. The current live RLS policy allows anonymous reads only where `opportunities.status = 'published'`; the server explicitly limits results to that status. If the policy changes, review the security impact before changing this filter.
 
 ## Local setup
 
@@ -37,8 +37,8 @@ Set the two environment variables locally using Vercel's environment workflow or
 
 ## Important limitations before public launch
 
-- The opportunity table and public SELECT policy must be verified against the live Supabase project.
+- This is a development scaffold and must pass the pull-request typecheck plus a real MCP Inspector test before deployment.
 - The first version deliberately exposes no profiles, applications, payments, wallet, bookings, or write operations.
-- The initial tool uses the public opportunity statuses `published`, `active` and `upcoming`. Confirm these match the actual database constraints before launch.
 - Search results currently link to the general Khelgrid search page because a canonical public detail URL has not yet been confirmed.
+- Add appropriate rate limiting and abuse monitoring before public release.
 - Public app submission and listing are subject to OpenAI's current eligibility and review requirements.
