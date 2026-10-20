@@ -217,11 +217,11 @@ function RootShell({ children }: { children: ReactNode }) {
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaMeasurementId}',{send_page_view:true});`,
           }}
         />
-        {/* Official Google AdSense script for site ownership verification & ads delivery (only loaded when VITE_GOOGLE_ADSENSE_ID is present) */}
-        {hasAdSenseEnvId() && (
+        {/* Official Google AdSense script for site ownership verification & ads delivery */}
+        {(hasAdSenseEnvId() || adsConfig.publisherId) && (
           <script
             async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${getEnvPublisherId()}`}
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${getEnvPublisherId() || adsConfig.publisherId}`}
             crossOrigin="anonymous"
             suppressHydrationWarning
           />
