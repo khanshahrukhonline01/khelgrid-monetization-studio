@@ -502,12 +502,12 @@ export function Navbar() {
             >
               <Link
                 to="/login"
-                title="Log In"
-                aria-label="Log In"
+                title="Login coming soon"
+                aria-label="Login coming soon"
                 className="flex items-center gap-1.5"
               >
                 <LogIn className="h-3.5 w-3.5" />
-                <span>Log In</span>
+                <span>Coming Soon</span>
               </Link>
             </Button>
           )}
