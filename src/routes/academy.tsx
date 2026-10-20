@@ -11,13 +11,20 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Building2, Trophy, GraduationCap } from "lucide-react";
+import { Building2, Trophy, GraduationCap, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";
 import {
   AccreditedAcademyList,
   ALL_KHELO_ACADEMIES,
 } from "@/components/academy/AccreditedAcademyList";
+import { ACADEMY_FAQS, generateAcademyFaqSchema } from "@/data/academy-faq";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/academy")({
   head: () =>
@@ -27,8 +34,9 @@ export const Route = createFileRoute("/academy")({
         "Independent directory of sports academies in India, including Khelo India accredited academies and SAI centres. Filter by sport, city, facilities and fees.",
       canonicalPath: "/academy",
       keywords:
-        "sports academies in india, khelo india accredited academies, sports authority of india, sai ncoe, army sports institute pune, tata archery academy, usha school of athletics, gopichand badminton academy, mary kom boxing academy, chhatrasal stadium, bcci centre of excellence, reliance foundation young champs, inspire institute of sport, iis bellary, sai thiruvananthapuram, sai bhopal, stc hisar, odisha reliance athletics, bfc residential academy, chetan anand badminton, kslta tennis, stc solan, tata steel water sports, stc agartala, fc goa, kashipur athletics, nis patiala weightlifting, sree kanteerava athletics, stc dharamshala, bbfs bengaluru, odisha naval tata hockey, stc kurukshetra, cfa chandigarh, bhiwani boxing club, sai aurangabad, sai shilaroo, army rowing node, mohun bagan academy, east bengal academy, stc chennai, punnamada rowing, haryana boxing bhiwani, sai ncoe bhopal, stc barabati cuttack, mp equestrian bhopal, sai stc agartala gymnastics, haryana archery rohtak, thalassery fencing, stc jagatpur water sports, absc secunderabad, dehradun archery, jabalpur athletics, odisha reliance hpc, varanasi wrestling, ludhiana weightlifting, jn stadium delhi, stc bilaspur athletics, gachibowli fencing, tata football academy jamshedpur, udaipur archery, balewadi shooting pune, nis patiala olympic combine, sports coaching 2026, residential sports hostel",
+        "sports academies in india, khelo india accredited academies, sports authority of india, sai ncoe, sports academies faq, how to join sports academy, sai sports hostel, sports scholarships india, sports academy fees, admission sports academy, sports academy selection trials",
       type: "website",
+      customSchema: generateAcademyFaqSchema(),
     }),
   component: AcademyPage,
 });
@@ -161,6 +169,40 @@ export function AcademyPage() {
         showFilters={true}
         showSeoMetadata={true}
       />
+
+      {/* 4. FREQUENTLY ASKED QUESTIONS (FAQ) & RICH RESULTS ACCORDION */}
+      <section className="my-12 rounded-3xl border border-border/80 bg-gradient-to-br from-card/80 via-card/40 to-background p-6 sm:p-10 shadow-sm">
+        <div className="flex items-center gap-2 mb-2">
+          <HelpCircle className="h-5 w-5 text-primary" />
+          <span className="text-xs font-bold uppercase tracking-wider text-primary">
+            Knowledge & FAQs
+          </span>
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+          Frequently Asked Questions About Sports Academies in India
+        </h2>
+        <p className="mt-2 text-sm text-muted-foreground max-w-3xl">
+          Everything parents and athletes need to know about Khelo India accreditation, SAI scholarships, admissions, facilities, and selection trials.
+        </p>
+
+        <Accordion type="single" collapsible className="mt-8 divide-y divide-border/60">
+          {ACADEMY_FAQS.map((faq) => (
+            <AccordionItem key={faq.id} value={faq.id} className="border-border/60 py-1">
+              <AccordionTrigger className="text-sm sm:text-base font-semibold text-foreground hover:text-primary hover:no-underline">
+                <span className="flex items-center gap-2 text-left">
+                  <Badge variant="outline" className="text-[10px] border-primary/30 text-primary font-normal hidden sm:inline-flex">
+                    {faq.category}
+                  </Badge>
+                  {faq.question}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="text-xs sm:text-sm text-muted-foreground leading-relaxed pt-2">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </section>
 
       {/* 4. REGISTER / CLAIM ACADEMY MODAL */}
       {registerModalOpen && (
