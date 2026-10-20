@@ -1,0 +1,28 @@
+name: Khelgrid ChatGPT MCP checks
+
+on:
+  pull_request:
+    paths:
+      - "chatgpt-mcp/**"
+      - ".github/workflows/chatgpt-mcp.yml"
+  push:
+    branches:
+      - main
+      - "feature/chatgpt-app-mcp"
+    paths:
+      - "chatgpt-mcp/**"
+      - ".github/workflows/chatgpt-mcp.yml"
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: chatgpt-mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run typecheck
