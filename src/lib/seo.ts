@@ -346,32 +346,78 @@ export function generateRouteSpecificSchema(
     };
   }
 
-  if (cleanPath.startsWith("/guide")) {
-    return {
-      "@type": "Article",
-      "@id": `${canonicalUrl}#article`,
-      headline: title,
-      description,
-      url: canonicalUrl,
-      publisher: { "@id": `${SITE_URL}/#organization` },
-      ...(options?.author ? { author: { "@type": "Person", name: options.author } } : {}),
-      ...(options?.publishedTime ? { datePublished: options.publishedTime } : {}),
-      ...(options?.modifiedTime ? { dateModified: options.modifiedTime } : {}),
-    };
-  }
+  if (cleanPath.startsWith("/guide") || cleanPath.startsWith("/blog") || options?.type === "article") {
+    const isBlog = cleanPath.startsWith("/blog");
+    const isBlogHub = cleanPath === "/blog";
+    if (isBlogHub) {
+      return {
+        "@type": "Blog",
+        "@id": `${canonicalUrl}#blog`,
+        headline: title,
+        name: title,
+        description,
+        url: canonicalUrl,
+        publisher: {
+          "@type": "SportsOrganization",
+          "@id": `${SITE_URL}/#organization`,
+          name: DEFAULT_SITE_NAME,
+          url: SITE_URL,
+          logo: {
+            "@type": "ImageObject",
+            url: `${SITE_URL}/favicon-96x96.png`,
+            width: 96,
+            height: 96,
+          },
+        },
+      };
+    }
 
-  if (cleanPath.startsWith("/blog")) {
+    const itemType = isBlog ? "BlogPosting" : "Article";
+    const idSuffix = isBlog ? "blog" : "article";
+    const imageUrl = options?.image
+      ? options.image.startsWith("http")
+        ? options.image
+        : `${SITE_URL}${options.image.startsWith("/") ? options.image : `/${options.image}`}`
+      : DEFAULT_OG_IMAGE;
+
+    const authorName = options?.author || "KhelGrid Editorial Team";
+    const publishedDate = options?.publishedTime || "2026-01-15T00:00:00Z";
+    const modifiedDate = options?.modifiedTime || publishedDate;
+
     return {
-      "@type": cleanPath === "/blog" ? "Blog" : "BlogPosting",
-      "@id": `${canonicalUrl}#blog`,
-      headline: title,
+      "@type": itemType,
+      "@id": `${canonicalUrl}#${idSuffix}`,
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonicalUrl,
+      },
+      headline: title.length > 110 ? `${title.slice(0, 107)}...` : title,
       name: title,
-      description,
+      description: description || title,
       url: canonicalUrl,
-      publisher: { "@id": `${SITE_URL}/#organization` },
-      ...(options?.author ? { author: { "@type": "Person", name: options.author } } : {}),
-      ...(options?.publishedTime ? { datePublished: options.publishedTime } : {}),
-      ...(options?.modifiedTime ? { dateModified: options.modifiedTime } : {}),
+      image: [imageUrl],
+      datePublished: publishedDate,
+      dateModified: modifiedDate,
+      inLanguage: "en-IN",
+      author: {
+        "@type": "Person",
+        name: authorName,
+        url: `${SITE_URL}/about`,
+      },
+      publisher: {
+        "@type": "SportsOrganization",
+        "@id": `${SITE_URL}/#organization`,
+        name: DEFAULT_SITE_NAME,
+        url: SITE_URL,
+        logo: {
+          "@type": "ImageObject",
+          url: `${SITE_URL}/favicon-96x96.png`,
+          width: 96,
+          height: 96,
+        },
+      },
+      ...(options?.section ? { articleSection: options.section } : {}),
+      ...(options?.keywords ? { keywords: options.keywords } : {}),
     };
   }
 
