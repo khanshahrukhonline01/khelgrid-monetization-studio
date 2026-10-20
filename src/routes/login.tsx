@@ -28,6 +28,7 @@ import { useAuth } from "@/context/AuthContext";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { DEMO_ACCOUNTS, ROLE_DEFINITIONS } from "@/types/auth";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+import "./login-premium.css";
 
 export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>): { redirect?: string } => ({
@@ -320,7 +321,7 @@ function LoginPage() {
   };
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-background py-8 sm:py-12 md:py-16">
+    <main className="khelgrid-auth-premium min-h-[calc(100vh-4rem)] bg-background py-8 sm:py-12 md:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Top Header & Search Engine Friendly Title */}
         <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-12">
