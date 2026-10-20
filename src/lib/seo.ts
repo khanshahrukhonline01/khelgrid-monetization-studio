@@ -255,6 +255,31 @@ export function generateOrganizationSchema() {
     "@type": "SportsOrganization",
     "@id": `${SITE_URL}/#organization`,
     name: DEFAULT_SITE_NAME,
+    legalName: DEFAULT_SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/favicon-96x96.png`,
+    image: DEFAULT_OG_IMAGE,
+    description: "India's premier sports discovery and talent development network.",
+    sameAs: ["https://twitter.com/khelgrid", "https://www.instagram.com/khelgrid"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: "khelgrid@gmail.com",
+      areaServed: "IN",
+      availableLanguage: ["en", "hi"],
+    },
+  };
+}
+
+/**
+ * Generates Schema.org Organization schema.
+ */
+export function generateGeneralOrganizationSchema() {
+  return {
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#general-organization`,
+    name: DEFAULT_SITE_NAME,
+    legalName: DEFAULT_SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/favicon-96x96.png`,
     image: DEFAULT_OG_IMAGE,
@@ -508,12 +533,14 @@ export function generateFullRouteJsonLd(
   const sitelinksWebSite = generateSitelinksSearchboxSchema();
   const sitelinksNavigation = generateSitelinksNavigationSchema();
   const organization = generateOrganizationSchema();
+  const generalOrganization = generateGeneralOrganizationSchema();
   const breadcrumbs = generateBreadcrumbSchema(cleanPath, options?.breadcrumbs);
   const routePage = generateRouteSpecificSchema(cleanPath, options);
 
   const graphItems: Array<Record<string, unknown>> = [
     sitelinksWebSite,
     organization,
+    generalOrganization,
     sitelinksNavigation,
     breadcrumbs,
     routePage,

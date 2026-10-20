@@ -41,9 +41,9 @@ export function QuickVenueRadar({
             <CalendarCheck className="h-4 w-4 text-emerald-500 shrink-0" />
             <span className="truncate">Book Turfs & Courts</span>
           </h2>
-          <p className="text-[11px] text-muted-foreground truncate">
+          <div className="text-[11px] text-muted-foreground truncate">
             Instant court booking across football, badminton & cricket · Swipe to view
-          </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">

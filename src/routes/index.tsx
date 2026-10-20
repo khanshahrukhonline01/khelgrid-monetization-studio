@@ -7,6 +7,7 @@ import {
   LiveMatchTicker,
   FeaturedTrialsRadar,
   QuickVenueRadar,
+  HomeEditorialAuthoritySection,
 } from "@/components/home";
 import { BannerAd, ResponsiveAd } from "@/components/ads";
 import { buildSeoHead } from "@/lib/seo";
@@ -42,9 +43,9 @@ const HomeFaqSection = lazy(() =>
 export const Route = createFileRoute("/")({
   head: () =>
     buildSeoHead({
-      title: "KhelGrid · India's Sports Opportunity Network | Trials, Combines & Turfs",
+      title: "KhelGrid · Sports Selection Trials, Academies & Quotas",
       description:
-        "India's premier sports platform. Discover verified selection trials (including CRPF 2026 sports quota), book sports turfs, join pickup games, and enroll in elite academies across 16+ sports.",
+        "Discover verified sports selection trials across India. Find open trials, SAI NCOE selections, Khelo India academies, and sports quota recruitment drives.",
       canonicalPath: "/",
       keywords:
         "sports trials India, sports opportunities, selection trials 2026, CRPF meritorious sportspersons recruitment 2026, sports quota jobs, sports academies near me, book turf, pickup sports games, badminton courts, cricket trials, football academy combine, athletics trials India, sports CV",
@@ -140,7 +141,10 @@ function Home() {
           <FeaturedAcademiesSection />
         </Suspense>
 
-        {/* 13. Zero Fake Trials Standard & Community Trust Audit */}
+        {/* 13. Authoritative Editorial Overview for Search Engine & LLM Citability */}
+        <HomeEditorialAuthoritySection />
+
+        {/* 14. Zero Fake Trials Standard & Community Trust Audit */}
         <Suspense fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
           <HomeCommunityImpactSection />
         </Suspense>

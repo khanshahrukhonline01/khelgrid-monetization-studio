@@ -105,11 +105,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "robots",
         content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
       },
-      { title: "KhelGrid · Sports Selection Trials Near Me, Khelo India Academies & Quotas" },
+      { title: "KhelGrid · Sports Selection Trials, Academies & Quotas" },
       {
         name: "description",
         content:
-          "Discover verified sports selection trials near me across India. Find open cricket, football, badminton, athletics, and kabaddi trials, SAI NCOE selections, Khelo India accredited academies, and government sports quota recruitment drives.",
+          "Discover verified sports selection trials across India. Find open trials, SAI NCOE selections, Khelo India academies, and sports quota recruitment drives.",
       },
       {
         name: "keywords",
@@ -120,16 +120,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "KhelGrid" },
       {
         property: "og:title",
-        content: "KhelGrid · Sports Selection Trials Near Me, Khelo India Academies & Quotas",
+        content: "KhelGrid · Sports Selection Trials, Academies & Quotas",
       },
       {
         property: "og:description",
         content:
-          "Discover verified sports selection trials near me across India. Find open cricket, football, badminton, athletics, and kabaddi trials, SAI NCOE selections, Khelo India accredited academies, and government sports quota recruitment drives.",
+          "Discover verified sports selection trials across India. Find open trials, SAI NCOE selections, Khelo India academies, and sports quota recruitment drives.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://www.khelgrid.com/og-image.svg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "KhelGrid · Sports Selection Trials, Academies & Quotas" },
+      {
+        name: "twitter:description",
+        content:
+          "Discover verified sports selection trials across India. Find open trials, SAI NCOE selections, Khelo India academies, and sports quota recruitment drives.",
+      },
       { name: "twitter:site", content: "@khelgrid" },
       { name: "twitter:image", content: "https://www.khelgrid.com/og-image.svg" },
       // AdSense site ownership verification
@@ -179,9 +185,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "SportsOrganization",
+              "@type": ["Organization", "SportsOrganization"],
               "@id": "https://www.khelgrid.com/#organization",
               name: "KhelGrid",
+              legalName: "KhelGrid",
               alternateName: [
                 "KhelGrid Sports",
                 "Khel Grid",
@@ -336,6 +343,44 @@ function RootShell({ children }: { children: ReactNode }) {
             suppressHydrationWarning
           />
         )}
+        {/* Schema.org Organization structured data directly embedded in initial server-side HTML */}
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": ["Organization", "SportsOrganization"],
+              "@id": "https://www.khelgrid.com/#organization",
+              name: "KhelGrid",
+              legalName: "KhelGrid",
+              alternateName: [
+                "KhelGrid Sports",
+                "Khel Grid",
+                "KhelGrid Selection Trials",
+                "KhelGrid India",
+              ],
+              url: "https://www.khelgrid.com",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.khelgrid.com/favicon-96x96.png",
+                width: 96,
+                height: 96,
+              },
+              image: "https://www.khelgrid.com/og-image.svg",
+              description:
+                "India's sports opportunity network connecting grassroots athletes with verified selection trials, Khelo India academies, and sports quota recruitments.",
+              sameAs: ["https://twitter.com/khelgrid", "https://www.instagram.com/khelgrid"],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                email: "khelgrid@gmail.com",
+                areaServed: "IN",
+                availableLanguage: ["en", "hi"],
+              },
+            }),
+          }}
+        />
         <HeadContent />
       </head>
       <body className="overflow-x-hidden" suppressHydrationWarning>
@@ -366,8 +411,8 @@ function RootComponent() {
                       <AdConsentProvider requireConsent={false}>
                         <GoogleTagLoader />
                         <SEO
-                          title="KhelGrid · India's Sports Opportunity Network"
-                          description="India's premier sports platform for discovery and development. Find sports selection trials, government recruitments (CRPF 2026), turf venues, coaching academies, and athlete CVs."
+                          title="KhelGrid · Sports Selection Trials, Academies & Quotas"
+                          description="Discover verified sports selection trials across India. Find open trials, SAI NCOE selections, Khelo India academies, and sports quota recruitment drives."
                           canonicalUrl="/"
                           keywords="sports trials India, sports opportunities, CRPF recruitment 2026, meritorious sportspersons recruitment, selection trials, book sports turf, cricket trials, football academy combines, athletics trials, badminton selection, sports CV India"
                           formatTitle={false}

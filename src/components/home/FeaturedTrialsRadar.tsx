@@ -74,9 +74,9 @@ export function FeaturedTrialsRadar({
             <Trophy className="h-4 w-4 text-primary shrink-0" />
             <span className="truncate">Selection Trials & Combines</span>
           </h2>
-          <p className="text-[11px] text-muted-foreground truncate">
+          <div className="text-[11px] text-muted-foreground truncate">
             Verified SAI, federation & academy scouting trials · Swipe to explore
-          </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
@@ -215,10 +215,10 @@ export function FeaturedTrialsRadar({
                 </h3>
 
                 {/* Academy / Organizer */}
-                <p className="mt-1 text-xs text-muted-foreground truncate flex items-center gap-1">
+                <div className="mt-1 text-xs text-muted-foreground truncate flex items-center gap-1">
                   <ShieldCheck className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
                   <span>{trial.academy}</span>
-                </p>
+                </div>
               </div>
 
               {/* Card Footer: Date, Eligibility */}

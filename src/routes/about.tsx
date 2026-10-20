@@ -8,7 +8,7 @@ export const Route = createFileRoute("/about")({
     buildSeoHead({
       title: "About KhelGrid · Mission, Vision & Athlete Opportunity Network",
       description:
-        "Learn about KhelGrid's mission to organize India's grassroots and professional sports ecosystem. How our editorial team reviews trials, verifies academies, and empowers youth athletes.",
+        "Learn about KhelGrid's mission to organize India's sports ecosystem. Discover how our editorial team verifies trials, academies, and athletic pathways.",
       canonicalPath: "/about",
       keywords:
         "about KhelGrid, sports platform India, grassroots sports, athlete scouting, sports transparency",
@@ -29,7 +29,7 @@ function AboutPage() {
     <main className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-14">
       <SEO
         title="About KhelGrid · Mission, Vision & Athlete Opportunity Network"
-        description="Learn about KhelGrid's mission to organize India's grassroots and professional sports ecosystem. How our editorial team reviews trials, verifies academies, and empowers youth athletes."
+        description="Learn about KhelGrid's mission to organize India's sports ecosystem. Discover how our editorial team verifies trials, academies, and athletic pathways."
         canonicalUrl="/about"
         keywords="about KhelGrid, sports platform India, grassroots sports, athlete scouting, sports transparency"
       />
@@ -77,6 +77,30 @@ function AboutPage() {
           </Link>
         </section>
       </div>
+
+      <section className="mt-8 rounded-2xl border border-border bg-card/50 p-6">
+        <h2 className="text-xl font-semibold">Brand & Knowledge Entity Profile</h2>
+        <div className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
+          <div className="rounded-xl border border-border/60 bg-secondary/30 p-4">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Legal & Brand Identity
+            </span>
+            <p className="mt-1 font-bold text-foreground">KhelGrid (India)</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Official URL: https://www.khelgrid.com · Slogan: India's Sports Opportunity Network
+            </p>
+          </div>
+          <div className="rounded-xl border border-border/60 bg-secondary/30 p-4">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Entity Category & Schema
+            </span>
+            <p className="mt-1 font-bold text-foreground">SportsOrganization / WebApplication</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Structured Schema.org Entity with verified ContactPoint and Knowledge Graph mappings.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <section className="mt-8 rounded-2xl border border-border bg-card/50 p-6">
         <h2 className="text-xl font-semibold">Our product principles</h2>
