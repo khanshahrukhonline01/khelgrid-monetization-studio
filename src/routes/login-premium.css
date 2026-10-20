@@ -1,0 +1,54 @@
+/* Premium Khelgrid auth treatment — scoped to /login only. */
+.khelgrid-auth-premium {
+  --kg-navy: #061827;
+  --kg-panel: #0b2234;
+  --kg-green: #21d982;
+  --kg-muted: #9fb4c5;
+  color: #f4f8fb !important;
+  background:
+    radial-gradient(ellipse at 82% 12%, rgba(18, 133, 111, .22), transparent 35%),
+    radial-gradient(ellipse at 8% 70%, rgba(18, 94, 132, .20), transparent 38%),
+    linear-gradient(135deg, #04131f 0%, #071e2d 56%, #061827 100%) !important;
+}
+.khelgrid-auth-premium h1,
+.khelgrid-auth-premium h2,
+.khelgrid-auth-premium h3,
+.khelgrid-auth-premium h4,
+.khelgrid-auth-premium .text-foreground { color: #f4f8fb !important; }
+.khelgrid-auth-premium .text-muted-foreground { color: #a8bdcc !important; }
+.khelgrid-auth-premium .border-border,
+.khelgrid-auth-premium .border-border\/60,
+.khelgrid-auth-premium .border-border\/40,
+.khelgrid-auth-premium .border-border\/80 { border-color: rgba(159, 190, 208, .22) !important; }
+.khelgrid-auth-premium .bg-card,
+.khelgrid-auth-premium .bg-card\/60,
+.khelgrid-auth-premium .bg-background {
+  background-color: rgba(7, 29, 45, .86) !important;
+}
+.khelgrid-auth-premium .bg-muted\/40,
+.khelgrid-auth-premium .bg-muted\/20,
+.khelgrid-auth-premium .bg-secondary\/30 { background-color: rgba(151, 180, 199, .08) !important; }
+.khelgrid-auth-premium .text-primary { color: #35e593 !important; }
+.khelgrid-auth-premium .bg-primary { background-color: #20d982 !important; }
+.khelgrid-auth-premium .text-primary-foreground { color: #042117 !important; }
+.khelgrid-auth-premium .border-primary\/30,
+.khelgrid-auth-premium .border-primary\/40 { border-color: rgba(53, 229, 147, .42) !important; }
+.khelgrid-auth-premium input {
+  color: #f4f8fb !important;
+  background-color: rgba(4, 20, 32, .82) !important;
+  border-color: rgba(159, 190, 208, .28) !important;
+}
+.khelgrid-auth-premium input::placeholder { color: #91a8b9 !important; }
+.khelgrid-auth-premium button { transition: border-color .18s ease, background-color .18s ease, transform .18s ease; }
+.khelgrid-auth-premium button:hover { border-color: rgba(53, 229, 147, .55); }
+.khelgrid-auth-premium .rounded-2xl.border,
+.khelgrid-auth-premium .rounded-xl.border {
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .16);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .khelgrid-auth-premium .rounded-2xl.border { animation: kg-auth-enter .35s ease-out both; }
+  @keyframes kg-auth-enter { from { opacity: .75; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (max-width: 640px) {
+  .khelgrid-auth-premium { padding-top: 1.5rem !important; padding-bottom: 2rem !important; }
+}
