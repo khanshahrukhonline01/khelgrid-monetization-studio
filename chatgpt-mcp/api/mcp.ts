@@ -16,7 +16,8 @@ type VercelResponse = {
   end(): void;
 };
 
-const allowedStatuses = ["published", "active", "upcoming"] as const;
+// The live opportunities_select RLS policy exposes only status = published to anon users.
+const allowedStatuses = ["published"] as const;
 const maxResults = 10;
 
 function makeServer() {
@@ -60,7 +61,10 @@ function makeServer() {
         .order("start_at", { ascending: true, nullsFirst: false })
         .limit(Math.min(limit ?? 5, maxResults));
 
-      if (query) request = request.or("title.ilike.%"+query.replace(/[%_,().]/g, " ")+"%,description.ilike.%"+query.replace(/[%_,().]/g, " ")+"%");
+      if (query) {
+        const safeQuery = query.replace(/[^\p{L}\p{N}\s-]/gu, " ").trim().slice(0, 120);
+        if (safeQuery) request = request.or("title.ilike.%"+safeQuery+"%,description.ilike.%"+safeQuery+"%");
+      }
       if (state) request = request.ilike("state", "%"+state+"%");
       if (city) request = request.ilike("city", "%"+city+"%");
       if (type) request = request.eq("opportunity_type", type);
