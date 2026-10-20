@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { renderToString } from "react-dom/server";
-import { COACHING } from "@/data/playo";
+import { COACHING } from "@/data/khelgrid";
 import { AcademyPage } from "@/routes/academy";
 import {
   AccreditedAcademyList,

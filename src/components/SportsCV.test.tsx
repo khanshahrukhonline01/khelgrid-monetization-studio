@@ -174,7 +174,7 @@ describe("Sports CV Component & Data Layer", () => {
           twitter: "@smriti_cricket",
           cricheroes: "https://cricheroes.com/player-profile/smriti-99",
           strava: "https://www.strava.com/athletes/123456",
-          playo: "https://khelgrid.com/profile/smriti",
+          khelgrid: "https://khelgrid.com/profile/smriti",
         },
       };
 

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState, useEffect } from "react";
-import { EVENTS, type SportEvent, PLAYO_SPORTS, PLAYO_CITIES } from "@/data/playo";
+import { EVENTS, type SportEvent, KHELGRID_SPORTS, KHELGRID_CITIES } from "@/data/khelgrid";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -1410,7 +1410,7 @@ export function EventsPage() {
                   onChange={(e) => setHostForm({ ...hostForm, sport: e.target.value })}
                   className="w-full h-9.5 px-2.5 text-xs rounded-xl border border-border bg-background text-foreground outline-none"
                 >
-                  {PLAYO_SPORTS.map((s) => (
+                  {KHELGRID_SPORTS.map((s) => (
                     <option key={s} value={s}>
                       {s}
                     </option>
@@ -1425,7 +1425,7 @@ export function EventsPage() {
                   onChange={(e) => setHostForm({ ...hostForm, city: e.target.value })}
                   className="w-full h-9.5 px-2.5 text-xs rounded-xl border border-border bg-background text-foreground outline-none"
                 >
-                  {PLAYO_CITIES.map((c) => (
+                  {KHELGRID_CITIES.map((c) => (
                     <option key={c} value={c}>
                       {c}
                     </option>

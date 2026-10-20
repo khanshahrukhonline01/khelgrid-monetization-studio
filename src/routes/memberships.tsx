@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { MEMBERSHIPS, PLAYO_CITIES } from "@/data/playo";
+import { MEMBERSHIPS, KHELGRID_CITIES } from "@/data/khelgrid";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,7 +49,7 @@ function MembershipsPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All Cities</SelectItem>
-            {PLAYO_CITIES.map((c) => (
+            {KHELGRID_CITIES.map((c) => (
               <SelectItem key={c} value={c}>
                 {c}
               </SelectItem>

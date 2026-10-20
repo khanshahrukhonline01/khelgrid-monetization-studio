@@ -224,7 +224,7 @@ export function AthleteOnboardingWizard({
         twitter: "@" + existing.athleteName.toLowerCase().replace(/\s+/g, "_"),
         cricheroes: "",
         strava: "",
-        playo: "",
+        khelgrid: "",
       },
     };
   });
@@ -1518,10 +1518,9 @@ export function AthleteOnboardingWizard({
                       Profile
                     </Label>
                     <Input
-                      value={data.socialProfiles?.khelgrid || data.socialProfiles?.playo || ""}
+                      value={data.socialProfiles?.khelgrid || ""}
                       onChange={(e) => {
                         updateSocialField("khelgrid", e.target.value);
-                        updateSocialField("playo", e.target.value);
                       }}
                       placeholder="e.g. https://khelgrid.com/profile/..."
                       className="h-9 text-xs"

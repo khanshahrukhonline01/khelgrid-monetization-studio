@@ -61,7 +61,7 @@ import {
 } from "@/components/ui/dialog";
 import { VenueBookingForm } from "@/components/venue-booking";
 import type { Database } from "@/types/database";
-import type { Venue as KhelGridVenue, PibPressReleaseNotice } from "@/data/playo";
+import type { Venue as KhelGridVenue, PibPressReleaseNotice } from "@/data/khelgrid";
 
 export type VenueRow = Database["public"]["Tables"]["venues"]["Row"];
 
@@ -95,9 +95,7 @@ export interface VenueDetailData {
  * Normalizes either a Supabase VenueRow or a KhelGrid Venue object
  * into the standard VenueDetailData interface.
  */
-export function normalizeVenueData(
-  v: VenueRow | KhelGridVenue | VenueDetailData,
-): VenueDetailData {
+export function normalizeVenueData(v: VenueRow | KhelGridVenue | VenueDetailData): VenueDetailData {
   // Normalize either a Supabase VenueRow or a KhelGrid Venue object
   const rawImages =
     (v as { images?: (string | FacilityPhoto)[]; photos?: (string | FacilityPhoto)[] }).images ||

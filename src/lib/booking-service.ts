@@ -1,5 +1,5 @@
 import { supabase, isSupabaseConfigured } from "./supabase";
-import { VENUES, type Venue } from "@/data/playo";
+import { VENUES, type Venue } from "@/data/khelgrid";
 import type { Database } from "@/types/database";
 
 export interface CourtRecord {

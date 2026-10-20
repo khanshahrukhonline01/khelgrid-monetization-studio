@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import type { SportEvent } from "@/data/playo";
-import { PLAYO_SPORTS, PLAYO_CITIES } from "@/data/playo";
+import type { SportEvent } from "@/data/khelgrid";
+import { KHELGRID_SPORTS, KHELGRID_CITIES } from "@/data/khelgrid";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -567,7 +567,7 @@ export function EventFilters({
             <span className="font-mono text-[10px] opacity-80">({totalAvailable})</span>
           </button>
 
-          {PLAYO_SPORTS.map((s) => {
+          {KHELGRID_SPORTS.map((s) => {
             const count = sportCounts[s] || 0;
             const isSelected = filters.sport === s;
             const icon = EVENT_SPORT_ICONS[s] || "🏅";
@@ -628,7 +628,7 @@ export function EventFilters({
               <SelectItem value="All" className="text-xs">
                 All Cities
               </SelectItem>
-              {PLAYO_CITIES.map((c) => (
+              {KHELGRID_CITIES.map((c) => (
                 <SelectItem key={c} value={c} className="text-xs">
                   {c}
                 </SelectItem>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
-import type { SportEvent } from "@/data/playo";
+import type { SportEvent } from "@/data/khelgrid";
 
 const STORAGE_KEY = "khelgrid_saved_tournaments";
 const EVENT_NAME = "khelgrid:saved_tournaments_changed";

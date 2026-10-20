@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { useMemo, useState, useEffect } from "react";
-import { COACHING, type CoachingProgram, PLAYO_SPORTS, PLAYO_CITIES } from "@/data/playo";
+import { COACHING, type CoachingProgram, KHELGRID_SPORTS, KHELGRID_CITIES } from "@/data/khelgrid";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -771,7 +771,7 @@ export function TrainPage() {
                   onChange={(e) => setCoachForm({ ...coachForm, sport: e.target.value })}
                   className="w-full h-9.5 px-2.5 text-xs rounded-xl border border-border bg-background text-foreground outline-none"
                 >
-                  {PLAYO_SPORTS.map((s) => (
+                  {KHELGRID_SPORTS.map((s) => (
                     <option key={s} value={s}>
                       {s}
                     </option>
@@ -788,7 +788,7 @@ export function TrainPage() {
                   onChange={(e) => setCoachForm({ ...coachForm, city: e.target.value })}
                   className="w-full h-9.5 px-2.5 text-xs rounded-xl border border-border bg-background text-foreground outline-none"
                 >
-                  {PLAYO_CITIES.map((c) => (
+                  {KHELGRID_CITIES.map((c) => (
                     <option key={c} value={c}>
                       {c}
                     </option>
@@ -957,7 +957,7 @@ export function TrainPage() {
                   onChange={(e) => setAcademyForm({ ...academyForm, sport: e.target.value })}
                   className="w-full h-9.5 px-2.5 text-xs rounded-xl border border-border bg-background text-foreground outline-none"
                 >
-                  {PLAYO_SPORTS.map((s) => (
+                  {KHELGRID_SPORTS.map((s) => (
                     <option key={s} value={s}>
                       {s}
                     </option>
@@ -972,7 +972,7 @@ export function TrainPage() {
                   onChange={(e) => setAcademyForm({ ...academyForm, city: e.target.value })}
                   className="w-full h-9.5 px-2.5 text-xs rounded-xl border border-border bg-background text-foreground outline-none"
                 >
-                  {PLAYO_CITIES.map((c) => (
+                  {KHELGRID_CITIES.map((c) => (
                     <option key={c} value={c}>
                       {c}
                     </option>

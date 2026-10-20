@@ -1620,12 +1620,11 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
             <Label htmlFor="cv-khelgrid">KhelGrid Profile / Community ID</Label>
             <Input
               id="cv-khelgrid"
-              value={data.socialProfiles?.khelgrid || data.socialProfiles?.playo || ""}
+              value={data.socialProfiles?.khelgrid || ""}
               onChange={(e) =>
                 updateField("socialProfiles", {
                   ...data.socialProfiles,
                   khelgrid: e.target.value,
-                  playo: e.target.value,
                 })
               }
               placeholder="e.g. khelgrid.com/profile/username or karma profile link"

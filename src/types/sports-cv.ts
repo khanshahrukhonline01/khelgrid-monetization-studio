@@ -92,7 +92,6 @@ export interface SocialProfiles {
   cricheroes?: string;
   strava?: string;
   khelgrid?: string;
-  playo?: string;
   linkedin?: string;
 }
 

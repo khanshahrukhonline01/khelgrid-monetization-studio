@@ -6,7 +6,7 @@ import {
   DEFAULT_TRAIN_FILTERS,
   type TrainFilterState,
 } from "@/components/train/TrainFilters";
-import { COACHING } from "@/data/playo";
+import { COACHING } from "@/data/khelgrid";
 
 // Mock router
 vi.mock("@tanstack/react-router", () => ({

@@ -34,7 +34,7 @@ import {
   SheetTrigger,
   SheetFooter,
 } from "@/components/ui/sheet";
-import { PLAYO_SPORTS, PLAYO_CITIES, type CoachingProgram } from "@/data/playo";
+import { KHELGRID_SPORTS, KHELGRID_CITIES, type CoachingProgram } from "@/data/khelgrid";
 
 export type TrainEntityType = "all" | "coaches" | "academies";
 
@@ -488,7 +488,7 @@ export function TrainFilters({
             </span>
           </button>
 
-          {PLAYO_SPORTS.map((s) => {
+          {KHELGRID_SPORTS.map((s) => {
             const isSelected = filters.sport === s;
             const count = sportCounts[s] ?? 0;
             return (
@@ -565,7 +565,7 @@ export function TrainFilters({
               <SelectItem value="All" className="text-xs">
                 All Cities
               </SelectItem>
-              {PLAYO_CITIES.map((c) => (
+              {KHELGRID_CITIES.map((c) => (
                 <SelectItem key={c} value={c} className="text-xs">
                   {c}
                 </SelectItem>
@@ -1053,7 +1053,7 @@ export function TrainDesktopSidebar({
             </span>
             <span className="font-mono text-[11px] opacity-75">{totalFiltered}</span>
           </button>
-          {PLAYO_SPORTS.map((s) => {
+          {KHELGRID_SPORTS.map((s) => {
             const count = sportCounts[s] ?? 0;
             const isSelected = filters.sport === s;
             return (
@@ -1092,7 +1092,7 @@ export function TrainDesktopSidebar({
             <SelectItem value="All" className="text-xs">
               All Cities
             </SelectItem>
-            {PLAYO_CITIES.map((c) => (
+            {KHELGRID_CITIES.map((c) => (
               <SelectItem key={c} value={c} className="text-xs">
                 {c}
               </SelectItem>

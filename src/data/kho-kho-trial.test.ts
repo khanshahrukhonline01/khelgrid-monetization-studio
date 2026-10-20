@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { TRIALS, SPORTS, CITIES } from "./trials";
-import { VENUES, PLAYO_CITIES, PLAYO_SPORTS } from "./playo";
+import { VENUES, KHELGRID_CITIES, KHELGRID_SPORTS } from "./khelgrid";
 import { buildSeoHead } from "@/lib/seo";
 
 describe("J&K Kho-Kho Selection Trials & Green Play Field Integration", () => {
@@ -26,8 +26,8 @@ describe("J&K Kho-Kho Selection Trials & Green Play Field Integration", () => {
   it("verifies Kho-Kho and Jammu are supported in platform filters", () => {
     expect(SPORTS).toContain("Kho-Kho");
     expect(CITIES).toContain("Jammu");
-    expect(PLAYO_SPORTS).toContain("Kho-Kho");
-    expect(PLAYO_CITIES).toContain("Jammu");
+    expect(KHELGRID_SPORTS).toContain("Kho-Kho");
+    expect(KHELGRID_CITIES).toContain("Jammu");
   });
 
   it("verifies Green Play Field Jammu exists in VENUES with active trial link", () => {

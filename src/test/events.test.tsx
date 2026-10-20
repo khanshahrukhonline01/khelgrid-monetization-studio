@@ -6,7 +6,7 @@ import {
   DEFAULT_EVENT_FILTERS,
   type EventFilterState,
 } from "@/components/events/EventFilters";
-import { EVENTS } from "@/data/playo";
+import { EVENTS } from "@/data/khelgrid";
 
 // Mock router
 vi.mock("@tanstack/react-router", () => ({

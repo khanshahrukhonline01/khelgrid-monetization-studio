@@ -21,7 +21,7 @@ import {
   X,
   Filter,
 } from "lucide-react";
-import { VENUES } from "@/data/playo";
+import { VENUES } from "@/data/khelgrid";
 
 import { VenueSearchBar } from "@/components/VenueSearchBar";
 import {

@@ -12,7 +12,7 @@ import {
   CheckCircle2,
   Layers,
 } from "lucide-react";
-import { COACHING, type CoachingProgram } from "@/data/playo";
+import { COACHING, type CoachingProgram } from "@/data/khelgrid";
 import { SPORT_ICONS } from "@/components/train/TrainFilters";
 import { AccreditedAcademyCard, getSportSlug, getCitySlug } from "./AccreditedAcademyCard";
 import { Button } from "@/components/ui/button";

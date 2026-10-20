@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Building2 } from "lucide-react";
-import { VENUES, type Venue } from "@/data/playo";
+import { VENUES, type Venue } from "@/data/khelgrid";
 import { VenueDetails } from "@/components/VenueDetails";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";

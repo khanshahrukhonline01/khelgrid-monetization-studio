@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Search, MapPin, Sparkles, ChevronDown, ShieldCheck, Trophy, Flame } from "lucide-react";
-import { PLAYO_CITIES } from "@/data/playo";
+import { KHELGRID_CITIES } from "@/data/khelgrid";
 import { PWAInstallBanner } from "@/components/pwa/PWAInstallBanner";
 
 interface AppHeaderBannerProps {
@@ -97,7 +97,7 @@ export function AppHeaderBanner({ selectedCity, onSelectCity }: AppHeaderBannerP
                 >
                   All India
                 </button>
-                {PLAYO_CITIES.map((city) => (
+                {KHELGRID_CITIES.map((city) => (
                   <button
                     key={city}
                     type="button"

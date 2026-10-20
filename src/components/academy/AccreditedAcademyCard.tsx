@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SPORT_ICONS } from "@/components/train/TrainFilters";
-import { type CoachingProgram } from "@/data/playo";
+import { type CoachingProgram } from "@/data/khelgrid";
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/seo";
 

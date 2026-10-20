@@ -40,7 +40,7 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useBookings, type CreateBookingParams } from "@/hooks/useBookings";
 import { useToast } from "@/hooks/useToast";
-import { VENUES, type Venue } from "@/data/playo";
+import { VENUES, type Venue } from "@/data/khelgrid";
 import { type BookingRecord } from "@/lib/booking-service";
 
 export interface BookingFormProps {

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { GraduationCap, MapPin, RotateCcw, Search, Star, Trophy } from "lucide-react";
 import { toast } from "sonner";
-import { COACHES, PLAYO_SPORTS, type CoachProfile } from "@/data/playo";
+import { COACHES, KHELGRID_SPORTS, type CoachProfile } from "@/data/khelgrid";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -133,7 +133,7 @@ function CoachesPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All">All sports</SelectItem>
-              {PLAYO_SPORTS.map((item) => (
+              {KHELGRID_SPORTS.map((item) => (
                 <SelectItem key={item} value={item}>
                   {item}
                 </SelectItem>
@@ -179,7 +179,7 @@ function CoachesPage() {
           >
             All sports
           </button>
-          {PLAYO_SPORTS.map((item) => (
+          {KHELGRID_SPORTS.map((item) => (
             <button
               key={item}
               type="button"

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { GAMES, type Game } from "@/data/playo";
+import { GAMES, type Game } from "@/data/khelgrid";
 import { Swords, Users, Clock, MapPin, ChevronRight, ChevronLeft, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HostGameModal } from "@/components/play/HostGameModal";

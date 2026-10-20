@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { VENUES, PLAYO_SPORTS, PLAYO_CITIES, type Venue } from "@/data/playo";
+import { VENUES, KHELGRID_SPORTS, KHELGRID_CITIES, type Venue } from "@/data/khelgrid";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -172,7 +172,7 @@ function BookVenues() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All">All Cities</SelectItem>
-              {PLAYO_CITIES.map((c) => (
+              {KHELGRID_CITIES.map((c) => (
                 <SelectItem key={c} value={c}>
                   {c}
                 </SelectItem>
@@ -186,7 +186,7 @@ function BookVenues() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All">All Sports</SelectItem>
-              {PLAYO_SPORTS.map((s) => (
+              {KHELGRID_SPORTS.map((s) => (
                 <SelectItem key={s} value={s}>
                   {s}
                 </SelectItem>
@@ -684,7 +684,7 @@ function VenueBookingAssistant({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {PLAYO_CITIES.map((item) => (
+                  {KHELGRID_CITIES.map((item) => (
                     <SelectItem key={item} value={item}>
                       {item}
                     </SelectItem>
@@ -699,7 +699,7 @@ function VenueBookingAssistant({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {PLAYO_SPORTS.map((item) => (
+                  {KHELGRID_SPORTS.map((item) => (
                     <SelectItem key={item} value={item}>
                       {item}
                     </SelectItem>

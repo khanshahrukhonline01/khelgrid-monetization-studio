@@ -693,12 +693,12 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
               </a>
             )}
 
-            {(data.socialProfiles?.khelgrid || data.socialProfiles?.playo) && (
+            {data.socialProfiles?.khelgrid && (
               <a
                 href={
-                  (data.socialProfiles.khelgrid || data.socialProfiles.playo)!.startsWith("http")
-                    ? (data.socialProfiles.khelgrid || data.socialProfiles.playo)!
-                    : `https://khelgrid.com/profile/${data.socialProfiles.khelgrid || data.socialProfiles.playo}`
+                  data.socialProfiles.khelgrid.startsWith("http")
+                    ? data.socialProfiles.khelgrid
+                    : `https://khelgrid.com/profile/${data.socialProfiles.khelgrid}`
                 }
                 target="_blank"
                 rel="noreferrer"

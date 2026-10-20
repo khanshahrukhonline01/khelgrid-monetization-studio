@@ -1,4 +1,4 @@
-import type { Game } from "@/data/playo";
+import type { Game } from "@/data/khelgrid";
 
 export interface PlayerRosterItem {
   id: string;

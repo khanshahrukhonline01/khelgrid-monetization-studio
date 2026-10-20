@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { TRIALS, CITIES } from "./trials";
-import { VENUES, PLAYO_CITIES } from "./playo";
+import { VENUES, KHELGRID_CITIES } from "./khelgrid";
 import { buildSeoHead } from "@/lib/seo";
 
 describe("BCCI Arunachal Pradesh Ranji Trials & BCCI Venues Integration", () => {
@@ -28,7 +28,7 @@ describe("BCCI Arunachal Pradesh Ranji Trials & BCCI Venues Integration", () => 
 
   it("verifies Itanagar is included in searchable cities for both trials and venue booking", () => {
     expect(CITIES).toContain("Itanagar");
-    expect(PLAYO_CITIES).toContain("Itanagar");
+    expect(KHELGRID_CITIES).toContain("Itanagar");
   });
 
   it("verifies BCCI-recognized venues exist in Arunachal Pradesh with active trial integration", () => {

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { VENUES, type Venue } from "@/data/playo";
+import { VENUES, type Venue } from "@/data/khelgrid";
 import { CalendarCheck, Star, MapPin, ChevronRight, ChevronLeft, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTouchScroll } from "@/hooks/use-touch-scroll";

@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { PLAYO_CITIES, PLAYO_SPORTS, VENUES } from "@/data/playo";
+import { KHELGRID_CITIES, KHELGRID_SPORTS, VENUES } from "@/data/khelgrid";
 import type { EnrichedGame } from "./types";
 import {
   Trophy,
@@ -204,7 +204,7 @@ export function HostGameModal({ open, onOpenChange, onGameCreated }: HostGameMod
                   <SelectValue placeholder="Select sport" />
                 </SelectTrigger>
                 <SelectContent>
-                  {PLAYO_SPORTS.map((s) => (
+                  {KHELGRID_SPORTS.map((s) => (
                     <SelectItem key={s} value={s}>
                       {s}
                     </SelectItem>
@@ -222,7 +222,7 @@ export function HostGameModal({ open, onOpenChange, onGameCreated }: HostGameMod
                   <SelectValue placeholder="Select city" />
                 </SelectTrigger>
                 <SelectContent>
-                  {PLAYO_CITIES.map((c) => (
+                  {KHELGRID_CITIES.map((c) => (
                     <SelectItem key={c} value={c}>
                       {c}
                     </SelectItem>

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { TRIALS } from "./trials";
-import { VENUES } from "./playo";
+import { VENUES } from "./khelgrid";
 import { SPORTS_NEWS_CATALOG } from "./news";
 
 describe("DDCA Delhi Women's U-15 Open Trials & Venue Integration", () => {

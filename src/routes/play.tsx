@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState, useEffect, useCallback } from "react";
-import { GAMES, PLAYO_SPORTS, PLAYO_CITIES } from "@/data/playo";
+import { GAMES, KHELGRID_SPORTS, KHELGRID_CITIES } from "@/data/khelgrid";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -375,7 +375,7 @@ function PlayPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All">All Cities</SelectItem>
-                {PLAYO_CITIES.map((c) => (
+                {KHELGRID_CITIES.map((c) => (
                   <SelectItem key={c} value={c}>
                     {c}
                   </SelectItem>
@@ -391,7 +391,7 @@ function PlayPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All">All Sports</SelectItem>
-                {PLAYO_SPORTS.map((s) => (
+                {KHELGRID_SPORTS.map((s) => (
                   <SelectItem key={s} value={s}>
                     {s} ({categoryCounts[s] || 0})
                   </SelectItem>

@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { VENUES, type Venue } from "@/data/playo";
+import { VENUES, type Venue } from "@/data/khelgrid";
 import { createVenueBooking, getVenueBookings, type BookingRecord } from "@/lib/booking-service";
 import type {
   CourtFacility,
