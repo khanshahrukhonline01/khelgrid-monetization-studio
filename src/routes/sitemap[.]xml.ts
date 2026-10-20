@@ -3,10 +3,11 @@ import type {} from "@tanstack/start-client-core";
 import { SPORTS_CATALOG, CITIES_CATALOG, GUIDES_CATALOG, TOOLS_CATALOG } from "@/data/catalog";
 import { BLOG_POSTS } from "@/data/blog";
 import { TRIALS } from "@/data/trials";
+import { VENUES } from "@/data/khelgrid";
 import { hasGuideBody } from "@/content/guide-bodies";
 
 const BASE_URL = "https://www.khelgrid.com";
-const LAST_MOD = "2026-10-13";
+const LAST_MOD = "2026-10-20";
 
 interface SitemapEntry {
   loc: string;
@@ -33,6 +34,8 @@ export function generateSitemapEntries(): SitemapEntry[] {
   // High priority core directory & hubs (strictly canonical 200 OK URLs — no redirects)
   add("/", 1.0, "daily");
   add("/search", 0.9, "daily");
+  add("/opportunities", 0.9, "daily");
+  add("/academy", 0.95, "daily");
   add("/play", 0.9, "daily");
   add("/book", 0.9, "daily");
   add("/train", 0.9, "daily");
@@ -41,8 +44,7 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/tools", 0.85, "weekly");
   add("/blog", 0.85, "weekly");
   add("/chronicle", 0.85, "weekly");
-  add("/coaches", 0.8, "weekly");
-  add("/academy", 0.8, "weekly");
+  add("/coaches", 0.85, "weekly");
   add("/memberships", 0.8, "weekly");
   add("/sports", 0.8, "weekly");
   add("/cities", 0.8, "weekly");
@@ -73,6 +75,11 @@ export function generateSitemapEntries(): SitemapEntry[] {
   // Dynamic Trial entries (Verified Opportunities)
   for (const trial of TRIALS) {
     add(`/trial/${trial.id}`, 0.9, "weekly");
+  }
+
+  // Dynamic Verified Sports Venues & Turfs
+  for (const venue of VENUES) {
+    add(`/venue/${venue.id}`, 0.85, "weekly");
   }
 
   // Sports landing pages
