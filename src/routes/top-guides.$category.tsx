@@ -38,7 +38,7 @@ export const Route = createFileRoute("/top-guides/$category")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) return { meta: [] };
-    const canonicalUrl = `https://khelgrid.com/top-guides/${loaderData.slug}`;
+    const canonicalUrl = `https://www.khelgrid.com/top-guides/${loaderData.slug}`;
     return {
       meta: [
         {

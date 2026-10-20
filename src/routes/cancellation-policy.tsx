@@ -29,13 +29,13 @@ export const Route = createFileRoute("/cancellation-policy")({
         "@context": "https://schema.org",
         "@type": "WebPage",
         name: "Cancellation & Refund Policy · KhelGrid",
-        url: "https://khelgrid.com/cancellation-policy",
+        url: "https://www.khelgrid.com/cancellation-policy",
         description:
           "Official cancellation, refund, rescheduling, and weather policies for turf & court bookings, academy trials, coaching sessions, and Pro memberships on KhelGrid.",
         publisher: {
           "@type": "Organization",
           name: "KhelGrid",
-          url: "https://khelgrid.com",
+          url: "https://www.khelgrid.com",
         },
         mainEntity: {
           "@type": "FAQPage",

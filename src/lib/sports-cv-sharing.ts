@@ -136,7 +136,7 @@ export function generateShareableCVUrl(
     explicitBaseUrl ||
     (typeof window !== "undefined" && window.location.origin
       ? window.location.origin
-      : "https://khelgrid.com");
+      : "https://www.khelgrid.com");
 
   const slug = slugifyAthleteName(data.athleteName, data.sport);
   const payloadParam = compressCVPayload(data);

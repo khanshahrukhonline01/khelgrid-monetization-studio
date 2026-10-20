@@ -357,7 +357,7 @@ export function LiveScoresPage() {
   const handleShareMatch = async (match: LiveMatchUpdate) => {
     const shareText = `[LIVE] ${match.teamA.code} vs ${match.teamB.code} (${match.tournament}) · Check live scores on KhelGrid`;
     const shareUrl =
-      typeof window !== "undefined" ? window.location.href : "https://khelgrid.com/live-scores";
+      typeof window !== "undefined" ? window.location.href : "https://www.khelgrid.com/live-scores";
 
     if (typeof navigator !== "undefined" && navigator.share) {
       try {

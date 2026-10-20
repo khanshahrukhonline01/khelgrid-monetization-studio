@@ -51,7 +51,7 @@ describe("Delhi State Selection Trials (Pickleball) Integration", () => {
       description: `${trial.title} hosted by ${trial.academy} in ${trial.city}.`,
       canonicalPath: `/trial/${trial.id}`,
       type: "website",
-      image: "https://khelgrid.com/og-image.png",
+      image: "https://www.khelgrid.com/og-image.png",
       author: trial.academy,
     });
 

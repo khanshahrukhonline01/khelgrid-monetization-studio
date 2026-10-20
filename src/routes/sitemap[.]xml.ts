@@ -5,7 +5,7 @@ import { BLOG_POSTS } from "@/data/blog";
 import { TRIALS } from "@/data/trials";
 import { hasGuideBody } from "@/content/guide-bodies";
 
-const BASE_URL = "https://khelgrid.com";
+const BASE_URL = "https://www.khelgrid.com";
 const LAST_MOD = "2026-10-13";
 
 interface SitemapEntry {

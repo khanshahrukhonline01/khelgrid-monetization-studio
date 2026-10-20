@@ -64,7 +64,7 @@ describe("J&K Kho-Kho Selection Trials & Green Play Field Integration", () => {
     const canonicalLink = head.links.find((l) => l.rel === "canonical");
     expect(canonicalLink).toBeDefined();
     expect(canonicalLink?.href).toBe(
-      "https://khelgrid.com/trial/t-jk-kho-kho-junior-national-trials-2026",
+      "https://www.khelgrid.com/trial/t-jk-kho-kho-junior-national-trials-2026",
     );
   });
 });

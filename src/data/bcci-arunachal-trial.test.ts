@@ -71,7 +71,7 @@ describe("BCCI Arunachal Pradesh Ranji Trials & BCCI Venues Integration", () => 
     const canonicalLink = head.links.find((l) => l.rel === "canonical");
     expect(canonicalLink).toBeDefined();
     expect(canonicalLink?.href).toBe(
-      "https://khelgrid.com/trial/t-bcci-arunachal-pradesh-ranji-trials-2026",
+      "https://www.khelgrid.com/trial/t-bcci-arunachal-pradesh-ranji-trials-2026",
     );
 
     const ogTitle = head.meta.find((m) => "property" in m && m.property === "og:title");

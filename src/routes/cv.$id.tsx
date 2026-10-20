@@ -44,7 +44,7 @@ export const Route = createFileRoute("/cv/$id")({
       canonicalPath: `/cv/${params.id}`,
       type: "profile",
       keywords: `${cv.athleteName}, ${cv.sport} CV, ${cv.athleteName} stats, sports resume India, ${cv.city} athlete, youth sports trials, ${cv.position}`,
-      image: "https://khelgrid.com/og-image.png",
+      image: "https://www.khelgrid.com/og-image.png",
     });
   },
   component: PublicSportsCVPage,

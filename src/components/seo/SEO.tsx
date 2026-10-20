@@ -8,7 +8,7 @@ export interface SEOProps {
   title: string;
   /** Meta description for search engine snippets and social sharing */
   description: string;
-  /** Canonical URL or relative path (e.g. "/about", "https://khelgrid.com/about") */
+  /** Canonical URL or relative path (e.g. "/about", "https://www.khelgrid.com/about") */
   canonicalUrl?: string;
   /** Alias for canonicalUrl */
   canonical?: string;

@@ -612,7 +612,7 @@ export async function downloadSportsCardAsPNG(data: SportsCVData): Promise<void>
   ctx.textAlign = "right";
   ctx.fillStyle = "#ffffff";
   ctx.font = "14px monospace";
-  ctx.fillText(`khelgrid.com/profile/${data.athleteId}`, width - 70, footerY + 15);
+  ctx.fillText(`www.khelgrid.com/profile/${data.athleteId}`, width - 70, footerY + 15);
   ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
   ctx.fillText(`Issued: ${new Date().toLocaleDateString("en-IN")}`, width - 70, footerY + 38);
   ctx.textAlign = "left";
@@ -691,6 +691,6 @@ ${metricsStr || "• Standard baseline trials pending"}
 ${achStr || "• In-season record registered"}
 ${socialStr ? `\n📱 CONNECTED ATHLETIC PROFILES:\n${socialStr}` : ""}
 ${data.coachReference ? `\n👤 Coach Reference: ${data.coachReference.name} (${data.coachReference.designation})` : ""}
-🔗 Verified Profile ID: ${data.athleteId} (https://khelgrid.com)
+🔗 Verified Profile ID: ${data.athleteId} (https://www.khelgrid.com)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 }

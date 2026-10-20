@@ -36,7 +36,7 @@ export const Route = createFileRoute("/community")({
         content: "Share progress, find practice partners, and learn with athletes in your sport.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://khelgrid.com/community" }],
+    links: [{ rel: "canonical", href: "https://www.khelgrid.com/community" }],
   }),
   component: CommunityPage,
 });

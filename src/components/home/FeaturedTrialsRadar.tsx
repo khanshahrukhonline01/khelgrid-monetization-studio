@@ -46,7 +46,7 @@ export function FeaturedTrialsRadar({
   const handleShare = (e: React.MouseEvent, trial: Trial) => {
     e.preventDefault();
     e.stopPropagation();
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://khelgrid.com";
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = `${origin}/trial/${trial.id}`;
     const text = `🏆 *${trial.sport.toUpperCase()} TRIAL: ${trial.title}*\n📍 *Location:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.fee === 0 ? "Free Entry" : "₹" + trial.fee}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"}\n\n👉 *Details & Registration:* ${shareUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");

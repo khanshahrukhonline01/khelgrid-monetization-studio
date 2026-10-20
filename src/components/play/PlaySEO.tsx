@@ -13,13 +13,13 @@ export function PlaySEO({ games }: PlaySEOProps) {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://khelgrid.com",
+        item: "https://www.khelgrid.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Play & Casual Games",
-        item: "https://khelgrid.com/play",
+        item: "https://www.khelgrid.com/play",
       },
     ],
   };

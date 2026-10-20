@@ -314,7 +314,7 @@ export function SportsNewsSection({
   };
 
   const handleShare = async (article: SportsNewsArticle) => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://khelgrid.com";
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = article.blogSlug
       ? `${origin}/blog/${article.blogSlug}`
       : `${origin}/#news-${article.slug}`;
@@ -371,7 +371,7 @@ export function SportsNewsSection({
       "@graph": [
         {
           "@type": "ItemList",
-          "@id": "https://khelgrid.com/#sports-news-wire",
+          "@id": "https://www.khelgrid.com/#sports-news-wire",
           name: "KhelGrid Real-Time Sports Wire & National News",
           description:
             "Live national sports bulletins, Khelo India updates, Asian Games medal tallies, and high-performance tactical analysis.",
@@ -380,16 +380,16 @@ export function SportsNewsSection({
             "@type": "ListItem",
             position: idx + 1,
             url: article.blogSlug
-              ? `https://khelgrid.com/blog/${article.blogSlug}`
-              : `https://khelgrid.com/#news-${article.slug}`,
+              ? `https://www.khelgrid.com/blog/${article.blogSlug}`
+              : `https://www.khelgrid.com/#news-${article.slug}`,
             name: article.title,
           })),
         },
         ...SPORTS_NEWS_CATALOG.map((article) => ({
           "@type": "NewsArticle",
           "@id": article.blogSlug
-            ? `https://khelgrid.com/blog/${article.blogSlug}`
-            : `https://khelgrid.com/#news-${article.slug}`,
+            ? `https://www.khelgrid.com/blog/${article.blogSlug}`
+            : `https://www.khelgrid.com/#news-${article.slug}`,
           headline: article.title,
           alternativeHeadline: article.headline,
           description: article.excerpt,
@@ -397,16 +397,16 @@ export function SportsNewsSection({
           articleSection: article.sport,
           inLanguage: "en-IN",
           url: article.blogSlug
-            ? `https://khelgrid.com/blog/${article.blogSlug}`
-            : `https://khelgrid.com/#news-${article.slug}`,
+            ? `https://www.khelgrid.com/blog/${article.blogSlug}`
+            : `https://www.khelgrid.com/#news-${article.slug}`,
           image: [article.imageUrl],
           datePublished: article.publishedAt,
           dateModified: article.publishedAt,
           mainEntityOfPage: {
             "@type": "WebPage",
             "@id": article.blogSlug
-              ? `https://khelgrid.com/blog/${article.blogSlug}`
-              : `https://khelgrid.com/#news-${article.slug}`,
+              ? `https://www.khelgrid.com/blog/${article.blogSlug}`
+              : `https://www.khelgrid.com/#news-${article.slug}`,
           },
           author: {
             "@type": "Person",
@@ -416,10 +416,10 @@ export function SportsNewsSection({
           publisher: {
             "@type": "SportsOrganization",
             name: "KhelGrid",
-            url: "https://khelgrid.com",
+            url: "https://www.khelgrid.com",
             logo: {
               "@type": "ImageObject",
-              url: "https://khelgrid.com/favicon.svg",
+              url: "https://www.khelgrid.com/favicon.svg",
               width: 512,
               height: 512,
             },

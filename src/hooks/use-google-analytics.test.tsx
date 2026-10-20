@@ -20,7 +20,7 @@ vi.mock("@tanstack/react-router", () => ({
 const mockWindow = {
   gtag: undefined as any,
   dataLayer: [] as any[],
-  location: { href: "https://khelgrid.com/trials?sport=cricket" },
+  location: { href: "https://www.khelgrid.com/trials?sport=cricket" },
   addEventListener: vi.fn(),
   removeEventListener: vi.fn(),
   innerHeight: 800,

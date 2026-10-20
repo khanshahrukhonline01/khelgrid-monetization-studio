@@ -25,7 +25,7 @@ User-agent: Google-Display-Ads-Bot
 Allow: /
 Allow: /ads.txt
 
-Sitemap: https://khelgrid.com/sitemap.xml
+Sitemap: https://www.khelgrid.com/sitemap.xml
 `;
 
 export const Route = createFileRoute("/robots.txt")({

@@ -49,7 +49,7 @@ describe("Khel Maharan 3.0 Assam Opportunity & SEO Optimization", () => {
 
     const canonicalLink = head.links.find((l) => l.rel === "canonical");
     expect(canonicalLink).toBeDefined();
-    expect(canonicalLink?.href).toBe("https://khelgrid.com/trial/t-khel-maharan-3-assam-2026");
+    expect(canonicalLink?.href).toBe("https://www.khelgrid.com/trial/t-khel-maharan-3-assam-2026");
 
     const ogTitle = head.meta.find((m) => "property" in m && m.property === "og:title");
     expect(ogTitle).toBeDefined();

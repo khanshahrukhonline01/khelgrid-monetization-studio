@@ -206,7 +206,7 @@ export const Route = createFileRoute("/search")({
       pageTitle = `Search Results for ${sQ} · Sports Trials and Opportunities on KhelGrid`;
     }
 
-    const searchUrl = "https://khelgrid.com/search";
+    const searchUrl = "https://www.khelgrid.com/search";
     const structuredData: Array<Record<string, unknown>> = [
       {
         "@context": "https://schema.org",
@@ -227,7 +227,7 @@ export const Route = createFileRoute("/search")({
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://khelgrid.com",
+            item: "https://www.khelgrid.com",
           },
           {
             "@type": "ListItem",

@@ -37,10 +37,10 @@ describe("Sports CV Shareable Link Feature", () => {
     });
 
     it("generates a full shareable URL with slug and portable payload", () => {
-      const result = generateShareableCVUrl(sampleCV, "https://khelgrid.com");
+      const result = generateShareableCVUrl(sampleCV, "https://www.khelgrid.com");
       expect(result.slug).toBe("aarav-sharma-cricket");
-      expect(result.shortUrl).toBe("https://khelgrid.com/cv/aarav-sharma-cricket");
-      expect(result.url).toContain("https://khelgrid.com/cv/aarav-sharma-cricket?data=");
+      expect(result.shortUrl).toBe("https://www.khelgrid.com/cv/aarav-sharma-cricket");
+      expect(result.url).toContain("https://www.khelgrid.com/cv/aarav-sharma-cricket?data=");
       expect(result.payloadParam.length).toBeGreaterThan(20);
     });
   });
@@ -119,7 +119,7 @@ describe("Sports CV Shareable Link Feature", () => {
 
   describe("Social Share Links Generation", () => {
     it("generates WhatsApp share URL with preformatted bold text, stats, and link", () => {
-      const shareUrl = "https://khelgrid.com/cv/aarav-sharma-cricket";
+      const shareUrl = "https://www.khelgrid.com/cv/aarav-sharma-cricket";
       const links = buildSocialShareLinks(sampleCV, shareUrl);
 
       expect(links.whatsapp).toContain("https://api.whatsapp.com/send?text=");
@@ -131,7 +131,7 @@ describe("Sports CV Shareable Link Feature", () => {
     });
 
     it("generates Twitter / X tweet intent with hashtags and scout URL", () => {
-      const shareUrl = "https://khelgrid.com/cv/aarav-sharma-cricket";
+      const shareUrl = "https://www.khelgrid.com/cv/aarav-sharma-cricket";
       const links = buildSocialShareLinks(sampleCV, shareUrl);
 
       expect(links.twitter).toContain("https://twitter.com/intent/tweet?");
@@ -141,7 +141,7 @@ describe("Sports CV Shareable Link Feature", () => {
     });
 
     it("generates LinkedIn share URL", () => {
-      const shareUrl = "https://khelgrid.com/cv/aarav-sharma-cricket";
+      const shareUrl = "https://www.khelgrid.com/cv/aarav-sharma-cricket";
       const links = buildSocialShareLinks(sampleCV, shareUrl);
 
       expect(links.linkedin).toContain("https://www.linkedin.com/sharing/share-offsite/");
@@ -149,7 +149,7 @@ describe("Sports CV Shareable Link Feature", () => {
     });
 
     it("generates email scout dossier with structured subject and body", () => {
-      const shareUrl = "https://khelgrid.com/cv/aarav-sharma-cricket";
+      const shareUrl = "https://www.khelgrid.com/cv/aarav-sharma-cricket";
       const links = buildSocialShareLinks(sampleCV, shareUrl);
 
       expect(links.email).toContain("mailto:?subject=");
@@ -160,7 +160,7 @@ describe("Sports CV Shareable Link Feature", () => {
     });
 
     it("generates clean scout pitch snippet for direct WhatsApp messaging", () => {
-      const shareUrl = "https://khelgrid.com/cv/aarav-sharma-cricket";
+      const shareUrl = "https://www.khelgrid.com/cv/aarav-sharma-cricket";
       const links = buildSocialShareLinks(sampleCV, shareUrl);
 
       expect(links.scoutPitchSnippet).toContain("ATHLETE SCOUT PROFILE");

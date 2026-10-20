@@ -133,7 +133,7 @@ export function GameDetailsModal({
   };
 
   const handleWhatsAppShare = () => {
-    const text = `Hey, join my ${game.sport} game on KhelGrid! 📍 Venue: ${game.venue}, ${game.city} 📅 Date: ${game.date} at ${game.time} (₹${game.costPerPlayer}/player). Reserve your spot: ${typeof window !== "undefined" ? window.location.href : "https://khelgrid.com/play"}`;
+    const text = `Hey, join my ${game.sport} game on KhelGrid! 📍 Venue: ${game.venue}, ${game.city} 📅 Date: ${game.date} at ${game.time} (₹${game.costPerPlayer}/player). Reserve your spot: ${typeof window !== "undefined" ? window.location.href : "https://www.khelgrid.com/play"}`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     if (typeof window !== "undefined") {
       window.open(url, "_blank", "noopener,noreferrer");

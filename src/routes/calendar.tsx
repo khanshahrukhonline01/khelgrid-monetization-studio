@@ -18,16 +18,16 @@ export const Route = createFileRoute("/calendar")({
     const calendarSchema = {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "@id": "https://khelgrid.com/calendar#webpage",
+      "@id": "https://www.khelgrid.com/calendar#webpage",
       name: "Sports Selection Trials Calendar 2026 · Monthly Schedule · KhelGrid",
       description:
         "Centralized monthly sports calendar aggregating upcoming selection trials, SAI NCOE dates, BCCI cricket combines, government sports quotas, and registration deadlines across India.",
-      url: "https://khelgrid.com/calendar",
-      isPartOf: { "@id": "https://khelgrid.com/#website" },
+      url: "https://www.khelgrid.com/calendar",
+      isPartOf: { "@id": "https://www.khelgrid.com/#website" },
       about: {
         "@type": "SportsOrganization",
         name: "KhelGrid",
-        url: "https://khelgrid.com",
+        url: "https://www.khelgrid.com",
       },
     };
 

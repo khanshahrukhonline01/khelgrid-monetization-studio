@@ -79,7 +79,7 @@ export function generateTrialsFaqSchema(
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": "https://khelgrid.com/search#faq",
+    "@id": "https://www.khelgrid.com/search#faq",
     name: "Frequently Asked Questions About Sports Selection Trials and Opportunities in India",
     description:
       "Authoritative answers to common questions about finding, applying, and preparing for verified sports selection trials, SAI NCOE schemes, BCCI state combines, and government sports quota jobs across India.",

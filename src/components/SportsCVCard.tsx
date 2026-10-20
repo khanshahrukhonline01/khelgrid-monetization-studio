@@ -698,7 +698,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
                 href={
                   data.socialProfiles.khelgrid.startsWith("http")
                     ? data.socialProfiles.khelgrid
-                    : `https://khelgrid.com/profile/${data.socialProfiles.khelgrid}`
+                    : `https://www.khelgrid.com/profile/${data.socialProfiles.khelgrid}`
                 }
                 target="_blank"
                 rel="noreferrer"

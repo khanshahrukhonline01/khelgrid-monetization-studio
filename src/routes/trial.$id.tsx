@@ -37,7 +37,7 @@ export const Route = createFileRoute("/trial/$id")({
       canonicalPath: `/trial/${trial.id}`,
       keywords: `${trial.title}, ${trial.sport} trial ${trial.city}, ${trial.academy}, youth sports selection, ${trial.sport} scholarship, SAI NCOE wrestling, sports trials Mumbai 2026`,
       type: "website",
-      image: "https://khelgrid.com/og-image.png",
+      image: "https://www.khelgrid.com/og-image.png",
       author: trial.academy,
     });
   },
@@ -168,7 +168,7 @@ function TrialDetailPage() {
         name: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",
         sameAs: "https://rect.crpf.gov.in",
         url: "https://rect.crpf.gov.in",
-        logo: "https://khelgrid.com/og-image.svg",
+        logo: "https://www.khelgrid.com/og-image.svg",
       },
       jobLocation: {
         "@type": "Place",

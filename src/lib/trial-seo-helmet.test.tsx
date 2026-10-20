@@ -19,7 +19,7 @@ describe("Official Selection Trial SEO & React Helmet Integration", () => {
       canonicalPath: `/trial/${saiTrial.id}`,
       keywords: `${saiTrial.title}, ${saiTrial.sport} trial ${saiTrial.city}`,
       type: "website",
-      image: "https://khelgrid.com/og-image.png",
+      image: "https://www.khelgrid.com/og-image.png",
       author: saiTrial.academy,
     });
 
@@ -40,7 +40,7 @@ describe("Official Selection Trial SEO & React Helmet Integration", () => {
     expect(ogUrl?.content).toContain("/trial/t-sai-wrestling-mumbai-2026");
 
     const ogImage = metaList.find((m) => m.property === "og:image");
-    expect(ogImage?.content).toBe("https://khelgrid.com/og-image.png");
+    expect(ogImage?.content).toBe("https://www.khelgrid.com/og-image.png");
 
     const ogSiteName = metaList.find((m) => m.property === "og:site_name");
     expect(ogSiteName?.content).toBe("KhelGrid");
@@ -53,7 +53,7 @@ describe("Official Selection Trial SEO & React Helmet Integration", () => {
     expect(twitterTitle?.content).toContain("SAI NCOE Wrestling Selection Trials");
 
     const twitterImage = metaList.find((m) => m.name === "twitter:image");
-    expect(twitterImage?.content).toBe("https://khelgrid.com/og-image.png");
+    expect(twitterImage?.content).toBe("https://www.khelgrid.com/og-image.png");
 
     // Canonical link
     const canonicalLink = seoResult.links.find((l) => l.rel === "canonical");

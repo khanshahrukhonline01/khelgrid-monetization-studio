@@ -128,10 +128,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "India's #1 network for game, sport, and play. Discover open sports selection trials, SAI NCOE recruitments, government sports quotas, book local turf maidans, badminton courts, box cricket, and build your verified Sports CV.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://khelgrid.com/og-image.svg" },
+      { property: "og:image", content: "https://www.khelgrid.com/og-image.svg" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@khelgrid" },
-      { name: "twitter:image", content: "https://khelgrid.com/og-image.svg" },
+      { name: "twitter:image", content: "https://www.khelgrid.com/og-image.svg" },
       // AdSense site ownership verification
       {
         name: "google-adsense-account",

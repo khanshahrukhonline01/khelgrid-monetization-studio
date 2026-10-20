@@ -7,8 +7,8 @@
 
 import { ROUTE_LABELS } from "@/config/nav";
 
-export const SITE_URL = "https://khelgrid.com";
-export const DEFAULT_OG_IMAGE = "https://khelgrid.com/og-image.png";
+export const SITE_URL = "https://www.khelgrid.com";
+export const DEFAULT_OG_IMAGE = "https://www.khelgrid.com/og-image.png";
 export const DEFAULT_SITE_NAME = "KhelGrid";
 export const TWITTER_HANDLE = "@KhelGrid";
 export const DEFAULT_KEYWORDS =

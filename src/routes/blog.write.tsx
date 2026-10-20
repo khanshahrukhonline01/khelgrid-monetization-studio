@@ -192,7 +192,7 @@ function BlogWriter() {
                 {title.trim() || "Article Title · KhelGrid Sports Blog"}
               </p>
               <p className="text-[11px] text-emerald-700 dark:text-emerald-500 truncate">
-                https://khelgrid.com/blog/
+                https://www.khelgrid.com/blog/
                 {title
                   ? title
                       .toLowerCase()

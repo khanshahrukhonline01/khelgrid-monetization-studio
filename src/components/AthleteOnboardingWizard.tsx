@@ -444,7 +444,7 @@ export function AthleteOnboardingWizard({
     const url =
       typeof window !== "undefined"
         ? `${window.location.origin}/profile?id=${data.athleteId}`
-        : `https://khelgrid.com/profile/${data.athleteId}`;
+        : `https://www.khelgrid.com/profile/${data.athleteId}`;
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       await navigator.clipboard.writeText(url);
       toast.success("Shareable Sports CV link copied!");
@@ -1522,7 +1522,7 @@ export function AthleteOnboardingWizard({
                       onChange={(e) => {
                         updateSocialField("khelgrid", e.target.value);
                       }}
-                      placeholder="e.g. https://khelgrid.com/profile/..."
+                      placeholder="e.g. https://www.khelgrid.com/profile/..."
                       className="h-9 text-xs"
                     />
                   </div>

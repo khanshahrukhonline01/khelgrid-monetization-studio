@@ -1627,7 +1627,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
                   khelgrid: e.target.value,
                 })
               }
-              placeholder="e.g. khelgrid.com/profile/username or karma profile link"
+              placeholder="e.g. www.khelgrid.com/profile/username or karma profile link"
             />
           </div>
         </div>

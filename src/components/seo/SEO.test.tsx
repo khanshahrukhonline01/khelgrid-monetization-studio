@@ -8,7 +8,7 @@ import { SITE_URL, DEFAULT_SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE } from "@
 
 describe("Reusable SEO Component (react-helmet-async)", () => {
   it("resolves canonical URLs correctly for absolute and relative paths", () => {
-    expect(resolveCanonicalUrl("https://khelgrid.com/search")).toBe("https://khelgrid.com/search");
+    expect(resolveCanonicalUrl("https://www.khelgrid.com/search")).toBe("https://www.khelgrid.com/search");
     expect(resolveCanonicalUrl("http://example.com/test")).toBe("http://example.com/test");
     expect(resolveCanonicalUrl("/opportunities")).toBe(`${SITE_URL}/opportunities`);
     expect(resolveCanonicalUrl("trial/t-123")).toBe(`${SITE_URL}/trial/t-123`);
@@ -77,7 +77,7 @@ describe("Reusable SEO Component (react-helmet-async)", () => {
           title="Athlete Profile"
           description="View youth athlete statistics, medals, and scout verified CV."
           canonical="/cv/ath-99"
-          image="https://khelgrid.com/athletes/ath-99-cv.png"
+          image="https://www.khelgrid.com/athletes/ath-99-cv.png"
           imageAlt="Athlete CV Certificate"
           keywords={["athlete", "sports cv", "scout"]}
           author="KhelGrid Scouting Network"
@@ -87,7 +87,7 @@ describe("Reusable SEO Component (react-helmet-async)", () => {
 
     expect(html).toContain(`rel="canonical" href="${SITE_URL}/cv/ath-99"`);
     expect(html).toContain(
-      'property="og:image" content="https://khelgrid.com/athletes/ath-99-cv.png"',
+      'property="og:image" content="https://www.khelgrid.com/athletes/ath-99-cv.png"',
     );
     expect(html).toContain('property="og:image:alt" content="Athlete CV Certificate"');
     expect(html).toContain('name="keywords" content="athlete, sports cv, scout"');

@@ -29,13 +29,13 @@ export const Route = createFileRoute("/ipr-policy")({
         "@context": "https://schema.org",
         "@type": "WebPage",
         name: "Intellectual Property Rights & Copyright Policy · KhelGrid",
-        url: "https://khelgrid.com/ipr-policy",
+        url: "https://www.khelgrid.com/ipr-policy",
         description:
           "Official IPR and Copyright terms governing KhelGrid platform assets, user-submitted media, third-party trademarks, and statutory notice-and-takedown procedures.",
         publisher: {
           "@type": "Organization",
           name: "KhelGrid",
-          url: "https://khelgrid.com",
+          url: "https://www.khelgrid.com",
         },
         mainEntity: {
           "@type": "FAQPage",

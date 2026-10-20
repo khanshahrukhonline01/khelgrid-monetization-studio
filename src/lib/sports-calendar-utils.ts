@@ -292,7 +292,7 @@ export function generateIcsCalendar(
       lines.push(`LOCATION:${ev.venue.replace(/[,;]/g, " ")}`);
     }
     lines.push(`CATEGORIES:${ev.sport},Sports Selection Trials`);
-    lines.push(`URL:https://khelgrid.com/trial/${ev.trialId}`);
+    lines.push(`URL:https://www.khelgrid.com/trial/${ev.trialId}`);
     lines.push("STATUS:CONFIRMED");
     lines.push("END:VEVENT");
   });

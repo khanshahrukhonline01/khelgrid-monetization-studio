@@ -29,13 +29,13 @@ export const Route = createFileRoute("/posh-policy")({
         "@context": "https://schema.org",
         "@type": "WebPage",
         name: "Prevention of Sexual Harassment (POSH) & Athlete Safeguarding Policy · KhelGrid",
-        url: "https://khelgrid.com/posh-policy",
+        url: "https://www.khelgrid.com/posh-policy",
         description:
           "KhelGrid's zero-tolerance POSH Policy under the Sexual Harassment of Women at Workplace Act 2013 and National Safe Sports guidelines. Protecting athletes, coaches, and staff.",
         publisher: {
           "@type": "Organization",
           name: "KhelGrid",
-          url: "https://khelgrid.com",
+          url: "https://www.khelgrid.com",
         },
         mainEntity: {
           "@type": "FAQPage",

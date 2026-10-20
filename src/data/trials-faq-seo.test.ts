@@ -37,7 +37,7 @@ describe("Trials and Opportunities Page FAQ JSON-LD Structured Data", () => {
 
     expect(faqSchema["@context"]).toBe("https://schema.org");
     expect(faqSchema["@type"]).toBe("FAQPage");
-    expect(faqSchema["@id"]).toBe("https://khelgrid.com/search#faq");
+    expect(faqSchema["@id"]).toBe("https://www.khelgrid.com/search#faq");
     expect(faqSchema.name).toContain("Frequently Asked Questions");
     expect(Array.isArray(faqSchema.mainEntity)).toBe(true);
     expect(faqSchema.mainEntity.length).toBe(TRIALS_AND_OPPORTUNITIES_FAQS.length);
