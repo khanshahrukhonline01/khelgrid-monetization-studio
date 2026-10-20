@@ -56,7 +56,7 @@ function makeServer() {
 
       let request = supabase
         .from("opportunities")
-        .select("id,title,slug,opportunity_type,description,eligibility,location_name,city,state,start_at,end_at,registration_deadline,fee,status,metadata,sport:sports(name)")
+        .select(`id,title,slug,opportunity_type,description,eligibility,location_name,city,state,start_at,end_at,registration_deadline,fee,status,metadata,sport:sports${sport ? "!inner" : ""}(name)`)
         .in("status", [...allowedStatuses])
         .order("start_at", { ascending: true, nullsFirst: false })
         .limit(Math.min(limit ?? 5, maxResults));
@@ -68,6 +68,9 @@ function makeServer() {
       if (state) request = request.ilike("state", "%"+state+"%");
       if (city) request = request.ilike("city", "%"+city+"%");
       if (type) request = request.eq("opportunity_type", type);
+      // Filter sport at the database level before applying the result limit.
+      // The inner join ensures opportunities without a matching sport are excluded.
+      if (sport) request = request.ilike("sport.name", "%" + sport.replace(/[%_]/g, " ").trim() + "%");
 
       const { data, error } = await request;
       if (error) {
@@ -75,15 +78,7 @@ function makeServer() {
         return { isError: true, content: [{ type: "text", text: "Unable to search Khelgrid opportunities right now. Please try again later." }] };
       }
 
-      const sportFiltered = sport
-        ? (data ?? []).filter((item: any) => {
-            const relation = item.sport;
-            const name = Array.isArray(relation) ? relation[0]?.name : relation?.name;
-            return typeof name === "string" && name.toLowerCase().includes(sport.toLowerCase());
-          })
-        : (data ?? []);
-
-      const results = sportFiltered.map((item: any) => ({
+      const results = (data ?? []).map((item: any) => ({
         id: item.id,
         title: item.title,
         type: item.opportunity_type,
