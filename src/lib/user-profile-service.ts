@@ -1,4 +1,5 @@
 import { supabase, isSupabaseConfigured } from "./supabase";
+import type { Database } from "@/types/database";
 
 export interface UserProfileData {
   id: string;
@@ -75,6 +76,26 @@ export interface UserMembershipStatus {
   remainingHours: number;
   daysRemaining: number;
   syncedToDb?: boolean;
+}
+
+type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
+
+function profileMetadata(row: ProfileRow): Record<string, unknown> {
+  return row.metadata && typeof row.metadata === "object" && !Array.isArray(row.metadata)
+    ? (row.metadata as Record<string, unknown>)
+    : {};
+}
+
+function metadataText(metadata: Record<string, unknown>, key: string, fallback = ""): string {
+  const value = metadata[key];
+  return typeof value === "string" ? value : fallback;
+}
+
+function metadataTextArray(metadata: Record<string, unknown>, key: string, fallback: string[] = []): string[] {
+  const value = metadata[key];
+  return Array.isArray(value) && value.every((item) => typeof item === "string")
+    ? value
+    : fallback;
 }
 
 const PROFILE_STORAGE_KEY = "khelgrid_user_profile_v1";
@@ -255,11 +276,10 @@ function calculateDaysRemaining(validUntil: string): number {
 /**
  * Fetch User Profile with live Supabase query and local fallback
  */
-export async function getUserProfile(email: string = "arjun.mehta@khelgrid.com"): Promise<{
+export async function getUserProfile(email?: string): Promise<{
   profile: UserProfileData;
   isSupabaseLive: boolean;
 }> {
-  let isSupabaseLive = false;
   let cached: UserProfileData = DEFAULT_USER_PROFILE;
 
   if (typeof window !== "undefined") {
@@ -273,58 +293,47 @@ export async function getUserProfile(email: string = "arjun.mehta@khelgrid.com")
 
   if (isSupabaseConfigured) {
     try {
-      // 1. First attempt to query 'profiles' table in Supabase
-      let { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .or(`email.eq.${email},full_name.ilike.%${cached.fullName}%`)
-        .limit(1);
-
-      // 2. If 'profiles' returned nothing or error, fall back to 'user_profiles'
-      if (error || !data || data.length === 0) {
-        const fallbackRes = await supabase
-          .from("user_profiles")
+      const { data: authData, error: authError } = await supabase.auth.getUser();
+      const authUser = authData.user;
+      if (!authError && authUser) {
+        const { data: row, error } = await supabase
+          .from("profiles")
           .select("*")
-          .or(`email.eq.${email},full_name.ilike.%${cached.fullName}%`)
-          .limit(1);
-        if (!fallbackRes.error && fallbackRes.data && fallbackRes.data.length > 0) {
-          data = fallbackRes.data;
-          error = null;
-        }
-      }
+          .eq("id", authUser.id)
+          .maybeSingle();
 
-      if (!error && data && data.length > 0) {
-        const row = data[0];
-        isSupabaseLive = true;
-        const profile: UserProfileData = {
-          id: row.id,
-          userId: row.user_id,
-          fullName: row.full_name,
-          email: row.email || email,
-          phone: row.phone || cached.phone,
-          avatarUrl: row.avatar_url || cached.avatarUrl,
-          primarySport: row.primary_sport || cached.primarySport,
-          secondarySports: row.secondary_sports || cached.secondarySports,
-          city: row.city || cached.city,
-          ageCategory: row.age_category || cached.ageCategory,
-          playingPosition: row.playing_position || cached.playingPosition,
-          bio: row.bio || cached.bio,
-          skillLevel: row.skill_level || cached.skillLevel,
-          membershipTier: row.membership_tier || cached.membershipTier,
-          syncedToDb: true,
-        };
+        if (!error && row) {
+          const metadata = profileMetadata(row);
+          const profile: UserProfileData = {
+            id: row.id,
+            userId: row.id,
+            fullName: row.full_name || "",
+            email: row.email || authUser.email || email || "",
+            phone: row.phone || cached.phone,
+            avatarUrl: row.avatar_url || cached.avatarUrl,
+            primarySport: metadataText(metadata, "primary_sport", cached.primarySport),
+            secondarySports: metadataTextArray(metadata, "secondary_sports", cached.secondarySports),
+            city: row.city || cached.city,
+            ageCategory: metadataText(metadata, "age_category", cached.ageCategory),
+            playingPosition: metadataText(metadata, "playing_position", cached.playingPosition),
+            bio: row.bio || cached.bio,
+            skillLevel: metadataText(metadata, "skill_level", cached.skillLevel),
+            membershipTier: metadataText(metadata, "membership_tier", cached.membershipTier),
+            syncedToDb: true,
+          };
 
-        if (typeof window !== "undefined") {
-          localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+          if (typeof window !== "undefined") {
+            localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+          }
+          return { profile, isSupabaseLive: true };
         }
-        return { profile, isSupabaseLive: true };
       }
     } catch (err) {
-      console.warn("Supabase profiles table query failed, falling back to local state", err);
+      console.warn("Supabase profile query failed, falling back to local state", err);
     }
   }
 
-  return { profile: cached, isSupabaseLive };
+  return { profile: cached, isSupabaseLive: false };
 }
 
 /**
@@ -652,8 +661,8 @@ export async function toggleMembershipAutoRenew(
 export async function updateUserProfile(
   updated: Partial<UserProfileData>,
 ): Promise<{ profile: UserProfileData; syncedToDb: boolean }> {
-  let synced = false;
   let current = { ...DEFAULT_USER_PROFILE, ...updated };
+  let synced = false;
 
   if (typeof window !== "undefined") {
     try {
@@ -667,23 +676,47 @@ export async function updateUserProfile(
 
   if (isSupabaseConfigured) {
     try {
-      const { error } = await supabase.from("user_profiles").upsert({
-        full_name: current.fullName,
-        email: current.email,
-        phone: current.phone,
-        avatar_url: current.avatarUrl,
-        primary_sport: current.primarySport,
-        secondary_sports: current.secondarySports,
-        city: current.city,
-        age_category: current.ageCategory,
-        playing_position: current.playingPosition,
-        bio: current.bio,
-        skill_level: current.skillLevel,
-        membership_tier: current.membershipTier,
-      });
-      if (!error) synced = true;
+      const { data: authData, error: authError } = await supabase.auth.getUser();
+      if (!authError && authData.user) {
+        const { data: existing, error: readError } = await supabase
+          .from("profiles")
+          .select("metadata")
+          .eq("id", authData.user.id)
+          .maybeSingle();
+
+        if (!readError && existing) {
+          const existingMetadata =
+            existing.metadata && typeof existing.metadata === "object" && !Array.isArray(existing.metadata)
+              ? (existing.metadata as Record<string, unknown>)
+              : {};
+
+          const { error } = await supabase
+            .from("profiles")
+            .update({
+              full_name: current.fullName,
+              email: current.email,
+              phone: current.phone || null,
+              avatar_url: current.avatarUrl || null,
+              bio: current.bio || null,
+              city: current.city || null,
+              metadata: {
+                ...existingMetadata,
+                primary_sport: current.primarySport,
+                secondary_sports: current.secondarySports,
+                age_category: current.ageCategory,
+                playing_position: current.playingPosition,
+                skill_level: current.skillLevel,
+                membership_tier: current.membershipTier,
+              },
+            })
+            .eq("id", authData.user.id);
+
+          synced = !error;
+          if (error) console.warn("Supabase profile update failed", error);
+        }
+      }
     } catch (err) {
-      console.warn("Supabase user_profiles upsert failed", err);
+      console.warn("Supabase profile update failed", err);
     }
   }
 
@@ -759,31 +792,51 @@ export async function recordUserLoginInDatabase(account: {
     syncedToDb: false,
   };
 
-  // 1. Sync to Supabase `user_profiles` database table
+  // Sync only the currently authenticated Supabase user's existing profile.
+  // Never upsert a profile by email or trust client-supplied role/plan values.
   if (isSupabaseConfigured) {
     try {
-      const { error } = await supabase.from("user_profiles").upsert({
-        full_name: profileData.fullName,
-        email: profileData.email,
-        phone: profileData.phone,
-        avatar_url: profileData.avatarUrl,
-        primary_sport: profileData.primarySport,
-        secondary_sports: profileData.secondarySports,
-        city: profileData.city,
-        age_category: profileData.ageCategory,
-        playing_position: profileData.playingPosition,
-        bio: profileData.bio,
-        skill_level: profileData.skillLevel,
-        membership_tier: profileData.membershipTier,
-      });
+      const { data: authData, error: authError } = await supabase.auth.getUser();
+      if (!authError && authData.user && authData.user.id === account.id) {
+        const { data: existing, error: readError } = await supabase
+          .from("profiles")
+          .select("metadata")
+          .eq("id", authData.user.id)
+          .maybeSingle();
 
-      if (!error) {
-        syncedToDb = true;
-      } else {
-        console.warn("Supabase user_profiles login upsert returned error:", error);
+        if (!readError && existing) {
+          const existingMetadata =
+            existing.metadata && typeof existing.metadata === "object" && !Array.isArray(existing.metadata)
+              ? (existing.metadata as Record<string, unknown>)
+              : {};
+
+          const { error } = await supabase
+            .from("profiles")
+            .update({
+              full_name: profileData.fullName,
+              email: profileData.email,
+              phone: profileData.phone || null,
+              avatar_url: profileData.avatarUrl || null,
+              bio: profileData.bio || null,
+              city: profileData.city || null,
+              metadata: {
+                ...existingMetadata,
+                primary_sport: profileData.primarySport,
+                secondary_sports: profileData.secondarySports,
+                age_category: profileData.ageCategory,
+                playing_position: profileData.playingPosition,
+                skill_level: profileData.skillLevel,
+                membership_tier: profileData.membershipTier,
+              },
+            })
+            .eq("id", authData.user.id);
+
+          if (!error) syncedToDb = true;
+          else console.warn("Supabase profile login sync returned error:", error);
+        }
       }
     } catch (err) {
-      console.warn("Supabase user_profiles login sync connection failed:", err);
+      console.warn("Supabase profile login sync failed:", err);
     }
   }
 

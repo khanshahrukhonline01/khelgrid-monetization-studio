@@ -221,6 +221,45 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["coaching_enrollments"]["Insert"]>;
       };
+      profiles: {
+        Row: {
+          id: string;
+          full_name: string | null;
+          username: string | null;
+          email: string | null;
+          phone: string | null;
+          avatar_url: string | null;
+          bio: string | null;
+          city: string | null;
+          state: string | null;
+          country: string;
+          role: string;
+          plan: string;
+          is_verified: boolean;
+          metadata: Json;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id: string;
+          full_name?: string | null;
+          username?: string | null;
+          email?: string | null;
+          phone?: string | null;
+          avatar_url?: string | null;
+          bio?: string | null;
+          city?: string | null;
+          state?: string | null;
+          country?: string;
+          role?: string;
+          plan?: string;
+          is_verified?: boolean;
+          metadata?: Json;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
+      };
       user_profiles: {
         Row: {
           id: string;
