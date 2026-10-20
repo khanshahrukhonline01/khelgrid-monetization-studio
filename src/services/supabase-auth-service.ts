@@ -50,6 +50,31 @@ function normalizeAppRole(role?: string): AppRole {
   return "athlete";
 }
 
+type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
+
+function metadataString(metadata: ProfileRow["metadata"], key: string): string | undefined {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) return undefined;
+  const value = metadata[key];
+  return typeof value === "string" ? value : undefined;
+}
+
+function mapProfile(row: ProfileRow): SupabaseUserProfile {
+  return {
+    id: row.id,
+    userId: row.id,
+    fullName: row.full_name || "",
+    email: row.email || "",
+    phone: row.phone || undefined,
+    role: normalizeAppRole(row.role),
+    primarySport: metadataString(row.metadata, "primary_sport") || "Cricket",
+    secondarySports: [],
+    city: row.city || "",
+    avatarUrl: row.avatar_url || undefined,
+    bio: row.bio || undefined,
+    membershipTier: row.plan || "free",
+  };
+}
+
 /**
  * Service encapsulating Supabase Authentication, user profile synchronization, and session management.
  */
@@ -150,45 +175,21 @@ export class SupabaseAuthService {
       // Check if email confirmation is required by project settings
       const requiresEmailConfirmation = !data.session && createdUser.identities?.length !== 0;
 
-      // 2. Provision or upsert public.user_profiles row
+      // The database trigger provisions public.profiles for every Auth user.
+      // Never write role/plan/verification fields from the browser.
       let profile: SupabaseUserProfile | null = null;
-      try {
-        const profilePayload = {
-          user_id: createdUser.id,
-          full_name: params.fullName.trim(),
-          email: cleanEmail,
-          phone: params.phone?.trim() || null,
-          role: appRole,
-          primary_sport: params.primarySport || "Cricket",
-          secondary_sports: [],
-          city: params.city || "Bengaluru",
-          membership_tier: "free",
-        };
-
-        const { data: profileRow } = await supabase
-          .from("user_profiles")
-          .upsert(profilePayload, { onConflict: "user_id" })
-          .select()
+      if (data.session) {
+        const { data: profileRow, error: profileError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", createdUser.id)
           .maybeSingle();
 
-        if (profileRow) {
-          profile = {
-            id: profileRow.id,
-            userId: profileRow.user_id || createdUser.id,
-            fullName: profileRow.full_name,
-            email: profileRow.email || cleanEmail,
-            phone: profileRow.phone || undefined,
-            role: profileRow.role,
-            primarySport: profileRow.primary_sport,
-            secondarySports: profileRow.secondary_sports || [],
-            city: profileRow.city,
-            avatarUrl: profileRow.avatar_url || undefined,
-            bio: profileRow.bio || undefined,
-            membershipTier: profileRow.membership_tier,
-          };
+        if (profileError) {
+          console.warn("Could not read provisioned profile after sign up:", profileError);
+        } else if (profileRow) {
+          profile = mapProfile(profileRow);
         }
-      } catch (profileErr) {
-        console.warn("Could not insert user_profiles row on sign up:", profileErr);
       }
 
       return {
@@ -239,33 +240,16 @@ export class SupabaseAuthService {
         };
       }
 
-      // Fetch linked profile from user_profiles
-      let profile: SupabaseUserProfile | null = null;
-      try {
-        const { data: profileRow } = await supabase
-          .from("user_profiles")
-          .select("*")
-          .eq("user_id", data.user.id)
-          .maybeSingle();
+      // Read the profile keyed by the Auth user UUID.
+      const { data: profileRow, error: profileError } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", data.user.id)
+        .maybeSingle();
 
-        if (profileRow) {
-          profile = {
-            id: profileRow.id,
-            userId: profileRow.user_id || data.user.id,
-            fullName: profileRow.full_name,
-            email: profileRow.email || cleanEmail,
-            phone: profileRow.phone || undefined,
-            role: profileRow.role,
-            primarySport: profileRow.primary_sport,
-            secondarySports: profileRow.secondary_sports || [],
-            city: profileRow.city,
-            avatarUrl: profileRow.avatar_url || undefined,
-            bio: profileRow.bio || undefined,
-            membershipTier: profileRow.membership_tier,
-          };
-        }
-      } catch (profileErr) {
-        console.warn("Could not fetch user profile on sign in:", profileErr);
+      const profile = !profileError && profileRow ? mapProfile(profileRow) : null;
+      if (profileError) {
+        console.warn("Could not fetch profile on sign in:", profileError);
       }
 
       return {
@@ -425,27 +409,13 @@ export class SupabaseAuthService {
 
     try {
       const { data, error } = await supabase
-        .from("user_profiles")
+        .from("profiles")
         .select("*")
-        .eq("user_id", userId)
+        .eq("id", userId)
         .maybeSingle();
 
       if (error || !data) return null;
-
-      return {
-        id: data.id,
-        userId: data.user_id || userId,
-        fullName: data.full_name,
-        email: data.email || "",
-        phone: data.phone || undefined,
-        role: data.role,
-        primarySport: data.primary_sport,
-        secondarySports: data.secondary_sports || [],
-        city: data.city,
-        avatarUrl: data.avatar_url || undefined,
-        bio: data.bio || undefined,
-        membershipTier: data.membership_tier,
-      };
+      return mapProfile(data);
     } catch {
       return null;
     }
