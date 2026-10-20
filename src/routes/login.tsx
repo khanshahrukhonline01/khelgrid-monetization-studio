@@ -161,10 +161,9 @@ function LoginPage() {
       toast.error("Please enter a valid mobile number");
       return;
     }
-    setOtpSent(true);
-    setResendTimer(45);
-    setOtpCode("123456"); // simulated fast OTP for demo convenience
-    toast.success(`OTP sent to ${phone}! Demo code 123456 auto-filled.`);
+    toast.error("Mobile OTP sign-in is not connected to a real SMS provider yet. Please use email and password instead.");
+    setOtpSent(false);
+    setOtpCode("");
   };
 
   // Submit / Verify Sign In
@@ -184,8 +183,8 @@ function LoginPage() {
               : resolveTargetRoute(selectedRole);
           navigate({ to: dest as unknown as "/" });
           return;
-        } else if (supabaseRes.error && !email.includes("khelgrid.com")) {
-          toast.error(supabaseRes.error);
+        } else {
+          toast.error(supabaseRes.error || "Unable to sign in. Check your credentials and try again.");
           setIsSubmitting(false);
           return;
         }
@@ -241,6 +240,11 @@ function LoginPage() {
     }
     if (signUpPassword.length < 6) {
       toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
+    if (!isSupabaseConfigured) {
+      toast.error("Account registration is temporarily unavailable because Supabase is not configured. Please try again later.");
       return;
     }
 
