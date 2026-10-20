@@ -19,7 +19,8 @@ GRANT INSERT (
   city,
   state,
   country,
-  metadata
+  metadata,
+  updated_at
 ) ON TABLE public.profiles TO authenticated;
 
 -- A signed-in user may edit ordinary profile details only.
