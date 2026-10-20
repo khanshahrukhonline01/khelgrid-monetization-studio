@@ -125,13 +125,22 @@ const FREE_LIMIT = 2;
 const STORAGE_KEY = "khelgrid-auth-v1";
 const defaultUser: UserAccount = DEMO_ACCOUNTS.user;
 
+const guestUser: UserAccount = {
+  id: "guest-user",
+  name: "Guest User",
+  email: "guest@khelgrid.com",
+  phone: "",
+  role: "user",
+};
+
 const defaultState: AuthState = {
-  isAuthenticated: true,
-  user: defaultUser,
+  // A browser-local demo account must never count as a real signed-in session.
+  isAuthenticated: false,
+  user: guestUser,
   session: null,
-  name: defaultUser.name,
-  email: defaultUser.email,
-  phone: defaultUser.phone,
+  name: guestUser.name,
+  email: guestUser.email,
+  phone: guestUser.phone,
   plan: "free",
   wallet: 150,
   applications: [],
@@ -168,12 +177,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           role: resolvedRole,
         };
 
+        // Restore app preferences/progress, but never trust persisted auth flags.
+        // Supabase's actual session is the source of truth for production sign-in.
         setState({
           ...defaultState,
           ...parsed,
-          user: resolvedUser,
-          name: resolvedUser.name,
-          role: resolvedRole,
+          isAuthenticated: false,
+          session: null,
+          isSupabaseAuthActive: false,
+          user: guestUser,
+          name: guestUser.name,
+          email: guestUser.email,
+          phone: guestUser.phone,
+          role: "user",
         });
       }
     } catch {
@@ -184,10 +200,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // 2. Synchronize active Supabase Session & listen to real-time auth changes
   useEffect(() => {
-    if (!supabaseAuthService.isConfigured()) return;
+    // Wait until local app data is restored, then let Supabase authoritatively
+    // determine whether a real user is signed in.
+    if (!hydrated || !supabaseAuthService.isConfigured()) return;
 
     // Check for existing session on startup
     supabaseAuthService.getSession().then(async ({ session, user }) => {
+      if (!session || !user) {
+        setState((prev) => ({
+          ...prev,
+          isAuthenticated: false,
+          isSupabaseAuthActive: false,
+          session: null,
+          user: guestUser,
+          name: guestUser.name,
+          email: guestUser.email,
+          phone: guestUser.phone,
+          role: "user",
+        }));
+        return;
+      }
       if (session && user) {
         const profile = await supabaseAuthService.getUserProfile(user.id);
         const role = (
@@ -294,7 +326,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [hydrated]);
 
   // 3. Persist to localStorage
   useEffect(() => {
