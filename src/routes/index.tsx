@@ -26,10 +26,14 @@ const NativeAppBanner = lazy(() =>
   import("@/components/home/NativeAppBanner").then((m) => ({ default: m.NativeAppBanner })),
 );
 const FeaturedAcademiesSection = lazy(() =>
-  import("@/components/home/FeaturedAcademiesSection").then((m) => ({ default: m.FeaturedAcademiesSection })),
+  import("@/components/home/FeaturedAcademiesSection").then((m) => ({
+    default: m.FeaturedAcademiesSection,
+  })),
 );
 const HomeCommunityImpactSection = lazy(() =>
-  import("@/components/home/HomeCommunityImpactSection").then((m) => ({ default: m.HomeCommunityImpactSection })),
+  import("@/components/home/HomeCommunityImpactSection").then((m) => ({
+    default: m.HomeCommunityImpactSection,
+  })),
 );
 const HomeFaqSection = lazy(() =>
   import("@/components/HomeFaqSection").then((m) => ({ default: m.HomeFaqSection })),
@@ -143,7 +147,9 @@ function Home() {
 
         {/* 14. Frequently Asked Questions Accordion */}
         <div className="pt-2">
-          <Suspense fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <Suspense
+            fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}
+          >
             <HomeFaqSection />
           </Suspense>
         </div>

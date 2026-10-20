@@ -196,7 +196,8 @@ export function TrialDetailsModal({
   )}`;
 
   const getShareUrl = () => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     return `${origin}/trial/${trial.id}`;
   };
 

@@ -8,7 +8,9 @@ import { SITE_URL, DEFAULT_SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE } from "@
 
 describe("Reusable SEO Component (react-helmet-async)", () => {
   it("resolves canonical URLs correctly for absolute and relative paths", () => {
-    expect(resolveCanonicalUrl("https://www.khelgrid.com/search")).toBe("https://www.khelgrid.com/search");
+    expect(resolveCanonicalUrl("https://www.khelgrid.com/search")).toBe(
+      "https://www.khelgrid.com/search",
+    );
     expect(resolveCanonicalUrl("http://example.com/test")).toBe("http://example.com/test");
     expect(resolveCanonicalUrl("/opportunities")).toBe(`${SITE_URL}/opportunities`);
     expect(resolveCanonicalUrl("trial/t-123")).toBe(`${SITE_URL}/trial/t-123`);

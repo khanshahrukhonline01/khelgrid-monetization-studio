@@ -28,7 +28,8 @@ export function TrialSocialShare({
   const [copied, setCopied] = useState(false);
 
   // Construct absolute canonical share URL
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
+  const baseUrl =
+    typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
   const shareUrl = trial.url || `${baseUrl}/trial/${trial.id}`;
 
   const feeText = trial.fee === 0 ? "Free Entry" : trial.fee ? `₹${trial.fee}` : "";

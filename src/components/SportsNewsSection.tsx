@@ -314,7 +314,8 @@ export function SportsNewsSection({
   };
 
   const handleShare = async (article: SportsNewsArticle) => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = article.blogSlug
       ? `${origin}/blog/${article.blogSlug}`
       : `${origin}/#news-${article.slug}`;

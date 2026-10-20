@@ -27,7 +27,6 @@ export const KHELGRID_SPORTS = [
   "Fencing",
 ] as const;
 
-
 export const KHELGRID_CITIES = [
   "Bengaluru",
   "Delhi",
@@ -120,7 +119,6 @@ export const KHELGRID_CITIES = [
   "Bikaner",
   "Udaipur",
 ] as const;
-
 
 export interface PibPressReleaseNotice {
   prid: string;

@@ -182,7 +182,8 @@ export function AcademyPage() {
           Frequently Asked Questions About Sports Academies in India
         </h2>
         <p className="mt-2 text-sm text-muted-foreground max-w-3xl">
-          Everything parents and athletes need to know about Khelo India accreditation, SAI scholarships, admissions, facilities, and selection trials.
+          Everything parents and athletes need to know about Khelo India accreditation, SAI
+          scholarships, admissions, facilities, and selection trials.
         </p>
 
         <Accordion type="single" collapsible className="mt-8 divide-y divide-border/60">
@@ -190,7 +191,10 @@ export function AcademyPage() {
             <AccordionItem key={faq.id} value={faq.id} className="border-border/60 py-1">
               <AccordionTrigger className="text-sm sm:text-base font-semibold text-foreground hover:text-primary hover:no-underline">
                 <span className="flex items-center gap-2 text-left">
-                  <Badge variant="outline" className="text-[10px] border-primary/30 text-primary font-normal hidden sm:inline-flex">
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] border-primary/30 text-primary font-normal hidden sm:inline-flex"
+                  >
                     {faq.category}
                   </Badge>
                   {faq.question}

@@ -262,7 +262,9 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
                 onClick={(e) => {
                   e.stopPropagation();
                   const origin =
-                    typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
+                    typeof window !== "undefined"
+                      ? window.location.origin
+                      : "https://www.khelgrid.com";
                   const shareUrl = `${origin}/trial/${trial.id}`;
                   const text = encodeURIComponent(
                     `🏆 *${trial.title}* (${trial.sport})\n📍 ${trial.city} · 📅 ${trial.date}\n🔗 View on KhelGrid: ${shareUrl}`,
@@ -282,7 +284,9 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
                 onClick={(e) => {
                   e.stopPropagation();
                   const origin =
-                    typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
+                    typeof window !== "undefined"
+                      ? window.location.origin
+                      : "https://www.khelgrid.com";
                   const shareUrl = `${origin}/trial/${trial.id}`;
                   const text = encodeURIComponent(
                     `Official ${trial.sport} selection trial: ${trial.title} in ${trial.city} on ${trial.date}. Verified on @KhelGrid:`,
@@ -302,7 +306,9 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
                 onClick={async (e) => {
                   e.stopPropagation();
                   const origin =
-                    typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
+                    typeof window !== "undefined"
+                      ? window.location.origin
+                      : "https://www.khelgrid.com";
                   const shareUrl = `${origin}/trial/${trial.id}`;
                   try {
                     if (navigator.clipboard?.writeText) {

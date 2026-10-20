@@ -357,7 +357,9 @@ function BlogArticle() {
 
             {/* Active Analytics Tool */}
             <div className="pt-1">
-              <Suspense fallback={<div className="h-64 w-full rounded-xl bg-muted/30 animate-pulse" />}>
+              <Suspense
+                fallback={<div className="h-64 w-full rounded-xl bg-muted/30 animate-pulse" />}
+              >
                 {activeAnalyticsHub === "asiad" ? (
                   <AsianGamesAnalytics />
                 ) : activeAnalyticsHub === "predictor" ? (
@@ -404,7 +406,9 @@ function BlogArticle() {
           )}
 
           {/* Monetization & Scouting Intelligence Newsletter Subscription Lead Capture */}
-          <Suspense fallback={<div className="h-32 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <Suspense
+            fallback={<div className="h-32 w-full rounded-2xl bg-muted/30 animate-pulse" />}
+          >
             <AnalyticNewsletterForm
               postSlug={post.slug}
               postTitle={post.title}
@@ -413,7 +417,9 @@ function BlogArticle() {
           </Suspense>
 
           {/* Interactive SEO-Optimized Discussion & Feedback Form */}
-          <Suspense fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}>
+          <Suspense
+            fallback={<div className="h-48 w-full rounded-2xl bg-muted/30 animate-pulse" />}
+          >
             <MatchAnalysisFeedbackForm
               postSlug={post.slug}
               postTitle={post.title}

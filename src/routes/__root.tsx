@@ -220,10 +220,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 "Sports Quota Recruitment 2026",
                 "Grassroots Sports in India",
               ],
-              sameAs: [
-                "https://twitter.com/khelgrid",
-                "https://www.instagram.com/khelgrid",
-              ],
+              sameAs: ["https://twitter.com/khelgrid", "https://www.instagram.com/khelgrid"],
               contactPoint: {
                 "@type": "ContactPoint",
                 contactType: "customer service",

@@ -346,7 +346,11 @@ export function generateRouteSpecificSchema(
     };
   }
 
-  if (cleanPath.startsWith("/guide") || cleanPath.startsWith("/blog") || options?.type === "article") {
+  if (
+    cleanPath.startsWith("/guide") ||
+    cleanPath.startsWith("/blog") ||
+    options?.type === "article"
+  ) {
     const isBlog = cleanPath.startsWith("/blog");
     const isBlogHub = cleanPath === "/blog";
     if (isBlogHub) {
