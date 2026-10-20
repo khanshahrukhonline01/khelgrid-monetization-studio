@@ -79,6 +79,8 @@ describe("use-auth hook and AuthProvider context", () => {
 
     expect(html).toContain("consumer");
     expect(capturedAuth).toBeDefined();
+    // A demo/local-storage identity must not render as a real signed-in user.
+    expect(capturedAuth.isAuthenticated).toBe(false);
     expect(typeof capturedAuth.signInWithEmail).toBe("function");
     expect(typeof capturedAuth.signUpWithEmail).toBe("function");
     expect(typeof capturedAuth.signOut).toBe("function");
