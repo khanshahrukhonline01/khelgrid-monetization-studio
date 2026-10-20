@@ -25,7 +25,33 @@ User-agent: Google-Display-Ads-Bot
 Allow: /
 Allow: /ads.txt
 
+# AI Assistants & LLMs Search Grounding
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /llms.txt
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: Google-Extended
+Allow: /
+Allow: /llms.txt
+
+User-agent: Applebot-Extended
+Allow: /
+Allow: /llms.txt
+
 Sitemap: https://www.khelgrid.com/sitemap.xml
+# LLM Knowledge Grounding: https://www.khelgrid.com/llms.txt
 `;
 
 export const Route = createFileRoute("/robots.txt")({

@@ -105,27 +105,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "robots",
         content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
       },
-      { title: "KhelGrid · Game, Sport & Play · India's #1 Sports Opportunity Network" },
+      { title: "KhelGrid · Sports Selection Trials Near Me, Khelo India Academies & Quotas" },
       {
         name: "description",
         content:
-          "India's #1 network for game, sport, and play. Discover open sports selection trials, SAI NCOE recruitments, government sports quotas, book local turf maidans, badminton courts, box cricket, and build your verified Sports CV.",
+          "Discover verified sports selection trials near me across India. Find open cricket, football, badminton, athletics, and kabaddi trials, SAI NCOE selections, Khelo India accredited academies, and government sports quota recruitment drives.",
       },
       {
         name: "keywords",
         content:
-          "game, sport, play, khel, khiladi, khel kud, maidan, turf, turf booking near me, box cricket near me, box cricket turf, futsal turf, selection trials 2026, sports trials India, open trials, sports recruitment, sports quota recruitment, CRPF recruitment 2026, cricket trials, football trials, badminton court booking, athletics trials, kho-kho selection trials, kho-kho junior national, kabaddi panga, kabaddi trials, akhada, dangal, wrestling trials, SAI NCOE trials, Khelo India, sports academy near me, pickup games near me, sports CV India, desi sports, desi khel, mitti ka khel, net practice, gully cricket, ranji trophy trials, sports tournament registration, athlete resume maker, grassroots sports India",
+          "cricket trials near me, football trials near me, badminton trials near me, athletics trials near me, kabaddi trials near me, wrestling trials near me, selection trials near me, sports trials near me, open selection trials 2026, SAI NCOE trials near me, Khelo India academies near me, sports quota recruitment 2026, CRPF sports quota, boxing trials near me, swimming trials near me, basketball trials near me, turf booking near me, box cricket near me, Sports CV India, grassroots sports India",
       },
       { name: "author", content: "KhelGrid" },
       { property: "og:site_name", content: "KhelGrid" },
       {
         property: "og:title",
-        content: "KhelGrid · Game, Sport & Play · India's #1 Sports Opportunity Network",
+        content: "KhelGrid · Sports Selection Trials Near Me, Khelo India Academies & Quotas",
       },
       {
         property: "og:description",
         content:
-          "India's #1 network for game, sport, and play. Discover open sports selection trials, SAI NCOE recruitments, government sports quotas, book local turf maidans, badminton courts, box cricket, and build your verified Sports CV.",
+          "Discover verified sports selection trials near me across India. Find open cricket, football, badminton, athletics, and kabaddi trials, SAI NCOE selections, Khelo India accredited academies, and government sports quota recruitment drives.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://www.khelgrid.com/og-image.svg" },
@@ -172,6 +172,119 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         : []),
     ],
     scripts: [
+      // Canonical Organization, WebSite & BreadcrumbList JSON-LD in main layout
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "SportsOrganization",
+              "@id": "https://www.khelgrid.com/#organization",
+              name: "KhelGrid",
+              alternateName: [
+                "KhelGrid Sports",
+                "Khel Grid",
+                "KhelGrid Selection Trials",
+                "KhelGrid India",
+              ],
+              url: "https://www.khelgrid.com",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.khelgrid.com/favicon-96x96.png",
+                width: 96,
+                height: 96,
+              },
+              image: "https://www.khelgrid.com/og-image.svg",
+              description:
+                "India's premier sports selection trials discovery, grassroots talent scouting, and verified athletic recruitment network. Providing verified listings for selection trials near me, open national and state trials, SAI NCOE trials, Khelo India accredited academies, and government sports quota recruitments across India.",
+              slogan: "India's #1 Sports Selection Trials & Opportunity Network",
+              areaServed: {
+                "@type": "Country",
+                name: "India",
+              },
+              knowsAbout: [
+                "Sports Selection Trials",
+                "Cricket Trials Near Me",
+                "Football Trials Near Me",
+                "Badminton Trials Near Me",
+                "Athletics Trials Near Me",
+                "Kabaddi Trials Near Me",
+                "Wrestling Trials Near Me",
+                "Swimming Trials Near Me",
+                "Shooting Trials Near Me",
+                "Basketball Trials Near Me",
+                "Boxing Trials Near Me",
+                "SAI NCOE Trials",
+                "Khelo India Academies",
+                "Sports Quota Recruitment 2026",
+                "Grassroots Sports in India",
+              ],
+              sameAs: [
+                "https://twitter.com/khelgrid",
+                "https://www.instagram.com/khelgrid",
+              ],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                email: "support@khelgrid.com",
+                areaServed: "IN",
+                availableLanguage: ["en", "hi"],
+              },
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.khelgrid.com/#website",
+              url: "https://www.khelgrid.com",
+              name: "KhelGrid",
+              description:
+                "Discover open sports selection trials near me, SAI NCOE recruitments, government sports quotas, and verified sports academies across India.",
+              publisher: {
+                "@id": "https://www.khelgrid.com/#organization",
+              },
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: "https://www.khelgrid.com/search?q={search_term_string}",
+                },
+                "query-input": "required name=search_term_string",
+              },
+              inLanguage: "en-IN",
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.khelgrid.com/#main-breadcrumbs",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://www.khelgrid.com",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Sports Selection Trials Near Me",
+                  item: "https://www.khelgrid.com/search",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: "Khelo India & SAI Sports Academies",
+                  item: "https://www.khelgrid.com/academy",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 4,
+                  name: "All Sports Directory",
+                  item: "https://www.khelgrid.com/sports",
+                },
+              ],
+            },
+          ],
+        }),
+      },
       ...(!import.meta.env.DEV && hasValidPublisherId()
         ? [
             {
