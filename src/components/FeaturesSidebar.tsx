@@ -233,24 +233,25 @@ export function FeaturesSidebar() {
         id="khelgrid-features-sidebar"
         aria-label="Features and Services Sidebar"
         className={cn(
-          "sticky top-16 hidden h-[calc(100dvh-4rem)] shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] duration-200 ease-in-out dark:border-slate-800 dark:bg-slate-950 lg:flex",
+          "sticky top-16 hidden h-[calc(100dvh-4rem)] shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] duration-200 ease-in-out motion-reduce:transition-none dark:border-slate-800 dark:bg-slate-950 lg:flex",
           collapsed ? "w-[4.25rem]" : "w-[15.5rem] xl:w-64",
         )}
       >
-        {/* Top Header */}
-        <div className="flex items-center justify-between border-b border-border/40 px-3 py-3">
-          {!collapsed ? (
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+        {/* Top Header — one clear, keyboard-accessible collapse control */}
+        <div
+          className={cn(
+            "flex min-h-12 items-center border-b border-slate-100 px-2.5 py-2 dark:border-slate-800",
+            collapsed ? "justify-center" : "justify-between gap-2 px-3",
+          )}
+        >
+          {!collapsed && (
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="truncate text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
                 Features
               </span>
-              <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">
+              <span className="shrink-0 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">
                 {FEATURES.length}
               </span>
-            </div>
-          ) : (
-            <div className="mx-auto flex h-7 w-7 items-center justify-center rounded-lg bg-secondary/80 text-primary">
-              <Swords className="h-4 w-4" />
             </div>
           )}
 
@@ -261,9 +262,10 @@ export function FeaturesSidebar() {
                 onClick={toggleCollapse}
                 aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
                 aria-expanded={!collapsed}
+                aria-controls="khelgrid-sidebar-navigation"
                 className={cn(
-                  "grid h-7 w-7 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
-                  collapsed && "mx-auto mt-2",
+                  "grid h-8 w-8 shrink-0 place-items-center rounded-lg text-slate-500 transition-all duration-150 hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-slate-400 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-200",
+                  !collapsed && "ml-auto",
                 )}
               >
                 {collapsed ? (
@@ -348,6 +350,7 @@ export function FeaturesSidebar() {
 
         {/* Navigation Item Scrollable Area */}
         <nav
+          id="khelgrid-sidebar-navigation"
           aria-label="Sidebar navigation links"
           className={cn(
             "flex flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain pb-4",
