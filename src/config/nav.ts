@@ -39,6 +39,7 @@ import {
   Wand2,
   Copyright,
   Activity,
+  Building2,
 } from "lucide-react";
 
 export type NavItem = {
@@ -73,6 +74,7 @@ export const NAV_ITEMS: NavItem[] = [
     surfaces: ["primary", "features"],
   },
   { to: "/live-scores", label: "Live Scores", icon: Activity, surfaces: ["primary", "features"] },
+  { to: "/list-venue", label: "List Your Sports Venue", icon: Building2, surfaces: [] },
   { to: "/trials", label: "Live Trials", icon: Radio, surfaces: [] },
   { to: "/opportunities", label: "Opportunities", icon: Briefcase, surfaces: [] },
   { to: "/resources", label: "Resources", icon: Library, surfaces: [] },
