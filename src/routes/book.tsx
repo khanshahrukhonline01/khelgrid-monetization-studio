@@ -143,6 +143,10 @@ function BookVenues() {
           featured: Boolean(row.featured),
           bookable: Boolean(row.bookable),
           image: row.image_url ?? "",
+          address: row.address ?? undefined,
+          amenities: row.amenities ?? [],
+          contactPhone: row.contact_phone ?? undefined,
+          contactEmail: row.contact_email ?? undefined,
         }));
         setDirectoryVenues(mapped);
         setDirectorySource("database");
