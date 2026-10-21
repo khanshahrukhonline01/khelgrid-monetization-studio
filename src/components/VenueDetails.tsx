@@ -886,11 +886,15 @@ export function VenueDetails({
               <Button
                 id="venue-primary-book-btn"
                 onClick={handleBookClick}
-                disabled={!venue.bookable}
+                disabled={!venue.bookable || venue.price_per_hour <= 0}
                 className="w-full h-11 text-sm font-semibold gap-2 shadow-xs transition-transform active:scale-[0.99]"
               >
                 <ShieldCheck className="h-4 w-4" />
-                {venue.bookable ? "Book Court / Turf Now" : "Venue Not Bookable"}
+                {!venue.bookable
+                  ? "Venue Not Bookable"
+                  : venue.price_per_hour > 0
+                    ? "Book Court / Turf Now"
+                    : "Contact for Pricing First"}
               </Button>
 
               {/* Interactive Calendar & Slot Selector Trigger */}
@@ -899,7 +903,7 @@ export function VenueDetails({
                 variant="outline"
                 type="button"
                 onClick={() => setIsInteractiveBookingOpen(true)}
-                disabled={!venue.bookable}
+                disabled={!venue.bookable || venue.price_per_hour <= 0}
                 className="w-full h-10 text-xs font-semibold gap-2 border-primary/40 text-primary hover:bg-primary/10 transition-colors shadow-2xs"
               >
                 <Sparkles className="h-4 w-4 text-primary" />
@@ -907,8 +911,9 @@ export function VenueDetails({
               </Button>
 
               <p className="text-[11px] text-center text-muted-foreground flex items-center justify-center gap-1">
-                <ShieldCheck className="h-3 w-3 text-emerald-500" />
-                Instant confirmation & secure reservation
+                {venue.price_per_hour > 0 && venue.bookable
+                  ? "Confirm slot availability and booking terms before payment."
+                  : "Booking is disabled until pricing and availability are confirmed."}
               </p>
 
               {/* Share Venue with Friends for Match Coordination */}
