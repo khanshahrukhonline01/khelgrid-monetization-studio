@@ -508,7 +508,10 @@ export function EventsPage() {
                     <img
                       src={e.image}
                       alt={e.title}
+                      width={80}
+                      height={64}
                       loading="lazy"
+                      decoding="async"
                       className="h-16 w-20 rounded-xl object-cover bg-secondary"
                     />
                     <div className="absolute top-1 right-1">
@@ -791,7 +794,10 @@ export function EventsPage() {
                     <img
                       src={e.image}
                       alt={e.title}
+                      width={400}
+                      height={225}
                       loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />

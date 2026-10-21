@@ -102,6 +102,11 @@ export function Navbar() {
           <img
             src="https://cdn.builder.io/api/v1/image/assets%2Fbb0e1ceb11294a31a719df6ba93a7331%2Fc8513d4ae3bd4939b4defe6841f88dd7?format=webp&width=800&height=1200"
             alt="KhelGrid"
+            width={32}
+            height={32}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             className="h-8 w-8 cursor-pointer"
           />
           <span className="text-base font-bold tracking-tight sm:text-xl">

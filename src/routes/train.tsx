@@ -394,7 +394,10 @@ export function TrainPage() {
                         <img
                           src={c.image}
                           alt={c.title}
+                          width={80}
+                          height={64}
                           loading="lazy"
+                          decoding="async"
                           className="h-16 w-20 rounded-xl object-cover shrink-0 bg-secondary"
                         />
                         <div className="space-y-1 min-w-0">
@@ -503,7 +506,10 @@ export function TrainPage() {
                         <img
                           src={c.image}
                           alt={c.title}
+                          width={400}
+                          height={250}
                           loading="lazy"
+                          decoding="async"
                           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

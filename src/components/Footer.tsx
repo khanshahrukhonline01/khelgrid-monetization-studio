@@ -25,6 +25,10 @@ export function Footer() {
               <img
                 src="https://cdn.builder.io/api/v1/image/assets%2Fbb0e1ceb11294a31a719df6ba93a7331%2Fc8513d4ae3bd4939b4defe6841f88dd7?format=webp&width=800&height=1200"
                 alt="KhelGrid"
+                width={32}
+                height={32}
+                loading="lazy"
+                decoding="async"
                 className="h-8 w-8"
               />
               <span className="text-lg font-bold">

@@ -558,6 +558,10 @@ function TrialDetailPage() {
             <img
               src={trial.posterUrl || trial.imageUrl}
               alt={`${trial.title} official notice`}
+              width={600}
+              height={450}
+              loading="lazy"
+              decoding="async"
               className="max-h-[550px] w-auto object-contain rounded-lg"
               onError={(e) => {
                 const target = e.currentTarget as HTMLImageElement;

@@ -801,7 +801,10 @@ function VenueCard({
           <img
             src={v.image}
             alt={v.name}
+            width={400}
+            height={250}
             loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

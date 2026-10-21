@@ -1,18 +1,30 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import { Fragment, useMemo, useState, useRef, useEffect } from "react";
+import { Fragment, useMemo, useState, useRef, useEffect, lazy, Suspense } from "react";
 import { BannerAd, InFeedAd } from "@/components/ads";
 import { TRIALS, SPORTS, CITIES, type Trial } from "@/data/trials";
 import { fetchAvailableTrialsFromSupabase } from "@/lib/trials-service";
 import { TrialCard } from "@/components/TrialCard";
-import { TrialDetailsModal } from "@/components/TrialDetailsModal";
-import { SportsCalendar } from "@/components/calendar/SportsCalendar";
-import { TrialNewsletterSignup } from "@/components/TrialNewsletterSignup";
-import { CheckoutModal } from "@/components/CheckoutModal";
-import { BoostModal } from "@/components/BoostModal";
 import { useAuth } from "@/context/AuthContext";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
+
+// Lazy-loaded non-critical modals and calendar to streamline Critical Rendering Path
+const TrialDetailsModal = lazy(() =>
+  import("@/components/TrialDetailsModal").then((m) => ({ default: m.TrialDetailsModal })),
+);
+const SportsCalendar = lazy(() =>
+  import("@/components/calendar/SportsCalendar").then((m) => ({ default: m.SportsCalendar })),
+);
+const TrialNewsletterSignup = lazy(() =>
+  import("@/components/TrialNewsletterSignup").then((m) => ({ default: m.TrialNewsletterSignup })),
+);
+const CheckoutModal = lazy(() =>
+  import("@/components/CheckoutModal").then((m) => ({ default: m.CheckoutModal })),
+);
+const BoostModal = lazy(() =>
+  import("@/components/BoostModal").then((m) => ({ default: m.BoostModal })),
+);
 import {
   TrialsSearchFilter,
   REGIONS,
@@ -1657,10 +1669,12 @@ function SearchPage() {
             ) : params.view === "calendar" ? (
               /* CENTRALIZED SPORTS CALENDAR VIEW */
               <div className="w-full">
-                <SportsCalendar
-                  initialTrials={results.trials}
-                  onSelectTrial={(t) => handleApply(t)}
-                />
+                <Suspense fallback={<div className="h-96 w-full rounded-2xl bg-muted/20 animate-pulse" />}>
+                  <SportsCalendar
+                    initialTrials={results.trials}
+                    onSelectTrial={(t) => handleApply(t)}
+                  />
+                </Suspense>
               </div>
             ) : params.view === "list" ? (
               /* COMPACT LIST VIEW */
@@ -1763,14 +1777,16 @@ function SearchPage() {
 
           {/* Automatic Trial Alerts Newsletter Subscription */}
           <section className="mt-8" aria-label="Subscribe to Trial Alerts">
-            <TrialNewsletterSignup
-              defaultSport={params.sport}
-              defaultCity={params.city}
-              title={`Get Instant Notifications for ${
-                params.sport !== ALL_SPORT ? params.sport : "Sports"
-              } Trials${params.city !== ALL_CITY ? ` in ${params.city}` : ""}`}
-              subtitle="Never miss an upcoming selection camp or registration deadline. Set your email alert to receive new trial notifications automatically."
-            />
+            <Suspense fallback={<div className="h-40 w-full rounded-2xl bg-muted/20 animate-pulse" />}>
+              <TrialNewsletterSignup
+                defaultSport={params.sport}
+                defaultCity={params.city}
+                title={`Get Instant Notifications for ${
+                  params.sport !== ALL_SPORT ? params.sport : "Sports"
+                } Trials${params.city !== ALL_CITY ? ` in ${params.city}` : ""}`}
+                subtitle="Never miss an upcoming selection camp or registration deadline. Set your email alert to receive new trial notifications automatically."
+              />
+            </Suspense>
           </section>
 
           {/* SEO Structured Content & FAQ Section */}
@@ -1876,31 +1892,33 @@ function SearchPage() {
         </div>
       </div>
 
-      {checkout && (
-        <CheckoutModal
-          open={!!checkout}
-          onOpenChange={(o) => !o && setCheckout(null)}
-          trialId={checkout.id}
-          trialTitle={checkout.title}
-          onPaid={() => auth.applyToTrial(checkout.id)}
-        />
-      )}
-      {boost && (
-        <BoostModal
-          open={!!boost}
-          onOpenChange={(o) => !o && setBoost(null)}
-          trialId={boost.id}
-          trialTitle={boost.title}
-        />
-      )}
-      {detailsTrial && (
-        <TrialDetailsModal
-          trial={detailsTrial}
-          isOpen={!!detailsTrial}
-          onClose={() => setDetailsTrial(null)}
-          onRegister={() => handleApply(detailsTrial)}
-        />
-      )}
+      <Suspense fallback={null}>
+        {checkout && (
+          <CheckoutModal
+            open={!!checkout}
+            onOpenChange={(o) => !o && setCheckout(null)}
+            trialId={checkout.id}
+            trialTitle={checkout.title}
+            onPaid={() => auth.applyToTrial(checkout.id)}
+          />
+        )}
+        {boost && (
+          <BoostModal
+            open={!!boost}
+            onOpenChange={(o) => !o && setBoost(null)}
+            trialId={boost.id}
+            trialTitle={boost.title}
+          />
+        )}
+        {detailsTrial && (
+          <TrialDetailsModal
+            trial={detailsTrial}
+            isOpen={!!detailsTrial}
+            onClose={() => setDetailsTrial(null)}
+            onRegister={() => handleApply(detailsTrial)}
+          />
+        )}
+      </Suspense>
     </main>
   );
 }
