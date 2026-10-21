@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { VENUES, KHELGRID_SPORTS, KHELGRID_CITIES, type Venue } from "@/data/khelgrid";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -78,6 +79,9 @@ type BookingSelection = { venue: Venue; date: string; time: string | null };
 
 function BookVenues() {
   const [q, setQ] = useState("");
+  const [directoryVenues, setDirectoryVenues] = useState<Venue[]>(VENUES);
+  const [directorySource, setDirectorySource] = useState<"sample" | "database">("sample");
+  const [directoryLoading, setDirectoryLoading] = useState(false);
   const [sport, setSport] = useState<string>("All");
   const [city, setCity] = useState<string>("Bengaluru");
   const [booking, setBooking] = useState<BookingSelection | null>(null);
@@ -106,14 +110,65 @@ function BookVenues() {
     };
   }, [loadBookings]);
 
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+    let active = true;
+    setDirectoryLoading(true);
+    supabase
+      .from("venues")
+      .select("*")
+      .is("deleted_at", null)
+      .eq("bookable", true)
+      .order("featured", { ascending: false })
+      .order("name", { ascending: true })
+      .then(({ data, error }) => {
+        if (!active) return;
+        if (error) {
+          console.error("Could not load venue directory from Supabase", error);
+          setDirectorySource("sample");
+          setDirectoryVenues(VENUES);
+          return;
+        }
+        const rows = data ?? [];
+        const mapped: Venue[] = rows.map((row) => ({
+          id: row.id,
+          name: row.name,
+          area: row.area,
+          city: row.city,
+          distanceKm: 0,
+          rating: row.reviews_count > 0 ? Number(row.rating ?? 0) : 0,
+          reviews: Number(row.reviews_count ?? 0),
+          sports: row.sports ?? [],
+          pricePerHour: Number(row.price_per_hour ?? 0),
+          featured: Boolean(row.featured),
+          bookable: Boolean(row.bookable),
+          image: row.image_url ?? "",
+        }));
+        setDirectoryVenues(mapped);
+        setDirectorySource("database");
+      })
+      .catch((error) => {
+        if (!active) return;
+        console.error("Venue directory request failed", error);
+        setDirectorySource("sample");
+        setDirectoryVenues(VENUES);
+      })
+      .finally(() => {
+        if (active) setDirectoryLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const list = useMemo(() => {
-    return VENUES.filter(
+    return directoryVenues.filter(
       (v) =>
         (city === "All" || v.city === city) &&
         (sport === "All" || v.sports.includes(sport)) &&
-        (q === "" || [v.name, v.area].join(" ").toLowerCase().includes(q.toLowerCase())),
+        (q === "" || [v.name, v.area, v.city, ...v.sports].join(" ").toLowerCase().includes(q.toLowerCase())),
     );
-  }, [q, sport, city]);
+  }, [q, sport, city, directoryVenues]);
 
   const startBooking = (venue: Venue, date = today, time: string | null = null) => {
     setBooking({ venue, date, time });
@@ -465,7 +520,18 @@ function BookVenues() {
 
       {/* Tab: Venues Grid */}
       {activeTab === "venues" && (
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-5">
+          {directorySource === "sample" && (
+            <p className="mb-3 rounded-lg border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs text-muted-foreground">
+              {isSupabaseConfigured
+                ? "Live venue data could not be loaded. Showing sample listings; confirm details directly before visiting or booking."
+                : "Showing sample venue listings. Live directory data is not connected in this environment."}
+            </p>
+          )}
+          {directoryLoading && (
+            <p role="status" className="mb-3 text-sm text-muted-foreground">Loading venue listings…</p>
+          )}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((v) => (
             <VenueCard
               key={v.id}
@@ -474,11 +540,17 @@ function BookVenues() {
               onViewDetails={() => setSelectedVenueForDetails(v)}
             />
           ))}
-          {list.length === 0 && (
+          {list.length === 0 && !directoryLoading && (
             <div className="col-span-full rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
-              No venues match your filters.
+              {directorySource === "database"
+                ? "No published venues are available yet. Venue owners can submit a facility for review."
+                : "No venues match your filters."}
+              <div className="mt-3">
+                <Link to="/list-venue" className="font-semibold text-primary hover:underline">List a sports venue</Link>
+              </div>
             </div>
           )}
+          </div>
         </div>
       )}
 
