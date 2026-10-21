@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { ArrowRight, Building2, CheckCircle2, MapPin, Mail, Trophy } from "lucide-react";
 import { buildSeoHead } from "@/lib/seo";
 import { SEO } from "@/components/seo/SEO";
@@ -25,6 +27,72 @@ const BODY = encodeURIComponent(
 const SUBMISSION_LINK = `mailto:${EMAIL}?subject=${SUBJECT}&body=${BODY}`;
 
 function ListVenuePage() {
+  const [submitting, setSubmitting] = useState(false);
+  const [submissionMessage, setSubmissionMessage] = useState("");
+  const [form, setForm] = useState({
+    venueName: "",
+    city: "",
+    area: "",
+    sports: "",
+    contactName: "",
+    phone: "",
+    email: "",
+    address: "",
+    website: "",
+    openingHours: "",
+    bookingMethod: "WhatsApp or phone",
+    notes: "",
+  });
+
+  const updateField = (field: keyof typeof form, value: string) => {
+    setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmissionMessage("");
+    if (!isSupabaseConfigured) {
+      setSubmissionMessage("Online submission is temporarily unavailable. Please use the email option below.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const client = supabase as unknown as {
+        from: (table: string) => {
+          insert: (values: Record<string, unknown>) => PromiseLike<{ error: { message: string } | null }>;
+        };
+      };
+      const { error } = await client.from("venue_submissions").insert({
+        venue_name: form.venueName.trim(),
+        city: form.city.trim(),
+        area: form.area.trim(),
+        sports: form.sports.split(",").map((sport) => sport.trim()).filter(Boolean),
+        contact_name: form.contactName.trim(),
+        contact_phone: form.phone.trim(),
+        contact_email: form.email.trim(),
+        address: form.address.trim() || null,
+        website_url: form.website.trim() || null,
+        opening_hours: form.openingHours.trim() || null,
+        booking_method: form.bookingMethod,
+        notes: form.notes.trim() || null,
+        status: "pending",
+      });
+      if (error) throw new Error(error.message);
+      setSubmissionMessage("Thank you! Your venue details have been submitted for KhelGrid review.");
+      setForm({
+        venueName: "", city: "", area: "", sports: "", contactName: "", phone: "",
+        email: "", address: "", website: "", openingHours: "",
+        bookingMethod: "WhatsApp or phone", notes: "",
+      });
+    } catch (error) {
+      console.error("Venue submission failed", error);
+      setSubmissionMessage("We couldn't submit your venue right now. Please try again or use the email option below.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-7 sm:py-10 md:px-6">
       <SEO
@@ -92,6 +160,74 @@ function ListVenuePage() {
             <p className="mt-2 text-sm leading-5 text-muted-foreground">{item.detail}</p>
           </article>
         ))}
+      </section>
+
+      <section className="mt-6 rounded-2xl border border-border bg-card p-5 sm:p-6">
+        <h2 className="text-lg font-bold">Submit your venue online</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Your submission stays unpublished until KhelGrid reviews it. Please provide accurate venue and contact details.
+        </p>
+        <form onSubmit={handleSubmit} className="mt-5 grid gap-4 sm:grid-cols-2">
+          <label className="grid gap-1.5 text-sm font-medium">
+            Venue name *
+            <input required maxLength={160} value={form.venueName} onChange={(e) => updateField("venueName", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            City *
+            <input required maxLength={100} value={form.city} onChange={(e) => updateField("city", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            Locality / area *
+            <input required maxLength={160} value={form.area} onChange={(e) => updateField("area", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            Sports offered *
+            <input required placeholder="Football, cricket, badminton" value={form.sports} onChange={(e) => updateField("sports", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            Owner / manager name *
+            <input required maxLength={120} value={form.contactName} onChange={(e) => updateField("contactName", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            Contact phone / WhatsApp *
+            <input required type="tel" maxLength={30} value={form.phone} onChange={(e) => updateField("phone", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            Contact email *
+            <input required type="email" maxLength={254} value={form.email} onChange={(e) => updateField("email", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            Website or social link
+            <input type="url" value={form.website} onChange={(e) => updateField("website", e.target.value)} placeholder="https://" className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium sm:col-span-2">
+            Full address or Google Maps link
+            <input value={form.address} onChange={(e) => updateField("address", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            Opening hours
+            <input value={form.openingHours} onChange={(e) => updateField("openingHours", e.target.value)} placeholder="e.g. 6 AM–11 PM daily" className="h-11 rounded-lg border border-input bg-background px-3 font-normal" />
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium">
+            Booking method
+            <select value={form.bookingMethod} onChange={(e) => updateField("bookingMethod", e.target.value)} className="h-11 rounded-lg border border-input bg-background px-3 font-normal">
+              <option>WhatsApp or phone</option>
+              <option>Online booking</option>
+              <option>Walk-in only</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-sm font-medium sm:col-span-2">
+            Additional details
+            <textarea rows={3} value={form.notes} onChange={(e) => updateField("notes", e.target.value)} placeholder="Hourly price, facilities, photo links, rules or other details" className="rounded-lg border border-input bg-background px-3 py-2 font-normal" />
+          </label>
+          <div className="sm:col-span-2 flex flex-col items-start gap-3">
+            <button type="submit" disabled={submitting} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground disabled:cursor-not-allowed disabled:opacity-60">
+              {submitting ? "Submitting…" : "Submit venue for review"} <ArrowRight className="h-4 w-4" />
+            </button>
+            {submissionMessage && <p role="status" aria-live="polite" className="text-sm text-muted-foreground">{submissionMessage}</p>}
+          </div>
+        </form>
       </section>
 
       <section className="mt-6 rounded-2xl border border-border bg-card p-5 sm:p-6">
