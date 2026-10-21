@@ -30,7 +30,7 @@ export function VenueAvailabilityPreview({ venueId, pricePerHour }: { venueId: s
         setError("Live availability is not connected for this venue yet. Please contact the venue to confirm a time.");
         return;
       }
-      setLoading(true); setError(null); setRows(null); setSelectedTime(null);
+      setLoading(true); setError(null); setAvailabilityByCourt(null); setSelectedTime(null); setSelectedCourtId(null);
       try {
         const courtResult = await supabase
           .from("venue_courts")
@@ -90,7 +90,7 @@ export function VenueAvailabilityPreview({ venueId, pricePerHour }: { venueId: s
         </label>
         {loading && <p className="flex items-center gap-2 text-sm text-muted-foreground"><RefreshCw className="h-4 w-4 animate-spin" /> Checking current bookings…</p>}
         {error && <p role="status" className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-sm text-muted-foreground"><CircleHelp className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />{error}</p>}
-        {!loading && !error && rows && <>
+        {!loading && !error && availabilityByCourt && <>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">{slots.map((slot) => {
             const selected = selectedTime === slot.start;
             return <button key={slot.start} type="button" disabled={!slot.available} aria-pressed={selected} onClick={() => { setSelectedTime(selected ? null : slot.start); setSelectedCourtId(selected ? null : slot.availableCourtIds[0] ?? null); }}
