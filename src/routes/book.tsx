@@ -28,6 +28,8 @@ import {
   AlertCircle,
   CheckCircle2,
   ChevronRight,
+  ChevronDown,
+  SlidersHorizontal,
   Eye,
   ExternalLink,
 } from "lucide-react";
@@ -86,6 +88,7 @@ function BookVenues() {
   const [city, setCity] = useState<string>("All");
   const [maxPrice, setMaxPrice] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("recommended");
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState<boolean>(false);
   const [booking, setBooking] = useState<BookingSelection | null>(null);
   const [selectedVenueForDetails, setSelectedVenueForDetails] = useState<Venue | null>(null);
   const [activeTab, setActiveTab] = useState<"venues" | "slot-booking" | "my-bookings">("venues");
@@ -240,87 +243,98 @@ function BookVenues() {
         onBook={startBooking}
       />
 
-      {/* Filter Bar */}
-      <section aria-label="Filter sports venues" className="sticky top-14 z-30 mt-6 -mx-4 border-y border-border/60 bg-background/95 px-4 py-3 shadow-sm backdrop-blur-xl sm:top-16 sm:mx-0 sm:rounded-2xl sm:border sm:p-4">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary"><Trophy className="h-4 w-4" /></span>
-            <div>
-              <p className="text-sm font-semibold">Find your place to play</p>
-              <p className="text-xs text-muted-foreground">{list.length} {list.length === 1 ? "venue" : "venues"} match your filters</p>
-            </div>
-          </div>
-          {(city !== "All" || sport !== "All" || q.trim() !== "" || maxPrice !== "All" || sortBy !== "recommended") && (
-            <Button variant="ghost" size="sm" onClick={() => { setCity("All"); setSport("All"); setQ(""); setMaxPrice("All"); setSortBy("recommended"); }} className="h-8 px-2 text-xs">
-              <X className="mr-1 h-3.5 w-3.5" /> Clear filters
-            </Button>
-          )}
-        </div>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-6">
-          <div className="relative col-span-2 sm:col-span-2">
+      {/* Compact venue filters */}
+      <section aria-label="Filter sports venues" className="sticky top-14 z-30 mt-4 -mx-4 border-y border-border/60 bg-background/95 px-3 py-2 backdrop-blur-xl sm:top-16 sm:mx-0 sm:rounded-xl sm:border sm:px-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="relative min-w-0 flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               aria-label="Search venues, areas, cities, sports or facilities"
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Venue, area, sport or facility"
-              className="h-11 border-border bg-secondary/40 pl-9 pr-9"
+              placeholder="Search venues, areas or sports"
+              className="h-10 border-border bg-secondary/40 pl-9 pr-9"
             />
             {q && <button type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"><X className="h-4 w-4" /></button>}
           </div>
-          <Select value={city} onValueChange={setCity}>
-            <SelectTrigger aria-label="Filter by city" className="h-11 border-border bg-secondary/40">
-              <MapPin className="mr-1 h-4 w-4 shrink-0 text-primary" />
-              <SelectValue placeholder="All cities" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All cities</SelectItem>
-              {availableCities.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
-            </SelectContent>
-          </Select>
-          <Select value={sport} onValueChange={setSport}>
-            <SelectTrigger aria-label="Filter by sport" className="h-11 border-border bg-secondary/40">
-              <Trophy className="mr-1 h-4 w-4 shrink-0 text-primary" />
-              <SelectValue placeholder="All sports" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All sports</SelectItem>
-              {availableSports.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
-            </SelectContent>
-          </Select>
-          <Select value={maxPrice} onValueChange={setMaxPrice}>
-            <SelectTrigger aria-label="Filter by hourly price" className="h-11 border-border bg-secondary/40">
-              <SelectValue placeholder="Any price" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">Any price</SelectItem>
-              <SelectItem value="500">Up to ₹500/hr</SelectItem>
-              <SelectItem value="1000">Up to ₹1,000/hr</SelectItem>
-              <SelectItem value="1500">Up to ₹1,500/hr</SelectItem>
-              <SelectItem value="2500">Up to ₹2,500/hr</SelectItem>
-              <SelectItem value="Unlisted">Price not listed</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger aria-label="Sort venue results" className="h-11 border-border bg-secondary/40">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="recommended">Recommended</SelectItem>
-              <SelectItem value="price-low">Price: low to high</SelectItem>
-              <SelectItem value="price-high">Price: high to low</SelectItem>
-              <SelectItem value="rating">Top rated</SelectItem>
-              <SelectItem value="name">Name: A to Z</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="grid grid-cols-2 gap-2 sm:w-[340px] sm:shrink-0">
+            <Select value={city} onValueChange={setCity}>
+              <SelectTrigger aria-label="Filter by city" className="h-10 border-border bg-secondary/40">
+                <MapPin className="mr-1 h-4 w-4 shrink-0 text-primary" />
+                <SelectValue placeholder="All cities" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">All cities</SelectItem>
+                {availableCities.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Select value={sport} onValueChange={setSport}>
+              <SelectTrigger aria-label="Filter by sport" className="h-10 border-border bg-secondary/40">
+                <Trophy className="mr-1 h-4 w-4 shrink-0 text-primary" />
+                <SelectValue placeholder="All sports" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">All sports</SelectItem>
+                {availableSports.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center justify-between gap-2 sm:justify-end">
+            <span className="whitespace-nowrap text-xs text-muted-foreground">{list.length} {list.length === 1 ? "venue" : "venues"}</span>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              aria-expanded={showAdvancedFilters}
+              onClick={() => setShowAdvancedFilters((value) => !value)}
+              className="h-9 shrink-0 px-3 text-xs"
+            >
+              <SlidersHorizontal className="mr-1.5 h-3.5 w-3.5" />
+              Filters{(maxPrice !== "All" || sortBy !== "recommended") ? " •" : ""}
+              <ChevronDown className={`ml-1 h-3.5 w-3.5 transition-transform ${showAdvancedFilters ? "rotate-180" : ""}`} />
+            </Button>
+            {(city !== "All" || sport !== "All" || q.trim() !== "" || maxPrice !== "All" || sortBy !== "recommended") && (
+              <Button variant="ghost" size="sm" onClick={() => { setCity("All"); setSport("All"); setQ(""); setMaxPrice("All"); setSortBy("recommended"); }} className="h-9 px-2 text-xs">
+                <X className="mr-1 h-3.5 w-3.5" /> Clear
+              </Button>
+            )}
+          </div>
         </div>
-        {(q.trim() || city !== "All" || sport !== "All" || maxPrice !== "All") && (
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="text-xs text-muted-foreground">Active:</span>
-            {q.trim() && <button onClick={() => setQ("")} className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary">{q.trim()} <X className="h-3 w-3" /></button>}
-            {city !== "All" && <button onClick={() => setCity("All")} className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary">{city} <X className="h-3 w-3" /></button>}
-            {sport !== "All" && <button onClick={() => setSport("All")} className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary">{sport} <X className="h-3 w-3" /></button>}
-            {maxPrice !== "All" && <button onClick={() => setMaxPrice("All")} className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary">{maxPrice === "Unlisted" ? "Price not listed" : `Up to ₹${Number(maxPrice).toLocaleString("en-IN")}/hr`} <X className="h-3 w-3" /></button>}
+
+        {showAdvancedFilters && (
+          <div className="mt-2 grid grid-cols-2 gap-2 border-t border-border/60 pt-2 sm:grid-cols-[180px,200px,1fr]">
+            <Select value={maxPrice} onValueChange={setMaxPrice}>
+              <SelectTrigger aria-label="Filter by hourly price" className="h-9 border-border bg-secondary/40">
+                <SelectValue placeholder="Any price" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">Any price</SelectItem>
+                <SelectItem value="500">Up to ₹500/hr</SelectItem>
+                <SelectItem value="1000">Up to ₹1,000/hr</SelectItem>
+                <SelectItem value="1500">Up to ₹1,500/hr</SelectItem>
+                <SelectItem value="2500">Up to ₹2,500/hr</SelectItem>
+                <SelectItem value="Unlisted">Price not listed</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger aria-label="Sort venue results" className="h-9 border-border bg-secondary/40">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="recommended">Recommended</SelectItem>
+                <SelectItem value="price-low">Price: low to high</SelectItem>
+                <SelectItem value="price-high">Price: high to low</SelectItem>
+                <SelectItem value="rating">Top rated</SelectItem>
+                <SelectItem value="name">Name: A to Z</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="col-span-2 flex flex-wrap items-center gap-2 sm:col-span-1">
+              {q.trim() && <button onClick={() => setQ("")} className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs">{q.trim()} ×</button>}
+              {city !== "All" && <button onClick={() => setCity("All")} className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs">{city} ×</button>}
+              {sport !== "All" && <button onClick={() => setSport("All")} className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs">{sport} ×</button>}
+              {maxPrice !== "All" && <button onClick={() => setMaxPrice("All")} className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs">{maxPrice === "Unlisted" ? "Price not listed" : `Up to ₹${Number(maxPrice).toLocaleString("en-IN")}/hr`} ×</button>}
+              {q.trim() === "" && city === "All" && sport === "All" && maxPrice === "All" && <span className="text-xs text-muted-foreground">Choose optional price and sorting filters</span>}
+            </div>
           </div>
         )}
       </section>
