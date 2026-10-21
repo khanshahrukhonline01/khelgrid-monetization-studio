@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { VENUES, KHELGRID_SPORTS, KHELGRID_CITIES, type Venue } from "@/data/khelgrid";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Badge } from "@/components/ui/badge";
@@ -77,7 +77,7 @@ const TIMES = [
   "9:00 PM",
 ];
 
-type BookingSelection = { venue: Venue; date: string; time: string | null; courtId?: string | null };
+type BookingSelection = { venue: Venue; date: string; time: string | null };
 
 function BookVenues() {
   const [q, setQ] = useState("");
@@ -94,26 +94,6 @@ function BookVenues() {
   const [activeTab, setActiveTab] = useState<"venues" | "slot-booking" | "my-bookings">("venues");
   const [bookings, setBookings] = useState<BookingRecord[]>([]);
   const today = new Date().toISOString().slice(0, 10);
-  const handledVenueDeepLink = useRef(false);
-
-  useEffect(() => {
-    if (handledVenueDeepLink.current || typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    const venueId = params.get("venue");
-    if (!venueId) return;
-    const linkedVenue = directoryVenues.find((item) => item.id === venueId);
-    if (!linkedVenue) return;
-    const rawTime = params.get("time");
-    let initialTime: string | null = null;
-    if (rawTime && rawTime.length === 5 && rawTime[2] === ":") {
-      const parts = rawTime.split(":");
-      const hour = Number(parts[0]);
-      initialTime = String(hour % 12 || 12) + ":" + parts[1] + " " + (hour >= 12 ? "PM" : "AM");
-    }
-    handledVenueDeepLink.current = true;
-    setBooking({ venue: linkedVenue, date: params.get("date") || today, time: initialTime, courtId: params.get("court") });
-    window.history.replaceState({}, "", window.location.pathname);
-  }, [directoryVenues, today]);
 
   const loadBookings = useCallback(async () => {
     try {
@@ -565,7 +545,6 @@ function BookVenues() {
           venue={booking.venue}
           initialDate={booking.date}
           initialTime={booking.time}
-          initialCourtId={booking.courtId}
           onBookingSuccess={() => {
             loadBookings();
             setActiveTab("my-bookings");
@@ -920,7 +899,6 @@ function BookingDialog({
   venue,
   initialDate,
   initialTime,
-  initialCourtId,
   onBookingSuccess,
 }: {
   open: boolean;
@@ -928,7 +906,6 @@ function BookingDialog({
   venue: Venue;
   initialDate: string;
   initialTime: string | null;
-  initialCourtId?: string | null;
   onBookingSuccess?: () => void;
 }) {
   return (
@@ -947,7 +924,6 @@ function BookingDialog({
           initialSport={venue.sports[0]}
           initialDate={initialDate}
           initialTime={initialTime || undefined}
-          initialCourtId={initialCourtId || undefined}
           onBookingComplete={() => {
             onOpenChange(false);
             if (onBookingSuccess) {
