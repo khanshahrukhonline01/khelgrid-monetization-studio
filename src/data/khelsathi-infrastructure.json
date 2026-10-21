@@ -1,0 +1,1956 @@
+[
+  {
+    "cityId": "515",
+    "districtName": "Agra",
+    "facilitiesRaw": "Stadium Main Ground, Administrative Building, Multipurpose Sports Hall - 03, Swimming Pool - 01  25 Mtr, 01 12.5 Mtr Learner,Hostel Building-50 Bedded, Dormitory - 80 Bedded, 60 Bedded Hostel, WeightliftingPowerlifting Hall, Gymnastics Hall, Volley Ball Court-02, Boxing Ring-02, Tennis Court-01 Synthetic 01 Clay Court, Shooting Range - 10 Meter Indoor and 25m Outdoor,TT Hall, Basketball Court-01 Synthetic and 01 Cemented, Cricket Pitch- 03 Main Cricket Turf  02 For Turf Practice  02 Cricket Cemented, Squash Hall, Wrestling ShedHall, Synthetic Hockey Field, Hockey - Dressing Room-02, Kabaddi Shed, Fencing Shed, \r\nChange Room for Cricket Players - For 02 Teams, Gym with Modern Machines",
+    "facilities": [
+      "Stadium Main Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall - 03",
+      "Swimming Pool - 01  25 Mtr",
+      "01 12.5 Mtr Learner",
+      "Hostel Building-50 Bedded",
+      "Dormitory - 80 Bedded",
+      "60 Bedded Hostel",
+      "WeightliftingPowerlifting Hall",
+      "Gymnastics Hall",
+      "Volley Ball Court-02",
+      "Boxing Ring-02",
+      "Tennis Court-01 Synthetic 01 Clay Court",
+      "Shooting Range - 10 Meter Indoor and 25m Outdoor",
+      "TT Hall",
+      "Basketball Court-01 Synthetic and 01 Cemented",
+      "Cricket Pitch- 03 Main Cricket Turf  02 For Turf Practice  02 Cricket Cemented",
+      "Squash Hall",
+      "Wrestling ShedHall",
+      "Synthetic Hockey Field",
+      "Hockey - Dressing Room-02",
+      "Kabaddi Shed",
+      "Fencing Shed",
+      "Change Room for Cricket Players - For 02 Teams",
+      "Gym with Modern Machines"
+    ],
+    "stadiums": [
+      {
+        "id": "18",
+        "name": "Eklavya Sports Stadium, Agra",
+        "mapUrl": "//maps.google.com/maps?q=27.1609,78.008681&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.1609,
+          "lng": 78.008681
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "517",
+    "districtName": "Aligarh",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nSynthetic Lawn Tennis Court, Synthetic Basketball Court, Gymnasium Hall, Shooting Range, Wrestling Hall, Boxing Ring, State of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Synthetic Lawn Tennis Court",
+      "Synthetic Basketball Court",
+      "Gymnasium Hall",
+      "Shooting Range",
+      "Wrestling Hall",
+      "Boxing Ring",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "72",
+        "name": "Maharani Ahilyabai Holkar Sports Stadium, Aligarh",
+        "mapUrl": "//maps.google.com/maps?q=27.902401,78.100306&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.902401,
+          "lng": 78.100306
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "518",
+    "districtName": "Ambedkar Nagar",
+    "facilitiesRaw": "Administrative Building, Main Sports Ground, Multipurpose Sports Hall,\r\nSwimming Pool, Weightlifting Hall, Judo Hall, Dormitory",
+    "facilities": [
+      "Administrative Building",
+      "Main Sports Ground",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Weightlifting Hall",
+      "Judo Hall",
+      "Dormitory"
+    ],
+    "stadiums": [
+      {
+        "id": "40",
+        "name": "Eklavya Sports Stadium, Ambedkar Nagar",
+        "mapUrl": "//maps.google.com/maps?q=26.3366019,82.34379313&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.3366019,
+          "lng": 82.34379313
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "608",
+    "districtName": "Amethi",
+    "facilitiesRaw": "Administrative Building, Main Sports Ground, Multipurpose Sports Hall, Swimming Pool, Hostel Building, State of the Art Gym",
+    "facilities": [
+      "Administrative Building",
+      "Main Sports Ground",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Hostel Building",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "39",
+        "name": "Dr. Bhimrao Ambedkar Sports Stadium, Amethi",
+        "mapUrl": "//maps.google.com/maps?q=26.17076,81.79854&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.17076,
+          "lng": 81.79854
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "552",
+    "districtName": "Amroha",
+    "facilitiesRaw": "Stadium",
+    "facilities": [
+      "Stadium"
+    ],
+    "stadiums": [
+      {
+        "id": "85",
+        "name": "Sports Stadium, Amroha",
+        "mapUrl": "//maps.google.com/maps?q=28.52382232,78.29350362&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.52382232,
+          "lng": 78.29350362
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "519",
+    "districtName": "Auraiya",
+    "facilitiesRaw": "Stadium Under Construction",
+    "facilities": [
+      "Stadium Under Construction"
+    ],
+    "stadiums": [
+      {
+        "id": "101",
+        "name": "Sports Stadium, Auraiya",
+        "mapUrl": "//maps.google.com/maps?q=79.519997,26.469999&z=15&output=embed",
+        "coordinates": {
+          "lat": 79.519997,
+          "lng": 26.469999
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "541",
+    "districtName": "Ayodhya",
+    "facilitiesRaw": "Administrative Building, BoysGirls Hostel, Guest House, Accommodation, Multipurpose Sports Hall, Volleyball Court, \r\nFootball Field, Volleyball Court, State of the Art Gym, Auditorium Under Construction, Cricket Stadium Under Construction,\r\nSynthetic Running Track Under Construction, Synthetic Hockey Ground Under Construction, Swimming Pool Under Construction,\r\nSynthetic Lawn Tennis Court Under Construction",
+    "facilities": [
+      "Administrative Building",
+      "BoysGirls Hostel",
+      "Guest House",
+      "Accommodation",
+      "Multipurpose Sports Hall",
+      "Volleyball Court",
+      "Football Field",
+      "Volleyball Court",
+      "State of the Art Gym",
+      "Auditorium Under Construction",
+      "Cricket Stadium Under Construction",
+      "Synthetic Running Track Under Construction",
+      "Synthetic Hockey Ground Under Construction",
+      "Swimming Pool Under Construction",
+      "Synthetic Lawn Tennis Court Under Construction"
+    ],
+    "stadiums": [
+      {
+        "id": "36",
+        "name": "Dr. Bhimrao Ambedkar International Sports Complex, Ayodhya",
+        "mapUrl": "//maps.google.com/maps?q=26.73127,82.13549&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.73127,
+          "lng": 82.13549
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "520",
+    "districtName": "Azamgarh",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Gymnasium Hall, Synthetic Basketball Court, Volleyball Court Clay Court, Hostel Building, State of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Gymnasium Hall",
+      "Synthetic Basketball Court",
+      "Volleyball Court Clay Court",
+      "Hostel Building",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "22",
+        "name": "Sukhdev Pehalwan Sports Stadium, Azamgarh",
+        "mapUrl": "//maps.google.com/maps?q=26.43757836,83.10439032&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.43757836,
+          "lng": 83.10439032
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "522",
+    "districtName": "Badaun",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nCemented Basketball Court, Synthetic Lawn Tennis Court,\r\nWeight Room",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Cemented Basketball Court",
+      "Synthetic Lawn Tennis Court",
+      "Weight Room"
+    ],
+    "stadiums": [
+      {
+        "id": "26",
+        "name": "Sports Stadium, Badaun",
+        "mapUrl": "//maps.google.com/maps?q=28.029139,79.100496&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.029139,
+          "lng": 79.100496
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "523",
+    "districtName": "Baghpat",
+    "facilitiesRaw": "Badminton Hall, Swimming Pool, Mini Playground main Sports Ground\r\n,Administrative Building",
+    "facilities": [
+      "Badminton Hall",
+      "Swimming Pool",
+      "Mini Playground main Sports Ground",
+      "Administrative Building"
+    ],
+    "stadiums": [
+      {
+        "id": "62",
+        "name": "Baba Shahmal Sports Stadium, Baraut, Baghpat",
+        "mapUrl": "//maps.google.com/maps?q=28.98767,77.22088&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.98767,
+          "lng": 77.22088
+        }
+      },
+      {
+        "id": "63",
+        "name": "Sports Stadium, Khekrha, Baghpat",
+        "mapUrl": "//maps.google.com/maps?q=28.97287,77.21702&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.97287,
+          "lng": 77.21702
+        }
+      },
+      {
+        "id": "64",
+        "name": "Sports Stadium, Baghpat",
+        "mapUrl": "//maps.google.com/maps?q=29.08653,77.2394&z=15&output=embed",
+        "coordinates": {
+          "lat": 29.08653,
+          "lng": 77.2394
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "524",
+    "districtName": "Bahraich",
+    "facilitiesRaw": "Administrative Building, Swimming Pool, Multipurpose Sports Hall, \r\nVolleyball Court, Basketball Court, Hockey Field, Cricket Ground Combined, Football Field",
+    "facilities": [
+      "Administrative Building",
+      "Swimming Pool",
+      "Multipurpose Sports Hall",
+      "Volleyball Court",
+      "Basketball Court",
+      "Hockey Field",
+      "Cricket Ground Combined",
+      "Football Field"
+    ],
+    "stadiums": [
+      {
+        "id": "32",
+        "name": "Indira Gandhi Sports Stadium, Bahraich",
+        "mapUrl": "//maps.google.com/maps?q=27.34059 N,81.36057 E&z=15&output=embed"
+      },
+      {
+        "id": "110",
+        "name": "Indra Gandhi Sports Stadium Bahraich",
+        "mapUrl": "//maps.google.com/maps?q=27â”¬â–‘3405.6N,81â”¬â–‘3606.6E&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "526",
+    "districtName": "Ballia",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, Cemented Basketball Court, Shooting Range, Weightlifting HallGym Hall, Dormitory",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Cemented Basketball Court",
+      "Shooting Range",
+      "Weightlifting HallGym Hall",
+      "Dormitory"
+    ],
+    "stadiums": [
+      {
+        "id": "24",
+        "name": "Veer Lorik Sports Stadium, Ballia",
+        "mapUrl": "//maps.google.com/maps?q=25.766285,84.148955&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.766285,
+          "lng": 84.148955
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "528",
+    "districtName": "Balrampur",
+    "facilitiesRaw": "Administrative Building, Multipurpose Sports Hall, Badminton Court 03, \r\nTT Hall, Volleyball Court, Handball Playground, Hockey Field, Taekwondo Sports Ground, Football Field Combined, Athletics Playground",
+    "facilities": [
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Badminton Court 03",
+      "TT Hall",
+      "Volleyball Court",
+      "Handball Playground",
+      "Hockey Field",
+      "Taekwondo Sports Ground",
+      "Football Field Combined",
+      "Athletics Playground"
+    ],
+    "stadiums": [
+      {
+        "id": "34",
+        "name": "Sports Stadium, Balrampur",
+        "mapUrl": "//maps.google.com/maps?q=N 27.43371,E 82.17129&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "527",
+    "districtName": "Banda",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nSwimming Pool, Gym Hall, Indoor Volleyball Hall, Hostel Building,\r\nVolleyball Court Clay Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Gym Hall",
+      "Indoor Volleyball Hall",
+      "Hostel Building",
+      "Volleyball Court Clay Court"
+    ],
+    "stadiums": [
+      {
+        "id": "48",
+        "name": "Sardar Vallabhbhai Patel Sports Stadium, Banda",
+        "mapUrl": "//maps.google.com/maps?q=25.489876,80.330819&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.489876,
+          "lng": 80.330819
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "521",
+    "districtName": "Barabanki",
+    "facilitiesRaw": "Administrative Building, Main Sports Ground, Multipurpose Sports Hall,\r\nSwimming Pool, Volleyball Court, Hostel Building 180 Bedded",
+    "facilities": [
+      "Administrative Building",
+      "Main Sports Ground",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Volleyball Court",
+      "Hostel Building 180 Bedded"
+    ],
+    "stadiums": [
+      {
+        "id": "37",
+        "name": "K.D. Singh Babu Stadium, Barabanki",
+        "mapUrl": "//maps.google.com/maps?q=17.43453,81.1895&z=15&output=embed",
+        "coordinates": {
+          "lat": 17.43453,
+          "lng": 81.1895
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "529",
+    "districtName": "Bareilly",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nWeightlifting HallGym Hall, Volleyball Court, Swimming Pool, Hostel Building, Synthetic Tennis Court, Synthetic Basketball Court, Residence-05 OfficersEmployees, State of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Weightlifting HallGym Hall",
+      "Volleyball Court",
+      "Swimming Pool",
+      "Hostel Building",
+      "Synthetic Tennis Court",
+      "Synthetic Basketball Court",
+      "Residence-05 OfficersEmployees",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "25",
+        "name": "Regional Sports Stadium, Bareilly",
+        "mapUrl": "//maps.google.com/maps?q=28.377332,79.432462&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.377332,
+          "lng": 79.432462
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "530",
+    "districtName": "Basti",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nWrestling Hall Tin Shed, Synthetic Basketball Court, Dormitory, Cemented Basketball Court, Cemented Cricket Pitch",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Wrestling Hall Tin Shed",
+      "Synthetic Basketball Court",
+      "Dormitory",
+      "Cemented Basketball Court",
+      "Cemented Cricket Pitch"
+    ],
+    "stadiums": [
+      {
+        "id": "29",
+        "name": "Amar Shaheed Satyawan Singh, Regional Sports Stadium, Basti",
+        "mapUrl": "//maps.google.com/maps?q=26.79058,82.72062&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.79058,
+          "lng": 82.72062
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "613",
+    "districtName": "Bhadohi",
+    "facilitiesRaw": "Stadium,Multipurpose Sports Hall,Basketball Court,Volleyball Court",
+    "facilities": [
+      "Stadium",
+      "Multipurpose Sports Hall",
+      "Basketball Court",
+      "Volleyball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "102",
+        "name": "Sports Stadium, Bhadohi",
+        "mapUrl": "//maps.google.com/maps?q=82.568031,25.387270&z=15&output=embed",
+        "coordinates": {
+          "lat": 82.568031,
+          "lng": 25.38727
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "525",
+    "districtName": "Bijnor",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nBasketball Court Cemented, Shooting Range, Swimming Pool, Lawn Tennis Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Basketball Court Cemented",
+      "Shooting Range",
+      "Swimming Pool",
+      "Lawn Tennis Court"
+    ],
+    "stadiums": [
+      {
+        "id": "84",
+        "name": "Nehru Sports Stadium, Bijnor",
+        "mapUrl": "//maps.google.com/maps?q=29.384421,78.131306&z=15&output=embed",
+        "coordinates": {
+          "lat": 29.384421,
+          "lng": 78.131306
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "531",
+    "districtName": "Bulandshahr",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nGym Hall, Volleyball Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Gym Hall",
+      "Volleyball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "60",
+        "name": "Sports Stadium, Bulandshahar, Tanda, Bulandshahr",
+        "mapUrl": "//maps.google.com/maps?q=28.405098,77.875423&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.405098,
+          "lng": 77.875423
+        }
+      },
+      {
+        "id": "61",
+        "name": "Sports Stadium, Yamunapuram, Bulandshahr",
+        "mapUrl": "//maps.google.com/maps?q=28.409626,77.829007&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.409626,
+          "lng": 77.829007
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "532",
+    "districtName": "Chandauli",
+    "facilitiesRaw": "Stadium",
+    "facilities": [
+      "Stadium"
+    ],
+    "stadiums": []
+  },
+  {
+    "cityId": "614",
+    "districtName": "Chhibramau Kannauj",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building"
+    ],
+    "stadiums": []
+  },
+  {
+    "cityId": "533",
+    "districtName": "Chitrakoot",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building"
+    ],
+    "stadiums": [
+      {
+        "id": "47",
+        "name": "Sports Stadium, Chitrakoot",
+        "mapUrl": "//maps.google.com/maps?q=25.188669,80.914626&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.188669,
+          "lng": 80.914626
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "534",
+    "districtName": "Deoria",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nSwimming Pool, Dormitory Hall, Gym Hall, Synthetic Basketball Court,\r\nState of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Dormitory Hall",
+      "Gym Hall",
+      "Synthetic Basketball Court",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "43",
+        "name": "Ravindra Kishor Shahi Sports Stadium, Deoria",
+        "mapUrl": "//maps.google.com/maps?q=26.491886,83.782171&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.491886,
+          "lng": 83.782171
+        }
+      },
+      {
+        "id": "104",
+        "name": "Sports Stadium Bhatpar Rani under Malhana-Malhani, Deoria",
+        "mapUrl": "//maps.google.com/maps?q=84.031281,26.308722&z=15&output=embed",
+        "coordinates": {
+          "lat": 84.031281,
+          "lng": 26.308722
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "535",
+    "districtName": "Etah",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nCemented Lawn Tennis Court, Cemented Basketball Court,Gymnasium Hall",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Cemented Lawn Tennis Court",
+      "Cemented Basketball Court",
+      "Gymnasium Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "73",
+        "name": "Pandit Govind Ballabh Pant Sports Stadium, Etah",
+        "mapUrl": "//maps.google.com/maps?q=27.55005,78.69083&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.55005,
+          "lng": 78.69083
+        }
+      },
+      {
+        "id": "105",
+        "name": "Aliganj Tehsil Sports Stadium, Etah",
+        "mapUrl": "//maps.google.com/maps?q=79.1243328,27.5075933&z=15&output=embed",
+        "coordinates": {
+          "lat": 79.1243328,
+          "lng": 27.5075933
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "537",
+    "districtName": "Etawah",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nSynthetic Hockey Field, Gymnasium Hall, Boxing Ring",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Synthetic Hockey Field",
+      "Gymnasium Hall",
+      "Boxing Ring"
+    ],
+    "stadiums": [
+      {
+        "id": "57",
+        "name": "Mahatma Jyotiba Phule Sports Stadium, Etawah",
+        "mapUrl": "//maps.google.com/maps?q=26.780452,79.004155&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.780452,
+          "lng": 79.004155
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "539",
+    "districtName": "Farrukhabad",
+    "facilitiesRaw": "Stadium, Multipurpose Sports Hall, Boxing Ring",
+    "facilities": [
+      "Stadium",
+      "Multipurpose Sports Hall",
+      "Boxing Ring"
+    ],
+    "stadiums": [
+      {
+        "id": "56",
+        "name": "Shri Bramha Dutt Dwivedi Sports Stadium,Farrukhabad",
+        "mapUrl": "//maps.google.com/maps?q=27.362696,79.634601&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.362696,
+          "lng": 79.634601
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "540",
+    "districtName": "Fatehpur",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, \r\nSwimming Pool, Hostel Building, Gymnasium Hall, State of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Hostel Building",
+      "Gymnasium Hall",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "70",
+        "name": "Sports Stadium, Fatehpur",
+        "mapUrl": "//maps.google.com/maps?q=25.92675,80.83342&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.92675,
+          "lng": 80.83342
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "538",
+    "districtName": "Firozabad",
+    "facilitiesRaw": "Stadium Main Ground, Administration Building with Visitors Gallery, Multipurpose Sports Hall, Volleyball Court, Volleyball Court, Cricket Pitch - 03 Turf Wickets and  02 Cemented",
+    "facilities": [
+      "Stadium Main Ground",
+      "Administration Building with Visitors Gallery",
+      "Multipurpose Sports Hall",
+      "Volleyball Court",
+      "Volleyball Court",
+      "Cricket Pitch - 03 Turf Wickets and  02 Cemented"
+    ],
+    "stadiums": [
+      {
+        "id": "21",
+        "name": "Daudyal Sports Stadium, Firozabad",
+        "mapUrl": "//maps.google.com/maps?q=27.2282 N,78.3957 E&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "542",
+    "districtName": "Gautam Buddha Nagar",
+    "facilitiesRaw": "Main Sports Ground, Boxing Hall, Wrestling Hall, Weightlifting Hall,\r\nVolleyball Court, State of the Art Gym, Other Infrastructure Under Construction",
+    "facilities": [
+      "Main Sports Ground",
+      "Boxing Hall",
+      "Wrestling Hall",
+      "Weightlifting Hall",
+      "Volleyball Court",
+      "State of the Art Gym",
+      "Other Infrastructure Under Construction"
+    ],
+    "stadiums": [
+      {
+        "id": "66",
+        "name": "Malakpur Sports Stadium, Noida",
+        "mapUrl": "//maps.google.com/maps?q=28.5173456,77.4679162&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.5173456,
+          "lng": 77.4679162
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "546",
+    "districtName": "Ghaziabad",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nBasketball Court, Swimming Pool, Diving Pool, Gym Hall, Boxing Ring\r\nState of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Basketball Court",
+      "Swimming Pool",
+      "Diving Pool",
+      "Gym Hall",
+      "Boxing Ring",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "65",
+        "name": "Mahamaya Sports Stadium, Ghaziabad",
+        "mapUrl": "//maps.google.com/maps?q=28.670806,77.414613&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.670806,
+          "lng": 77.414613
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "544",
+    "districtName": "Ghazipur",
+    "facilitiesRaw": "Main Sports Ground,Administrative Building, Multipurpose Sports Hall,\r\nBasketball Court, Conditioning Hall",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Basketball Court",
+      "Conditioning Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "78",
+        "name": "Nehru Sports Stadium, Ghazipur",
+        "mapUrl": "//maps.google.com/maps?q=25.562448,83.5541188&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.562448,
+          "lng": 83.5541188
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "543",
+    "districtName": "Gonda",
+    "facilitiesRaw": "Administrative Building, Multipurpose Sports Hall, Hockey Field, Cricket Ground Combined, Football Field, Badminton Court 02,\r\nTT Hall",
+    "facilities": [
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Hockey Field",
+      "Cricket Ground Combined",
+      "Football Field",
+      "Badminton Court 02",
+      "TT Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "31",
+        "name": "Jawaharlal Nehru Sports Stadium, Gonda",
+        "mapUrl": "//maps.google.com/maps?q=N 27.134219,E 81.961683&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "545",
+    "districtName": "Gorakhpur",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nWrestling Hall, Hostel Building, Gymnastics Hall, Weightlifting Hall\r\n,Dormitory, Powerlifting Hall, Gymnasium Hall, Kabaddi Hall, State of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Wrestling Hall",
+      "Hostel Building",
+      "Gymnastics Hall",
+      "Weightlifting Hall",
+      "Dormitory",
+      "Powerlifting Hall",
+      "Gymnasium Hall",
+      "Kabaddi Hall",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "41",
+        "name": "Regional Sports Stadium, Gorakhpur",
+        "mapUrl": "//maps.google.com/maps?q=26.756126,83.379376&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.756126,
+          "lng": 83.379376
+        }
+      },
+      {
+        "id": "106",
+        "name": "Vikas Khand Jangal Kauria Stadium, Gorakhpur",
+        "mapUrl": "//maps.google.com/maps?q=83.364944,26.765844&z=15&output=embed",
+        "coordinates": {
+          "lat": 83.364944,
+          "lng": 26.765844
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "547",
+    "districtName": "Hamirpur",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Gym Hall, Swimming Pool, Multipurpose Sports Hall, Basketball Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Gym Hall",
+      "Swimming Pool",
+      "Multipurpose Sports Hall",
+      "Basketball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "50",
+        "name": "Sports Stadium, Hamirpur",
+        "mapUrl": "//maps.google.com/maps?q=25.956511,80.1511796&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.956511,
+          "lng": 80.1511796
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "609",
+    "districtName": "Hapur",
+    "facilitiesRaw": "Stadium",
+    "facilities": [
+      "Stadium"
+    ],
+    "stadiums": []
+  },
+  {
+    "cityId": "548",
+    "districtName": "Hardoi",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Weightlifting Hall, Basketball Court, Dormitory",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Weightlifting Hall",
+      "Basketball Court",
+      "Dormitory"
+    ],
+    "stadiums": [
+      {
+        "id": "91",
+        "name": "Sports Stadium, Hardoi",
+        "mapUrl": "//maps.google.com/maps?q=27.40960628,80.16045839&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.40960628,
+          "lng": 80.16045839
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "549",
+    "districtName": "Hathras",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nSynthetic Tennis Court, Basketball Court, Volleyball Court, Canteen",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Synthetic Tennis Court",
+      "Basketball Court",
+      "Volleyball Court",
+      "Canteen"
+    ],
+    "stadiums": [
+      {
+        "id": "75",
+        "name": "Sports Stadium, Hathras",
+        "mapUrl": "//maps.google.com/maps?q=27.581393,77.9804&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.581393,
+          "lng": 77.9804
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "551",
+    "districtName": "Jalaun (Orai)",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nSwimming Pool, Mini Gym Hall, Cemented Basketball Court, Lawn Tennis Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Mini Gym Hall",
+      "Cemented Basketball Court",
+      "Lawn Tennis Court"
+    ],
+    "stadiums": [
+      {
+        "id": "53",
+        "name": "Indira Stadium,Jalaun",
+        "mapUrl": "//maps.google.com/maps?q=26.0024572,79.4697678&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.0024572,
+          "lng": 79.4697678
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "553",
+    "districtName": "Jaunpur",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "100",
+        "name": "Indira Gandhi Sports Stadium,Siddikpur, Jaunpur",
+        "mapUrl": "//maps.google.com/maps?q=25.813972,82.685095&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.813972,
+          "lng": 82.685095
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "550",
+    "districtName": "Jhansi",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, Synthetic Hockey Field, Cemented Basketball Court, Cemented Lawn Tennis Court, Swimming Pool, Boxing Hall, Hostel Building, Dormitory\r\nAccommodation, Gymnastics Hall Under Construction, State of the Art Air Conditioned Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Synthetic Hockey Field",
+      "Cemented Basketball Court",
+      "Cemented Lawn Tennis Court",
+      "Swimming Pool",
+      "Boxing Hall",
+      "Hostel Building",
+      "Dormitory",
+      "Accommodation",
+      "Gymnastics Hall Under Construction",
+      "State of the Art Air Conditioned Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "51",
+        "name": "Major Dhyan Chand Sports Stadium, Jhansi",
+        "mapUrl": "//maps.google.com/maps?q=25.45251â”¬â–‘ N,78.55952â”¬â–‘ E&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "555",
+    "districtName": "Kannauj",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building"
+    ],
+    "stadiums": [
+      {
+        "id": "58",
+        "name": "Sports Stadium, Kannauj",
+        "mapUrl": "//maps.google.com/maps?q=27.01375,79.48814&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.01375,
+          "lng": 79.48814
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "554",
+    "districtName": "Kanpur Dehat",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, \r\nSwimming Pool, Weightlifting Hall, Volleyball Court Clay Court, Cemented Basketball Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Weightlifting Hall",
+      "Volleyball Court Clay Court",
+      "Cemented Basketball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "55",
+        "name": "Sports Stadium, Kanpur Dehat",
+        "mapUrl": "//maps.google.com/maps?q=26.3524921,79.957116&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.3524921,
+          "lng": 79.957116
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "556",
+    "districtName": "Kanpur Nagar",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, Hostel Building, Weightlifting Hall, Synthetic Basketball Court, Volleyball Court, International Cricket Stadium, Synthetic Hockey Field,\r\nYoga Center, Shooting Range, State of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Hostel Building",
+      "Weightlifting Hall",
+      "Synthetic Basketball Court",
+      "Volleyball Court",
+      "International Cricket Stadium",
+      "Synthetic Hockey Field",
+      "Yoga Center",
+      "Shooting Range",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "54",
+        "name": "Green Park Sports Stadium, Kanpur Nagar",
+        "mapUrl": "//maps.google.com/maps?q=26.48298,80.3469&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.48298,
+          "lng": 80.3469
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "536",
+    "districtName": "Kasganj",
+    "facilitiesRaw": "Stadium",
+    "facilities": [
+      "Stadium"
+    ],
+    "stadiums": [
+      {
+        "id": "76",
+        "name": "Sports Stadium, Kasganj",
+        "mapUrl": "//maps.google.com/maps?q=27.549744,78.690575&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.549744,
+          "lng": 78.690575
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "557",
+    "districtName": "Kaushambi",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nDormitory",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Dormitory"
+    ],
+    "stadiums": [
+      {
+        "id": "69",
+        "name": "Sports Stadium, Kaushambi",
+        "mapUrl": "//maps.google.com/maps?q=25.49887,81.35797&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.49887,
+          "lng": 81.35797
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "558",
+    "districtName": "Kushinagar",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, \r\nSwimming Pool, Boxing Ring",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Boxing Ring"
+    ],
+    "stadiums": [
+      {
+        "id": "44",
+        "name": "Sports Stadium, Kushinagar",
+        "mapUrl": "//maps.google.com/maps?q=26.86937,83.955941&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.86937,
+          "lng": 83.955941
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "560",
+    "districtName": "Lakhimpur Kheri",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, \r\nDormitory, Swimming Pool",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Dormitory",
+      "Swimming Pool"
+    ],
+    "stadiums": [
+      {
+        "id": "95",
+        "name": "Lalpur Sports Stadium, Lakhimpur Kheri",
+        "mapUrl": "//maps.google.com/maps?q=27.959264,80.743784&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.959264,
+          "lng": 80.743784
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "559",
+    "districtName": "Lalitpur",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, \r\nCemented Basketball Court, Volleyball Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Cemented Basketball Court",
+      "Volleyball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "52",
+        "name": "Sports Stadium, Lalitpur",
+        "mapUrl": "//maps.google.com/maps?q=24.6723â”¬â–‘ N,78.4414â”¬â–‘ E&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "561",
+    "districtName": "Lucknow",
+    "facilitiesRaw": "Main Ground, Administrative Building, Swimming Pool, Child Pool, Multipurpose Sports Hall, Judo Hall, Gymnastics Hall, Health Center, Synthetic Tennis Court, Weightlifting Hall, Hostel Building BoysGirls, Basketball Court, Two Dormitories,State of the Art Gym, Volleyball Court, Handball Court",
+    "facilities": [
+      "Main Ground",
+      "Administrative Building",
+      "Swimming Pool",
+      "Child Pool",
+      "Multipurpose Sports Hall",
+      "Judo Hall",
+      "Gymnastics Hall",
+      "Health Center",
+      "Synthetic Tennis Court",
+      "Weightlifting Hall",
+      "Hostel Building BoysGirls",
+      "Basketball Court",
+      "Two Dormitories",
+      "State of the Art Gym",
+      "Volleyball Court",
+      "Handball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "86",
+        "name": "K.D. Singh Babu Stadium, Lucknow",
+        "mapUrl": "//maps.google.com/maps?q=26.85486,80.93583&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.85486,
+          "lng": 80.93583
+        }
+      },
+      {
+        "id": "87",
+        "name": "Chowk Stadium, Lucknow",
+        "mapUrl": "//maps.google.com/maps?q=26.87257,80.90989&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.87257,
+          "lng": 80.90989
+        }
+      },
+      {
+        "id": "88",
+        "name": "Mini Stadium Vijayant Khand, Gomti Nagar, Lucknow",
+        "mapUrl": "//maps.google.com/maps?q=26.87197,81.01972&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.87197,
+          "lng": 81.01972
+        }
+      },
+      {
+        "id": "89",
+        "name": "Vinay Khand Mini Sports Stadium, Lucknow",
+        "mapUrl": "//maps.google.com/maps?q=26.85453,81.00536&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.85453,
+          "lng": 81.00536
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "564",
+    "districtName": "Maharajganj",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "42",
+        "name": "Sports Stadium, Maharajganj",
+        "mapUrl": "//maps.google.com/maps?q=27.166979,83.580858&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.166979,
+          "lng": 83.580858
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "565",
+    "districtName": "Mahoba",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, Gymnasium Hall, Cemented Lawn Tennis Court, Cemented Basketball Court, Volleyball Court, State of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Gymnasium Hall",
+      "Cemented Lawn Tennis Court",
+      "Cemented Basketball Court",
+      "Volleyball Court",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "49",
+        "name": "Sports Stadium, Mahoba",
+        "mapUrl": "//maps.google.com/maps?q=25.29675,79.90101&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.29675,
+          "lng": 79.90101
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "568",
+    "districtName": "Mainpuri",
+    "facilitiesRaw": "Stadium Main Ground, Administrative Building, Multipurpose Sports Hall-02 Court, Swimming Pool 01 25 Meters, 01 10M Learner, Hostel Building, Wrestling HallWeightlifting Hall, Store Room, Volley Ball Court-02, State of the Art Gym",
+    "facilities": [
+      "Stadium Main Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall-02 Court",
+      "Swimming Pool 01 25 Meters",
+      "01 10M Learner",
+      "Hostel Building",
+      "Wrestling HallWeightlifting Hall",
+      "Store Room",
+      "Volley Ball Court-02",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "19",
+        "name": "Pandit Jawaharlal Nehru Sports Stadium, Mainpuri",
+        "mapUrl": "//maps.google.com/maps?q=27.2282N,79.0252E&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "569",
+    "districtName": "Mathura",
+    "facilitiesRaw": "Stadium Main Ground, Multipurpose Sports Hall, Administrative Building, Swimming Pool 25 M Diving, Dormitory - 64 Bedded, Weightlifting Hall, Volleyball Court",
+    "facilities": [
+      "Stadium Main Ground",
+      "Multipurpose Sports Hall",
+      "Administrative Building",
+      "Swimming Pool 25 M Diving",
+      "Dormitory - 64 Bedded",
+      "Weightlifting Hall",
+      "Volleyball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "20",
+        "name": "Late Mohan Pehalwan Sports Stadium",
+        "mapUrl": "//maps.google.com/maps?q=27.2038 N,77.5011 E&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "562",
+    "districtName": "Mau",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, \r\nCemented Basketball Court, Dormitory 56 Bedded",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Cemented Basketball Court",
+      "Dormitory 56 Bedded"
+    ],
+    "stadiums": [
+      {
+        "id": "23",
+        "name": "Dr. Bhimrao Ambedkar Sports Stadium,Mau",
+        "mapUrl": "//maps.google.com/maps?q=25.961072,83.571814&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.961072,
+          "lng": 83.571814
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "563",
+    "districtName": "Meerut",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Wrestling Hall, Badminton Hall, Gymnastics Hall, Hostel Building, Shooting Range, \r\nGymnasium Hall, Boxing Ring Covered, Synthetic Basketball Court,\r\nWeightlifting Hall, Cemented Tennis Court, Volleyball Court, Archery,\r\nSwimming Pool Olympic Size 50M, State of the Art Gym, Synthetic Hockey Ground Under Construction",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Wrestling Hall",
+      "Badminton Hall",
+      "Gymnastics Hall",
+      "Hostel Building",
+      "Shooting Range",
+      "Gymnasium Hall",
+      "Boxing Ring Covered",
+      "Synthetic Basketball Court",
+      "Weightlifting Hall",
+      "Cemented Tennis Court",
+      "Volleyball Court",
+      "Archery",
+      "Swimming Pool Olympic Size 50M",
+      "State of the Art Gym",
+      "Synthetic Hockey Ground Under Construction"
+    ],
+    "stadiums": [
+      {
+        "id": "59",
+        "name": "Kailash Prakash Sports Stadium, Meerut",
+        "mapUrl": "//maps.google.com/maps?q=28.992063,77.721106&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.992063,
+          "lng": 77.721106
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "566",
+    "districtName": "Mirzapur",
+    "facilitiesRaw": "Stadium Under Construction, Multipurpose Sports Hall",
+    "facilities": [
+      "Stadium Under Construction",
+      "Multipurpose Sports Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "45",
+        "name": "Sports Stadium, Mirzapur",
+        "mapUrl": "//maps.google.com/maps?q=25.111388,82.590628&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.111388,
+          "lng": 82.590628
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "567",
+    "districtName": "Moradabad",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, \r\nBasketball Court, Weightlifting Hall, Dormitory, State of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Basketball Court",
+      "Weightlifting Hall",
+      "Dormitory",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "81",
+        "name": "Netaji Subhash Chandra Bose Sports Stadium,Moradabad",
+        "mapUrl": "//maps.google.com/maps?q=28-8689274,78-7498678&z=15&output=embed",
+        "coordinates": {
+          "lat": 28,
+          "lng": 78
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "570",
+    "districtName": "Muzaffarnagar",
+    "facilitiesRaw": "Administrative Building, Main Ground, Wrestling Hall, Judo Hall, Cricket Pavilion, Audience Gallery, Dormitory Hall, Basketball Court, Multipurpose Sports Hall, Swimming Pool, State of the Art Gym",
+    "facilities": [
+      "Administrative Building",
+      "Main Ground",
+      "Wrestling Hall",
+      "Judo Hall",
+      "Cricket Pavilion",
+      "Audience Gallery",
+      "Dormitory Hall",
+      "Basketball Court",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "97",
+        "name": "District Sports Office, Chaudhary Charan Singh Sports Stadium, Muzaffarnagar",
+        "mapUrl": "//maps.google.com/maps?q=29.45769,77.70112&z=15&output=embed",
+        "coordinates": {
+          "lat": 29.45769,
+          "lng": 77.70112
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "616",
+    "districtName": "Myohal",
+    "facilitiesRaw": "Main sports ground",
+    "facilities": [
+      "Main sports ground"
+    ],
+    "stadiums": []
+  },
+  {
+    "cityId": "615",
+    "districtName": "Orai",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building"
+    ],
+    "stadiums": [
+      {
+        "id": "107",
+        "name": "Indira Sports Stadium, Orai",
+        "mapUrl": "//maps.google.com/maps?q=79.450035,25.989836&z=15&output=embed",
+        "coordinates": {
+          "lat": 79.450035,
+          "lng": 25.989836
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "571",
+    "districtName": "Pilibhit",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, Swimming Pool, Volleyball Court Clay Court, Weightlifting Hall, State of the Art Gym Equipment",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Volleyball Court Clay Court",
+      "Weightlifting Hall",
+      "State of the Art Gym Equipment"
+    ],
+    "stadiums": [
+      {
+        "id": "27",
+        "name": "Gandhi Sports Stadium, Pilibhit",
+        "mapUrl": "//maps.google.com/maps?q=28.6258,79.8098&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.6258,
+          "lng": 79.8098
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "572",
+    "districtName": "Pratapgarh",
+    "facilitiesRaw": "Stadium, Multipurpose Sports Hall, Dormitory, Store Room",
+    "facilities": [
+      "Stadium",
+      "Multipurpose Sports Hall",
+      "Dormitory",
+      "Store Room"
+    ],
+    "stadiums": [
+      {
+        "id": "71",
+        "name": "Sports Stadium, Pratapgarh",
+        "mapUrl": "//maps.google.com/maps?q=25.915179,81.983046&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.915179,
+          "lng": 81.983046
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "516",
+    "districtName": "Prayagraj",
+    "facilitiesRaw": "Main Building, Hostel, Administrative Building, State of the Art Gym",
+    "facilities": [
+      "Main Building",
+      "Hostel",
+      "Administrative Building",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "33",
+        "name": "Amitabh Bachchan Sports Complex Myohal",
+        "mapUrl": "//maps.google.com/maps?q=25.4604806,81.8430907&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.4604806,
+          "lng": 81.8430907
+        }
+      },
+      {
+        "id": "67",
+        "name": "Madan Mohan Malviya Stadium, Prayagraj",
+        "mapUrl": "//maps.google.com/maps?q=25.4604806,81.8430907&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.4604806,
+          "lng": 81.8430907
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "574",
+    "districtName": "Rae Bareli",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Synthetic Hockey Field,\r\nVolleyball Court, Swimming Pool, Children Pool, Badminton Hall",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Synthetic Hockey Field",
+      "Volleyball Court",
+      "Swimming Pool",
+      "Children Pool",
+      "Badminton Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "90",
+        "name": "Motilal Nehru Sports Stadium, Rae Bareli",
+        "mapUrl": "//maps.google.com/maps?q=26.217244,81.235477&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.217244,
+          "lng": 81.235477
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "573",
+    "districtName": "Rampur",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, Swimming Pool, Cemented Lawn Tennis Court, Basketball Court\r\nState of the Art Gym",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Cemented Lawn Tennis Court",
+      "Basketball Court",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "82",
+        "name": "Shaheed-e-Azam Sports Stadium, Rampur",
+        "mapUrl": "//maps.google.com/maps?q=N 28.804,E 79.0417&z=15&output=embed"
+      },
+      {
+        "id": "83",
+        "name": "Sports Complex Hockey Astroturf, Rampur",
+        "mapUrl": "//maps.google.com/maps?q=28.523,78.59&z=15&output=embed",
+        "coordinates": {
+          "lat": 28.523,
+          "lng": 78.59
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "575",
+    "districtName": "Saharanpur",
+    "facilitiesRaw": "Administrative Building, Main Ground, Multipurpose Sports Hall, Judo Hall, Swimming Pool, Weight Lifting Room, AC Gym Hall, Lawn Tennis\r\nDormitory, Shooting Range, Synthetic Running Track Under Construction",
+    "facilities": [
+      "Administrative Building",
+      "Main Ground",
+      "Multipurpose Sports Hall",
+      "Judo Hall",
+      "Swimming Pool",
+      "Weight Lifting Room",
+      "AC Gym Hall",
+      "Lawn Tennis",
+      "Dormitory",
+      "Shooting Range",
+      "Synthetic Running Track Under Construction"
+    ],
+    "stadiums": [
+      {
+        "id": "96",
+        "name": "Dr. Ambedkar Sports Stadium, Saharanpur",
+        "mapUrl": "//maps.google.com/maps?q=29.96515,77.54434&z=15&output=embed",
+        "coordinates": {
+          "lat": 29.96515,
+          "lng": 77.54434
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "610",
+    "districtName": "Sambhal",
+    "facilitiesRaw": "Stadium",
+    "facilities": [
+      "Stadium"
+    ],
+    "stadiums": []
+  },
+  {
+    "cityId": "578",
+    "districtName": "Sant Kabir Nagar",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall,\r\nBasketball Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Basketball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "30",
+        "name": "Shri Kanshi Ram Ji District Sports Stadium, Sant Kabir Nagar",
+        "mapUrl": "//maps.google.com/maps?q=26.795376,83.068522&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.795376,
+          "lng": 83.068522
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "577",
+    "districtName": "Shahjahanpur",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "28",
+        "name": "Major Jadunath Singh Sports Stadium, Shahjahanpur",
+        "mapUrl": "//maps.google.com/maps?q=27.883743,79.912247&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.883743,
+          "lng": 79.912247
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "611",
+    "districtName": "Shamli",
+    "facilitiesRaw": "Acquired Land Village-Bhaiswal District Shamli",
+    "facilities": [
+      "Acquired Land Village-Bhaiswal District Shamli"
+    ],
+    "stadiums": [
+      {
+        "id": "98",
+        "name": "Sports Stadium, Shamli",
+        "mapUrl": "//maps.google.com/maps?q=29.511066,77.323986&z=15&output=embed",
+        "coordinates": {
+          "lat": 29.511066,
+          "lng": 77.323986
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "583",
+    "districtName": "Shravasti",
+    "facilitiesRaw": "Administrative Building, Multipurpose Sports Hall, Badminton Court 03, \r\nTT Hall, Volleyball Court, Basketball Court, Hockey Field, Cricket Field, Football Field",
+    "facilities": [
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Badminton Court 03",
+      "TT Hall",
+      "Volleyball Court",
+      "Basketball Court",
+      "Hockey Field",
+      "Cricket Field",
+      "Football Field"
+    ],
+    "stadiums": [
+      {
+        "id": "35",
+        "name": "Sports Stadium, Shravasti",
+        "mapUrl": "//maps.google.com/maps?q=27.42075,81.54103&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.42075,
+          "lng": 81.54103
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "579",
+    "districtName": "Siddharthnagar",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Swimming Pool, Multipurpose Sports Hall, Volleyball Court, Basketball Court",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Swimming Pool",
+      "Multipurpose Sports Hall",
+      "Volleyball Court",
+      "Basketball Court"
+    ],
+    "stadiums": [
+      {
+        "id": "109",
+        "name": "Sports Stadium,Siddharthnagar",
+        "mapUrl": "//maps.google.com/maps?q=83.0684â”¬â–‘ E,27.2739â”¬â–‘ N&z=15&output=embed"
+      }
+    ]
+  },
+  {
+    "cityId": "576",
+    "districtName": "Sitapur",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Swimming Pool, Weightlifting Hall, Wrestling Hall, Badminton Hall",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Swimming Pool",
+      "Weightlifting Hall",
+      "Wrestling Hall",
+      "Badminton Hall"
+    ],
+    "stadiums": [
+      {
+        "id": "93",
+        "name": "Major Dhyan Chand Sports Stadium, Sitapur",
+        "mapUrl": "//maps.google.com/maps?q=27.56177,80.6708583&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.56177,
+          "lng": 80.6708583
+        }
+      },
+      {
+        "id": "94",
+        "name": "Subhash Chandra Bose Sports Stadium, Sitapur",
+        "mapUrl": "//maps.google.com/maps?q=27.30593,81.12025&z=15&output=embed",
+        "coordinates": {
+          "lat": 27.30593,
+          "lng": 81.12025
+        }
+      },
+      {
+        "id": "114",
+        "name": "Tarantaal Stadium",
+        "mapUrl": "//maps.google.com/maps?q=80.6702622,27.5646346&z=15&output=embed",
+        "coordinates": {
+          "lat": 80.6702622,
+          "lng": 27.5646346
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "580",
+    "districtName": "Sonbhadra",
+    "facilitiesRaw": "Stadium, Weightlifting Hall, Dormitory, Synthetic Basketball Court, Volleyball Court, Conditioning Hall, Residential Building, State of the Art Gym",
+    "facilities": [
+      "Stadium",
+      "Weightlifting Hall",
+      "Dormitory",
+      "Synthetic Basketball Court",
+      "Volleyball Court",
+      "Conditioning Hall",
+      "Residential Building",
+      "State of the Art Gym"
+    ],
+    "stadiums": [
+      {
+        "id": "46",
+        "name": "Sports Stadium, Sonbhadra",
+        "mapUrl": "//maps.google.com/maps?q=24.7085392,83.0624807&z=15&output=embed",
+        "coordinates": {
+          "lat": 24.7085392,
+          "lng": 83.0624807
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "582",
+    "districtName": "Sultanpur",
+    "facilitiesRaw": "Administrative Building, Main Sports Ground, Multipurpose Sports Hall, \r\nSwimming Pool, Volleyball Court Clay Court",
+    "facilities": [
+      "Administrative Building",
+      "Main Sports Ground",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Volleyball Court Clay Court"
+    ],
+    "stadiums": [
+      {
+        "id": "38",
+        "name": "Pant Sports Stadium, Sultanpur",
+        "mapUrl": "//maps.google.com/maps?q=26.263807,82.078118&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.263807,
+          "lng": 82.078118
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "584",
+    "districtName": "Unnao",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building, Multipurpose Sports Hall, Swimming Pool",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool"
+    ],
+    "stadiums": [
+      {
+        "id": "92",
+        "name": "Pandit Deendayal Upadhyay Sports Stadium, Unnao",
+        "mapUrl": "//maps.google.com/maps?q=26.536938,80.48996&z=15&output=embed",
+        "coordinates": {
+          "lat": 26.536938,
+          "lng": 80.48996
+        }
+      }
+    ]
+  },
+  {
+    "cityId": "585",
+    "districtName": "Varanasi",
+    "facilitiesRaw": "Main Sports Ground, Administrative Building,Multipurpose Sports Hall,Swimming Pool,Hostel Building, Weightlifting Hall, \r\nDormitory, Synthetic Basketball Court, Table Tennis Hall, \r\nWake Track, Boxing Ring, 56 Bedded Residential Complex Under Construction, State of the Art Gym Equipment",
+    "facilities": [
+      "Main Sports Ground",
+      "Administrative Building",
+      "Multipurpose Sports Hall",
+      "Swimming Pool",
+      "Hostel Building",
+      "Weightlifting Hall",
+      "Dormitory",
+      "Synthetic Basketball Court",
+      "Table Tennis Hall",
+      "Wake Track",
+      "Boxing Ring",
+      "56 Bedded Residential Complex Under Construction",
+      "State of the Art Gym Equipment"
+    ],
+    "stadiums": [
+      {
+        "id": "77",
+        "name": "Dr. Sampurnanand Sports Stadium, Varanasi",
+        "mapUrl": "//maps.google.com/maps?q=25.314838,82.985927&z=15&output=embed",
+        "coordinates": {
+          "lat": 25.314838,
+          "lng": 82.985927
+        }
+      },
+      {
+        "id": "108",
+        "name": "Bhim Rao Ambedkar Complex, Lalpur, Varanasi",
+        "mapUrl": "//maps.google.com/maps?q=82.987289,25.321684&z=15&output=embed",
+        "coordinates": {
+          "lat": 82.987289,
+          "lng": 25.321684
+        }
+      }
+    ]
+  }
+]

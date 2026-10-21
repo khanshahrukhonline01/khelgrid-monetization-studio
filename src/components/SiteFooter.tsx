@@ -196,15 +196,20 @@ export function SiteFooter() {
         </div>
       </div>
 
-      {/* Game, Sport & Play Across India: Popular Slang, Trials & Turf Searches */}
+      {/* Game, Sport & Play Across India Directory */}
       <section className="border-t border-border bg-card/60 py-8">
         <div className="mx-auto max-w-7xl px-4 md:px-6 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
-              <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-primary" />
-                Game, Sport &amp; Play Across India · Popular Slang &amp; Search Directory
-              </h3>
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  Game, Sport &amp; Play Across India
+                </h3>
+                <span className="rounded-full bg-primary/10 border border-primary/25 px-2 py-0.5 text-[10px] font-bold text-primary">
+                  54+ Verified Directories
+                </span>
+              </div>
               <p className="text-xs text-muted-foreground mt-0.5">
                 Connecting India&apos;s grassroots khiladis, maidans, turfs, akhadas, and national
                 sports trials
@@ -212,7 +217,8 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 text-xs">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 text-xs">
+            {/* 1. Essentials */}
             <div>
               <h4 className="font-semibold text-foreground mb-2">
                 Game, Sport &amp; Play Essentials
@@ -234,17 +240,7 @@ export function SiteFooter() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/search"
-                    search={{
-                      q: "sport",
-                      sport: "All Sports",
-                      city: "All Locations",
-                      sort: "Soonest",
-                      free: false,
-                    }}
-                    className="hover:text-primary transition"
-                  >
+                  <Link to="/academy" className="hover:text-primary transition">
                     Sport Academies &amp; Selections
                   </Link>
                 </li>
@@ -273,9 +269,30 @@ export function SiteFooter() {
                     Desi Khel &amp; Olympic Disciplines
                   </Link>
                 </li>
+                <li>
+                  <Link to="/start-from-zero" className="hover:text-primary transition">
+                    Grassroots Athlete Passport
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/start-from-zero" className="hover:text-primary transition">
+                    Verified Sports CV Maker
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/learning-hub" className="hover:text-primary transition">
+                    AI Training Drills &amp; Playbook
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/talent-scanner" className="hover:text-primary transition">
+                    Talent Scanner Fitness Tests
+                  </Link>
+                </li>
               </ul>
             </div>
 
+            {/* 2. Maidan, Turf & Box Cricket */}
             <div>
               <h4 className="font-semibold text-foreground mb-2">
                 Maidan, Turf &amp; Net Practice
@@ -306,9 +323,30 @@ export function SiteFooter() {
                     Gully Cricket &amp; Community Games
                   </Link>
                 </li>
+                <li>
+                  <Link to="/book" className="hover:text-primary transition">
+                    Swimming Pool Hourly Passes
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/book" className="hover:text-primary transition">
+                    Tennis Clay &amp; Synthetic Courts
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/book" className="hover:text-primary transition">
+                    Basketball Wooden Sprung Courts
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/book" className="hover:text-primary transition">
+                    Table Tennis Arenas &amp; Clubs
+                  </Link>
+                </li>
               </ul>
             </div>
 
+            {/* 3. Akhada, Dangal & Combat */}
             <div>
               <h4 className="font-semibold text-foreground mb-2">Akhada, Dangal &amp; Combat</h4>
               <ul className="space-y-1.5 text-muted-foreground">
@@ -361,21 +399,6 @@ export function SiteFooter() {
                   <Link
                     to="/search"
                     search={{
-                      q: "boxing",
-                      sport: "Boxing",
-                      city: "All Locations",
-                      sort: "Soonest",
-                      free: false,
-                    }}
-                    className="hover:text-primary transition"
-                  >
-                    SAI NCOE Boxing Selection Trials
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/search"
-                    search={{
                       q: "kho-kho",
                       sport: "Kho-Kho",
                       city: "All Locations",
@@ -387,11 +410,57 @@ export function SiteFooter() {
                     Kho-Kho Junior National Trials
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "mitti",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Mitti Ka Khel Traditional Combines
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sports" className="hover:text-primary transition">
+                    Mallakhamb &amp; Indigenous Sports
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sport/wushu" className="hover:text-primary transition">
+                    Wushu Sanda &amp; Taolu Combines
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "karate",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Judo &amp; Karate State Selections
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sport/boxing" className="hover:text-primary transition">
+                    Boxing Rings &amp; Bhiwani Sparring
+                  </Link>
+                </li>
               </ul>
             </div>
 
+            {/* 4. National Trials & SAI NCOE */}
             <div>
-              <h4 className="font-semibold text-foreground mb-2">National Trials &amp; Quotas</h4>
+              <h4 className="font-semibold text-foreground mb-2">National Trials &amp; SAI NCOE</h4>
               <ul className="space-y-1.5 text-muted-foreground">
                 <li>
                   <Link
@@ -408,6 +477,53 @@ export function SiteFooter() {
                     Sports Authority of India (SAI) Trials
                   </Link>
                 </li>
+                <li>
+                  <Link to="/academy" className="hover:text-primary transition">
+                    SAI National Centres of Excellence
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/academy" className="hover:text-primary transition">
+                    Khelo India State Centres (KISCE)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/academy" className="hover:text-primary transition">
+                    Army Sports Institute (ASI Pune)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/academy" className="hover:text-primary transition">
+                    Tata Archery &amp; Football Academies
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/academy" className="hover:text-primary transition">
+                    Gopichand Badminton Academy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/academy" className="hover:text-primary transition">
+                    Inspire Institute of Sport (IIS Bellary)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/academy" className="hover:text-primary transition">
+                    Usha School of Athletics Kerala
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/academy" className="hover:text-primary transition">
+                    Chhatrasal Stadium Wrestling Combine
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* 5. Government Sports Quotas */}
+            <div>
+              <h4 className="font-semibold text-foreground mb-2">Govt Sports Quota Recruitment</h4>
+              <ul className="space-y-1.5 text-muted-foreground">
                 <li>
                   <Link
                     to="/search"
@@ -442,6 +558,118 @@ export function SiteFooter() {
                   <Link
                     to="/search"
                     search={{
+                      q: "railways",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Indian Railways Sports Quota Trials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "police",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    State Police Sports Quota Entry
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "army",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Armed Forces Sports Quota Enrolment
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "sports quota",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Bank &amp; PSU Sports Quota Vacancies
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "cisf",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    CISF &amp; ITBP Sports Selections
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "constable",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    State Police Head Constable Trials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "university",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Universities Sports Quota AIU Meets
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* 6. Age Categories & Leagues */}
+            <div>
+              <h4 className="font-semibold text-foreground mb-2">Age Categories &amp; Leagues</h4>
+              <ul className="space-y-1.5 text-muted-foreground">
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
                       q: "Ranji",
                       sport: "Cricket",
                       city: "All Locations",
@@ -466,6 +694,96 @@ export function SiteFooter() {
                     className="hover:text-primary transition"
                   >
                     Khel Maharan 3.0 Assam Registrations
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      category: "U-14 / Sub-Junior",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Under-14 Sub-Junior Selection Camps
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "",
+                      sport: "Cricket",
+                      city: "All Locations",
+                      category: "U-16 / Junior",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Under-16 Junior State Cricket Trials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      category: "U-19 / Youth",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Under-19 Youth National Championship
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      category: "U-23 / Emerging",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Under-23 Emerging Athlete Combines
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/search"
+                    search={{
+                      q: "",
+                      sport: "All Sports",
+                      city: "All Locations",
+                      category: "Senior Open",
+                      sort: "Soonest",
+                      free: false,
+                    }}
+                    className="hover:text-primary transition"
+                  >
+                    Senior Open Sports Competitions
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sport/football" className="hover:text-primary transition">
+                    ISL &amp; I-League Football Youth Trials
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sport/kabaddi" className="hover:text-primary transition">
+                    Pro Kabaddi Grassroots Talent Hunt
                   </Link>
                 </li>
               </ul>
