@@ -125,7 +125,7 @@ export function normalizeVenueData(v: VenueRow | KhelGridVenue | VenueDetailData
       latitude: v.latitude ?? null,
       longitude: v.longitude ?? null,
       sports: v.sports || [],
-      amenities: v.amenities || ["Parking", "Changing Room", "Drinking Water", "Floodlights"],
+      amenities: v.amenities || [],
       price_per_hour: Number(v.price_per_hour || 0),
       rating: Number(v.rating || 0),
       reviews_count: Number(v.reviews_count || 0),
@@ -133,8 +133,8 @@ export function normalizeVenueData(v: VenueRow | KhelGridVenue | VenueDetailData
       bookable: v.bookable ?? true,
       image_url: v.image_url ?? null,
       images: rawImages,
-      contact_phone: v.contact_phone || "+91 98765 43210",
-      contact_email: v.contact_email || "support@khelgrid.com",
+      contact_phone: v.contact_phone || null,
+      contact_email: v.contact_email || null,
       operating_hours: operatingHours,
       booking_policies: bookingPolicies,
       rules_restrictions: rulesRestrictions,
@@ -149,9 +149,9 @@ export function normalizeVenueData(v: VenueRow | KhelGridVenue | VenueDetailData
     slug: v.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
     area: v.area,
     city: v.city,
-    address: `${v.area}, ${v.city}`,
+    address: v.address || `${v.area}, ${v.city}`,
     sports: v.sports || [],
-    amenities: ["Parking", "Floodlights", "Drinking Water", "Changing Rooms"],
+    amenities: v.amenities || [],
     price_per_hour: v.pricePerHour,
     rating: v.rating,
     reviews_count: v.reviews,
@@ -159,8 +159,8 @@ export function normalizeVenueData(v: VenueRow | KhelGridVenue | VenueDetailData
     bookable: v.bookable ?? true,
     image_url: v.image,
     images: rawImages,
-    contact_phone: "+91 98765 43210",
-    contact_email: "support@khelgrid.com",
+    contact_phone: v.contactPhone || null,
+    contact_email: v.contactEmail || null,
     operating_hours: operatingHours,
     booking_policies: bookingPolicies,
     rules_restrictions: rulesRestrictions,
@@ -231,7 +231,7 @@ export function VenueDetails({
   };
 
   const sportsSummary = venue.sports?.slice(0, 2).join(" & ") || "Sports";
-  const shareText = `Check out ${venue.name} in ${venue.city}! Book ${sportsSummary} courts & turfs starting at ₹${venue.price_per_hour.toLocaleString("en-IN")}/hr on KhelGrid.`;
+  const shareText = `Check out ${venue.name} in ${venue.city}! Sports: ${sportsSummary}. ${venue.price_per_hour > 0 ? `Listed from ₹${venue.price_per_hour.toLocaleString("en-IN")}/hr` : "Contact the venue to confirm pricing"}. View details on KhelGrid.`;
 
   const handleShare = async () => {
     const shareUrl = getShareUrl();
@@ -405,45 +405,20 @@ export function VenueDetails({
         variant="carousel-bar"
       />
 
-      {/* Customer Feedback & User Reviews Spotlight Bar (under image carousel) */}
+      {/* Only show rating summaries when real review counts are present. */}
       <div
         id="venue-carousel-reviews-spotlight-bar"
         className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 bg-muted/30 border-b border-border/60 text-xs"
       >
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-          <div className="flex items-center gap-1.5 font-bold text-foreground bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md">
-            <div className="flex items-center text-amber-500">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star
-                  key={i}
-                  className={`h-3.5 w-3.5 ${
-                    i <= Math.round(venue.rating || 4.8)
-                      ? "fill-amber-400 text-amber-400"
-                      : "text-muted-foreground/30"
-                  }`}
-                />
-              ))}
-            </div>
-            <span>{(venue.rating || 4.8).toFixed(1)} / 5.0</span>
+        {venue.reviews_count && venue.reviews_count > 0 ? (
+          <div className="flex items-center gap-2 font-semibold text-foreground">
+            <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+            <span>{Number(venue.rating || 0).toFixed(1)} / 5.0</span>
+            <span className="text-muted-foreground">({venue.reviews_count} reviews)</span>
           </div>
-          <span className="text-muted-foreground hidden sm:inline">•</span>
-          <span className="text-muted-foreground font-medium">
-            {venue.reviews_count || 48} Verified Player Ratings & Customer Testimonials
-          </span>
-          <span className="text-muted-foreground hidden md:inline">•</span>
-          <span className="text-emerald-700 dark:text-emerald-400 font-medium hidden md:inline-flex items-center gap-1">
-            <CheckCircle2 className="h-3 w-3" /> 100% Genuine Venue Bookings
-          </span>
-        </div>
-
-        <a
-          id="venue-jump-to-reviews-link"
-          href="#venue-user-reviews-section"
-          className="inline-flex items-center gap-1 text-primary hover:underline font-semibold"
-        >
-          <span>Read User Reviews</span>
-          <ChevronDown className="h-3.5 w-3.5" />
-        </a>
+        ) : (
+          <span className="text-muted-foreground">No verified reviews yet</span>
+        )}
       </div>
 
       {/* Main Grid: Content Details & Booking Panel */}
@@ -775,65 +750,37 @@ export function VenueDetails({
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Phone */}
-              <div className="flex items-center justify-between p-2.5 rounded-lg bg-muted/40 border border-border/50 text-sm">
-                <div className="flex items-center gap-2 min-w-0">
-                  <Phone className="h-4 w-4 text-muted-foreground shrink-0" />
-                  <a
-                    id="venue-contact-phone-link"
-                    href={`tel:${venue.contact_phone}`}
-                    className="truncate hover:text-primary font-medium hover:underline"
-                  >
-                    {venue.contact_phone || "Contact via desk"}
-                  </a>
-                </div>
-                {venue.contact_phone && (
-                  <Button
-                    id="venue-copy-phone-btn"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => copyToClipboard(venue.contact_phone!, "phone number")}
-                    className="h-7 w-7 text-muted-foreground shrink-0"
-                    title="Copy phone"
-                  >
-                    {copiedField === "phone number" ? (
-                      <Check className="h-3.5 w-3.5 text-emerald-500" />
-                    ) : (
-                      <Copy className="h-3.5 w-3.5" />
-                    )}
+              {venue.contact_phone && (
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-muted/40 border border-border/50 text-sm">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Phone className="h-4 w-4 text-muted-foreground shrink-0" />
+                    <a id="venue-contact-phone-link" href={`tel:${venue.contact_phone}`} className="truncate hover:text-primary font-medium hover:underline">
+                      {venue.contact_phone}
+                    </a>
+                  </div>
+                  <Button id="venue-copy-phone-btn" variant="ghost" size="icon" onClick={() => copyToClipboard(venue.contact_phone!, "phone number")} className="h-7 w-7 text-muted-foreground shrink-0" title="Copy phone">
+                    {copiedField === "phone number" ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
                   </Button>
-                )}
-              </div>
-
-              {/* Email */}
-              <div className="flex items-center justify-between p-2.5 rounded-lg bg-muted/40 border border-border/50 text-sm">
-                <div className="flex items-center gap-2 min-w-0">
-                  <Mail className="h-4 w-4 text-muted-foreground shrink-0" />
-                  <a
-                    id="venue-contact-email-link"
-                    href={`mailto:${venue.contact_email}`}
-                    className="truncate hover:text-primary font-medium hover:underline"
-                  >
-                    {venue.contact_email || "desk@khelgrid.com"}
-                  </a>
                 </div>
-                {venue.contact_email && (
-                  <Button
-                    id="venue-copy-email-btn"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => copyToClipboard(venue.contact_email!, "email address")}
-                    className="h-7 w-7 text-muted-foreground shrink-0"
-                    title="Copy email"
-                  >
-                    {copiedField === "email address" ? (
-                      <Check className="h-3.5 w-3.5 text-emerald-500" />
-                    ) : (
-                      <Copy className="h-3.5 w-3.5" />
-                    )}
+              )}
+              {venue.contact_email && (
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-muted/40 border border-border/50 text-sm">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Mail className="h-4 w-4 text-muted-foreground shrink-0" />
+                    <a id="venue-contact-email-link" href={`mailto:${venue.contact_email}`} className="truncate hover:text-primary font-medium hover:underline">
+                      {venue.contact_email}
+                    </a>
+                  </div>
+                  <Button id="venue-copy-email-btn" variant="ghost" size="icon" onClick={() => copyToClipboard(venue.contact_email!, "email address")} className="h-7 w-7 text-muted-foreground shrink-0" title="Copy email">
+                    {copiedField === "email address" ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
                   </Button>
-                )}
-              </div>
+                </div>
+              )}
+              {!venue.contact_phone && !venue.contact_email && (
+                <p className="text-sm text-muted-foreground sm:col-span-2">
+                  This venue has not provided public contact details yet. Please check the venue website or map listing before visiting.
+                </p>
+              )}
             </div>
           </div>
 
@@ -844,19 +791,24 @@ export function VenueDetails({
           <div className="flex items-center gap-2 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 text-xs">
             <Clock className="h-4 w-4 shrink-0" />
             <span>
-              Standard Operating Hours: <strong>6:00 AM – 11:00 PM</strong> daily. Light surcharge
-              applicable for night slots after 7:00 PM.
+              Confirm the venue’s current operating hours and any evening or weekend surcharges directly before booking.
             </span>
           </div>
 
-          {/* User Reviews Section with Star Rating System & Customer Feedback Testimonials */}
-          <VenueReviews
-            venueId={venue.id}
-            venueName={venue.name}
-            sports={venue.sports}
-            initialRating={venue.rating || 4.8}
-            initialReviewsCount={venue.reviews_count || 48}
-          />
+          {/* Review widgets are hidden until real review data is available. */}
+          {venue.reviews_count && venue.reviews_count > 0 ? (
+            <VenueReviews
+              venueId={venue.id}
+              venueName={venue.name}
+              sports={venue.sports}
+              initialRating={venue.rating || 0}
+              initialReviewsCount={venue.reviews_count}
+            />
+          ) : (
+            <div className="rounded-xl border border-dashed border-border p-4 text-sm text-muted-foreground">
+              Reviews will appear here when verified player feedback is available.
+            </div>
+          )}
         </div>
 
         {/* Right Column: Sticky Booking Card */}
