@@ -231,7 +231,7 @@ export function FeaturesSidebar() {
         aria-label="Features and Services Sidebar"
         className={cn(
           "sticky top-16 hidden h-[calc(100dvh-4rem)] shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] duration-200 ease-in-out motion-reduce:transition-none dark:border-slate-800 dark:bg-slate-950 lg:flex",
-          collapsed ? "w-[4.25rem]" : "w-[15.5rem] xl:w-64",
+          collapsed ? "w-[4.25rem]" : "w-64",
         )}
       >
         {/* Top Header — one clear, keyboard-accessible collapse control */}
