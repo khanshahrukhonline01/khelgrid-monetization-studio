@@ -54,6 +54,10 @@ export const Route = createFileRoute("/venue/$id")({
               featured: Boolean(data.featured),
               bookable: Boolean(data.bookable),
               image: data.image_url ?? "",
+              address: data.address ?? undefined,
+              amenities: data.amenities ?? [],
+              contactPhone: data.contact_phone ?? undefined,
+              contactEmail: data.contact_email ?? undefined,
             } satisfies Venue,
             notExact: false,
           };
