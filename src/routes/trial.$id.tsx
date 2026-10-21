@@ -101,11 +101,9 @@ function TrialDetailPage() {
     const toIso = (day: string) =>
       `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(Number(day)).padStart(2, "0")}T08:00:00+05:30`;
     const startDate = toIso(firstDate[2]);
-    const afterFirstDate = text.slice((firstDate.index ?? 0) + firstDate[0].length);
-    const rangeMatch = afterFirstDate.match(/^\\s*(?:-|–|to|,|&|and)\\s*(\\d{1,2})(?:st|nd|rd|th)?/i);
-    const endDate = rangeMatch ? toIso(rangeMatch[1]) : undefined;
-    if (Number.isNaN(Date.parse(startDate)) || (endDate && Number.isNaN(Date.parse(endDate)))) return {};
-    return { startDate, endDate };
+    if (Number.isNaN(Date.parse(startDate))) return {};
+    // Do not infer an end date from loosely formatted multi-day ranges.
+    return { startDate };
   };
   const parsedTrialDates = parseTrialDates(trial.date);
   const hasEventLocation = Boolean(trial.venue?.trim() || trial.city?.trim());
