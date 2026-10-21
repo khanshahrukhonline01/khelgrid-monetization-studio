@@ -872,12 +872,12 @@ export function VenueDetails({
                 </div>
                 <div className="flex justify-between text-muted-foreground">
                   <span>Slot price</span>
-                  <span>₹{venue.price_per_hour.toLocaleString("en-IN")}</span>
+                  <span>{venue.price_per_hour > 0 ? `₹${venue.price_per_hour.toLocaleString("en-IN")}` : "Not provided"}</span>
                 </div>
                 <div className="flex justify-between font-semibold text-foreground pt-1 border-t border-border/40">
                   <span>Estimated Total</span>
                   <span className="text-primary font-bold">
-                    ₹{venue.price_per_hour.toLocaleString("en-IN")}
+                    {venue.price_per_hour > 0 ? `₹${venue.price_per_hour.toLocaleString("en-IN")}` : "Contact venue"}
                   </span>
                 </div>
               </div>
