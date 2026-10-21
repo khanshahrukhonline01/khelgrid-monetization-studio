@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Building2 } from "lucide-react";
+import { ArrowLeft, Building2, MapPin, ArrowRight, Trophy } from "lucide-react";
 import { VENUES, type Venue } from "@/data/khelgrid";
 import { VenueDetails } from "@/components/VenueDetails";
 import { toast } from "sonner";
@@ -15,7 +15,16 @@ export const Route = createFileRoute("/venue/$id")({
         v.id.toLowerCase() === key ||
         v.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") === key,
     );
-    if (seededVenue) return { venue: seededVenue, notExact: false };
+    if (seededVenue) {
+      const relatedVenues = VENUES
+        .filter((candidate) =>
+          candidate.id !== seededVenue.id &&
+          candidate.city.toLowerCase() === seededVenue.city.toLowerCase() &&
+          candidate.sports.some((sport) => seededVenue.sports.some((current) => current.toLowerCase() === sport.toLowerCase())),
+        )
+        .slice(0, 3);
+      return { venue: seededVenue, relatedVenues, notExact: false };
+    }
 
     if (isSupabaseConfigured) {
       try {
@@ -40,6 +49,35 @@ export const Route = createFileRoute("/venue/$id")({
         }
 
         if (!error && data) {
+          const relatedResult = await supabase
+            .from("venues")
+            .select("id, name, area, city, sports, price_per_hour, image_url, bookable")
+            .is("deleted_at", null)
+            .eq("bookable", true)
+            .eq("city", data.city)
+            .neq("id", data.id)
+            .limit(12);
+          const relatedVenues = (relatedResult.data ?? [])
+            .filter((candidate) =>
+              (candidate.sports ?? []).some((sport: string) =>
+                (data.sports ?? []).some((current: string) => current.toLowerCase() === sport.toLowerCase()),
+              ),
+            )
+            .slice(0, 3)
+            .map((candidate) => ({
+              id: candidate.id,
+              name: candidate.name,
+              area: candidate.area ?? "",
+              city: candidate.city ?? "",
+              distanceKm: 0,
+              rating: 0,
+              reviews: 0,
+              sports: candidate.sports ?? [],
+              pricePerHour: Number(candidate.price_per_hour ?? 0),
+              featured: false,
+              bookable: Boolean(candidate.bookable),
+              image: candidate.image_url ?? "",
+            } satisfies Venue));
           return {
             venue: {
               id: data.id,
@@ -59,6 +97,7 @@ export const Route = createFileRoute("/venue/$id")({
               contactPhone: data.contact_phone ?? undefined,
               contactEmail: data.contact_email ?? undefined,
             } satisfies Venue,
+            relatedVenues,
             notExact: false,
           };
         }
@@ -110,7 +149,7 @@ export const Route = createFileRoute("/venue/$id")({
 });
 
 function VenueDetailPage() {
-  const { venue } = Route.useLoaderData();
+  const { venue, relatedVenues = [] } = Route.useLoaderData();
   const navigate = useNavigate();
 
   return (
@@ -146,6 +185,52 @@ function VenueDetailPage() {
             }}
           />
         </div>
+
+        {relatedVenues.length > 0 && (
+          <section aria-labelledby="related-venues-heading" className="mt-8">
+            <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-primary">Keep playing</p>
+                <h2 id="related-venues-heading" className="mt-1 text-xl font-bold sm:text-2xl">Similar venues nearby</h2>
+                <p className="mt-1 text-sm text-muted-foreground">More places in {venue.city} offering one or more of the same sports.</p>
+              </div>
+              <Link to="/book" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                Browse all venues <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedVenues.map((related) => (
+                <a
+                  key={related.id}
+                  href={`/venue/${related.id}`}
+                  className="group flex min-w-0 overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50 hover:bg-muted/30"
+                >
+                  {related.image ? (
+                    <img src={related.image} alt="" loading="lazy" className="h-28 w-24 shrink-0 object-cover sm:h-32 sm:w-28" />
+                  ) : (
+                    <div className="flex h-28 w-24 shrink-0 items-center justify-center bg-primary/10 text-primary sm:h-32 sm:w-28">
+                      <Building2 className="h-7 w-7" />
+                    </div>
+                  )}
+                  <div className="flex min-w-0 flex-1 flex-col justify-center gap-1.5 p-3">
+                    <h3 className="line-clamp-2 font-semibold leading-snug group-hover:text-primary">{related.name}</h3>
+                    <p className="flex items-start gap-1 text-xs text-muted-foreground">
+                      <MapPin className="mt-0.5 h-3 w-3 shrink-0" />
+                      <span className="line-clamp-1">{related.area ? `${related.area}, ${related.city}` : related.city}</span>
+                    </p>
+                    <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Trophy className="h-3 w-3 shrink-0" />
+                      <span className="line-clamp-1">{related.sports.slice(0, 2).join(" · ") || "Sports facility"}</span>
+                    </p>
+                    <p className="text-sm font-bold text-primary">
+                      {related.pricePerHour > 0 ? `₹${related.pricePerHour.toLocaleString("en-IN")}/hr` : "Contact for price"}
+                    </p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
