@@ -416,7 +416,7 @@ export function LiveScoresPage() {
       {/* Horizontal sports selector sits directly below the global top navigation. */}
       <nav aria-label="Browse live sports" className="w-full border-b border-border/70 bg-background/95">
         <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-1.5 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="list">
+          <div className="flex items-center gap-1.5 overflow-x-auto overscroll-x-contain py-2 px-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory sm:py-2.5" role="list">
             {LIVE_PAGE_SPORTS.map((sport) => {
               const isSelected = selectedPageSport === sport.name;
               return (
@@ -425,13 +425,14 @@ export function LiveScoresPage() {
                   type="button"
                   aria-pressed={isSelected}
                   onClick={() => {
-                    setSelectedPageSport(sport.name);
-                    if (sport.name !== "All Sports" && sport.name !== "Cricket") {
-                      toast.info(`More ${sport.name.toLowerCase()} live-score coverage is coming soon.`);
+                    if (sport.name === "All Sports" || sport.name === "Cricket") {
+                      setSelectedPageSport(sport.name);
+                      return;
                     }
+                    toast.info(`More ${sport.name.toLowerCase()} live-score coverage is coming soon.`);
                   }}
                   className={cn(
-                    "flex shrink-0 min-w-[70px] flex-col items-center justify-center gap-1 rounded-xl px-3 py-2 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                    "flex shrink-0 min-w-[68px] snap-start flex-col items-center justify-center gap-1 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-w-[76px] sm:px-3 sm:py-2 sm:text-xs",
                     isSelected
                       ? "bg-emerald-600/10 text-emerald-700 ring-1 ring-emerald-600/25 dark:text-emerald-400"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -446,9 +447,9 @@ export function LiveScoresPage() {
         </div>
       </nav>
 
-      <div className="mx-auto w-full min-w-0 max-w-7xl px-3 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
+      <div className="mx-auto w-full min-w-0 max-w-7xl space-y-4 px-3 sm:space-y-6 sm:px-6 lg:px-8">
         {/* 1. HERO & REAL-TIME STATUS COMMAND BAR */}
-        <div className="relative overflow-hidden rounded-3xl border border-border/80 bg-gradient-to-br from-card via-card/95 to-background p-4 sm:p-7 shadow-xs">
+        <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-card via-card/95 to-background p-4 shadow-xs sm:rounded-3xl sm:p-6 lg:p-7">
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
           <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
 
@@ -468,7 +469,7 @@ export function LiveScoresPage() {
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
+              <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                 Real-Time Live Cricket Scores
               </h1>
               <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl">
@@ -587,13 +588,13 @@ export function LiveScoresPage() {
         </div>
 
         {/* 2. TOP SEARCH BAR: FILTER CRICKET MATCHES BY TEAM OR TOURNAMENT */}
-        <div className="rounded-3xl border border-border/80 bg-card p-4 sm:p-5 shadow-xs space-y-3">
+        <div className="space-y-3 rounded-2xl border border-border/80 bg-card p-3.5 shadow-xs sm:rounded-3xl sm:p-5">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
             <div className="relative flex-1">
               <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search matches by team names (e.g. India, West Indies, South Africa, Australia, RCB, MI) or tournament..."
+                placeholder="Search teams, tournaments or matches…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-11 rounded-2xl pl-10 pr-9 text-xs sm:text-sm bg-background/80 border-border/80 shadow-xs focus-visible:ring-primary"
@@ -623,7 +624,7 @@ export function LiveScoresPage() {
           </div>
 
           {/* Quick Filter Chips for Cricket Tournaments */}
-          <div className="flex flex-wrap items-center gap-1.5 pt-0.5 text-xs">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
             <span className="text-[11px] font-semibold text-muted-foreground mr-1">
               Quick Filters:
             </span>
@@ -714,9 +715,9 @@ export function LiveScoresPage() {
           </div>
 
           {/* 3. SUB-FILTER BAR: STATUS + SEARCH + VIEW MODE */}
-          <div className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-card/60 p-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-2 rounded-2xl border border-border/70 bg-card/60 p-2.5 sm:flex-row sm:items-center sm:justify-between sm:p-3">
             {/* Status Tabs */}
-            <div className="flex flex-wrap items-center gap-1.5">
+            <div className="flex items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
               {(
                 [
                   { id: "ALL", label: "All Matches" },
@@ -749,30 +750,8 @@ export function LiveScoresPage() {
               })}
             </div>
 
-            {/* Search & View Switcher */}
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1 sm:w-56">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Filter team, event, city..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="h-8.5 rounded-xl pl-8 pr-7 text-xs bg-background/80 border-border/80"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5"
-                    aria-label="Clear search"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                )}
-              </div>
-
-              {/* View Grid/List toggle */}
+            {/* View mode toggle; search is kept in one place above to avoid duplicate controls. */}
+            <div className="flex items-center justify-end gap-2">
               <div className="flex items-center rounded-xl border border-border/80 bg-background/80 p-0.5">
                 <button
                   type="button"
