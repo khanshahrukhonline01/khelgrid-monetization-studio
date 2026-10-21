@@ -146,9 +146,13 @@ export function NavDrawer() {
         <SheetHeader className="border-b border-slate-100 px-5 pr-14 py-4 text-left dark:border-slate-800">
           <SheetTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="grid h-9 w-9 place-items-center rounded-xl bg-lime-300 text-slate-950 shadow-sm">
-                <Trophy className="h-4 w-4" />
-              </div>
+              <img
+                src="/favicon-96x96.png"
+                alt="KhelGrid logo"
+                width={36}
+                height={36}
+                className="h-9 w-9 shrink-0 rounded-xl object-contain"
+              />
               <span className="text-lg font-bold tracking-tight">
                 Khel<span className="text-primary">Grid</span>
               </span>
