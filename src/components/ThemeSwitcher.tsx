@@ -17,10 +17,10 @@ export function ThemeSwitcher({
 }: ThemeSwitcherProps) {
   const { theme, resolvedTheme, setTheme, toggleTheme, mounted } = useTheme();
 
-  // Prior to client mount, rely on consistent initial "dark" theme to guarantee
+  // Prior to client mount, rely on consistent initial "light" theme to guarantee
   // that server-rendered HTML and client hydration DOM match bit-for-bit.
-  const activeResolvedTheme = mounted ? resolvedTheme : "dark";
-  const activeTheme = mounted ? theme : "dark";
+  const activeResolvedTheme = mounted ? resolvedTheme : "light";
+  const activeTheme = mounted ? theme : "light";
 
   if (variant === "segmented") {
     const options: { value: Theme; label: string; icon: React.ElementType }[] = [
