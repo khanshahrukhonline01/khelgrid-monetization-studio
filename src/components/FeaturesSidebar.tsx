@@ -139,17 +139,14 @@ export function FeaturesSidebar() {
     });
   };
 
-  // Initialize collapse preference from localStorage or screen width (default compact on lg, expanded on xl)
+  // Keep the sidebar state consistent across routes and devices.
+  // Respect an explicit user preference; otherwise start expanded.
   useEffect(() => {
     try {
       const saved = localStorage.getItem("khelgrid_sidebar_collapsed");
-      if (saved !== null) {
-        setCollapsed(saved === "true");
-      } else if (typeof window !== "undefined" && window.innerWidth < 1280) {
-        setCollapsed(true);
-      }
-    } catch (e) {
-      void e;
+      if (saved !== null) setCollapsed(saved === "true");
+    } catch {
+      // Storage may be unavailable in private browsing; the default remains expanded.
     }
   }, []);
 
