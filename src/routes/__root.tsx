@@ -97,7 +97,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#0a0a0a" },
+      { name: "theme-color", content: "#ffffff" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
@@ -313,12 +313,12 @@ function RootShell({ children }: { children: ReactNode }) {
     "G-BETWHB02PX";
 
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
+    <html lang="en" className="light" style={{ colorScheme: "light" }} suppressHydrationWarning>
       <head suppressHydrationWarning>
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('khelgrid-theme')||localStorage.getItem('theme')||'dark';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(!d){document.documentElement.classList.remove('dark');document.documentElement.classList.add('light');document.documentElement.style.colorScheme='light';}else{document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){};try{if(typeof window!=='undefined'){window.onerror=function(msg,url){if(msg==='Script error.'||!url||(typeof msg==='string'&&msg.indexOf('Script error')!==-1)){return true;}};window.addEventListener('error',function(e){if(e.message==='Script error.'||(e.filename&&(e.filename.indexOf('googletagmanager')!==-1||e.filename.indexOf('google')!==-1||e.filename.indexOf('doubleclick')!==-1))){if(typeof e.stopImmediatePropagation==='function')e.stopImmediatePropagation();if(typeof e.preventDefault==='function')e.preventDefault();}},true);if(!window.process){window.process={env:{NODE_ENV:'development'}}};window.addEventListener('vite:preloadError',function(){window.location.reload();});}}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('khelgrid-theme')||localStorage.getItem('theme')||'light';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(!d){document.documentElement.classList.remove('dark');document.documentElement.classList.add('light');document.documentElement.style.colorScheme='light';}else{document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){};try{if(typeof window!=='undefined'){window.onerror=function(msg,url){if(msg==='Script error.'||!url||(typeof msg==='string'&&msg.indexOf('Script error')!==-1)){return true;}};window.addEventListener('error',function(e){if(e.message==='Script error.'||(e.filename&&(e.filename.indexOf('googletagmanager')!==-1||e.filename.indexOf('google')!==-1||e.filename.indexOf('doubleclick')!==-1))){if(typeof e.stopImmediatePropagation==='function')e.stopImmediatePropagation();if(typeof e.preventDefault==='function')e.preventDefault();}},true);if(!window.process){window.process={env:{NODE_ENV:'development'}}};window.addEventListener('vite:preloadError',function(){window.location.reload();});}}catch(e){}})()`,
           }}
         />
         {/* Official Google Tag (gtag.js) for GA4 measurement - G-BETWHB02PX only */}
