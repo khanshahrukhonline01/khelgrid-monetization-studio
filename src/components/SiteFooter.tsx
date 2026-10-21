@@ -83,6 +83,7 @@ const COLUMNS: Array<{ title: string; items: ReturnType<typeof pick> }> = [
     items: pick([
       "/academy",
       "/partner",
+      "/list-venue",
       "/careers",
       "/pricing",
       "/community",
