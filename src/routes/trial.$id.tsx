@@ -98,10 +98,14 @@ function TrialDetailPage() {
     }
     const monthIndex = new Date(`${match[1]} 1, 2000`).getMonth();
     if (!Number.isFinite(monthIndex)) return {};
+    const year = match[2];
+    const firstDayMatch = text.match(new RegExp(`\\\\b${match[1]}\\\\.?\\\\s+(\\\\d{1,2})(?:st|nd|rd|th)?`, "i"));
+    if (!firstDayMatch) return {};
     const toIso = (day: string) =>
-      `${match[4]}-${String(monthIndex + 1).padStart(2, "0")}-${String(Number(day)).padStart(2, "0")}T08:00:00+05:30`;
-    const startDate = toIso(match[2]);
-    const endDate = match[3] ? toIso(match[3]) : undefined;
+      `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(Number(day)).padStart(2, "0")}T08:00:00+05:30`;
+    const startDate = toIso(firstDayMatch[1]);
+    const rangeMatch = text.match(new RegExp(`\\\\b${match[1]}\\\\.?\\\\s+\\\\d{1,2}\\\\s*(?:-|–|to|,|&|and)\\\\s*(\\\\d{1,2})(?:st|nd|rd|th)?[\\\\s\\\\S]{0,20}\\\\b${year}\\\\b`, "i"));
+    const endDate = rangeMatch ? toIso(rangeMatch[1]) : undefined;
     if (Number.isNaN(Date.parse(startDate)) || (endDate && Number.isNaN(Date.parse(endDate)))) return {};
     return { startDate, endDate };
   };
