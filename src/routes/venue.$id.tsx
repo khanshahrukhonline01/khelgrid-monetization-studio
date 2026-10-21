@@ -188,7 +188,7 @@ function VenueDetailPage() {
           />
         </div>
 
-        {liveAvailability && <VenueAvailabilityPreview venueId={venue.id} pricePerHour={venue.pricePerHour} />}
+        {liveAvailability && <VenueAvailabilityPreview venueId={venue.id} pricePerHour={venue.pricePerHour} contactPhone={venue.contactPhone} contactEmail={venue.contactEmail} />}
 
         {relatedVenues.length > 0 && (
           <section aria-labelledby="related-venues-heading" className="mt-8">
