@@ -46,6 +46,37 @@ import {
   type VenueRulesRestrictionsData,
 } from "@/components/VenuePoliciesAccordion";
 import { VenueAmenitiesList, type AmenityConfig } from "@/components/VenueAmenitiesList";
+// Small, consistent sport-specific symbols used on every dedicated venue page.
+const getSportIcon = (sport: string): string => {
+  const value = sport.toLowerCase();
+  if (/cricket/.test(value)) return "🏏";
+  if (/football|soccer|futsal/.test(value)) return "⚽";
+  if (/basketball/.test(value)) return "🏀";
+  if (/tennis/.test(value) && /table/.test(value)) return "🏓";
+  if (/tennis/.test(value)) return "🎾";
+  if (/badminton/.test(value)) return "🏸";
+  if (/volleyball/.test(value)) return "🏐";
+  if (/hockey/.test(value)) return "🏑";
+  if (/swim|aquatic/.test(value)) return "🏊";
+  if (/athletic|running|track|marathon/.test(value)) return "🏃";
+  if (/gym|fitness|weight|strength|bodybuilding/.test(value)) return "🏋️";
+  if (/boxing/.test(value)) return "🥊";
+  if (/wrestling|kabaddi/.test(value)) return "🤼";
+  if (/martial|karate|judo|taekwondo|kung fu/.test(value)) return "🥋";
+  if (/golf/.test(value)) return "⛳";
+  if (/cycling|bmx/.test(value)) return "🚴";
+  if (/rugby/.test(value)) return "🏉";
+  if (/table tennis|ping.?pong/.test(value)) return "🏓";
+  if (/skating|skateboard/.test(value)) return "🛹";
+  if (/archery/.test(value)) return "🏹";
+  if (/badminton/.test(value)) return "🏸";
+  if (/yoga/.test(value)) return "🧘";
+  if (/squash/.test(value)) return "🎾";
+  if (/kho.?kho/.test(value)) return "🏃";
+  if (/multi.?sport|sports turf/.test(value)) return "🏟️";
+  return "🏅";
+};
+
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { createVenueBooking } from "@/lib/booking-service";
 import {
@@ -598,9 +629,11 @@ export function VenueDetails({
               {venue.sports.map((sport) => (
                 <span
                   key={sport}
-                  className="px-3 py-1 rounded-lg bg-primary/10 text-primary border border-primary/20 text-xs font-semibold"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary"
+                  title={sport}
                 >
-                  {sport}
+                  <span aria-hidden="true" className="text-base leading-none">{getSportIcon(sport)}</span>
+                  <span>{sport}</span>
                 </span>
               ))}
             </div>
