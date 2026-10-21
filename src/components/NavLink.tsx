@@ -30,17 +30,17 @@ export function NavLink({ item, active, source, showLabel = true, className }: N
       aria-current={active ? "page" : undefined}
       onClick={onClick}
       className={cn(
-        "flex items-center gap-3 rounded-lg px-3 py-3.5 text-sm transition-colors sm:py-2.5",
+        "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium transition-all duration-150 sm:py-2.5",
         "outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         !showLabel && "justify-center px-0",
         active
-          ? "bg-secondary text-foreground hover:bg-secondary"
-          : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+          ? "bg-emerald-100 text-slate-900 shadow-sm hover:bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-50 dark:hover:bg-emerald-950/60"
+          : "text-slate-600 hover:bg-emerald-50 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-emerald-950/35 dark:hover:text-white",
         className,
       )}
     >
       <span className="relative flex shrink-0 items-center justify-center">
-        <item.icon className={cn("h-4 w-4 shrink-0", active && "text-primary")} />
+        <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-emerald-700 dark:text-emerald-300" : "text-slate-500 group-hover:text-emerald-700 dark:text-slate-400 dark:group-hover:text-emerald-300")} />
         {item.label === "Live Scores" && !showLabel && (
           <span className="absolute -top-1 -right-1 flex h-2 w-2" aria-hidden="true">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
