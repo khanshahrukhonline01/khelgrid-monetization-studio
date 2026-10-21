@@ -133,69 +133,6 @@ export function SiteFooter() {
         </div>
       </section>
 
-      {/* Link columns */}
-      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_repeat(4,1fr)]">
-          <div>
-            <Link to="/" className="font-heading text-xl font-extrabold text-gradient">
-              KhelGrid
-            </Link>
-            <p className="mt-3 text-sm text-muted-foreground">
-              India&apos;s grid for sports trials, venues, coaching and verified athlete profiles.
-            </p>
-            <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4 shrink-0" /> India · 16 cities in the current grid
-            </p>
-            <a
-              href="mailto:khelgrid@gmail.com"
-              className="mt-2 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-            >
-              <Mail className="h-4 w-4 shrink-0" /> khelgrid@gmail.com
-            </a>
-
-            <Link
-              to="/pricing"
-              className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
-            >
-              <Zap className="h-4 w-4" /> Go Pro — ₹499/mo
-            </Link>
-
-            <div className="mt-5 flex gap-2">
-              {SOCIALS.map(({ label, href, icon: Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={label}
-                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:text-foreground"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {COLUMNS.map((col) => (
-            <nav key={col.title} aria-label={col.title}>
-              <h3 className="font-heading text-sm font-semibold">{col.title}</h3>
-              <ul className="mt-3 space-y-2">
-                {col.items.map((item) => (
-                  <li key={item.to}>
-                    <Link
-                      to={item.to}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
-        </div>
-      </div>
-
       {/* Game, Sport & Play Across India Directory */}
       <section className="border-t border-border bg-card/60 py-8">
         <div className="mx-auto max-w-7xl px-4 md:px-6 space-y-4">
@@ -852,6 +789,69 @@ export function SiteFooter() {
           </p>
         </div>
       </section>
+
+      {/* Link columns */}
+      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_repeat(4,1fr)]">
+          <div>
+            <Link to="/" className="font-heading text-xl font-extrabold text-gradient">
+              KhelGrid
+            </Link>
+            <p className="mt-3 text-sm text-muted-foreground">
+              India&apos;s grid for sports trials, venues, coaching and verified athlete profiles.
+            </p>
+            <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 shrink-0" /> India · 16 cities in the current grid
+            </p>
+            <a
+              href="mailto:khelgrid@gmail.com"
+              className="mt-2 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+            >
+              <Mail className="h-4 w-4 shrink-0" /> khelgrid@gmail.com
+            </a>
+
+            <Link
+              to="/pricing"
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            >
+              <Zap className="h-4 w-4" /> Go Pro — ₹499/mo
+            </Link>
+
+            <div className="mt-5 flex gap-2">
+              {SOCIALS.map(({ label, href, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={label}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted-foreground hover:text-foreground"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {COLUMNS.map((col) => (
+            <nav key={col.title} aria-label={col.title}>
+              <h3 className="font-heading text-sm font-semibold">{col.title}</h3>
+              <ul className="mt-3 space-y-2">
+                {col.items.map((item) => (
+                  <li key={item.to}>
+                    <Link
+                      to={item.to}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+      </div>
 
       {/* IPR, AI & Copyright Footbar Strip (Ultra-Compact) */}
       <section className="border-t border-border bg-muted/15 py-3">
