@@ -93,11 +93,13 @@ function Home() {
   return (
     <div className="w-full min-w-0 max-w-full flex-1 pb-10 sm:pb-16">
       <div className="mx-auto w-full min-w-0 max-w-7xl px-3 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
-        {/* 1. App Header Greeting, City Switcher, Quick Search & PWA Install Bar */}
-        <AppHeaderBanner selectedCity={selectedCity} onSelectCity={handleSelectCity} />
+        {/* 1. Touch-First Horizontal Sport Selector — immediately below the top navigation */}
+        <div className="-mx-3 sm:-mx-6 lg:-mx-8 mb-1 border-y border-border/60 bg-background/95 px-3 py-2 sm:px-6 lg:px-8">
+          <SportCategoryPills selectedSport={selectedSport} onSelectSport={setSelectedSport} />
+        </div>
 
-        {/* 2. Touch-First Horizontal Sport Selector */}
-        <SportCategoryPills selectedSport={selectedSport} onSelectSport={setSelectedSport} />
+        {/* 2. App Header Greeting, City Switcher, Quick Search & PWA Install Bar */}
+        <AppHeaderBanner selectedCity={selectedCity} onSelectCity={handleSelectCity} />
 
         {/* 3. App Launchpad: 6 Iconic Touch-Friendly Tiles */}
         <AppLaunchpad />
