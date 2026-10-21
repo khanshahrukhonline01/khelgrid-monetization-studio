@@ -141,12 +141,12 @@ export function NavDrawer() {
       </SheetTrigger>
       <SheetContent
         side="left"
-        className="flex h-[100dvh] max-h-[100dvh] w-[88vw] max-w-sm sm:max-w-md flex-col gap-0 overflow-hidden p-0 pb-[env(safe-area-inset-bottom,16px)]"
+        className="flex h-[100dvh] max-h-[100dvh] w-[86vw] max-w-[19rem] flex-col gap-0 overflow-hidden border-r border-slate-200 bg-white p-0 pb-[env(safe-area-inset-bottom,16px)] dark:border-slate-800 dark:bg-slate-950 sm:max-w-sm"
       >
-        <SheetHeader className="border-b border-border/60 px-5 pr-14 py-4 text-left">
+        <SheetHeader className="border-b border-slate-100 px-5 pr-14 py-4 text-left dark:border-slate-800">
           <SheetTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-hero text-primary-foreground shadow-xs">
+              <div className="grid h-9 w-9 place-items-center rounded-xl bg-lime-300 text-slate-950 shadow-sm">
                 <Trophy className="h-4 w-4" />
               </div>
               <span className="text-lg font-bold tracking-tight">
@@ -162,7 +162,7 @@ export function NavDrawer() {
         </SheetHeader>
 
         {/* Athlete Account Strip */}
-        <div className="border-b border-border/60 bg-card/40 px-5 py-3.5">
+        <div className="border-b border-slate-100 bg-slate-50/70 px-5 py-3.5 dark:border-slate-800 dark:bg-slate-900/40">
           <div className="flex items-center justify-between gap-3">
             <Link
               to={
@@ -297,8 +297,8 @@ export function NavDrawer() {
                     className={cn(
                       "shrink-0 rounded-full px-2.5 py-1 text-xs font-medium transition-colors cursor-pointer",
                       isSelected
-                        ? "bg-primary text-primary-foreground font-semibold shadow-xs"
-                        : "bg-secondary/70 text-muted-foreground hover:text-foreground hover:bg-secondary",
+                        ? "bg-emerald-700 text-white font-semibold shadow-sm"
+                        : "bg-slate-100 text-slate-600 hover:text-slate-950 hover:bg-emerald-50 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-emerald-950/40",
                     )}
                   >
                     {cat.shortLabel}
@@ -444,7 +444,7 @@ export function NavDrawer() {
         </div>
 
         {/* Sticky Drawer Footer */}
-        <div className="sticky bottom-0 space-y-2.5 border-t border-border/60 bg-background/95 p-4 backdrop-blur-xl">
+        <div className="sticky bottom-0 space-y-2.5 border-t border-slate-100 bg-white/95 p-4 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95">
           {/* Theme & Language Bar */}
           <div className="flex items-center justify-between px-1 pb-1">
             <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
