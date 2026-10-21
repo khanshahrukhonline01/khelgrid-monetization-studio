@@ -750,30 +750,8 @@ export function LiveScoresPage() {
               })}
             </div>
 
-            {/* Search & View Switcher */}
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1 sm:w-56">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Filter team, event, city..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="h-8.5 rounded-xl pl-8 pr-7 text-xs bg-background/80 border-border/80"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5"
-                    aria-label="Clear search"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                )}
-              </div>
-
-              {/* View Grid/List toggle */}
+            {/* View mode toggle; search is kept in one place above to avoid duplicate controls. */}
+            <div className="flex items-center justify-end gap-2">
               <div className="flex items-center rounded-xl border border-border/80 bg-background/80 p-0.5">
                 <button
                   type="button"
