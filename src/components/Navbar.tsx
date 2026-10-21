@@ -87,7 +87,7 @@ export function Navbar() {
   const path = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 shadow-sm backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-2 px-3 sm:h-16 sm:gap-4 sm:px-4">
         {/* Mobile: drawer */}
         <div className="lg:hidden">
@@ -100,7 +100,7 @@ export function Navbar() {
           title="KhelGrid Home"
         >
           <img
-            src="https://cdn.builder.io/api/v1/image/assets%2Fbb0e1ceb11294a31a719df6ba93a7331%2Fc8513d4ae3bd4939b4defe6841f88dd7?format=webp&width=800&height=1200"
+            src="/favicon-96x96.png"
             alt="KhelGrid"
             width={32}
             height={32}

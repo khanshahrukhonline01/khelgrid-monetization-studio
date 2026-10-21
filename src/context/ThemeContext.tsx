@@ -16,7 +16,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const THEME_STORAGE_KEY = "khelgrid-theme";
 
 function computeTheme(currentTheme: Theme): ResolvedTheme {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light";
   if (currentTheme === "system") {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
@@ -26,13 +26,13 @@ function computeTheme(currentTheme: Theme): ResolvedTheme {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Always initialize with identical static defaults on both server and client
   // so the SSR HTML and initial client hydration DOM are guaranteed to match.
-  const [theme, setThemeState] = useState<Theme>("dark");
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>("dark");
+  const [theme, setThemeState] = useState<Theme>("light");
+  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>("light");
   const [mounted, setMounted] = useState(false);
 
   // Once mounted on the client, read persisted preferences and sync DOM
   useEffect(() => {
-    let activeTheme: Theme = "dark";
+    let activeTheme: Theme = "light";
     try {
       const saved = localStorage.getItem(THEME_STORAGE_KEY) || localStorage.getItem("theme");
       if (saved === "light" || saved === "dark" || saved === "system") {
@@ -125,7 +125,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 const defaultThemeContext: ThemeContextType = {
   theme: "system",
-  resolvedTheme: "dark",
+  resolvedTheme: "light",
   setTheme: () => {},
   toggleTheme: () => {},
   mounted: false,
