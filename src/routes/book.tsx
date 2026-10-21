@@ -83,7 +83,7 @@ function BookVenues() {
   const [directorySource, setDirectorySource] = useState<"sample" | "database">("sample");
   const [directoryLoading, setDirectoryLoading] = useState(false);
   const [sport, setSport] = useState<string>("All");
-  const [city, setCity] = useState<string>("Bengaluru");
+  const [city, setCity] = useState<string>("All");
   const [booking, setBooking] = useState<BookingSelection | null>(null);
   const [selectedVenueForDetails, setSelectedVenueForDetails] = useState<Venue | null>(null);
   const [activeTab, setActiveTab] = useState<"venues" | "slot-booking" | "my-bookings">("venues");
@@ -135,7 +135,7 @@ function BookVenues() {
           name: row.name,
           area: row.area,
           city: row.city,
-          distanceKm: 0,
+          distanceKm: -1,
           rating: row.reviews_count > 0 ? Number(row.rating ?? 0) : 0,
           reviews: Number(row.reviews_count ?? 0),
           sports: row.sports ?? [],
@@ -189,16 +189,16 @@ function BookVenues() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Sports Venues in {city}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Discover and book turfs, courts, arenas and pools near you.
+            Search sports facilities by city, locality and sport. Check listing details and contact the venue to confirm current prices and availability.
           </p>
         </div>
 
         {/* Real-time Schedule Status */}
         <div className="flex items-center gap-2 text-xs bg-muted/60 border border-border/70 rounded-xl p-2 px-3 self-start md:self-auto text-muted-foreground">
           <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
-          <span className="font-medium text-foreground">Live Booking Available</span>
+          <span className="font-medium text-foreground">Venue discovery</span>
           <span className="text-muted-foreground/60">•</span>
-          <span>Instant Court Confirmation</span>
+          <span>Confirm availability with the venue</span>
         </div>
       </div>
 
@@ -820,7 +820,7 @@ function VenueBookingAssistant({
                     {slots.length} slots available at {venue.name}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {venue.area} · ₹{venue.pricePerHour}/hour
+                    {venue.area} · {venue.pricePerHour > 0 ? `₹${venue.pricePerHour}/hour` : "Price on request"} · Confirm availability
                   </div>
                 </div>
               </div>
@@ -910,12 +910,18 @@ function VenueCard({
             </h3>
             <div className="flex shrink-0 items-center gap-1 text-xs">
               <Star className="h-3.5 w-3.5 fill-yellow-500 text-yellow-500" />
-              <span className="font-semibold">{v.rating}</span>
-              <span className="text-muted-foreground">({v.reviews})</span>
+              {v.reviews > 0 ? (
+                <>
+                  <span className="font-semibold">{v.rating}</span>
+                  <span className="text-muted-foreground">({v.reviews})</span>
+                </>
+              ) : (
+                <span className="text-muted-foreground">No reviews yet</span>
+              )}
             </div>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
-            {v.area} · ~{v.distanceKm} km
+            {v.area}, {v.city}{v.distanceKm >= 0 ? ` · ~${v.distanceKm} km` : ""}
           </p>
 
           <div className="flex flex-wrap gap-1.5">
@@ -968,14 +974,10 @@ function VenueCard({
         <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-border/50 pt-3">
           <div className="text-xs sm:text-sm flex items-center justify-between sm:justify-start gap-1">
             <span className="text-muted-foreground text-xs">
-              {v.pricePerHour === 0 ? "Entry: " : "from "}
+              {v.pricePerHour === 0 ? "Price: " : "from "}
             </span>
             <span className="font-bold text-foreground">
-              {v.pricePerHour === 0
-                ? isDdcaOrTrialVenue
-                  ? "Free (State Trials)"
-                  : "Free Entry"
-                : `₹${v.pricePerHour}`}
+              {v.pricePerHour === 0 ? "Contact venue" : `₹${v.pricePerHour}`}
             </span>
             {v.pricePerHour > 0 && <span className="text-muted-foreground text-xs">/hr</span>}
           </div>
