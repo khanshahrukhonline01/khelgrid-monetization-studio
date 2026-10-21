@@ -82,52 +82,73 @@ function TrialDetailPage() {
   const canonicalUrl = `${SITE_URL}/trial/${trial.id}`;
   const ogImageUrl = `${SITE_URL}/og-image.png`;
 
-  // Specific Open Graph & Schema.org event structured data for rich previews
-  const startDateIso = trial.date.includes("Dec 25")
-    ? "2026-12-25T08:00:00+05:30"
-    : trial.date.includes("Oct 10")
-      ? "2026-10-10T08:00:00+05:30"
-      : trial.date.includes("Sep 30")
-        ? "2026-09-30T08:00:00+05:30"
-        : "2026-09-23T09:00:00+05:30";
-
-  const sportsEventSchema = {
-    "@context": "https://schema.org",
-    "@type": "SportsEvent",
-    name: trial.title,
-    description: pageDescription,
-    url: canonicalUrl,
-    startDate: startDateIso,
-    eventStatus: "https://schema.org/EventScheduled",
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    location: {
-      "@type": "Place",
-      name: trial.venue || `${trial.academy}, ${trial.city}`,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: trial.city,
-        addressCountry: "IN",
-      },
-    },
-    organizer: {
-      "@type": "SportsOrganization",
-      name: trial.academy,
-      url: trial.sourceUrl || canonicalUrl,
-    },
-    offers: {
-      "@type": "Offer",
-      price: trial.fee.toString(),
-      priceCurrency: "INR",
-      availability: "https://schema.org/InStock",
-      url: canonicalUrl,
-      validFrom: "2026-09-24",
-    },
-    image: [ogImageUrl],
-    isAccessibleForFree: trial.fee === 0,
+  // Parse real dates from the listing instead of emitting hard-coded/stale dates.
+  // Listings without a parseable date or a usable location must not emit invalid Event markup.
+  const parseTrialDates = (value: string): { startDate?: string; endDate?: string } => {
+    const text = value.trim();
+    const monthNames =
+      "Jan|January|Feb|February|Mar|March|Apr|April|May|Jun|June|Jul|July|Aug|August|Sep|Sept|September|Oct|October|Nov|November|Dec|December";
+    const monthPattern = new RegExp(`\\b(${monthNames})\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?(?:\\s*(?:-|–|to|,|&|and)\\s*(\\d{1,2})(?:st|nd|rd|th)?)?[,\\s]+(20\\d{2})\\b`, "i");
+    const match = text.match(monthPattern);
+    if (!match) {
+      const isoMatch = text.match(/\\b(20\\d{2})-(\\d{2})-(\\d{2})\\b/);
+      if (!isoMatch) return {};
+      const iso = `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]}T08:00:00+05:30`;
+      return { startDate: iso };
+    }
+    const monthIndex = new Date(`${match[1]} 1, 2000`).getMonth();
+    if (!Number.isFinite(monthIndex)) return {};
+    const toIso = (day: string) =>
+      `${match[4]}-${String(monthIndex + 1).padStart(2, "0")}-${String(Number(day)).padStart(2, "0")}T08:00:00+05:30`;
+    const startDate = toIso(match[2]);
+    const endDate = match[3] ? toIso(match[3]) : undefined;
+    if (Number.isNaN(Date.parse(startDate)) || (endDate && Number.isNaN(Date.parse(endDate)))) return {};
+    return { startDate, endDate };
   };
+  const parsedTrialDates = parseTrialDates(trial.date);
+  const hasEventLocation = Boolean(trial.venue?.trim() || trial.city?.trim());
+  const eventImage = trial.posterUrl || trial.imageUrl || ogImageUrl;
 
-  // Assemble Schema.org JSON-LD structured data objects
-  const trialSchemas: Array<Record<string, unknown>> = [sportsEventSchema];
+  const sportsEventSchema: Record<string, unknown> | null =
+    parsedTrialDates.startDate && hasEventLocation
+      ? {
+          "@context": "https://schema.org",
+          "@type": "SportsEvent",
+          name: trial.title,
+          description: pageDescription,
+          url: canonicalUrl,
+          startDate: parsedTrialDates.startDate,
+          ...(parsedTrialDates.endDate ? { endDate: parsedTrialDates.endDate } : {}),
+          eventStatus: "https://schema.org/EventScheduled",
+          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          location: {
+            "@type": "Place",
+            name: trial.venue?.trim() || `${trial.academy}, ${trial.city}`,
+            address: {
+              "@type": "PostalAddress",
+              ...(trial.city?.trim() ? { addressLocality: trial.city.trim() } : {}),
+              addressCountry: "IN",
+            },
+          },
+          organizer: {
+            "@type": "SportsOrganization",
+            name: trial.academy,
+            ...(trial.sourceUrl ? { url: trial.sourceUrl } : {}),
+          },
+          offers: {
+            "@type": "Offer",
+            price: String(trial.fee),
+            priceCurrency: "INR",
+            availability: "https://schema.org/InStock",
+            url: canonicalUrl,
+          },
+          image: [eventImage],
+          isAccessibleForFree: trial.fee === 0,
+        }
+      : null;
+
+  // Only publish Event JSON-LD when required date and location data is valid.
+  const trialSchemas: Array<Record<string, unknown>> = sportsEventSchema ? [sportsEventSchema] : [];
 
   if (
     trial.id === "t-fit-india-namchi-sikkim-2026" ||
