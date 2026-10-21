@@ -103,7 +103,7 @@ export function VenueAvailabilityPreview({ venueId, pricePerHour }: { venueId: s
             <p className="text-sm">Selected: <strong>{displayTime(selectedTime)}</strong> on {date}</p>
             <a href={"/book?venue=" + encodeURIComponent(venueId) + "&date=" + encodeURIComponent(date) + "&time=" + encodeURIComponent(selectedTime.slice(0, 5)) + (selectedCourtId ? "&court=" + encodeURIComponent(selectedCourtId) : "")} className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground">Continue to booking</a>
           </div>}
-          <p className="text-xs text-muted-foreground">Slots are one hour long and show whether any active court has no overlapping booking record. The venue must maintain its active courts and opening hours; final availability must be rechecked when a booking is submitted.</p>
+          <p className="text-xs text-muted-foreground">Slots are one hour long and show booking conflicts for active courts only. This is not a guarantee of opening hours or owner availability; confirm with the venue and recheck before booking.</p>
         </>}
       </CardContent>
     </Card>
