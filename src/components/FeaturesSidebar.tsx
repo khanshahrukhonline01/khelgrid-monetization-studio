@@ -233,18 +233,18 @@ export function FeaturesSidebar() {
         id="khelgrid-features-sidebar"
         aria-label="Features and Services Sidebar"
         className={cn(
-          "sticky top-16 hidden h-[calc(100vh-4rem)] shrink-0 flex-col border-r border-border/60 bg-background/60 backdrop-blur-xl transition-[width] duration-200 ease-in-out lg:flex",
-          collapsed ? "w-16" : "w-64",
+          "sticky top-16 hidden h-[calc(100dvh-4rem)] shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] duration-200 ease-in-out dark:border-slate-800 dark:bg-slate-950 lg:flex",
+          collapsed ? "w-[4.25rem]" : "w-[15.5rem] xl:w-64",
         )}
       >
         {/* Top Header */}
         <div className="flex items-center justify-between border-b border-border/40 px-3 py-3">
           {!collapsed ? (
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-foreground/80">
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
                 Features
               </span>
-              <span className="rounded-full bg-secondary px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground">
+              <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">
                 {FEATURES.length}
               </span>
             </div>
@@ -350,8 +350,8 @@ export function FeaturesSidebar() {
         <nav
           aria-label="Sidebar navigation links"
           className={cn(
-            "flex flex-1 flex-col overflow-y-auto pb-4",
-            collapsed ? "gap-1 px-1.5 pt-2" : "gap-0.5 px-2 pt-2",
+            "flex flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain pb-4",
+            collapsed ? "gap-1 px-1.5 pt-2" : "gap-1 px-2 pt-2",
           )}
         >
           {/* A. Collapsed View: Compact Icon Rail with Tooltips */}
@@ -611,7 +611,7 @@ export function FeaturesSidebar() {
         {/* Footer Quick Controls */}
         <div
           className={cn(
-            "border-t border-border/40 bg-card/40 p-2 backdrop-blur-md",
+            "border-t border-slate-100 bg-white p-2 dark:border-slate-800 dark:bg-slate-950",
             collapsed ? "flex flex-col items-center gap-2" : "space-y-2",
           )}
         >
