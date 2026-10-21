@@ -5,23 +5,69 @@ import { VENUES, type Venue } from "@/data/khelgrid";
 import { VenueDetails } from "@/components/VenueDetails";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export const Route = createFileRoute("/venue/$id")({
-  loader: ({ params }) => {
-    // Look up by id or slug
-    const venue = VENUES.find(
+  loader: async ({ params }) => {
+    const key = params.id.toLowerCase();
+    const seededVenue = VENUES.find(
       (v) =>
-        v.id === params.id ||
-        v.id.toLowerCase() === params.id.toLowerCase() ||
-        v.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") === params.id.toLowerCase(),
+        v.id.toLowerCase() === key ||
+        v.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") === key,
     );
-    if (!venue) {
-      // Fallback: return the first venue if not found so the page always renders gracefully
-      const fallback = VENUES[0];
-      if (!fallback) throw notFound();
-      return { venue: fallback, notExact: true };
+    if (seededVenue) return { venue: seededVenue, notExact: false };
+
+    if (isSupabaseConfigured) {
+      try {
+        let { data, error } = await supabase
+          .from("venues")
+          .select("*")
+          .is("deleted_at", null)
+          .eq("bookable", true)
+          .eq("id", params.id)
+          .maybeSingle();
+
+        if (!data && !error) {
+          const slugResult = await supabase
+            .from("venues")
+            .select("*")
+            .is("deleted_at", null)
+            .eq("bookable", true)
+            .eq("slug", params.id)
+            .maybeSingle();
+          data = slugResult.data;
+          error = slugResult.error;
+        }
+
+        if (!error && data) {
+          return {
+            venue: {
+              id: data.id,
+              name: data.name,
+              area: data.area,
+              city: data.city,
+              distanceKm: 0,
+              rating: data.reviews_count > 0 ? Number(data.rating ?? 0) : 0,
+              reviews: Number(data.reviews_count ?? 0),
+              sports: data.sports ?? [],
+              pricePerHour: Number(data.price_per_hour ?? 0),
+              featured: Boolean(data.featured),
+              bookable: Boolean(data.bookable),
+              image: data.image_url ?? "",
+              address: data.address ?? undefined,
+              amenities: data.amenities ?? [],
+              contactPhone: data.contact_phone ?? undefined,
+              contactEmail: data.contact_email ?? undefined,
+            } satisfies Venue,
+            notExact: false,
+          };
+        }
+      } catch (error) {
+        console.error("Could not load venue detail", error);
+      }
     }
-    return { venue, notExact: false };
+
+    throw notFound();
   },
   head: ({ loaderData, params }) => {
     const venue = loaderData?.venue;
@@ -93,8 +139,8 @@ function VenueDetailPage() {
           <VenueDetails
             venue={venue}
             onBook={(_venueData, selectedDate, selectedTime) => {
-              toast.success(`Booking reserved for ${venue.name}!`, {
-                description: `Date: ${selectedDate} • Time: ${selectedTime}`,
+              toast.info(`Continue booking at ${venue.name}`, {
+                description: `Selected date: ${selectedDate} • Time: ${selectedTime}. Confirm your slot on the booking page.`,
               });
               navigate({ to: "/book" });
             }}
