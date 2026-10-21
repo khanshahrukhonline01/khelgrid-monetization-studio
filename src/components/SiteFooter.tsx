@@ -792,6 +792,67 @@ export function SiteFooter() {
         </div>
       </section>
 
+      {/* Top Sports Complexes in Cities */}
+      <section className="border-t border-border bg-background py-9">
+        <div className="mx-auto max-w-7xl space-y-5 px-4 md:px-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h3 className="flex items-center gap-2 font-heading text-base font-bold text-foreground sm:text-lg">
+                <MapPin className="h-5 w-5 text-primary" />
+                Top Sports Complexes in Cities
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+                Explore major stadiums, sports centres and training hubs across India. Check venue
+                access, current facilities and booking or event requirements before visiting.
+              </p>
+            </div>
+            <Link to="/cities" className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-primary hover:underline">
+              Explore all cities <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {[
+              { city: "Delhi", slug: "delhi", state: "Delhi NCR", venues: ["Jawaharlal Nehru Stadium", "Thyagaraj Stadium", "SAI Karni Singh Shooting Range"] },
+              { city: "Mumbai", slug: "mumbai", state: "Maharashtra", venues: ["Wankhede Stadium", "MCA-BKC Ground", "Cooperage Football Ground"] },
+              { city: "Bengaluru", slug: "bengaluru", state: "Karnataka", venues: ["Sree Kanteerava Stadium", "M. Chinnaswamy Stadium", "Kanteerava Aquatic Centre"] },
+              { city: "Hyderabad", slug: "hyderabad", state: "Telangana", venues: ["Gachibowli Stadium", "GMC Balayogi Stadium", "Rajiv Gandhi International Cricket Stadium"] },
+              { city: "Pune", slug: "pune", state: "Maharashtra", venues: ["Shree Shiv Chhatrapati Sports Complex", "MCA Stadium, Gahunje", "Deccan Gymkhana"] },
+              { city: "Kolkata", slug: "kolkata", state: "West Bengal", venues: ["Salt Lake Stadium", "Eden Gardens", "Mohun Bagan Ground"] },
+              { city: "Chennai", slug: "chennai", state: "Tamil Nadu", venues: ["Jawaharlal Nehru Stadium", "M. A. Chidambaram Stadium", "SDAT Tennis Stadium"] },
+              { city: "Bhubaneswar", slug: "bhubaneswar", state: "Odisha", venues: ["Kalinga Stadium", "Kalinga Hockey Stadium", "Biju Patnaik Swimming Pool"] },
+            ].map((entry) => (
+              <article key={entry.slug} className="group rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h4 className="font-heading text-sm font-bold text-foreground">{entry.city}</h4>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{entry.state}</p>
+                  </div>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+                    <Trophy className="h-4 w-4" />
+                  </span>
+                </div>
+                <ul className="mt-3 space-y-2">
+                  {entry.venues.map((venue) => (
+                    <li key={venue} className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />
+                      <span>{venue}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link to={`/city/${entry.slug}`} className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+                  Explore {entry.city} sports hubs <span aria-hidden="true">→</span>
+                </Link>
+              </article>
+            ))}
+          </div>
+          <p className="text-[11px] leading-relaxed text-muted-foreground">
+            Venue names are discovery starting points, not a confirmation of current availability,
+            public entry, or booking status. Please verify details with the venue or official organiser.
+          </p>
+        </div>
+      </section>
+
       {/* IPR, AI & Copyright Footbar Strip (Ultra-Compact) */}
       <section className="border-t border-border bg-muted/15 py-3">
         <div className="mx-auto flex max-w-7xl flex-col gap-2.5 px-4 text-xs md:flex-row md:items-center md:justify-between md:px-6">
