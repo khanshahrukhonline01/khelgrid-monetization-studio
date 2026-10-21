@@ -88,18 +88,18 @@ function TrialDetailPage() {
     const text = value.trim();
     const isoMatch = text.match(/\b(20\d{2})-(\d{2})-(\d{2})\b/);
     if (isoMatch) {
-      const startDate = \`\${isoMatch[1]}-\${isoMatch[2]}-\${isoMatch[3]}T08:00:00+05:30\`;
+      const startDate = `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]}T08:00:00+05:30`;
       return Number.isNaN(Date.parse(startDate)) ? {} : { startDate };
     }
     const monthNames =
       "Jan|January|Feb|February|Mar|March|Apr|April|May|Jun|June|Jul|July|Aug|August|Sep|Sept|September|Oct|October|Nov|November|Dec|December";
-    const firstDate = text.match(new RegExp(\`\\\\b(\${monthNames})\\\\.?\\\\s+(\\\\d{1,2})(?:st|nd|rd|th)?\`, "i"));
+    const firstDate = text.match(new RegExp(`\\\\b(${monthNames})\\\\.?\\\\s+(\\\\d{1,2})(?:st|nd|rd|th)?`, "i"));
     const yearMatch = text.match(/\b(20\d{2})\b/);
     if (!firstDate || !yearMatch) return {};
-    const monthIndex = new Date(\`\${firstDate[1]} 1, 2000\`).getMonth();
+    const monthIndex = new Date(`${firstDate[1]} 1, 2000`).getMonth();
     const year = yearMatch[1];
     const toIso = (day: string) =>
-      \`\${year}-\${String(monthIndex + 1).padStart(2, "0")}-\${String(Number(day)).padStart(2, "0")}T08:00:00+05:30\`;
+      `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(Number(day)).padStart(2, "0")}T08:00:00+05:30`;
     const startDate = toIso(firstDate[2]);
     const afterFirstDate = text.slice((firstDate.index ?? 0) + firstDate[0].length);
     const rangeMatch = afterFirstDate.match(/^\\s*(?:-|–|to|,|&|and)\\s*(\\d{1,2})(?:st|nd|rd|th)?/i);
