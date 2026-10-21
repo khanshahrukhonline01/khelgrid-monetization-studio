@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { ArrowRight, Building2, CheckCircle2, MapPin, Mail, Trophy } from "lucide-react";
 import { buildSeoHead } from "@/lib/seo";
@@ -48,7 +48,7 @@ function ListVenuePage() {
     setForm((current) => ({ ...current, [field]: value }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmissionMessage("");
     if (!isSupabaseConfigured) {
