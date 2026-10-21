@@ -23,6 +23,7 @@ import {
   Languages,
   Check,
   Trophy,
+  Building2,
 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -250,6 +251,15 @@ export function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
         </nav>
+
+        {/* Compact venue-owner acquisition CTA */}
+        <Link
+          to="/list-venue"
+          className="hidden xl:inline-flex shrink-0 items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-2 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+        >
+          <Building2 className="h-4 w-4" />
+          List Your Venue
+        </Link>
 
         {/* Right cluster - Most important actions only */}
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
