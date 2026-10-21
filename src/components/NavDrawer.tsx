@@ -21,6 +21,7 @@ import {
   BookOpen,
   Globe,
   SlidersHorizontal,
+  Building2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/context/LanguageContext";
@@ -468,6 +469,17 @@ export function NavDrawer() {
               <Settings className="h-3 w-3 text-muted-foreground" />
             </Link>
           </div>
+
+          <Button
+            asChild
+            variant="outline"
+            className="h-10 w-full rounded-xl border-primary/40 bg-primary/5 text-sm font-semibold text-primary hover:bg-primary/10"
+          >
+            <Link to="/list-venue" onClick={() => setOpen(false)}>
+              <Building2 className="mr-2 h-4 w-4" />
+              List Your Sports Venue
+            </Link>
+          </Button>
 
           <Button
             asChild
