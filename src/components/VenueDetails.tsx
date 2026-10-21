@@ -330,8 +330,8 @@ export function VenueDetails({
       className={`relative w-full max-w-5xl mx-auto bg-card rounded-2xl border border-border/80 shadow-lg overflow-hidden transition-all ${className}`}
     >
       {/* Top Action Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border/60 bg-muted/30">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-3 p-3 border-b border-border/60 bg-muted/30 sm:flex-row sm:items-center sm:justify-between sm:p-4">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           {onClose && (
             <Button
               id="venue-details-back-btn"
@@ -349,7 +349,7 @@ export function VenueDetails({
           </Badge>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Theme switcher toggle button */}
           <ThemeSwitcher id="venue-details-theme-switcher" variant="icon" className="h-8 w-8" />
           <Button
@@ -408,7 +408,7 @@ export function VenueDetails({
       {/* Only show rating summaries when real review counts are present. */}
       <div
         id="venue-carousel-reviews-spotlight-bar"
-        className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 bg-muted/30 border-b border-border/60 text-xs"
+        className="flex flex-wrap items-center justify-between gap-3 px-3 py-3 bg-muted/30 border-b border-border/60 text-xs sm:px-6"
       >
         {venue.reviews_count && venue.reviews_count > 0 ? (
           <div className="flex items-center gap-2 font-semibold text-foreground">
@@ -422,14 +422,14 @@ export function VenueDetails({
       </div>
 
       {/* Main Grid: Content Details & Booking Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+      <div className="grid min-w-0 grid-cols-1 gap-4 p-3 sm:gap-6 sm:p-6 lg:grid-cols-3">
         {/* Left Column: Comprehensive Venue Information */}
         <div className="lg:col-span-2 space-y-6">
           {/* Header Title & Location */}
           <div className="space-y-2">
             <h1
               id="venue-details-name"
-              className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground"
+              className="break-words text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
             >
               {venue.name}
             </h1>
@@ -815,7 +815,7 @@ export function VenueDetails({
         <div className="lg:col-span-1">
           <Card
             id="venue-booking-action-card"
-            className="sticky top-6 border-border/80 bg-card/90 shadow-md backdrop-blur-xs overflow-hidden"
+            className="static overflow-hidden border-border/80 bg-card/90 shadow-md backdrop-blur-xs lg:sticky lg:top-6"
           >
             <CardContent className="p-5 space-y-4">
               {/* Pricing Header */}
