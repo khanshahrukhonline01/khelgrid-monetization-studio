@@ -146,6 +146,11 @@ export interface Venue {
   featured?: boolean;
   bookable?: boolean;
   image: string;
+  address?: string;
+  amenities?: string[];
+  contactPhone?: string;
+  contactEmail?: string;
+  websiteUrl?: string;
   pibPressRelease?: PibPressReleaseNotice;
   officialUrl?: string;
   trialId?: string;
