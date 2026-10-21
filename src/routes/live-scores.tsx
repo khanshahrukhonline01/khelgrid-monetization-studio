@@ -42,6 +42,29 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+const LIVE_PAGE_SPORTS = [
+  { name: "All Sports", icon: "▦" },
+  { name: "Cricket", icon: "🏏" },
+  { name: "Football", icon: "⚽" },
+  { name: "Hockey", icon: "🏑" },
+  { name: "Tennis", icon: "🎾" },
+  { name: "Badminton", icon: "🏸" },
+  { name: "Basketball", icon: "🏀" },
+  { name: "Volleyball", icon: "🏐" },
+  { name: "Kabaddi", icon: "🤼" },
+  { name: "Athletics", icon: "🏃" },
+  { name: "Table Tennis", icon: "🏓" },
+  { name: "Boxing", icon: "🥊" },
+  { name: "Wrestling", icon: "🤼‍♂️" },
+  { name: "Archery", icon: "🏹" },
+  { name: "Shooting", icon: "🎯" },
+  { name: "Swimming", icon: "🏊" },
+  { name: "Cycling", icon: "🚴" },
+  { name: "Golf", icon: "⛳" },
+  { name: "Rugby", icon: "🏉" },
+  { name: "Esports", icon: "🎮" },
+] as const;
+
 export const Route = createFileRoute("/live-scores")({
   head: () =>
     buildSeoHead({
@@ -93,6 +116,7 @@ const SOUND_STORAGE_KEY = "khelgrid_live_scores_sound";
 
 export function LiveScoresPage() {
   const [selectedFormat, setSelectedFormat] = useState<CricketFormat>("All");
+  const [selectedPageSport, setSelectedPageSport] = useState("All Sports");
   const [selectedStatus, setSelectedStatus] = useState<StatusFilter>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
@@ -389,6 +413,39 @@ export function LiveScoresPage() {
 
   return (
     <div className="w-full min-w-0 max-w-full flex-1 pb-16 sm:pb-24">
+      {/* Horizontal sports selector sits directly below the global top navigation. */}
+      <nav aria-label="Browse live sports" className="w-full border-b border-border/70 bg-background/95">
+        <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-1.5 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="list">
+            {LIVE_PAGE_SPORTS.map((sport) => {
+              const isSelected = selectedPageSport === sport.name;
+              return (
+                <button
+                  key={sport.name}
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => {
+                    setSelectedPageSport(sport.name);
+                    if (sport.name !== "All Sports" && sport.name !== "Cricket") {
+                      toast.info(`More ${sport.name.toLowerCase()} live-score coverage is coming soon.`);
+                    }
+                  }}
+                  className={cn(
+                    "flex shrink-0 min-w-[70px] flex-col items-center justify-center gap-1 rounded-xl px-3 py-2 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                    isSelected
+                      ? "bg-emerald-600/10 text-emerald-700 ring-1 ring-emerald-600/25 dark:text-emerald-400"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                  )}
+                >
+                  <span aria-hidden="true" className="text-xl leading-6">{sport.icon}</span>
+                  <span className="whitespace-nowrap">{sport.name}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+
       <div className="mx-auto w-full min-w-0 max-w-7xl px-3 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         {/* 1. HERO & REAL-TIME STATUS COMMAND BAR */}
         <div className="relative overflow-hidden rounded-3xl border border-border/80 bg-gradient-to-br from-card via-card/95 to-background p-4 sm:p-7 shadow-xs">
