@@ -84,6 +84,8 @@ function BookVenues() {
   const [directoryLoading, setDirectoryLoading] = useState(false);
   const [sport, setSport] = useState<string>("All");
   const [city, setCity] = useState<string>("All");
+  const [maxPrice, setMaxPrice] = useState<string>("All");
+  const [sortBy, setSortBy] = useState<string>("recommended");
   const [booking, setBooking] = useState<BookingSelection | null>(null);
   const [selectedVenueForDetails, setSelectedVenueForDetails] = useState<Venue | null>(null);
   const [activeTab, setActiveTab] = useState<"venues" | "slot-booking" | "my-bookings">("venues");
@@ -165,14 +167,40 @@ function BookVenues() {
     };
   }, []);
 
+  const availableCities = useMemo(
+    () => Array.from(new Set([...KHELGRID_CITIES, ...directoryVenues.map((v) => v.city).filter(Boolean)])).sort((a, b) => a.localeCompare(b)),
+    [directoryVenues],
+  );
+  const availableSports = useMemo(
+    () => Array.from(new Set([...KHELGRID_SPORTS, ...directoryVenues.flatMap((v) => v.sports ?? [])])).sort((a, b) => a.localeCompare(b)),
+    [directoryVenues],
+  );
+
   const list = useMemo(() => {
-    return directoryVenues.filter(
-      (v) =>
-        (city === "All" || v.city === city) &&
-        (sport === "All" || v.sports.includes(sport)) &&
-        (q === "" || [v.name, v.area, v.city, ...v.sports].join(" ").toLowerCase().includes(q.toLowerCase())),
-    );
-  }, [q, sport, city, directoryVenues]);
+    const term = q.trim().toLocaleLowerCase();
+    const filtered = directoryVenues.filter((v) => {
+      const matchesCity = city === "All" || v.city?.toLocaleLowerCase() === city.toLocaleLowerCase();
+      const matchesSport = sport === "All" || (v.sports ?? []).some((item) => item.toLocaleLowerCase() === sport.toLocaleLowerCase());
+      const searchable = [v.name, v.area, v.city, v.address, ...(v.sports ?? []), ...(v.amenities ?? [])]
+        .filter(Boolean).join(" ").toLocaleLowerCase();
+      const matchesSearch = !term || searchable.includes(term);
+      const matchesPrice = maxPrice === "All"
+        || (maxPrice === "Unlisted" ? v.pricePerHour <= 0 : v.pricePerHour > 0 && v.pricePerHour <= Number(maxPrice));
+      return matchesCity && matchesSport && matchesSearch && matchesPrice;
+    });
+
+    return filtered.sort((a, b) => {
+      if (sortBy === "price-low") {
+        if (a.pricePerHour <= 0) return 1;
+        if (b.pricePerHour <= 0) return -1;
+        return a.pricePerHour - b.pricePerHour;
+      }
+      if (sortBy === "price-high") return b.pricePerHour - a.pricePerHour;
+      if (sortBy === "rating") return (b.reviews > 0 ? b.rating : -1) - (a.reviews > 0 ? a.rating : -1);
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      return Number(b.featured) - Number(a.featured) || a.name.localeCompare(b.name);
+    });
+  }, [q, sport, city, maxPrice, sortBy, directoryVenues]);
 
   const startBooking = (venue: Venue, date = today, time: string | null = null) => {
     setBooking({ venue, date, time });
@@ -191,7 +219,7 @@ function BookVenues() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Sports Venues in {city}</h1>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{city === "All" ? "Find Sports Venues Near You" : `Sports Venues in ${city}`}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Search sports facilities by city, locality and sport. Check listing details and contact the venue to confirm current prices and availability.
           </p>
@@ -213,257 +241,91 @@ function BookVenues() {
       />
 
       {/* Filter Bar */}
-      <div className="sticky top-14 z-30 mt-6 -mx-4 border-y border-border/60 bg-background/85 px-4 py-3 backdrop-blur-xl sm:top-16 sm:mx-0 sm:rounded-2xl sm:border sm:px-4">
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-[1fr,180px,180px]">
-          <div className="relative col-span-2 sm:col-span-1">
+      <section aria-label="Filter sports venues" className="sticky top-14 z-30 mt-6 -mx-4 border-y border-border/60 bg-background/95 px-4 py-3 shadow-sm backdrop-blur-xl sm:top-16 sm:mx-0 sm:rounded-2xl sm:border sm:p-4">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary"><Trophy className="h-4 w-4" /></span>
+            <div>
+              <p className="text-sm font-semibold">Find your place to play</p>
+              <p className="text-xs text-muted-foreground">{list.length} {list.length === 1 ? "venue" : "venues"} match your filters</p>
+            </div>
+          </div>
+          {(city !== "All" || sport !== "All" || q.trim() !== "" || maxPrice !== "All" || sortBy !== "recommended") && (
+            <Button variant="ghost" size="sm" onClick={() => { setCity("All"); setSport("All"); setQ(""); setMaxPrice("All"); setSortBy("recommended"); }} className="h-8 px-2 text-xs">
+              <X className="mr-1 h-3.5 w-3.5" /> Clear filters
+            </Button>
+          )}
+        </div>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-6">
+          <div className="relative col-span-2 sm:col-span-2">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
+              aria-label="Search venues, areas, cities, sports or facilities"
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Search by venue name…"
-              className="h-11 border-border bg-secondary/40 pl-9"
+              placeholder="Venue, area, sport or facility"
+              className="h-11 border-border bg-secondary/40 pl-9 pr-9"
             />
+            {q && <button type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"><X className="h-4 w-4" /></button>}
           </div>
           <Select value={city} onValueChange={setCity}>
-            <SelectTrigger className="h-11 border-border bg-secondary/40">
-              <MapPin className="mr-1 h-4 w-4 text-primary" />
-              <SelectValue />
+            <SelectTrigger aria-label="Filter by city" className="h-11 border-border bg-secondary/40">
+              <MapPin className="mr-1 h-4 w-4 shrink-0 text-primary" />
+              <SelectValue placeholder="All cities" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All">All Cities</SelectItem>
-              {KHELGRID_CITIES.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
-                </SelectItem>
-              ))}
+              <SelectItem value="All">All cities</SelectItem>
+              {availableCities.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
             </SelectContent>
           </Select>
           <Select value={sport} onValueChange={setSport}>
-            <SelectTrigger className="h-11 border-border bg-secondary/40">
-              <Trophy className="mr-1 h-4 w-4 text-primary" />
-              <SelectValue />
+            <SelectTrigger aria-label="Filter by sport" className="h-11 border-border bg-secondary/40">
+              <Trophy className="mr-1 h-4 w-4 shrink-0 text-primary" />
+              <SelectValue placeholder="All sports" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All">All Sports</SelectItem>
-              {KHELGRID_SPORTS.map((s) => (
-                <SelectItem key={s} value={s}>
-                  {s}
-                </SelectItem>
-              ))}
+              <SelectItem value="All">All sports</SelectItem>
+              {availableSports.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select value={maxPrice} onValueChange={setMaxPrice}>
+            <SelectTrigger aria-label="Filter by hourly price" className="h-11 border-border bg-secondary/40">
+              <SelectValue placeholder="Any price" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">Any price</SelectItem>
+              <SelectItem value="500">Up to ₹500/hr</SelectItem>
+              <SelectItem value="1000">Up to ₹1,000/hr</SelectItem>
+              <SelectItem value="1500">Up to ₹1,500/hr</SelectItem>
+              <SelectItem value="2500">Up to ₹2,500/hr</SelectItem>
+              <SelectItem value="Unlisted">Price not listed</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger aria-label="Sort venue results" className="h-11 border-border bg-secondary/40">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="recommended">Recommended</SelectItem>
+              <SelectItem value="price-low">Price: low to high</SelectItem>
+              <SelectItem value="price-high">Price: high to low</SelectItem>
+              <SelectItem value="rating">Top rated</SelectItem>
+              <SelectItem value="name">Name: A to Z</SelectItem>
             </SelectContent>
           </Select>
         </div>
-
-        {/* Quick Filter Chips for Delhi DDCA and Top Sports */}
-        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-muted-foreground font-medium hidden sm:inline">Quick links:</span>
-          <button
-            onClick={() => {
-              setCity("Delhi");
-              setSport("Cricket");
-            }}
-            className={`rounded-full px-3 py-1 font-semibold transition-all border ${
-              city === "Delhi" && sport === "Cricket"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "border-primary/40 bg-primary/5 text-primary hover:bg-primary/10"
-            }`}
-          >
-            🏏 Delhi · DDCA Arun Jaitley Ground
-          </button>
-          <button
-            onClick={() => {
-              setCity("Itanagar");
-              setSport("Cricket");
-            }}
-            className={`rounded-full px-3 py-1 font-semibold transition-all border ${
-              city === "Itanagar" && sport === "Cricket"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "border-sky-500/40 bg-sky-500/5 text-sky-600 dark:text-sky-400 hover:bg-sky-500/10"
-            }`}
-          >
-            🏏 Arunachal · BCCI Yupia Stadium
-          </button>
-          <button
-            onClick={() => setCity("Delhi")}
-            className={`rounded-full px-3 py-1 font-medium transition-all border ${
-              city === "Delhi" && sport !== "Cricket"
-                ? "bg-secondary text-foreground border-foreground/20"
-                : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            All Delhi Venues
-          </button>
-          <button
-            onClick={() => setCity("Itanagar")}
-            className={`rounded-full px-3 py-1 font-medium transition-all border ${
-              city === "Itanagar" && sport !== "Cricket"
-                ? "bg-secondary text-foreground border-foreground/20"
-                : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            All Arunachal Venues
-          </button>
-          <button
-            onClick={() => {
-              setCity("Jammu");
-              setSport("Kho-Kho");
-            }}
-            className={`rounded-full px-3 py-1 font-semibold transition-all border ${
-              city === "Jammu" && sport === "Kho-Kho"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "border-emerald-500/40 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10"
-            }`}
-          >
-            🏃 Jammu · Green Play Field
-          </button>
-          <button
-            onClick={() => {
-              setCity("All");
-              setSport("Cricket");
-            }}
-            className={`rounded-full px-3 py-1 font-medium transition-all border ${
-              sport === "Cricket" && city !== "Delhi" && city !== "Itanagar"
-                ? "bg-secondary text-foreground border-foreground/20"
-                : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Cricket Pitches & Nets
-          </button>
-          {(city !== "All" || sport !== "All" || q.trim() !== "") && (
-            <button
-              onClick={() => {
-                setCity("All");
-                setSport("All");
-                setQ("");
-              }}
-              className="text-xs text-muted-foreground hover:text-foreground underline ml-auto"
-            >
-              Reset filters
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* BCCI Official Arunachal Pradesh Ranji Trials & Ground Spotlight Banner */}
-      {(city === "Itanagar" || city === "All" || sport === "Cricket") && (
-        <div className="mt-6 rounded-2xl border border-sky-500/40 bg-gradient-to-r from-sky-500/10 via-primary/5 to-background p-4 sm:p-5">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1.5">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge className="bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30 text-[11px] font-bold">
-                  🏏 BCCI Domestic Intervention
-                </Badge>
-                <Badge
-                  variant="outline"
-                  className="text-[11px] border-emerald-500/40 text-emerald-500 font-medium"
-                >
-                  Ranji Trophy & Age-Group Trials
-                </Badge>
-                <span className="text-[11px] text-muted-foreground">
-                  Yupia, Itanagar (Arunachal Pradesh)
-                </span>
-              </div>
-              <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
-                BCCI to Conduct Trials to Ensure Arunachal Pradesh's Ranji Participation
-              </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground max-w-3xl leading-relaxed">
-                Yupia Cricket Stadium & Rajiv Gandhi Stadium in Itanagar are the official
-                BCCI-recognized grounds for direct open selection trials by the BCCI-appointed
-                3-member independent selection committee (Chairman Satya Gopal Chakraborty) to field
-                state teams for Ranji Trophy, C.K. Nayudu Trophy, and Women's state teams.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
-              <Button
-                asChild
-                size="sm"
-                className="rounded-full bg-primary text-primary-foreground font-semibold text-xs sm:text-sm h-9 px-4 shadow-sm"
-              >
-                <Link to="/trial/t-bcci-arunachal-pradesh-ranji-trials-2026">
-                  View BCCI Trial Card →
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="sm"
-                variant="outline"
-                className="rounded-full text-xs sm:text-sm h-9 px-3"
-              >
-                <Link to="/venue/v-bcci-yupia-cricket-ground-itanagar">Yupia Stadium</Link>
-              </Button>
-              <a
-                href="https://www.bcci.tv"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 transition-colors"
-              >
-                bcci.tv <ExternalLink className="h-3 w-3" />
-              </a>
-              <a
-                href="https://www.hindustantimes.com/cricket/bcci-to-conduct-trials-to-ensure-arunachal-pradeshs-ranji-participation-101791969126681.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 transition-colors"
-              >
-                Hindustan Times <ExternalLink className="h-3 w-3" />
-              </a>
-            </div>
+        {(q.trim() || city !== "All" || sport !== "All" || maxPrice !== "All") && (
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-xs text-muted-foreground">Active:</span>
+            {q.trim() && <button onClick={() => setQ("")} className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary">{q.trim()} <X className="h-3 w-3" /></button>}
+            {city !== "All" && <button onClick={() => setCity("All")} className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary">{city} <X className="h-3 w-3" /></button>}
+            {sport !== "All" && <button onClick={() => setSport("All")} className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary">{sport} <X className="h-3 w-3" /></button>}
+            {maxPrice !== "All" && <button onClick={() => setMaxPrice("All")} className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary">{maxPrice === "Unlisted" ? "Price not listed" : `Up to ₹${Number(maxPrice).toLocaleString("en-IN")}/hr`} <X className="h-3 w-3" /></button>}
           </div>
-        </div>
-      )}
+        )}
+      </section>
 
-      {/* DDCA Official Trials & Ground Spotlight Banner */}
-      <div className="mt-4 rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 via-primary/5 to-background p-4 sm:p-5">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge className="bg-primary/20 text-primary border-primary/30 text-[11px] font-bold">
-                🏏 Delhi State Cricket Notice
-              </Badge>
-              <Badge
-                variant="outline"
-                className="text-[11px] border-emerald-500/40 text-emerald-500 font-medium"
-              >
-                Official Selection Venue
-              </Badge>
-              <span className="text-[11px] text-muted-foreground">Season 2026–27</span>
-            </div>
-            <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
-              DDCA Invites Applications for Delhi Women’s U-15 Team Open Trials for 2026–27 Season
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground max-w-3xl leading-relaxed">
-              Arun Jaitley Stadium & DDCA Practice Complex is the designated venue for Delhi State
-              selection trials. Eligible female cricketers born between 01-09-2011 and 31-08-2013
-              can submit applications until November 2, 2026.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 shrink-0">
-            <Button
-              asChild
-              size="sm"
-              className="rounded-full bg-primary text-primary-foreground font-semibold text-xs sm:text-sm h-9 px-4 shadow-sm"
-            >
-              <Link to="/trial/t-ddca-delhi-womens-u15-cricket-2026">View U-15 Trial Card →</Link>
-            </Button>
-            <Button
-              asChild
-              size="sm"
-              variant="outline"
-              className="rounded-full text-xs sm:text-sm h-9 px-3"
-            >
-              <Link to="/venue/v-ddca-arun-jaitley-stadium-delhi">DDCA Venue Page</Link>
-            </Button>
-            <a
-              href="https://ddca.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 transition-colors"
-            >
-              ddca.in <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
-        </div>
-      </div>
+      {/* Trial promotions live on the trials pages, keeping venue search focused. */}
 
       {/* Tabs */}
       <div className="mt-6 flex flex-wrap gap-4 sm:gap-6 border-b border-border/60 text-sm">
