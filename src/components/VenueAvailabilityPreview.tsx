@@ -10,7 +10,7 @@ function displayTime(value: string) {
   const hour = Number(parts[0]);
   return String(hour % 12 || 12) + ":" + (parts[1] || "00") + " " + (hour >= 12 ? "PM" : "AM");
 }
-export function VenueAvailabilityPreview({ venueId, pricePerHour }: { venueId: string; pricePerHour: number }) {
+export function VenueAvailabilityPreview({ venueId, pricePerHour, contactPhone, contactEmail }: { venueId: string; pricePerHour: number; contactPhone?: string; contactEmail?: string }) {
   const today = useMemo(() => {
     const date = new Date();
     return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
@@ -101,7 +101,7 @@ export function VenueAvailabilityPreview({ venueId, pricePerHour }: { venueId: s
           })}</div>
           {selectedTime && <div className="flex flex-col gap-3 rounded-xl border border-primary/30 bg-primary/5 p-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm">Selected: <strong>{displayTime(selectedTime)}</strong> on {date}</p>
-            <a href={"/book?venue=" + encodeURIComponent(venueId) + "&date=" + encodeURIComponent(date) + "&time=" + encodeURIComponent(selectedTime.slice(0, 5)) + (selectedCourtId ? "&court=" + encodeURIComponent(selectedCourtId) : "")} className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground">Continue to booking</a>
+            <div className="flex flex-wrap gap-2">{contactPhone && <a href={"tel:" + contactPhone} className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground">Call venue to confirm</a>}{contactEmail && <a href={"mailto:" + contactEmail + "?subject=" + encodeURIComponent("Venue availability request") + "&body=" + encodeURIComponent("Please confirm availability for " + date + " at " + displayTime(selectedTime) + ".")} className="inline-flex h-9 items-center justify-center rounded-lg border border-border px-4 text-sm font-semibold">Email venue</a>}{!contactPhone && !contactEmail && <span className="text-sm text-muted-foreground">Venue contact details are not listed. Please verify availability before travelling.</span>}</div>
           </div>}
           <p className="text-xs text-muted-foreground">Slots are one hour long and show booking conflicts for active courts only. This is not a guarantee of opening hours or owner availability; confirm with the venue and recheck before booking.</p>
         </>}
