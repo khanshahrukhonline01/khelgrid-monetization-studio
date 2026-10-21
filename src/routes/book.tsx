@@ -77,7 +77,7 @@ const TIMES = [
   "9:00 PM",
 ];
 
-type BookingSelection = { venue: Venue; date: string; time: string | null };
+type BookingSelection = { venue: Venue; date: string; time: string | null; courtId?: string | null };
 
 function BookVenues() {
   const [q, setQ] = useState("");
@@ -111,7 +111,7 @@ function BookVenues() {
       initialTime = String(hour % 12 || 12) + ":" + parts[1] + " " + (hour >= 12 ? "PM" : "AM");
     }
     handledVenueDeepLink.current = true;
-    setBooking({ venue: linkedVenue, date: params.get("date") || today, time: initialTime });
+    setBooking({ venue: linkedVenue, date: params.get("date") || today, time: initialTime, courtId: params.get("court") });
     window.history.replaceState({}, "", window.location.pathname);
   }, [directoryVenues, today]);
 
@@ -565,6 +565,7 @@ function BookVenues() {
           venue={booking.venue}
           initialDate={booking.date}
           initialTime={booking.time}
+          initialCourtId={booking.courtId}
           onBookingSuccess={() => {
             loadBookings();
             setActiveTab("my-bookings");
@@ -919,6 +920,7 @@ function BookingDialog({
   venue,
   initialDate,
   initialTime,
+  initialCourtId,
   onBookingSuccess,
 }: {
   open: boolean;
@@ -926,6 +928,7 @@ function BookingDialog({
   venue: Venue;
   initialDate: string;
   initialTime: string | null;
+  initialCourtId?: string | null;
   onBookingSuccess?: () => void;
 }) {
   return (
@@ -944,6 +947,7 @@ function BookingDialog({
           initialSport={venue.sports[0]}
           initialDate={initialDate}
           initialTime={initialTime || undefined}
+          initialCourtId={initialCourtId || undefined}
           onBookingComplete={() => {
             onOpenChange(false);
             if (onBookingSuccess) {
