@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Building2, MapPin, ArrowRight, Trophy } from "lucide-react";
 import { VENUES, type Venue } from "@/data/khelgrid";
 import { VenueDetails } from "@/components/VenueDetails";
+import { VenueAvailabilityPreview } from "@/components/VenueAvailabilityPreview";
 import { toast } from "sonner";
 import { buildSeoHead } from "@/lib/seo";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -23,7 +24,7 @@ export const Route = createFileRoute("/venue/$id")({
           candidate.sports.some((sport) => seededVenue.sports.some((current) => current.toLowerCase() === sport.toLowerCase())),
         )
         .slice(0, 3);
-      return { venue: seededVenue, relatedVenues, notExact: false };
+      return { venue: seededVenue, relatedVenues, liveAvailability: false, notExact: false };
     }
 
     if (isSupabaseConfigured) {
@@ -98,6 +99,7 @@ export const Route = createFileRoute("/venue/$id")({
               contactEmail: data.contact_email ?? undefined,
             } satisfies Venue,
             relatedVenues,
+            liveAvailability: true,
             notExact: false,
           };
         }
@@ -149,7 +151,7 @@ export const Route = createFileRoute("/venue/$id")({
 });
 
 function VenueDetailPage() {
-  const { venue, relatedVenues = [] } = Route.useLoaderData();
+  const { venue, relatedVenues = [], liveAvailability = false } = Route.useLoaderData();
   const navigate = useNavigate();
 
   return (
@@ -185,6 +187,8 @@ function VenueDetailPage() {
             }}
           />
         </div>
+
+        {liveAvailability && <VenueAvailabilityPreview venueId={venue.id} pricePerHour={venue.pricePerHour} />}
 
         {relatedVenues.length > 0 && (
           <section aria-labelledby="related-venues-heading" className="mt-8">
