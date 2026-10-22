@@ -388,13 +388,13 @@ export async function downloadSportsCardAsPNG(data: SportsCVData): Promise<void>
   // Header banner
   ctx.fillStyle = primaryColor;
   ctx.font = "bold 20px sans-serif";
-  ctx.fillText("KHELGRID · VERIFIED ATHLETE SCOUT PROFILE", 70, 95);
+  ctx.fillText("KHELGRID · ATHLETE SPORTS PROFILE", 70, 95);
 
   // ID on right
   ctx.textAlign = "right";
   ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
   ctx.font = "16px monospace";
-  ctx.fillText(data.athleteId || "KG-SCOUT-2026", width - 70, 95);
+  ctx.fillText(data.athleteId || "PROFILE DRAFT", width - 70, 95);
   ctx.textAlign = "left";
 
   // Horizontal divider
@@ -631,12 +631,12 @@ export async function downloadSportsCardAsPNG(data: SportsCVData): Promise<void>
 
   ctx.fillStyle = primaryColor;
   ctx.font = "bold 16px sans-serif";
-  ctx.fillText("✓ VERIFIED ATHLETE PROFILE · KHELGRID SCOUT NETWORK", 70, footerY + 15);
+  ctx.fillText("ATHLETE-PROVIDED PROFILE · KHELGRID", 70, footerY + 15);
 
   ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
   ctx.font = "14px sans-serif";
   ctx.fillText(
-    "Tamper-proof athlete credentials verified against official state trials & academy records.",
+    "Athlete-provided information. Credentials are not independently verified by this card.",
     70,
     footerY + 38,
   );
