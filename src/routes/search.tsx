@@ -256,7 +256,7 @@ export const Route = createFileRoute("/search")({
           },
         ],
       },
-      {
+      ...(isCrpf ? [{
         "@context": "https://schema.org",
         "@type": "JobPosting",
         title: "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
@@ -281,7 +281,7 @@ export const Route = createFileRoute("/search")({
         totalJobOpenings: 521,
         directApply: true,
         url: "https://rect.crpf.gov.in",
-      },
+      }] : []),
       generateTrialsFaqSchema(),
     ];
 
