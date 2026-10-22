@@ -139,7 +139,9 @@ const EDITOR_HINDI: Record<string, string> = {
   "Metric removed.": "प्रदर्शन माप हटाया गया।",
 };
 
-export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {\n  const language = getSportsCVLanguage();\n  const localize = (value: string) => language === "hi" ? (EDITOR_HINDI[value] ?? value) : value;
+export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
+  const language = getSportsCVLanguage();
+  const localize = (value: string) => language === "hi" ? (EDITOR_HINDI[value] ?? value) : value;
   // New Achievement form state
   const [newAchTitle, setNewAchTitle] = useState("");
   const [newAchCompetition, setNewAchCompetition] = useState("");
