@@ -24,6 +24,7 @@ export interface Trial {
   city: string;
   date: string;
   fee: number;
+  feeLabel?: string;
   spots: number;
   tag: string;
   posterUrl?: string;
@@ -56,6 +57,7 @@ export const TRIALS: Trial[] = [
     date: "Oct 26–28, 2026",
     registrationDeadline: "Oct 26, 2026 (in-person reporting)",
     fee: 0,
+    feeLabel: "Fee not stated",
     spots: 20,
     tag: "Cricket Talent Hunt · 20 Players to Be Selected",
     ageCategory: "Players aged 16–23 years",
@@ -88,11 +90,11 @@ export const TRIALS: Trial[] = [
         description: "Three-day cricket talent identification programme; NCC plans to select 20 players for sponsorship and development.",
       },
     ],
-    eligibility: "Cricketers aged 16–23 years. The report describes the initiative as supporting promising players who lack access to quality training facilities and professional coaching. The published report does not specify gender restrictions, required documents, registration forms, or an entry fee; confirm these details with NCC before travelling.",
+    eligibility: "Cricketers aged 16–23 years. The initiative aims to support promising players who lack access to quality training facilities and professional coaching. The report does not specify gender restrictions, required documents, registration forms, or the entry fee; confirm these details with NCC before travelling. Selected players are to receive sponsorship, access to NCC facilities, coaching by Mumbai Cricket Association (MCA)-certified coaches and staff, potential visits to international clubs for learning and exposure, and opportunities to pursue MCA tournaments including the Mumbai T20 League. These are development opportunities, not a guarantee of selection for the Ranji Trophy or Indian team.",
     requiredDocuments: [
       "The published report does not list required documents. Contact NCC before travelling to confirm age proof, identity documents, cricket kit, and any other requirements.",
     ],
-    selectionProcess: "A three-day talent hunt from Oct 26 to 28, 2026. NCC says it will select 20 players to sponsor and groom. Detailed trial drills, selection criteria, and the selection committee were not specified in the report.",
+    selectionProcess: "A three-day talent hunt from Oct 26 to 28, 2026. NCC plans to select 20 players for sponsorship and development. The report does not publish the specific skill tests, selection criteria, or a named selection panel. The initiative is supported by SanRaj Group.",
     lastVerified: "2026-10-22",
   },
 
