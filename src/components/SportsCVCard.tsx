@@ -713,7 +713,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
         </div>
       )}
 
-      {/* Card Footer with QR verification & coach reference */}
+      {/* Card footer with profile link and coach reference */}
       <div className="mt-6 flex flex-col gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3.5 sm:flex-row sm:items-center sm:justify-between text-xs">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-neutral-300">
@@ -721,7 +721,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-white">Digital Scout Verification</span>
+              <span className="font-semibold text-white">KhelGrid Athlete Profile</span>
               {onShare && (
                 <button
                   type="button"
