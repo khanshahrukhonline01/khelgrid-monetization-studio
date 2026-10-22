@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TRIALS } from "@/data/trials";
-import { isTrialArchived } from "@/lib/opportunity-badge";
+import { getTrialEndDate, isTrialArchived } from "@/lib/opportunity-badge";
 
 export const Route = createFileRoute("/api/trials")({
   server: {
@@ -13,7 +13,10 @@ export const Route = createFileRoute("/api/trials")({
         const limitParam = url.searchParams.get("limit");
         const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 50, 1), 100) : 50;
 
-        let results = TRIALS.filter((trial) => (archive ? isTrialArchived(trial) : !isTrialArchived(trial)));
+        let results = TRIALS.filter((trial) => {
+          if (!getTrialEndDate(trial.date)) return false;
+          return archive ? isTrialArchived(trial) : !isTrialArchived(trial);
+        });
         if (sport && sport.toLowerCase() !== "all") {
           results = results.filter((t) => t.sport.toLowerCase() === sport.toLowerCase());
         }
