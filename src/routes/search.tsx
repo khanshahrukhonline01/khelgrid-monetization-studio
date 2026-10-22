@@ -86,6 +86,22 @@ import {
 const ALL_SPORT = "All Sports";
 const ALL_CITY = "All Locations";
 const ALL_CATEGORY = "All Categories";
+/** Reject malformed catalog/API rows before they reach search rendering and filters. */
+function isValidTrialRecord(value: unknown): value is Trial {
+  if (!value || typeof value !== "object") return false;
+  const trial = value as Partial<Trial>;
+  return (
+    typeof trial.id === "string" && trial.id.trim().length > 0 &&
+    typeof trial.title === "string" &&
+    typeof trial.academy === "string" &&
+    typeof trial.sport === "string" &&
+    typeof trial.city === "string" &&
+    typeof trial.date === "string" &&
+    typeof trial.tag === "string" &&
+    typeof trial.fee === "number"
+  );
+}
+
 
 const SORTS = ["Soonest", "Most spots", "Lowest fee", "Highest spots"] as const;
 type SortKey = (typeof SORTS)[number];
@@ -324,20 +340,24 @@ function SearchPage() {
   const [detailsTrial, setDetailsTrial] = useState<Trial | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  const [trialsList, setTrialsList] = useState<Trial[]>(TRIALS);
+  const [trialsList, setTrialsList] = useState<Trial[]>(() => TRIALS.filter(isValidTrialRecord));
 
   useEffect(() => {
     let isMounted = true;
-    fetchAvailableTrialsFromSupabase({ archive: params.archive }).then((res) => {
-      if (isMounted && res.isSupabaseLive && res.trials.length > 0) {
+    fetchAvailableTrialsFromSupabase({ archive: params.archive })
+      .then((res) => {
+        if (!isMounted || !res?.isSupabaseLive || !Array.isArray(res.trials) || res.trials.length === 0) return;
         const map = new Map<string, Trial>();
-        TRIALS.forEach((t) => map.set(t.id, t));
-        res.trials.forEach((t) => {
-          map.set(t.id, t as unknown as Trial);
+        TRIALS.filter(isValidTrialRecord).forEach((trial) => map.set(trial.id, trial));
+        res.trials.filter(isValidTrialRecord).forEach((trial) => {
+          map.set(trial.id, trial);
         });
         setTrialsList(Array.from(map.values()));
-      }
-    });
+      })
+      .catch((error) => {
+        // Keep the local catalogue available if the optional remote feed is unavailable.
+        console.error("[KhelGrid search] Could not load remote opportunities:", error);
+      });
     return () => {
       isMounted = false;
     };
@@ -418,7 +438,7 @@ function SearchPage() {
   // Filtered and sorted results
   const results = useMemo(() => {
     const q = params.q.trim().toLowerCase();
-    let list = trialsList.filter((t) => {
+    let list = trialsList.filter((t) => {\n      if (!isValidTrialRecord(t)) return false;
       // Keep the main discovery feed current. Completed dated opportunities are
       // available through the explicit archive toggle instead of cluttering results.
       const endDate = getTrialEndDate(t.date);
