@@ -96,6 +96,56 @@ const METRIC_CATEGORIES: MetricCategory[] = [
 ];
 
 const EDITOR_HINDI: Record<string, string> = {
+  "City": "शहर",
+  "Height": "लंबाई",
+  "Weight": "वज़न",
+  "Right-Handed / Right-Footed": "दाएँ हाथ / पैर से खेलने वाला",
+  "Left-Handed / Left-Footed": "बाएँ हाथ / पैर से खेलने वाला",
+  "Ambidextrous": "दोनों हाथों से खेलने वाला",
+  "Dominant Side": "प्रमुख हाथ / पैर",
+  "Availability": "उपलब्धता",
+  "Level": "स्तर",
+  "Category": "श्रेणी",
+  "Select level": "स्तर चुनें",
+  "Select award": "पुरस्कार चुनें",
+  "Gold / 1st Place": "स्वर्ण / प्रथम स्थान",
+  "Silver / 2nd Place": "रजत / द्वितीय स्थान",
+  "Bronze / 3rd Place": "कांस्य / तृतीय स्थान",
+  "MVP / Best Player": "सर्वश्रेष्ठ खिलाड़ी",
+  "Best Bowler": "सर्वश्रेष्ठ गेंदबाज़",
+  "Best Batsman": "सर्वश्रेष्ठ बल्लेबाज़",
+  "Top Scorer": "सर्वाधिक स्कोर",
+  "State Selection": "राज्य टीम में चयन",
+  "Finalist": "फाइनलिस्ट",
+  "Certificate of Merit": "योग्यता प्रमाणपत्र",
+  "School": "स्कूल",
+  "Club": "क्लब",
+  "District": "ज़िला",
+  "State": "राज्य",
+  "National": "राष्ट्रीय",
+  "International": "अंतरराष्ट्रीय",
+  "Speed": "गति",
+  "Endurance": "सहनशक्ति",
+  "Power": "शक्ति",
+  "Athleticism": "शारीरिक क्षमता",
+  "Sport-Specific": "खेल-विशिष्ट",
+  "Twitter / 𝕏 Handle or Link": "Twitter / 𝕏 नाम या लिंक",
+  "CricHeroes Profile (for Cricket)": "CricHeroes प्रोफ़ाइल (क्रिकेट के लिए)",
+  "Strava Profile (for Athletics/Running)": "Strava प्रोफ़ाइल (एथलेटिक्स / दौड़ के लिए)",
+  "Please enter the team/squad name and position.": "कृपया टीम का नाम और पोज़िशन दर्ज करें।",
+  "Position and squad history logged!": "पोज़िशन और टीम का इतिहास जोड़ दिया गया।",
+  "Position history entry removed.": "पोज़िशन इतिहास हटाया गया।",
+  "Please enter the tournament or competition name.": "कृपया टूर्नामेंट या प्रतियोगिता का नाम दर्ज करें।",
+  "Season stats recorded!": "सीज़न के आँकड़े दर्ज किए गए।",
+  "Season stat entry removed.": "सीज़न के आँकड़े हटाए गए।",
+  "Please enter achievement title and competition name.": "कृपया उपलब्धि और प्रतियोगिता का नाम दर्ज करें।",
+  "Athletic achievement added to your profile card!": "खेल उपलब्धि प्रोफ़ाइल कार्ड में जोड़ दी गई।",
+  "Achievement removed.": "उपलब्धि हटाई गई।",
+  "Please enter metric test name and score value.": "कृपया प्रदर्शन परीक्षण और परिणाम दर्ज करें।",
+  "Performance metric added to your profile card!": "प्रदर्शन माप प्रोफ़ाइल कार्ड में जोड़ दिया गया।",
+  "Metric removed.": "प्रदर्शन माप हटाया गया।",
+  "Configured career stat benchmarks for": "खेल के करियर आँकड़ों के मानक सेट किए गए।",
+  "Applied recommended": "अनुशंसित प्रदर्शन मानक लागू किए गए।",
   "Position & Athlete Credentials": "खिलाड़ी की जानकारी और प्रमाण-पत्र",
   "Full Athlete Name": "खिलाड़ी का पूरा नाम",
   "Primary Sport": "मुख्य खेल",
@@ -347,7 +397,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
         },
       },
     });
-    toast.success(`Configured career stat benchmarks for ${data.sport}!`);
+    toast.success(language === "hi" ? `${data.sport} के करियर आँकड़ों के मानक सेट किए गए।` : `Configured career stat benchmarks for ${data.sport}!`);
   };
 
   // Add Achievement
@@ -438,7 +488,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
       ...data,
       performanceMetrics: generated,
     });
-    toast.success(`Applied recommended ${data.sport} performance benchmarks!`);
+    toast.success(language === "hi" ? `${data.sport} के अनुशंसित प्रदर्शन मानक लागू किए गए।` : `Applied recommended ${data.sport} performance benchmarks!`);
   };
 
   const currentSportPositions = SPORT_POSITION_PRESETS[data.sport] || [];
@@ -581,7 +631,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* City */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-city">City</Label>
+            <Label htmlFor="cv-city">{localize("City")}</Label>
             <Input
               id="cv-city"
               value={data.city}
@@ -603,7 +653,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* Physical Attributes: Height, Weight, Dominant Side */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-height">Height</Label>
+            <Label htmlFor="cv-height">{localize("Height")}</Label>
             <Input
               id="cv-height"
               value={data.height}
@@ -613,7 +663,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="cv-weight">Weight</Label>
+            <Label htmlFor="cv-weight">{localize("Weight")}</Label>
             <Input
               id="cv-weight"
               value={data.weight}
@@ -631,12 +681,12 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
               }
             >
               <SelectTrigger id="cv-dominant">
-                <SelectValue placeholder="Dominant Side" />
+                <SelectValue placeholder={localize("Dominant Side")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Right">Right-Handed / Right-Footed</SelectItem>
-                <SelectItem value="Left">Left-Handed / Left-Footed</SelectItem>
-                <SelectItem value="Ambidextrous">Ambidextrous</SelectItem>
+                <SelectItem value="Right">{localize("Right-Handed / Right-Footed")}</SelectItem>
+                <SelectItem value="Left">{localize("Left-Handed / Left-Footed")}</SelectItem>
+                <SelectItem value="Ambidextrous">{localize("Ambidextrous")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -650,7 +700,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
               ) => updateField("availability", val)}
             >
               <SelectTrigger id="cv-availability">
-                <SelectValue placeholder="Availability" />
+                <SelectValue placeholder={localize("Availability")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Open for Trials">{localize("Open for Trials")}</SelectItem>
@@ -1092,7 +1142,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
                 onValueChange={(val: AchievementLevel) => setNewPosLevel(val)}
               >
                 <SelectTrigger id="pos-level">
-                  <SelectValue placeholder="Level" />
+                  <SelectValue placeholder={localize("Level")} />
                 </SelectTrigger>
                 <SelectContent>
                   {ACHIEVEMENT_LEVELS.map((lvl) => (
@@ -1310,7 +1360,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
                 onValueChange={(val: MetricCategory) => setNewMetCategory(val)}
               >
                 <SelectTrigger id="met-category">
-                  <SelectValue placeholder="Category" />
+                  <SelectValue placeholder={localize("Category")} />
                 </SelectTrigger>
                 <SelectContent>
                   {METRIC_CATEGORIES.map((c) => (
@@ -1476,7 +1526,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
                 onValueChange={(val: AchievementLevel) => setNewAchLevel(val)}
               >
                 <SelectTrigger id="ach-level">
-                  <SelectValue placeholder="Select level" />
+                  <SelectValue placeholder={localize("Select level")} />
                 </SelectTrigger>
                 <SelectContent>
                   {ACHIEVEMENT_LEVELS.map((lvl) => (
@@ -1494,7 +1544,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
               </Label>
               <Select value={newAchAward} onValueChange={(val: AwardType) => setNewAchAward(val)}>
                 <SelectTrigger id="ach-award">
-                  <SelectValue placeholder="Select award" />
+                  <SelectValue placeholder={localize("Select award")} />
                 </SelectTrigger>
                 <SelectContent>
                   {AWARD_TYPES.map((aw) => (
@@ -1619,7 +1669,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="cv-twitter">Twitter / 𝕏 Handle or Link</Label>
+            <Label htmlFor="cv-twitter">{localize("Twitter / 𝕏 Handle or Link")}</Label>
             <Input
               id="cv-twitter"
               value={data.socialProfiles?.twitter || ""}
@@ -1634,7 +1684,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="cv-cricheroes">CricHeroes Profile (for Cricket)</Label>
+            <Label htmlFor="cv-cricheroes">{localize("CricHeroes Profile (for Cricket)")}</Label>
             <Input
               id="cv-cricheroes"
               value={data.socialProfiles?.cricheroes || ""}
@@ -1649,7 +1699,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="cv-strava">Strava Profile (for Athletics/Running)</Label>
+            <Label htmlFor="cv-strava">{localize("Strava Profile (for Athletics/Running)")}</Label>
             <Input
               id="cv-strava"
               value={data.socialProfiles?.strava || ""}
