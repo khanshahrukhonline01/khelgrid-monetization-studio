@@ -255,9 +255,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
       const startSQL = formatTimeToSQL(hour.time);
       const endSQL = calculateEndTimeSQL(hour.time, durationHours);
       const hasConflict = availabilityRows.some((booking) => startSQL < booking.end_time && endSQL > booking.start_time);
-      let slotBase = baseRate;
-      if (hour.peak && baseRate > 0) slotBase = Math.round(baseRate * 1.15);
-      else if (hour.discount > 0 && baseRate > 0) slotBase = Math.round(baseRate * (1 - hour.discount / 100));
+      // Use the published venue rate; do not invent peak surcharges or discounts.
       const status: CourtSlot["status"] = hasConflict ? "booked" : selectedSlotTime === hour.time ? "selected" : "available";
       return {
         id: `slot-${index}-${hour.time.replace(/[^a-zA-Z0-9]/g, "")}`,
@@ -267,11 +265,11 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
         endTime: calculateSlotEndTime(hour.time, durationHours),
         period: hour.period,
         basePrice: baseRate,
-        finalPrice: slotBase,
+        finalPrice: baseRate,
         status,
-        isPeak: hour.peak,
-        isDiscounted: hour.discount > 0,
-        discountPercent: hour.discount > 0 ? hour.discount : undefined,
+        isPeak: false,
+        isDiscounted: false,
+        discountPercent: undefined,
         remainingCapacity: hasConflict ? 0 : 1,
       };
     });
@@ -310,8 +308,8 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     }, 0);
 
     const subtotal = courtTotal + addonsTotal;
-    // Platform fee + convenience GST
-    const taxesAndFees = Math.round(subtotal * 0.05);
+    // KhelGrid does not charge a platform or convenience fee in this phase.
+    const taxesAndFees = 0;
     const grandTotal = subtotal + taxesAndFees;
 
     return {
@@ -387,6 +385,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
         duration_hours: durationHours,
         user_email: customer.email || "guest@khelgrid.com",
         user_phone: customer.phone,
+        total_price: priceBreakdown.grandTotal,
       });
 
       if (res.success && res.booking) {
@@ -416,6 +415,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     selectedSport,
     selectedDate,
     durationHours,
+    priceBreakdown.grandTotal,
     refreshBookings,
   ]);
 
