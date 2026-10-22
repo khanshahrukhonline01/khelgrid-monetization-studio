@@ -87,7 +87,6 @@ export function generateSitemapEntries(): SitemapEntry[] {
     const endDate = getTrialEndDate(trial.date);
     if (!endDate || endDate.getTime() < now.getTime()) continue;
     add(`/trial/${trial.id}`, 0.9, "weekly");
-    add(`/opportunities/${trial.id}`, 0.85, "weekly");
   }
 
   // Dynamic Verified Sports Venues & Turfs
