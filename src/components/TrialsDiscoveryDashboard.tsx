@@ -56,6 +56,13 @@ const SPORT_EMOJIS: Record<string, string> = {
   Squash: "🎾",
   "Soft Tennis": "🎾",
   Netball: "🤾",
+  Rugby: "🏉",
+  "Thang-Ta": "🥋",
+  "Wrestling Freestyle": "🤼",
+  Softball: "🥎",
+  Yogasana: "🧘",
+  "Sepak Takraw": "🤾",
+  "Track Cycling": "🚴",
 };
 
 export function TrialsDiscoveryDashboard({
