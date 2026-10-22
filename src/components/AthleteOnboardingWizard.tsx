@@ -1372,7 +1372,7 @@ export function AthleteOnboardingWizard({
                   <Input
                     value={data.socialProfiles?.instagram || ""}
                     onChange={(e) => cleanInstagramInput(e.target.value)}
-                    placeholder="e.g. @aarav.cricket or https://instagram.com/..."
+                    placeholder={language === "hi" ? "उदाहरण: @aarav.cricket या https://instagram.com/..." : "e.g. @aarav.cricket or https://instagram.com/..."}
                     className="h-10 text-xs sm:text-sm font-medium"
                   />
                   {data.socialProfiles?.instagram && (
@@ -1419,7 +1419,7 @@ export function AthleteOnboardingWizard({
                 <Input
                   value={data.socialProfiles?.youtube || data.highlightVideoUrl || ""}
                   onChange={(e) => updateSocialField("youtube", e.target.value)}
-                  placeholder="e.g. https://youtu.be/sample-reel or https://www.youtube.com/watch?v=..."
+                  placeholder={language === "hi" ? "उदाहरण: https://youtu.be/sample-reel या YouTube वीडियो लिंक" : "e.g. https://youtu.be/sample-reel or https://www.youtube.com/watch?v=..."}
                   className="h-10 text-xs sm:text-sm font-medium"
                 />
 
@@ -1428,7 +1428,7 @@ export function AthleteOnboardingWizard({
                   <div className="overflow-hidden rounded-xl border border-border/80 bg-black aspect-video mt-2">
                     <iframe
                       src={youtubeEmbedUrl}
-                      title="Skills Highlight Reel Preview"
+                      title={language === "hi" ? "खेल कौशल वीडियो का पूर्वावलोकन" : "Skills Highlight Reel Preview"}
                       className="w-full h-full border-0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -1460,7 +1460,7 @@ export function AthleteOnboardingWizard({
                 <Input
                   value={data.socialProfiles?.twitter || ""}
                   onChange={(e) => cleanTwitterInput(e.target.value)}
-                  placeholder="e.g. @aarav_pace"
+                  placeholder={language === "hi" ? "उदाहरण: @aarav_pace" : "e.g. @aarav_pace"}
                   className="h-10 text-xs sm:text-sm font-medium"
                 />
               </div>
@@ -1479,7 +1479,7 @@ export function AthleteOnboardingWizard({
                     <Input
                       value={data.socialProfiles?.cricheroes || ""}
                       onChange={(e) => updateSocialField("cricheroes", e.target.value)}
-                      placeholder="https://cricheroes.com/player-profile/..."
+                      placeholder={language === "hi" ? "CricHeroes खिलाड़ी प्रोफ़ाइल लिंक" : "https://cricheroes.com/player-profile/..."}
                       className="h-9 text-xs"
                     />
                   </div>
@@ -1491,7 +1491,7 @@ export function AthleteOnboardingWizard({
                     <Input
                       value={data.socialProfiles?.strava || ""}
                       onChange={(e) => updateSocialField("strava", e.target.value)}
-                      placeholder="https://www.strava.com/athletes/..."
+                      placeholder={language === "hi" ? "Strava खिलाड़ी प्रोफ़ाइल लिंक" : "https://www.strava.com/athletes/..."}
                       className="h-9 text-xs"
                     />
                   </div>
@@ -1506,7 +1506,7 @@ export function AthleteOnboardingWizard({
                       onChange={(e) => {
                         updateSocialField("khelgrid", e.target.value);
                       }}
-                      placeholder="e.g. https://www.khelgrid.com/profile/..."
+                      placeholder={language === "hi" ? "उदाहरण: https://www.khelgrid.com/profile/..." : "e.g. https://www.khelgrid.com/profile/..."}
                       className="h-9 text-xs"
                     />
                   </div>
