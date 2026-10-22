@@ -45,6 +45,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { getSportsCVLanguage } from "@/lib/sports-cv-i18n";
 
 interface SportsCVEditorProps {
   data: SportsCVData;
@@ -94,7 +95,51 @@ const METRIC_CATEGORIES: MetricCategory[] = [
   "Sport-Specific",
 ];
 
-export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
+const EDITOR_HINDI: Record<string, string> = {
+  "Position & Athlete Credentials": "खिलाड़ी की जानकारी और प्रमाण-पत्र",
+  "Full Athlete Name": "खिलाड़ी का पूरा नाम",
+  "Primary Sport": "मुख्य खेल",
+  "Select sport": "खेल चुनें",
+  "Primary Playing Position / Role": "मुख्य पोज़िशन / भूमिका",
+  "Secondary Role / Speciality (Optional)": "दूसरी भूमिका / विशेषता (वैकल्पिक)",
+  "Jersey / Squad Number": "जर्सी / टीम नंबर",
+  "Age Band / Category": "आयु वर्ग",
+  "Select age band": "आयु वर्ग चुनें",
+  "Current Academy, Club or School": "वर्तमान अकादमी, क्लब या स्कूल",
+  "State / Region": "राज्य / क्षेत्र",
+  "Dominant Side": "प्रमुख हाथ / पैर",
+  "Scout Availability": "ट्रायल के लिए उपलब्धता",
+  "Open for Trials": "ट्रायल के लिए उपलब्ध",
+  "Free Agent": "किसी क्लब से अनुबंधित नहीं",
+  "Club Contracted": "क्लब से अनुबंधित",
+  "Academy Trainee": "अकादमी प्रशिक्षु",
+  "Scout Bio & Playing Style Summary": "खिलाड़ी का परिचय और खेलने की शैली",
+  "Career Stats & Match Records": "करियर आँकड़े और मैच रिकॉर्ड",
+  "Position & Squad History": "पोज़िशन और टीम का इतिहास",
+  "Athletic Performance Metrics": "खेल प्रदर्शन के माप",
+  "Athletic Achievements & Honours": "खेल उपलब्धियाँ और सम्मान",
+  "Coach Reference & Media": "कोच का संदर्भ और मीडिया",
+  "Coach Reference Name": "कोच का नाम",
+  "Coach Title / Academy": "कोच का पद / अकादमी",
+  "Skills Highlight Reel Link": "खेल कौशल वीडियो का लिंक",
+  "Connected Socials & Athletic Profiles": "सोशल मीडिया और खेल प्रोफ़ाइल",
+  "Instagram Handle or Link": "Instagram नाम या लिंक",
+  "KhelGrid Profile / Community ID": "KhelGrid प्रोफ़ाइल / कम्युनिटी ID",
+  "Please enter the team/squad name and position.": "कृपया टीम का नाम और पोज़िशन दर्ज करें।",
+  "Position and squad history logged!": "पोज़िशन और टीम का इतिहास जोड़ दिया गया।",
+  "Position history entry removed.": "पोज़िशन इतिहास हटाया गया।",
+  "Please enter the tournament or competition name.": "कृपया टूर्नामेंट या प्रतियोगिता का नाम दर्ज करें।",
+  "Season stats recorded!": "सीज़न के आँकड़े दर्ज किए गए।",
+  "Season stat entry removed.": "सीज़न के आँकड़े हटाए गए।",
+  "Please enter achievement title and competition name.": "कृपया उपलब्धि और प्रतियोगिता का नाम दर्ज करें।",
+  "Athletic achievement added to your profile card!": "खेल उपलब्धि प्रोफ़ाइल कार्ड में जोड़ दी गई।",
+  "Achievement removed.": "उपलब्धि हटाई गई।",
+  "Please enter metric test name and score value.": "कृपया प्रदर्शन परीक्षण और परिणाम दर्ज करें।",
+  "Performance metric added to your profile card!": "प्रदर्शन माप प्रोफ़ाइल कार्ड में जोड़ दिया गया।",
+  "Metric removed.": "प्रदर्शन माप हटाया गया।",
+};
+
+export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {\n  const language = getSportsCVLanguage();\n  const localize = (value: string) => language === "hi" ? (EDITOR_HINDI[value] ?? value) : value;
   // New Achievement form state
   const [newAchTitle, setNewAchTitle] = useState("");
   const [newAchCompetition, setNewAchCompetition] = useState("");
@@ -154,7 +199,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
   const handleAddPositionHistory = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPosTeam.trim() || !newPosPosition.trim()) {
-      toast.error("Please enter the team/squad name and position.");
+      toast.error(localize("Please enter the team/squad name and position."));
       return;
     }
 
@@ -178,7 +223,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
     setNewPosTeam("");
     setNewPosNotes("");
-    toast.success("Position and squad history logged!");
+    toast.success(localize("Position and squad history logged!"));
   };
 
   const handleRemovePositionHistory = (id: string) => {
@@ -187,7 +232,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
       ...data,
       positionHistory: updated,
     });
-    toast.info("Position history entry removed.");
+    toast.info(localize("Position history entry removed."));
   };
 
   // Career Summary Updater
@@ -234,7 +279,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
   const handleAddSeasonStat = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newSeasonTournament.trim()) {
-      toast.error("Please enter the tournament or competition name.");
+      toast.error(localize("Please enter the tournament or competition name."));
       return;
     }
 
@@ -263,7 +308,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
     setNewSeasonStat2Val("");
     setNewSeasonStat3Val("");
     setNewSeasonHighlight("");
-    toast.success("Season stats recorded!");
+    toast.success(localize("Season stats recorded!"));
   };
 
   const handleRemoveSeasonStat = (id: string) => {
@@ -272,7 +317,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
       ...data,
       careerSeasonStats: updated,
     });
-    toast.info("Season stat entry removed.");
+    toast.info(localize("Season stat entry removed."));
   };
 
   // Apply Sport Career Stat Template
@@ -307,7 +352,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
   const handleAddAchievement = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newAchTitle.trim() || !newAchCompetition.trim()) {
-      toast.error("Please enter achievement title and competition name.");
+      toast.error(localize("Please enter achievement title and competition name."));
       return;
     }
 
@@ -330,7 +375,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
     setNewAchTitle("");
     setNewAchCompetition("");
     setNewAchDesc("");
-    toast.success("Athletic achievement added to your profile card!");
+    toast.success(localize("Athletic achievement added to your profile card!"));
   };
 
   const handleRemoveAchievement = (id: string) => {
@@ -338,14 +383,14 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
       ...data,
       achievements: data.achievements.filter((a) => a.id !== id),
     });
-    toast.info("Achievement removed.");
+    toast.info(localize("Achievement removed."));
   };
 
   // Add Metric
   const handleAddMetric = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMetName.trim() || !newMetValue.trim()) {
-      toast.error("Please enter metric test name and score value.");
+      toast.error(localize("Please enter metric test name and score value."));
       return;
     }
 
@@ -368,7 +413,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
     setNewMetValue("");
     setNewMetUnit("");
     setNewMetBenchmark("");
-    toast.success("Performance metric added to your profile card!");
+    toast.success(localize("Performance metric added to your profile card!"));
   };
 
   const handleRemoveMetric = (id: string) => {
@@ -376,7 +421,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
       ...data,
       performanceMetrics: data.performanceMetrics.filter((m) => m.id !== id),
     });
-    toast.info("Metric removed.");
+    toast.info(localize("Metric removed."));
   };
 
   // Apply Sport Preset Metrics
@@ -404,7 +449,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
         <div className="flex items-center justify-between border-b border-border pb-3">
           <div className="flex items-center gap-2">
             <User className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-bold">Position & Athlete Credentials</h3>
+            <h3 className="text-base font-bold">{localize("Position & Athlete Credentials")}</h3>
           </div>
           <Badge variant="outline" className="text-xs">
             Core Identity
@@ -414,7 +459,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {/* Athlete Name */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-athlete-name">Full Athlete Name</Label>
+            <Label htmlFor="cv-athlete-name">{localize("Full Athlete Name")}</Label>
             <Input
               id="cv-athlete-name"
               value={data.athleteName}
@@ -425,7 +470,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* Sport */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-sport-select">Primary Sport</Label>
+            <Label htmlFor="cv-sport-select">{localize("Primary Sport")}</Label>
             <Select
               value={data.sport}
               onValueChange={(val: SportType) => updateField("sport", val)}
@@ -446,7 +491,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           {/* Primary Playing Position */}
           <div className="sm:col-span-2 space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="cv-position">Primary Playing Position / Role</Label>
+              <Label htmlFor="cv-position">{localize("Primary Playing Position / Role")}</Label>
               <span className="text-[11px] text-muted-foreground">
                 Click a role suggestion below
               </span>
@@ -481,7 +526,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* Secondary Position */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-secondary-pos">Secondary Role / Speciality (Optional)</Label>
+            <Label htmlFor="cv-secondary-pos">{localize("Secondary Role / Speciality (Optional)")}</Label>
             <Input
               id="cv-secondary-pos"
               value={data.secondaryPosition || ""}
@@ -492,7 +537,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* Jersey Number */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-jersey">Jersey / Squad Number</Label>
+            <Label htmlFor="cv-jersey">{localize("Jersey / Squad Number")}</Label>
             <Input
               id="cv-jersey"
               value={data.jerseyNumber || ""}
@@ -503,7 +548,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* Age Category */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-age-category">Age Band / Category</Label>
+            <Label htmlFor="cv-age-category">{localize("Age Band / Category")}</Label>
             <Select
               value={data.ageCategory}
               onValueChange={(val) => updateField("ageCategory", val)}
@@ -523,7 +568,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* Current Academy / Club */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-academy">Current Academy, Club or School</Label>
+            <Label htmlFor="cv-academy">{localize("Current Academy, Club or School")}</Label>
             <Input
               id="cv-academy"
               value={data.currentAcademy}
@@ -545,7 +590,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* State */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-state">State / Region</Label>
+            <Label htmlFor="cv-state">{localize("State / Region")}</Label>
             <Input
               id="cv-state"
               value={data.state}
@@ -576,7 +621,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="cv-dominant">Dominant Side</Label>
+            <Label htmlFor="cv-dominant">{localize("Dominant Side")}</Label>
             <Select
               value={data.dominantSide}
               onValueChange={(val: "Right" | "Left" | "Ambidextrous") =>
@@ -595,7 +640,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="cv-availability">Scout Availability</Label>
+            <Label htmlFor="cv-availability">{localize("Scout Availability")}</Label>
             <Select
               value={data.availability}
               onValueChange={(
@@ -606,17 +651,17 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
                 <SelectValue placeholder="Availability" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Open for Trials">Open for Trials</SelectItem>
-                <SelectItem value="Free Agent">Free Agent</SelectItem>
-                <SelectItem value="Club Contracted">Club Contracted</SelectItem>
-                <SelectItem value="Academy Trainee">Academy Trainee</SelectItem>
+                <SelectItem value="Open for Trials">{localize("Open for Trials")}</SelectItem>
+                <SelectItem value="Free Agent">{localize("Free Agent")}</SelectItem>
+                <SelectItem value="Club Contracted">{localize("Club Contracted")}</SelectItem>
+                <SelectItem value="Academy Trainee">{localize("Academy Trainee")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Bio */}
           <div className="sm:col-span-2 space-y-1.5">
-            <Label htmlFor="cv-bio">Scout Bio & Playing Style Summary</Label>
+            <Label htmlFor="cv-bio">{localize("Scout Bio & Playing Style Summary")}</Label>
             <Textarea
               id="cv-bio"
               rows={2}
@@ -634,7 +679,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           <div>
             <div className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-primary" />
-              <h3 className="text-base font-bold">Career Stats & Match Records</h3>
+              <h3 className="text-base font-bold">{localize("Career Stats & Match Records")}</h3>
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">
               Showcase high-impact career totals, win rates, and tournament-by-tournament season
@@ -904,7 +949,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           <div>
             <div className="flex items-center gap-2">
               <Layers className="h-5 w-5 text-primary" />
-              <h3 className="text-base font-bold">Position & Squad History</h3>
+              <h3 className="text-base font-bold">{localize("Position & Squad History")}</h3>
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">
               Document your positions played across academies, state squads, clubs, and school
@@ -1113,7 +1158,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           <div>
             <div className="flex items-center gap-2">
               <Zap className="h-5 w-5 text-amber-500" />
-              <h3 className="text-base font-bold">Athletic Performance Metrics</h3>
+              <h3 className="text-base font-bold">{localize("Athletic Performance Metrics")}</h3>
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">
               Input physical test benchmarks, sprints, stamina scores, or sport-specific stats.
@@ -1317,7 +1362,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           <div>
             <div className="flex items-center gap-2">
               <Trophy className="h-5 w-5 text-amber-500" />
-              <h3 className="text-base font-bold">Athletic Achievements & Honours</h3>
+              <h3 className="text-base font-bold">{localize("Athletic Achievements & Honours")}</h3>
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">
               List tournament medals, state selections, trophies, and trial achievements.
@@ -1486,7 +1531,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
         <div className="flex items-center justify-between border-b border-border pb-3">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-5 w-5 text-emerald-500" />
-            <h3 className="text-base font-bold">Coach Reference & Media</h3>
+            <h3 className="text-base font-bold">{localize("Coach Reference & Media")}</h3>
           </div>
           <Badge variant="outline" className="text-xs">
             Scout Verification
@@ -1495,7 +1540,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <Label htmlFor="cv-coach-name">Coach Reference Name</Label>
+            <Label htmlFor="cv-coach-name">{localize("Coach Reference Name")}</Label>
             <Input
               id="cv-coach-name"
               value={data.coachReference?.name || ""}
@@ -1511,7 +1556,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="cv-coach-desig">Coach Title / Academy</Label>
+            <Label htmlFor="cv-coach-desig">{localize("Coach Title / Academy")}</Label>
             <Input
               id="cv-coach-desig"
               value={data.coachReference?.designation || ""}
@@ -1527,7 +1572,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
           </div>
 
           <div className="sm:col-span-2 space-y-1.5">
-            <Label htmlFor="cv-video">Skills Highlight Reel Link</Label>
+            <Label htmlFor="cv-video">{localize("Skills Highlight Reel Link")}</Label>
             <Input
               id="cv-video"
               value={data.highlightVideoUrl || ""}
@@ -1543,7 +1588,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
         <div className="flex items-center justify-between border-b border-border pb-3">
           <div className="flex items-center gap-2">
             <User className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-bold">Connected Socials & Athletic Profiles</h3>
+            <h3 className="text-base font-bold">{localize("Connected Socials & Athletic Profiles")}</h3>
           </div>
           <Badge variant="outline" className="text-xs">
             Scout Recruitment
@@ -1557,7 +1602,7 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <Label htmlFor="cv-instagram">Instagram Handle or Link</Label>
+            <Label htmlFor="cv-instagram">{localize("Instagram Handle or Link")}</Label>
             <Input
               id="cv-instagram"
               value={data.socialProfiles?.instagram || ""}
