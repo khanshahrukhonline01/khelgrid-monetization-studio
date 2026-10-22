@@ -49,6 +49,67 @@ export interface Trial {
 
 export const TRIALS: Trial[] = [
   {
+    id: "t-delhi-doe-softball-u19-open-selection-trials-2026",
+    title: "Delhi School Softball Open Selection Trials — 70th National School Games",
+    academy: "Directorate of Education, Sports Branch, Government of NCT of Delhi",
+    sport: "Softball",
+    city: "Delhi",
+    date: "Oct 23–24, 2026 · 2:00 PM onwards",
+    registrationDeadline: "Oct 23, 2026 (trial starts)",
+    fee: 0,
+    feeLabel: "Fee not stated in circular",
+    spots: 0,
+    tag: "Official School Games Selection Trial",
+    ageCategory: "U-19",
+    gender: "Boys & Girls",
+    verifiedLabel: "Official Delhi Directorate of Education circular",
+    urgencyText: "Trials begin Oct 23 · Bring original documents and photocopies",
+    badge: "New",
+    venue: "Sports Complex, F-Block, Vikas Puri, Delhi",
+    sourceUrl: "https://www.edudel.nic.in/mis/misadmin/frmCircular_pdf_File.aspx?id=010000005694A6333B84699ED65AAE19E4F7E47AD6796C10562B4A7E04AEB181FC8B058C5FFA6899461896FDD205855CBF4A1DFD",
+    sourceLabel: "Delhi Directorate of Education — Official Circular (19 Oct 2026)",
+    sources: [
+      {
+        label: "View official 8-page circular (PDF)",
+        url: "https://www.edudel.nic.in/mis/misadmin/frmCircular_pdf_File.aspx?id=010000005694A6333B84699ED65AAE19E4F7E47AD6796C10562B4A7E04AEB181FC8B058C5FFA6899461896FDD205855CBF4A1DFD",
+      },
+      {
+        label: "Delhi Directorate of Education — Sports Branch Circulars",
+        url: "https://www.edudel.nic.in/mis/misadmin/SportBranchCircular.aspx",
+      },
+    ],
+    timelines: [
+      {
+        label: "Open selection trial",
+        date: "Oct 23–24, 2026 · 2:00 PM onwards",
+        description: "Softball U-19 boys and girls trial at Sports Complex, F-Block, Vikas Puri, Delhi.",
+      },
+      {
+        label: "Coaching / training camp",
+        date: "Oct 25–Nov 15, 2026",
+        description: "Camp for selected players at the same Sports Complex, as stated in the circular.",
+      },
+      {
+        label: "70th National School Games",
+        date: "Nov 18–22, 2026",
+        description: "Selected Delhi players are scheduled to represent Delhi at the national softball event in Chandigarh.",
+      },
+    ],
+    eligibility: "For Delhi school students in Softball U-19 boys and girls. The circular states players should be born on or after 01/01/2008, be enrolled in a class from 6th standard through 12th or below, and be regular students of a school under the Directorate of Education, Delhi. Kendriya Vidyalaya students are not eligible.",
+    requiredDocuments: [
+      "Original birth certificate",
+      "Class 10 certificate showing date of birth",
+      "Date-of-birth certificate from HOS / Principal",
+      "Aadhaar card",
+      "School I-card",
+      "One self-attested photocopy set of the documents",
+      "Proper softball playing kit",
+    ],
+    selectionProcess: "Open selection trial conducted by the Directorate of Education, Sports Branch. Selected players attend the coaching/training camp and are scheduled to represent Delhi at the 70th National School Games in Chandigarh.",
+    lastVerified: "2026-10-22",
+  },
+
+  {
     id: "t-national-cricket-club-mumbai-talent-hunt-2026",
     title: "National Cricket Club Mumbai Talent Hunt (Ages 16–23)",
     academy: "National Cricket Club (NCC), Mumbai",
