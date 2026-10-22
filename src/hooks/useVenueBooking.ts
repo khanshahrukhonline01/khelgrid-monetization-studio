@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { VENUES, type Venue } from "@/data/khelgrid";
-import { createVenueBooking, getVenueBookings, type BookingRecord } from "@/lib/booking-service";
+import { calculateEndTimeSQL, createVenueBooking, formatTimeToSQL, getVenueBookings, getVenueCourts, type BookingRecord } from "@/lib/booking-service";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 import type {
   CourtFacility,
   CourtSlot,
@@ -69,6 +70,7 @@ const DEFAULT_HOURS = [
 
 export interface UseVenueBookingOptions {
   initialVenueId?: string;
+  initialVenue?: Venue;
   initialSport?: string;
   initialDate?: string;
   initialTime?: string;
@@ -84,8 +86,9 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
   );
 
   const venue: Venue = useMemo(() => {
+    if (options.initialVenue?.id === selectedVenueId) return options.initialVenue;
     return VENUES.find((v) => v.id === selectedVenueId) || VENUES[0];
-  }, [selectedVenueId]);
+  }, [selectedVenueId, options.initialVenue]);
 
   const [selectedSport, setSelectedSport] = useState<string>(
     options.initialSport || venue.sports[0] || "Football",
@@ -118,6 +121,10 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
   const [bookingSuccess, setBookingSuccess] = useState<BookingRecord | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [existingBookings, setExistingBookings] = useState<BookingRecord[]>([]);
+  const [availabilityRows, setAvailabilityRows] = useState<Array<{ start_time: string; end_time: string; status: string; is_held: boolean }> | null>(null);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [availabilityError, setAvailabilityError] = useState<string | null>(null);
+  const [courtsLoading, setCourtsLoading] = useState(false);
 
   // Update selected sport if current sport is not supported by newly selected venue
   useEffect(() => {
@@ -140,65 +147,91 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     refreshBookings();
   }, [refreshBookings]);
 
-  // Generate dynamic courts based on the selected sport and venue
-  const courts: CourtFacility[] = useMemo(() => {
-    const sportName = selectedSport;
-    let surfaceType = "Synthetic Turf";
-    let isIndoor = false;
+  // Use only courts explicitly published for this venue. Never invent courts.
+  const [courts, setCourts] = useState<CourtFacility[]>([]);
 
-    if (sportName.includes("Badminton")) {
-      surfaceType = "BWF Approved Synthetic Wooden Mat";
-      isIndoor = true;
-    } else if (sportName.includes("Football")) {
-      surfaceType = "FIFA Certified 50mm Monofilament Turf";
-      isIndoor = false;
-    } else if (sportName.includes("Cricket")) {
-      surfaceType = "High-Density Polypropylene AstroTurf Net";
-      isIndoor = false;
-    } else if (sportName.includes("Tennis")) {
-      surfaceType = "Plexipave Acrylic Hard Court";
-      isIndoor = false;
-    } else if (sportName.includes("Basketball")) {
-      surfaceType = "Maple Hardwood Indoor Court";
-      isIndoor = true;
-    } else if (sportName.includes("Swimming")) {
-      surfaceType = "Olympic Spec Heated Pool (25m)";
-      isIndoor = true;
-    }
-
-    return [
-      {
-        id: "court-1",
-        name: `${sportName} Court 1 (Main Arena)`,
-        sport: sportName,
-        surface: surfaceType,
-        isIndoor,
-        hasFloodlights: true,
-      },
-      {
-        id: "court-2",
-        name: `${sportName} Court 2 (Side Wing)`,
-        sport: sportName,
-        surface: surfaceType,
-        isIndoor,
-        hasFloodlights: true,
-      },
-      {
-        id: "court-3",
-        name: `${sportName} Court 3 (Practice Court)`,
-        sport: sportName,
-        surface: surfaceType,
-        isIndoor,
-        hasFloodlights: false,
-      },
-    ];
-  }, [selectedSport]);
-
-  // Ensure valid selected court
   useEffect(() => {
-    if (!courts.some((c) => c.id === selectedCourtId)) {
-      setSelectedCourtId(courts[0]?.id || "court-1");
+    let active = true;
+    setCourts([]);
+    setSelectedCourtId("");
+    setAvailabilityRows(null);
+    setAvailabilityError(null);
+    if (!isSupabaseConfigured || !venue?.id) {
+      setAvailabilityError("Online booking is not connected here yet. Please contact the venue directly.");
+      return () => { active = false; };
     }
+    setCourtsLoading(true);
+    getVenueCourts(venue.id, selectedSport)
+      .then((records) => {
+        if (!active) return;
+        const mapped: CourtFacility[] = records.map((record) => ({
+          id: record.id,
+          name: record.name,
+          sport: record.sport,
+          surface: record.surface_type || "Surface details not provided",
+          isIndoor: /indoor|covered/i.test(record.surface_type || ""),
+          hasFloodlights: false,
+          pricePerHour: record.price_per_hour,
+        }));
+        setCourts(mapped);
+        setSelectedCourtId(mapped[0]?.id || "");
+        if (mapped.length === 0) setAvailabilityError("This venue has not published an active court or pitch for online booking. Please contact the venue to confirm a reservation.");
+      })
+      .catch(() => {
+        if (active) setAvailabilityError("We could not load this venue's published courts. Please contact the venue to confirm a reservation.");
+      })
+      .finally(() => { if (active) setCourtsLoading(false); });
+    return () => { active = false; };
+  }, [venue?.id, selectedSport]);
+
+  useEffect(() => {
+    let active = true;
+    setAvailabilityRows(null);
+    if (!isSupabaseConfigured || !venue?.id || !selectedCourtId) {
+      setAvailabilityLoading(false);
+      return () => { active = false; };
+    }
+    setAvailabilityLoading(true);
+    setAvailabilityError(null);
+    const rpc = supabase.rpc as unknown as (
+      fn: string,
+      args: Record<string, unknown>,
+    ) => Promise<{
+      data: Array<{ start_time: string; end_time: string; status: string; is_held: boolean }> | null;
+      error: { message: string } | null;
+    }>;
+    rpc("get_venue_slot_availability", {
+      p_venue_id: venue.id,
+      p_booking_date: selectedDate,
+      p_court_id: selectedCourtId,
+    })
+      .then(({ data, error: rpcError }) => {
+        if (!active) return;
+        if (rpcError || !data) {
+          setAvailabilityRows(null);
+          setAvailabilityError("Live slot conflicts could not be checked. Please refresh or contact the venue before booking.");
+          return;
+        }
+        setAvailabilityRows(data);
+        setAvailabilityError(null);
+      })
+      .catch(() => {
+        if (active) {
+          setAvailabilityRows(null);
+          setAvailabilityError("Live slot conflicts could not be checked. Please refresh or contact the venue before booking.");
+        }
+      })
+      .finally(() => { if (active) setAvailabilityLoading(false); });
+    return () => { active = false; };
+  }, [venue?.id, selectedDate, selectedCourtId]);
+
+  // Keep the selected court valid as published courts load or change.
+  useEffect(() => {
+    if (courts.length === 0) {
+      if (selectedCourtId) setSelectedCourtId("");
+      return;
+    }
+    if (!courts.some((court) => court.id === selectedCourtId)) setSelectedCourtId(courts[0].id);
   }, [courts, selectedCourtId]);
 
   // Calculate dynamic endTime based on duration
@@ -215,78 +248,33 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     return startTimeStr;
   }, []);
 
-  // Generate slots for selected venue, date, and court
+  // Show slots only after the live conflict check succeeds. No seeded/fake availability.
   const slots: CourtSlot[] = useMemo(() => {
-    const baseRate = venue.pricePerHour || 600;
-
-    // Seed deterministic availability per venue + date + court
-    const seed = `${venue.id}-${selectedDate}-${selectedCourtId}`
-      .split("")
-      .reduce((sum, char) => sum + char.charCodeAt(0), 0);
-
-    return DEFAULT_HOURS.map((h, index) => {
-      const slotEndTime = calculateSlotEndTime(h.time, durationHours);
-
-      // Check if slot has already been booked in local storage / database
-      const isBookedInDb = existingBookings.some((b) => {
-        return (
-          b.status !== "cancelled" &&
-          b.venue_id === venue.id &&
-          b.booking_date === selectedDate &&
-          b.start_time.trim().toLowerCase() === h.time.trim().toLowerCase()
-        );
-      });
-
-      // Deterministic pseudo-booked pattern for realism if not already booked
-      const isSeedBooked = (seed + index * 11) % 7 === 0;
-      const isBooked = isBookedInDb || isSeedBooked;
-
-      // Deterministic fast-filling flag
-      const isFastFilling = !isBooked && (seed + index * 5) % 4 === 0;
-
-      // Price calculation
-      let slotBase = baseRate;
-      if (h.peak) {
-        slotBase = Math.round(baseRate * 1.15); // +15% peak surcharge
-      } else if (h.discount > 0) {
-        slotBase = Math.round(baseRate * (1 - h.discount / 100)); // discount
-      }
-
-      let status: CourtSlot["status"] = "available";
-      if (isBooked) {
-        status = "booked";
-      } else if (selectedSlotTime === h.time) {
-        status = "selected";
-      } else if (isFastFilling) {
-        status = "fast_filling";
-      }
-
+    if (!isSupabaseConfigured || courts.length === 0 || !selectedCourtId || availabilityRows === null) return [];
+    const baseRate = courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? venue.pricePerHour ?? 0;
+    return DEFAULT_HOURS.map((hour, index) => {
+      const startSQL = formatTimeToSQL(hour.time);
+      const endSQL = calculateEndTimeSQL(hour.time, durationHours);
+      const hasConflict = availabilityRows.some((booking) => startSQL < booking.end_time && endSQL > booking.start_time);
+      // Use the published venue rate; do not invent peak surcharges or discounts.
+      const status: CourtSlot["status"] = hasConflict ? "booked" : selectedSlotTime === hour.time ? "selected" : "available";
       return {
-        id: `slot-${index}-${h.time.replace(/[^a-zA-Z0-9]/g, "")}`,
+        id: `slot-${index}-${hour.time.replace(/[^a-zA-Z0-9]/g, "")}`,
         courtId: selectedCourtId,
-        courtName: courts.find((c) => c.id === selectedCourtId)?.name || "Court 1",
-        time: h.time,
-        endTime: slotEndTime,
-        period: h.period,
+        courtName: courts.find((court) => court.id === selectedCourtId)?.name || "Court",
+        time: hour.time,
+        endTime: calculateSlotEndTime(hour.time, durationHours),
+        period: hour.period,
         basePrice: baseRate,
-        finalPrice: slotBase,
+        finalPrice: baseRate,
         status,
-        isPeak: h.peak,
-        isDiscounted: h.discount > 0,
-        discountPercent: h.discount > 0 ? h.discount : undefined,
-        remainingCapacity: isBooked ? 0 : isFastFilling ? 1 : 3,
+        isPeak: false,
+        isDiscounted: false,
+        discountPercent: undefined,
+        remainingCapacity: hasConflict ? 0 : 1,
       };
     });
-  }, [
-    venue,
-    selectedDate,
-    selectedCourtId,
-    durationHours,
-    selectedSlotTime,
-    existingBookings,
-    calculateSlotEndTime,
-    courts,
-  ]);
+  }, [venue, selectedCourtId, durationHours, selectedSlotTime, courts, availabilityRows, calculateSlotEndTime]);
 
   // Filtered slots by time of day (morning, afternoon, evening, night)
   const filteredSlots = useMemo(() => {
@@ -302,7 +290,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
 
   // Calculate detailed price breakdown
   const priceBreakdown: BookingPriceBreakdown = useMemo(() => {
-    const baseRate = venue.pricePerHour || 600;
+    const baseRate = courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? venue.pricePerHour ?? 0;
     const slotRate = selectedSlot ? selectedSlot.finalPrice : baseRate;
     const courtTotal = slotRate * durationHours;
 
@@ -321,8 +309,8 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     }, 0);
 
     const subtotal = courtTotal + addonsTotal;
-    // Platform fee + convenience GST
-    const taxesAndFees = Math.round(subtotal * 0.05);
+    // KhelGrid does not charge a platform or convenience fee in this phase.
+    const taxesAndFees = 0;
     const grandTotal = subtotal + taxesAndFees;
 
     return {
@@ -336,7 +324,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
       taxesAndFees,
       grandTotal,
     };
-  }, [venue, selectedSlot, durationHours, selectedAddonIds]);
+  }, [venue, courts, selectedCourtId, selectedSlot, durationHours, selectedAddonIds]);
 
   // Addon toggle
   const toggleAddon = useCallback((addonId: string) => {
@@ -356,8 +344,13 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     booking?: BookingRecord;
     error?: string;
   }> => {
-    if (!selectedSlotTime) {
-      setError("Please choose an available time slot before continuing.");
+    if (!isSupabaseConfigured || !selectedCourtId || availabilityRows === null || availabilityError) {
+      setError(availabilityError || "Live booking is unavailable until this venue publishes courts and its slot schedule.");
+      return { success: false, error: availabilityError || "Live booking is unavailable." };
+    }
+
+    if (!selectedSlotTime || !selectedSlot || selectedSlot.status === "booked") {
+      setError("Please choose a slot that has no recorded booking conflict.");
       return { success: false, error: "Please choose an available time slot." };
     }
 
@@ -385,12 +378,15 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
           sports: venue.sports,
           image_url: venue.image,
         },
+        court_id: selectedCourtId,
+        court_name: courts.find((court) => court.id === selectedCourtId)?.name,
         sport: selectedSport,
         booking_date: selectedDate,
         start_time: selectedSlotTime,
         duration_hours: durationHours,
         user_email: customer.email || "guest@khelgrid.com",
         user_phone: customer.phone,
+        total_price: priceBreakdown.grandTotal,
       });
 
       if (res.success && res.booking) {
@@ -410,11 +406,17 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     }
   }, [
     selectedSlotTime,
+    selectedSlot,
+    selectedCourtId,
+    courts,
+    availabilityRows,
+    availabilityError,
     customer,
     venue,
     selectedSport,
     selectedDate,
     durationHours,
+    priceBreakdown.grandTotal,
     refreshBookings,
   ]);
 
@@ -456,6 +458,9 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     setDurationHours,
     periodFilter,
     setPeriodFilter,
+    courtsLoading,
+    availabilityLoading,
+    availabilityError,
 
     // Addons
     addons: STANDARD_ADDONS,

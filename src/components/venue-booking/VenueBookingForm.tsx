@@ -72,6 +72,9 @@ export function VenueBookingForm({
     setDurationHours,
     periodFilter,
     setPeriodFilter,
+    courtsLoading,
+    availabilityLoading,
+    availabilityError,
 
     // Addons
     addons,
@@ -152,10 +155,10 @@ export function VenueBookingForm({
             </div>
             <div>
               <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                Booking Reserved & Confirmed
+                Booking Request Submitted
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
-                Slot Reserved at {bookingSuccess.venue_name}
+                Request for {bookingSuccess.venue_name}
               </h2>
             </div>
           </div>
@@ -188,7 +191,7 @@ export function VenueBookingForm({
           </div>
           <div className="p-3.5 rounded-2xl bg-muted/40 border border-border/60">
             <span className="text-[11px] text-muted-foreground uppercase font-semibold">
-              Total Amount
+              Estimated Total
             </span>
             <p className="mt-1 text-sm font-bold text-primary">₹{bookingSuccess.total_price}</p>
           </div>
@@ -209,7 +212,7 @@ export function VenueBookingForm({
           <div className="flex items-start gap-2 pt-2 border-t border-border/40">
             <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
             <p className="text-muted-foreground">
-              Present this booking confirmation code or registered mobile (
+              This is a booking request, not a confirmed reservation or payment receipt. Contact the venue to confirm acceptance. Reference code / mobile (
               {customer.phone || bookingSuccess.user_phone}) at the venue front desk 10 minutes
               prior to game time.
             </p>
@@ -262,7 +265,7 @@ export function VenueBookingForm({
               {venue.area}, {venue.city}
               <span className="text-muted-foreground/60">•</span>
               <span className="font-semibold text-foreground">
-                Starting at ₹{venue.pricePerHour}/hr
+                {venue.pricePerHour > 0 ? `Starting at ₹${venue.pricePerHour.toLocaleString("en-IN")}/hr` : "Contact venue for price"}
               </span>
             </p>
           </div>
@@ -295,6 +298,21 @@ export function VenueBookingForm({
         onSelectDate={setSelectedDate}
         venueName={venue.name}
       />
+
+      {/* Availability is fail-closed: never invent courts or claim a slot is available when the live check fails. */}
+      {(courtsLoading || availabilityLoading) && (
+        <div role="status" className="rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
+          Checking this venue’s published courts and recorded booking conflicts…
+        </div>
+      )}
+      {availabilityError && !courtsLoading && !availabilityLoading && (
+        <div role="status" className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-muted-foreground">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+          <span>{availabilityError}</span>
+        </div>
+      )}
+
+      <p className="px-1 text-xs text-muted-foreground">“Available” means no overlapping booking record was found for this slot. Venue opening hours and final acceptance still need to be confirmed with the venue.</p>
 
       {/* 3. Interactive Slot & Court Selector */}
       <VenueSlotSelector
@@ -391,7 +409,7 @@ export function VenueBookingForm({
             <User className="h-4 w-4 text-primary" /> Player & Contact Information
           </h3>
           <p className="text-xs text-muted-foreground">
-            We will send instantaneous booking verification and SMS/email receipt
+            No account is required. This submits a request only; contact the venue to confirm acceptance. KhelGrid does not collect payment in this phase.
           </p>
         </div>
 

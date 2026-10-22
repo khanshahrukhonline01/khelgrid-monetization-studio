@@ -84,6 +84,7 @@ export function generateSitemapEntries(): SitemapEntry[] {
   // Historical listings remain accessible by direct link and through the archive view.
   const now = new Date();
   for (const trial of TRIALS) {
+    if (!trial || typeof trial !== "object" || typeof trial.id !== "string" || !trial.id.trim()) continue;
     const endDate = getTrialEndDate(trial.date);
     if (!endDate || endDate.getTime() < now.getTime()) continue;
     add(`/trial/${trial.id}`, 0.9, "weekly");
@@ -91,17 +92,20 @@ export function generateSitemapEntries(): SitemapEntry[] {
 
   // Dynamic Verified Sports Venues & Turfs
   for (const venue of VENUES) {
-    add(`/venue/${venue.id}`, 0.85, "weekly");
+    if (!venue || typeof venue !== "object" || typeof venue.id !== "string" || !venue.id.trim()) continue;
+    add(`/venue/${encodeURIComponent(venue.id)}`, 0.85, "weekly");
   }
 
   // Sports landing pages
   for (const sport of SPORTS_CATALOG) {
-    add(`/sport/${sport.slug}`, 0.85, "weekly");
+    if (!sport || typeof sport !== "object" || typeof sport.slug !== "string" || !sport.slug.trim()) continue;
+    add(`/sport/${encodeURIComponent(sport.slug)}`, 0.85, "weekly");
   }
 
   // Cities landing pages
   for (const city of CITIES_CATALOG) {
-    add(`/city/${city.slug}`, 0.85, "weekly");
+    if (!city || typeof city !== "object" || typeof city.slug !== "string" || !city.slug.trim()) continue;
+    add(`/city/${encodeURIComponent(city.slug)}`, 0.8, "weekly");
   }
 
   // Guides

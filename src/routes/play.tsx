@@ -268,7 +268,7 @@ function PlayPage() {
   return (
     <div id="play-main-content" className="min-w-0 flex-1">
       {/* Schema.org Structured Data */}
-      <PlaySEO games={filteredGames} />
+      <PlaySEO />
 
       <div className="mx-auto max-w-7xl px-4 py-6 sm:py-10">
         {/* Header Section */}

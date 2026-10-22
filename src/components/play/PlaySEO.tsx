@@ -1,10 +1,15 @@
-import type { EnrichedGame } from "./types";
-
-interface PlaySEOProps {
-  games: EnrichedGame[];
-}
-
-export function PlaySEO({ games }: PlaySEOProps) {
+/**
+ * Structured data for the Play page.
+ *
+ * Only emit the breadcrumb schema here. The currently displayed pickup games
+ * come from illustrative seed data with non-date-specific dates (for example,
+ * "Tue, Jun 10") and are not backed by verified, current event records.
+ * Emitting SportsEvent/Offer markup for those entries can mislead search engines.
+ *
+ * Add SportsEvent markup back when Play uses real, date-valid event records and
+ * the offer's actual validity start can be supplied.
+ */
+export function PlaySEO() {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -24,57 +29,10 @@ export function PlaySEO({ games }: PlaySEOProps) {
     ],
   };
 
-  const sportsEventsSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Amateur Pickup Games and Sports Match Slots in India",
-    description:
-      "Directory of casual pickup football matches, badminton games, box cricket slots, and pickleball runs across Indian cities.",
-    numberOfItems: games.length,
-    itemListElement: games.slice(0, 10).map((g, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "SportsEvent",
-        name: `${g.sport} Pickup Match at ${g.venue}`,
-        description:
-          g.description ||
-          `Casual ${g.skillLevel.toLowerCase()} ${g.sport} pickup game hosted by ${g.host} at ${g.venue}, ${g.city}.`,
-        startDate: `${g.date} ${g.time}`,
-        location: {
-          "@type": "Place",
-          name: g.venue,
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: g.city,
-            addressCountry: "IN",
-          },
-        },
-        offers: {
-          "@type": "Offer",
-          price: String(g.costPerPlayer),
-          priceCurrency: "INR",
-          availability:
-            g.joined >= g.capacity ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
-        },
-        organizer: {
-          "@type": "Person",
-          name: g.host,
-        },
-      },
-    })),
-  };
-
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsEventsSchema) }}
-      />
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+    />
   );
 }
