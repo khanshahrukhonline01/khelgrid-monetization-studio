@@ -139,7 +139,11 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
             <span className="text-foreground/75 font-medium">{trial.tag}</span>
             {trial.listingType === "competition" && trial.entryStatus && (
               <span className="inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
-                {trial.entryStatus}
+                {trial.entryStatus === "IN PROGRESS" || trial.entryStatus === "INPROGRESS"
+                  ? "Entry in progress"
+                  : trial.entryStatus === "ENTRY NOT STARTED"
+                    ? "Entry not started"
+                    : trial.entryStatus}
               </span>
             )}
 
