@@ -27,6 +27,7 @@ export function SearchTrialsHelmetSEO({
   free = false,
   trialId = "",
   savedOnly = false,
+  archive = false,
   totalResults,
   featuredTrial,
 }: SearchTrialsHelmetSEOProps) {
@@ -40,10 +41,11 @@ export function SearchTrialsHelmetSEO({
         free,
         trialId,
         savedOnly,
+        archive,
         totalResults,
         featuredTrial,
       }),
-    [query, sport, city, sort, free, trialId, savedOnly, totalResults, featuredTrial],
+    [query, sport, city, sort, free, trialId, savedOnly, archive, totalResults, featuredTrial],
   );
 
   return (

@@ -1,17 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/start-client-core";
-import { SPORTS_CATALOG, CITIES_CATALOG, GUIDES_CATALOG } from "@/data/catalog";
+import { SPORTS_CATALOG, CITIES_CATALOG, GUIDES_CATALOG, TOOLS_CATALOG } from "@/data/catalog";
 import { BLOG_POSTS } from "@/data/blog";
 import { TRIALS } from "@/data/trials";
+import { getTrialEndDate } from "@/lib/opportunity-badge";
 import { VENUES } from "@/data/khelgrid";
 import { hasGuideBody } from "@/content/guide-bodies";
 
 const BASE_URL = "https://www.khelgrid.com";
+const LAST_MOD = "2026-10-20";
 
 interface SitemapEntry {
   loc: string;
   changefreq: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority: number;
+  lastmod: string;
 }
 
 export function generateSitemapEntries(): SitemapEntry[] {
@@ -25,12 +28,14 @@ export function generateSitemapEntries(): SitemapEntry[] {
       loc: `${BASE_URL}${path}`,
       priority,
       changefreq,
+      lastmod: LAST_MOD,
     });
   };
 
   // High priority core directory & hubs (strictly canonical 200 OK URLs — no redirects)
   add("/", 1.0, "daily");
   add("/search", 0.9, "daily");
+  add("/search?archive=true", 0.55, "weekly");
   add("/opportunities", 0.9, "daily");
   add("/academy", 0.95, "daily");
   add("/live-scores", 0.95, "always");
@@ -39,6 +44,7 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/book", 0.9, "daily");
   add("/train", 0.9, "daily");
   add("/events", 0.9, "daily");
+  add("/scout-portal", 0.85, "weekly");
   add("/guides", 0.85, "weekly");
   add("/tools", 0.85, "weekly");
   add("/blog", 0.85, "weekly");
@@ -48,6 +54,7 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/sports", 0.8, "weekly");
   add("/cities", 0.8, "weekly");
   add("/start-from-zero", 0.8, "weekly");
+  add("/my-stats", 0.8, "weekly");
   add("/learning-hub", 0.75, "weekly");
   add("/talent-scanner", 0.75, "weekly");
   add("/verify", 0.75, "weekly");
@@ -73,12 +80,14 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/privacy", 0.3, "yearly");
   add("/terms", 0.3, "yearly");
 
-  // Dynamic Trial entries (Verified Opportunities)
-  // Ignore malformed catalog rows so a single undefined record cannot fail the build.
+  // Index only dated opportunities that are current or upcoming.
+  // Historical listings remain accessible by direct link and through the archive view.
+  const now = new Date();
   for (const trial of TRIALS) {
     if (!trial || typeof trial !== "object" || typeof trial.id !== "string" || !trial.id.trim()) continue;
-    add(`/trial/${encodeURIComponent(trial.id)}`, 0.9, "weekly");
-    add(`/opportunities/${encodeURIComponent(trial.id)}`, 0.85, "weekly");
+    const endDate = getTrialEndDate(trial.date);
+    if (!endDate || endDate.getTime() < now.getTime()) continue;
+    add(`/trial/${trial.id}`, 0.9, "weekly");
   }
 
   // Dynamic Verified Sports Venues & Turfs
@@ -98,6 +107,7 @@ export function generateSitemapEntries(): SitemapEntry[] {
     if (!city || typeof city !== "object" || typeof city.slug !== "string" || !city.slug.trim()) continue;
     add(`/city/${encodeURIComponent(city.slug)}`, 0.8, "weekly");
   }
+
   // Guides
   for (const guide of GUIDES_CATALOG) {
     if (hasGuideBody(guide.slug)) {
@@ -110,7 +120,11 @@ export function generateSitemapEntries(): SitemapEntry[] {
     add(`/blog/${post.slug}`, 0.8, "weekly");
   }
 
-  // Individual tool pages currently declare noindex; only include the public /tools hub.
+  // Interactive Tools
+  for (const tool of TOOLS_CATALOG) {
+    add(`/tools/${tool.slug}`, 0.8, "weekly");
+  }
+
   // Top Guide Categories
   const guideCategories = [
     "trial-prep",
@@ -147,6 +161,7 @@ export function buildSitemapXml(): string {
   const items = Array.from(uniqueUrls.values()).map(
     (e) => `  <url>
     <loc>${e.loc}</loc>
+    <lastmod>${e.lastmod}</lastmod>
     <changefreq>${e.changefreq}</changefreq>
     <priority>${e.priority.toFixed(2)}</priority>
   </url>`,

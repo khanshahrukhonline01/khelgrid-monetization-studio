@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SPORTS, CITIES, type Trial } from "@/data/trials";
+import { getTrialEndDate } from "@/lib/opportunity-badge";
 
 export type DateRangeOption =
   | "all"
@@ -123,25 +124,25 @@ export const SPORT_TYPES: SportTypeDefinition[] = [
   {
     id: "team_ball",
     name: "Team & Ball Sports",
-    sports: ["Cricket", "Football", "Hockey", "Basketball", "Volleyball", "Handball", "Kho-Kho"],
+    sports: ["Cricket", "Football", "Hockey", "Basketball", "Volleyball", "Handball", "Kho-Kho", "Rugby", "Softball", "Netball", "Sepak Takraw"],
     icon: "⚽",
   },
   {
     id: "racquet",
     name: "Racquet & Net Sports",
-    sports: ["Badminton", "Tennis", "Table Tennis", "Squash", "Pickleball"],
+    sports: ["Badminton", "Tennis", "Table Tennis", "Soft Tennis", "Squash", "Pickleball"],
     icon: "🏸",
   },
   {
     id: "track_field",
     name: "Track, Field & Athletics",
-    sports: ["Athletics", "Running", "Swimming", "Triathlon"],
+    sports: ["Athletics", "Running", "Swimming", "Triathlon", "Track Cycling"],
     icon: "🏃",
   },
   {
     id: "combat",
     name: "Combat & Martial Arts",
-    sports: ["Wrestling", "Boxing", "Kabaddi", "Judo", "Taekwondo", "Karate", "Wushu"],
+    sports: ["Wrestling", "Wrestling Freestyle", "Boxing", "Kabaddi", "Judo", "Taekwondo", "Karate", "Wushu", "Thang-Ta"],
     icon: "🤼",
   },
   {
@@ -149,6 +150,18 @@ export const SPORT_TYPES: SportTypeDefinition[] = [
     name: "Precision & Target Sports",
     sports: ["Shooting", "Archery", "Chess"],
     icon: "🎯",
+  },
+  {
+    id: "mind_body",
+    name: "Mind & Body Sports",
+    sports: ["Yoga", "Yogasana"],
+    icon: "🧘",
+  },
+  {
+    id: "strength",
+    name: "Strength Sports",
+    sports: ["Weightlifting"],
+    icon: "🏋️",
   },
 ];
 
@@ -200,14 +213,7 @@ export const DEFAULT_FILTER_CRITERIA: TrialsFilterCriteria = {
  * Robust date parser for trial date strings such as "Sep 23 - Sep 28, 2026", "Sep 30, 2026", "Dec 20, 2026"
  */
 export function parseTrialDate(dateStr: string): Date | null {
-  if (!dateStr) return null;
-  let clean = dateStr.trim();
-  if (clean.includes(" - ")) {
-    const parts = clean.split(" - ");
-    clean = parts[1].includes(",") ? parts[1] : `${parts[0]}, 2026`;
-  }
-  const parsed = new Date(clean);
-  return isNaN(parsed.getTime()) ? null : parsed;
+  return getTrialEndDate(dateStr);
 }
 
 /**
@@ -215,7 +221,7 @@ export function parseTrialDate(dateStr: string): Date | null {
  */
 export function filterTrials(trials: Trial[], criteria: TrialsFilterCriteria): Trial[] {
   const q = criteria.query.trim().toLowerCase();
-  const now = new Date("2026-09-29T21:00:00Z"); // Baseline anchor timestamp
+  const now = new Date();
 
   return trials.filter((t) => {
     // 1. Text Query Filter
@@ -265,7 +271,7 @@ export function filterTrials(trials: Trial[], criteria: TrialsFilterCriteria): T
         : trialDate;
       const targetDate = trialDate || regDeadline;
 
-      if (!targetDate) return true; // If unparseable, don't drop
+      if (!targetDate) return false; // Keep undated records out until their dates are verified
 
       const diffMs = targetDate.getTime() - now.getTime();
       const diffHours = diffMs / (1000 * 60 * 60);

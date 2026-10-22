@@ -34,6 +34,7 @@ import {
   Share2,
 } from "lucide-react";
 import { TRIALS, SPORTS, CITIES, type Trial } from "@/data/trials";
+import { getTrialEndDate } from "@/lib/opportunity-badge";
 import { fetchAvailableTrialsFromSupabase } from "@/lib/trials-service";
 import {
   aggregateTrialsToCalendarEvents,
@@ -63,19 +64,24 @@ export interface SportsCalendarProps {
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+function isCurrentOrUpcomingTrial(trial: Pick<Trial, "date">): boolean {
+  const endDate = getTrialEndDate(trial.date);
+  return Boolean(endDate && endDate.getTime() >= Date.now());
+}
+
 export function SportsCalendar({
   initialTrials,
   className = "",
   onSelectTrial,
   showExportButton = true,
 }: SportsCalendarProps) {
-  const [trialsList, setTrialsList] = useState<Trial[]>(initialTrials || TRIALS);
-  const [currentMonth, setCurrentMonth] = useState<Date>(() => {
-    // Default to October 2026 (the active competition month of current trials) or current date
-    const oct2026 = new Date(2026, 9, 1);
-    return oct2026;
-  });
-  const [selectedDate, setSelectedDate] = useState<Date>(() => new Date(2026, 9, 23));
+  const [trialsList, setTrialsList] = useState<Trial[]>(() =>
+    (initialTrials || TRIALS).filter(isCurrentOrUpcomingTrial),
+  );
+  const [currentMonth, setCurrentMonth] = useState<Date>(
+    () => new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+  );
+  const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
 
   // Modals state
   const [activeModalTrial, setActiveModalTrial] = useState<Trial | null>(null);
@@ -95,9 +101,9 @@ export function SportsCalendar({
     fetchAvailableTrialsFromSupabase().then((res) => {
       if (isMounted && res.isSupabaseLive && res.trials.length > 0) {
         const map = new Map<string, Trial>();
-        TRIALS.forEach((t) => map.set(t.id, t));
+        TRIALS.filter(isCurrentOrUpcomingTrial).forEach((t) => map.set(t.id, t));
         res.trials.forEach((t) => map.set(t.id, t as unknown as Trial));
-        setTrialsList(Array.from(map.values()));
+        setTrialsList(Array.from(map.values()).filter(isCurrentOrUpcomingTrial));
       }
     });
     return () => {
@@ -125,7 +131,10 @@ export function SportsCalendar({
       }
 
       // 3. Free Entry filter
-      if (eventTypeFilter === "free" && trial.fee > 0) {
+      if (
+        eventTypeFilter === "free" &&
+        (trial.fee > 0 || (trial.feeLabel && !trial.feeLabel.toLowerCase().includes("free")))
+      ) {
         return false;
       }
 

@@ -1,5 +1,6 @@
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { TRIALS, type Trial } from "@/data/trials";
+import { getTrialEndDate } from "@/lib/opportunity-badge";
 import type { Database } from "@/types/database";
 
 export type TrialRow = Database["public"]["Tables"]["trials"]["Row"];
@@ -36,6 +37,8 @@ export interface TrialDiscoveryItem {
   requiredDocuments?: string[];
   selectionProcess?: string;
   lastVerified?: string;
+  listingType?: "trial" | "competition";
+  entryStatus?: string;
 }
 
 /**
@@ -103,66 +106,75 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
   sport?: string;
   city?: string;
   maxLimit?: number;
+  archive?: boolean;
 }): Promise<{
   trials: TrialDiscoveryItem[];
   isSupabaseLive: boolean;
   totalCount: number;
   error?: string;
 }> {
-  let isSupabaseLive = false;
   const limit = options?.maxLimit || 50;
+  const archive = options?.archive === true;
+  let isSupabaseLive = false;
+  let databaseTrials: TrialDiscoveryItem[] = [];
 
   if (isSupabaseConfigured) {
     try {
-      let query = supabase.from("trials").select("*").in("status", ["active", "upcoming"]);
+      let query = supabase.from("trials").select("*");
 
+      // The active feed uses active/upcoming records. Archive mode reads all statuses
+      // and then applies the same event-end-date rule as the UI.
+      if (!archive) query = query.in("status", ["active", "upcoming"]);
       if (options?.sport && options.sport !== "All Sports" && options.sport !== "all") {
         query = query.eq("sport", options.sport);
       }
-
       if (options?.city && options.city !== "All Locations" && options.city !== "all") {
         query = query.eq("city", options.city);
       }
 
-      const { data, error } = await query.order("trial_date", { ascending: true }).limit(limit);
-
-      if (!error && data && data.length > 0) {
+      const { data, error } = await query.order("trial_date", { ascending: true }).limit(500);
+      if (!error) {
         isSupabaseLive = true;
-        const normalized = data.map(normalizeSupabaseTrial);
-        return {
-          trials: normalized,
-          isSupabaseLive: true,
-          totalCount: normalized.length,
-        };
+        databaseTrials = (data || []).map(normalizeSupabaseTrial);
+      } else {
+        console.warn("Supabase trials query failed, using curated listings:", error.message);
       }
     } catch (err: unknown) {
       console.warn(
-        "Supabase trials query failed, falling back to cached trials:",
+        "Supabase trials query failed, using curated listings:",
         err instanceof Error ? err.message : String(err),
       );
     }
   }
 
-  // Graceful fallback to verified curated TRIALS
-  let fallbackList = TRIALS.map((t) => ({
-    ...t,
-    isSupabaseOrigin: false,
-  }));
-
-  if (options?.sport && options.sport !== "All Sports" && options.sport !== "all") {
-    fallbackList = fallbackList.filter(
-      (t) => t.sport.toLowerCase() === options.sport?.toLowerCase(),
-    );
+  // Merge curated, source-rich records with database-only listings without duplicating IDs.
+  // Curated records remain authoritative for their dates and verified metadata.
+  const merged = new Map<string, TrialDiscoveryItem>();
+  for (const trial of TRIALS) {
+    merged.set(trial.id, { ...trial, isSupabaseOrigin: false });
+  }
+  for (const trial of databaseTrials) {
+    if (!merged.has(trial.id)) merged.set(trial.id, trial);
   }
 
+  const now = new Date();
+  let results = Array.from(merged.values()).filter((trial) => {
+    const endDate = getTrialEndDate(trial.date);
+    if (!endDate) return false;
+    return archive ? endDate.getTime() < now.getTime() : endDate.getTime() >= now.getTime();
+  });
+
+  if (options?.sport && options.sport !== "All Sports" && options.sport !== "all") {
+    results = results.filter((trial) => trial.sport.toLowerCase() === options.sport?.toLowerCase());
+  }
   if (options?.city && options.city !== "All Locations" && options.city !== "all") {
-    fallbackList = fallbackList.filter((t) => t.city.toLowerCase() === options.city?.toLowerCase());
+    results = results.filter((trial) => trial.city.toLowerCase() === options.city?.toLowerCase());
   }
 
   return {
-    trials: fallbackList.slice(0, limit),
+    trials: results.slice(0, limit),
     isSupabaseLive,
-    totalCount: fallbackList.length,
+    totalCount: results.length,
   };
 }
 

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { TRIALS, type Trial } from "@/data/trials";
+import { getTrialEndDate } from "@/lib/opportunity-badge";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 import {
   Trophy,
@@ -27,7 +28,12 @@ export function FeaturedTrialsRadar({
   const { isSaved, toggleSaved } = useSavedOpportunities();
   const { scrollRef, scroll } = useTouchScroll(340);
 
-  const filteredTrials = TRIALS.filter((trial) => {
+  const currentTrials = TRIALS.filter((trial) => {
+    const endDate = getTrialEndDate(trial.date);
+    return Boolean(endDate && endDate.getTime() >= Date.now());
+  });
+
+  const filteredTrials = currentTrials.filter((trial) => {
     const matchSport =
       selectedSport === "All" ||
       selectedSport === "All Sports" ||
@@ -41,7 +47,7 @@ export function FeaturedTrialsRadar({
     return matchSport && matchCity;
   }).slice(0, 8);
 
-  const displayTrials = filteredTrials.length > 0 ? filteredTrials : TRIALS.slice(0, 8);
+  const displayTrials = filteredTrials.length > 0 ? filteredTrials : currentTrials.slice(0, 8);
 
   const handleShare = (e: React.MouseEvent, trial: Trial) => {
     e.preventDefault();
@@ -49,7 +55,7 @@ export function FeaturedTrialsRadar({
     const origin =
       typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = `${origin}/trial/${trial.id}`;
-    const text = `🏆 *${trial.sport.toUpperCase()} TRIAL: ${trial.title}*\n📍 *Location:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.fee === 0 ? "Free Entry" : "₹" + trial.fee}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"}\n\n👉 *Details & Registration:* ${shareUrl}`;
+    const text = `🏆 *${trial.sport.toUpperCase()} ${trial.listingType === "competition" ? "SCHOOL GAMES FIXTURE" : "TRIAL"}: ${trial.title}*\n📍 *Location:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"}\n\n👉 *${trial.listingType === "competition" ? "Details & official calendar" : "Details & registration"}:* ${shareUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
     toast.success("Opening WhatsApp share!");
   };
@@ -203,8 +209,8 @@ export function FeaturedTrialsRadar({
                       <MapPin className="h-3 w-3 text-white/80 shrink-0" />
                       <span>{trial.city}</span>
                     </span>
-                    <span className="rounded-md bg-emerald-500/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs shrink-0">
-                      {trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`}
+                    <span className={`rounded-md px-2 py-0.5 text-[10px] font-bold shadow-xs shrink-0 ${(!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free") ? "bg-emerald-500/90 text-white" : "bg-secondary text-foreground"}`}>
+                      {trial.feeLabel || (trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`)}
                     </span>
                   </div>
                 </div>

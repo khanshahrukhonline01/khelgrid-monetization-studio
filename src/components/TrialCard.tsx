@@ -129,7 +129,7 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
                 <MapPin className="h-3 w-3 text-white/80 shrink-0" />
                 <span className="truncate">{trial.city}</span>
               </span>
-              <span className="rounded-md bg-emerald-500/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs shrink-0 whitespace-nowrap ml-1">
+              <span className={`rounded-md px-2 py-0.5 text-[10px] font-bold shadow-xs shrink-0 whitespace-nowrap ml-1 ${(!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free") ? "bg-emerald-500/90 text-white" : "bg-secondary text-foreground"}`}>
                 {trial.feeLabel || (trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`)}
               </span>
             </div>
@@ -137,6 +137,15 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
 
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground w-full min-w-0">
             <span className="text-foreground/75 font-medium">{trial.tag}</span>
+            {trial.listingType === "competition" && trial.entryStatus && (
+              <span className="inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
+                {trial.entryStatus === "IN PROGRESS" || trial.entryStatus === "INPROGRESS"
+                  ? "Entry in progress"
+                  : trial.entryStatus === "ENTRY NOT STARTED"
+                    ? "Entry not started"
+                    : trial.entryStatus}
+              </span>
+            )}
 
             {statusBadge && (
               <span
@@ -190,7 +199,7 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
             </div>
             <div className="flex min-w-0 items-center gap-1 text-[11px] sm:text-xs">
               <Users className="h-3 w-3 shrink-0 text-muted-foreground/80" />
-              <span className="truncate">{trial.spots} spots</span>
+              <span className="truncate">{trial.listingType === "competition" ? "School competition" : `${trial.spots} spots`}</span>
             </div>
           </div>
         </div>
@@ -326,7 +335,19 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" ? (
+          {trial.listingType === "competition" ? (
+            <a
+              href={trial.sourceUrl || "https://www.sgfi.org.in"}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex-1 min-w-0 h-9 inline-flex items-center justify-center gap-1.5 text-xs font-bold truncate px-2.5 rounded-xl shadow-xs bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition-colors"
+              aria-label={`View official calendar for ${trial.title}`}
+            >
+              <span className="truncate">Official Calendar</span>
+              <ExternalLink className="h-3.5 w-3.5 shrink-0 opacity-90" />
+            </a>
+          ) : trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" ? (
             <a
               href="https://rect.crpf.gov.in"
               target="_blank"

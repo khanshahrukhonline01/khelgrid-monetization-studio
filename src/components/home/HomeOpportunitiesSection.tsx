@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TRIALS, type Trial } from "@/data/trials";
-import { getRealtimeOpportunityBadge } from "@/lib/opportunity-badge";
+import { getRealtimeOpportunityBadge, getTrialEndDate } from "@/lib/opportunity-badge";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 import { toast } from "sonner";
 
@@ -85,12 +85,20 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
     };
   }, [trials]);
 
+  const currentTrials = useMemo(
+    () => trials.filter((trial) => {
+      const endDate = getTrialEndDate(trial.date);
+      return Boolean(endDate && endDate.getTime() >= Date.now());
+    }),
+    [trials],
+  );
+
   const filteredOpportunities = useMemo(() => {
     if (selectedSportFilter === "All") {
-      return trials;
+      return currentTrials;
     }
-    return trials.filter((t) => t.sport.toLowerCase() === selectedSportFilter.toLowerCase());
-  }, [selectedSportFilter, trials]);
+    return currentTrials.filter((t) => t.sport.toLowerCase() === selectedSportFilter.toLowerCase());
+  }, [selectedSportFilter, currentTrials]);
 
   const handleOpportunitiesScroll = () => {
     if (!opportunitiesRef.current) return;
@@ -127,7 +135,7 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
     const origin =
       typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = `${origin}/trial/${trial.id}`;
-    const text = `🏆 *${trial.sport.toUpperCase()} TRIAL NOTICE: ${trial.title}*\n\n📍 *Academy:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.fee === 0 ? "Free Entry" : "₹" + trial.fee}\n🛡️ *Verification:* ${trial.verifiedLabel || "Verified Organizer"}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"} · ${trial.gender || "All"}\n\n👉 *View details & register on KhelGrid:* ${shareUrl}`;
+    const text = `🏆 *${trial.sport.toUpperCase()} ${trial.listingType === "competition" ? "SCHOOL GAMES FIXTURE" : "TRIAL NOTICE"}: ${trial.title}*\n\n📍 *Academy:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee/entry:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🛡️ *Verification:* ${trial.verifiedLabel || "Verified Organizer"}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"} · ${trial.gender || "All"}\n\n👉 *${trial.listingType === "competition" ? "View details & official calendar" : "View details & registration"}:* ${shareUrl}`;
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     toast.success("Opening WhatsApp to share trial notice!");

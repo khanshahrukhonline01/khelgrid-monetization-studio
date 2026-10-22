@@ -1,5 +1,57 @@
 import { describe, it, expect } from "vitest";
-import { getRealtimeOpportunityBadge, parseTrialDate } from "./opportunity-badge";
+import { TRIALS } from "@/data/trials";
+import { getRealtimeOpportunityBadge, getTrialEndDate, getTrialStartDate, isTrialArchived, parseTrialDate } from "./opportunity-badge";
+
+describe("Trial archive date handling", () => {
+  const referenceNow = new Date("2026-10-22T12:00:00+05:30");
+
+  it("parses the start and end of compact and cross-month date ranges", () => {
+    expect(getTrialStartDate("Oct 26–28, 2026")?.getDate()).toBe(26);
+    expect(getTrialEndDate("Oct 26–28, 2026")?.getDate()).toBe(28);
+    expect(getTrialStartDate("Oct 23, 24 & 25, 2026")?.getDate()).toBe(23);
+    expect(getTrialEndDate("Oct 23, 24 & 25, 2026")?.getDate()).toBe(25);
+    expect(getTrialStartDate("Nov 01 - Nov 18, 2026")?.getDate()).toBe(1);
+    expect(getTrialEndDate("Nov 01 - Nov 18, 2026")?.getDate()).toBe(18);
+    expect(getTrialStartDate("Dec 30, 2026 - Jan 04, 2027")?.getFullYear()).toBe(2026);
+    expect(getTrialEndDate("Dec 30, 2026 - Jan 04, 2027")?.getFullYear()).toBe(2027);
+  });
+
+  it("archives only after the event end date has passed", () => {
+    expect(isTrialArchived({ date: "Oct 19 - Oct 20, 2026" }, referenceNow)).toBe(true);
+    expect(isTrialArchived({ date: "Oct 23, 24 & 25, 2026" }, referenceNow)).toBe(false);
+    expect(isTrialArchived({ date: "Oct 26–28, 2026" }, referenceNow)).toBe(false);
+  });
+
+  it("marks completed date ranges as closed in card badges", () => {
+    const badge = getRealtimeOpportunityBadge(
+      { date: "Oct 19 - Oct 20, 2026", spots: 12, badge: undefined, urgencyText: undefined },
+      referenceNow,
+    );
+    expect(badge?.isExpired).toBe(true);
+    expect(badge?.label).toBe("Closed");
+  });
+
+  it("keeps the SGFI calendar fixtures uniquely identified and date-parseable", () => {
+    const fixtures = TRIALS.filter((trial) => trial.id.startsWith("t-sgfi-70th-"));
+    const ids = fixtures.map((trial) => trial.id);
+
+    expect(fixtures.length).toBeGreaterThanOrEqual(50);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(
+      fixtures.every(
+        (trial) =>
+          trial.listingType === "competition" &&
+          Boolean(getTrialStartDate(trial.date)) &&
+          Boolean(getTrialEndDate(trial.date)) &&
+          trial.sourceUrl?.includes("sgfi.org.in"),
+      ),
+    ).toBe(true);
+  });
+
+  it("does not automatically archive records with unparseable dates", () => {
+    expect(isTrialArchived({ date: "Date to be announced" }, referenceNow)).toBe(false);
+  });
+});
 
 describe("Real-time Opportunity Badge Calculation", () => {
   const referenceNow = new Date("2026-09-26T12:00:00Z");
