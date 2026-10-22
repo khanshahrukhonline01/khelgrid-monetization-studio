@@ -119,7 +119,7 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
     const origin =
       typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = `${origin}/trial/${trial.id}`;
-    const text = `🏆 *${trial.sport.toUpperCase()} TRIAL NOTICE: ${trial.title}*\n\n📍 *Academy:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.fee === 0 ? "Free Entry" : "₹" + trial.fee}\n🛡️ *Verification:* ${trial.verifiedLabel || "Verified Organizer"}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"} · ${trial.gender || "All"}\n\n👉 *View details & register on KhelGrid:* ${shareUrl}`;
+    const text = `🏆 *${trial.sport.toUpperCase()} ${trial.listingType === "competition" ? "SCHOOL GAMES FIXTURE" : "TRIAL NOTICE"}: ${trial.title}*\n\n📍 *Academy:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee/entry:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🛡️ *Verification:* ${trial.verifiedLabel || "Verified Organizer"}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"} · ${trial.gender || "All"}\n\n👉 *View details & register on KhelGrid:* ${shareUrl}`;
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     toast.success("Opening WhatsApp to share trial notice!");
@@ -522,19 +522,19 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
 
                 <div className="mt-2.5 flex items-center justify-between">
                   <div>
-                    {trial.fee === 0 ? (
+                    {(!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free") ? (
                       <span
                         className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400"
                         aria-label="Registration fee: Free entry"
                       >
-                        Free entry
+                        {trial.feeLabel || "Free entry"}
                       </span>
                     ) : (
                       <span
                         className="rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-bold text-foreground"
-                        aria-label={`Registration fee: ₹${trial.fee}`}
+                        aria-label={`Entry fee: ${trial.feeLabel || `₹${trial.fee}`}`}
                       >
-                        ₹{trial.fee}
+                        {trial.feeLabel || `₹${trial.fee}`}
                       </span>
                     )}
                   </div>
