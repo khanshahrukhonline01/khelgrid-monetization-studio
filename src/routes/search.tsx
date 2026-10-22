@@ -7,6 +7,7 @@ import { TRIALS, SPORTS, CITIES, type Trial } from "@/data/trials";
 import { fetchAvailableTrialsFromSupabase } from "@/lib/trials-service";
 import { TrialCard } from "@/components/TrialCard";
 import { useAuth } from "@/context/AuthContext";
+import { isTrialArchived } from "@/lib/opportunity-badge";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 
 // Lazy-loaded non-critical modals and calendar to streamline Critical Rendering Path
@@ -184,6 +185,7 @@ const searchSchema = z.object({
   savedOnly: fallback(z.boolean(), false).default(false),
   view: fallback(z.enum(["grid", "list", "calendar"]), "grid").default("grid"),
   trialId: fallback(z.string(), "").default(""),
+  archive: fallback(z.boolean(), false).default(false),
 });
 
 export const Route = createFileRoute("/search")({
@@ -405,6 +407,11 @@ function SearchPage() {
   const results = useMemo(() => {
     const q = params.q.trim().toLowerCase();
     let list = trialsList.filter((t) => {
+      // Keep the main discovery feed current. Completed dated opportunities are
+      // available through the explicit archive toggle instead of cluttering results.
+      const archived = isTrialArchived(t);
+      if (params.archive ? !archived : archived) return false;
+
       if (params.sport !== ALL_SPORT) {
         if (t.id === "t-crpf-meritorious-sportspersons-recruitment-2026") {
           const matchesDiscipline =
@@ -747,7 +754,7 @@ function SearchPage() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-3.5 w-full min-w-0 max-w-full">
         <div className="flex items-center gap-2.5 min-w-0">
           <h1 className="text-lg sm:text-2xl font-bold tracking-tight text-foreground truncate">
-            Search Trials and Opportunities
+            {params.archive ? "Archived Sports Trials & Opportunities" : "Search Trials and Opportunities"}
           </h1>
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
             <ShieldCheck className="h-3.5 w-3.5" />
@@ -759,6 +766,25 @@ function SearchPage() {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
+          <Button
+            type="button"
+            variant={params.archive ? "default" : "outline"}
+            size="sm"
+            onClick={() =>
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  archive: !params.archive,
+                  dateRange: "all",
+                }),
+              })
+            }
+            className="h-8 gap-1.5 text-xs font-medium"
+            aria-label={params.archive ? "Show current and upcoming trials" : "View archived trials"}
+          >
+            <CalendarDays className="h-3.5 w-3.5" />
+            <span>{params.archive ? "Upcoming" : "Archive"}</span>
+          </Button>
           <Button
             type="button"
             variant="outline"
@@ -782,6 +808,12 @@ function SearchPage() {
           </Button>
         </div>
       </div>
+
+      {params.archive && (
+        <div className="mt-3 rounded-xl border border-border/70 bg-muted/35 px-3.5 py-3 text-sm text-muted-foreground">
+          <strong className="text-foreground">Past events archive.</strong> These listings are kept for reference. Registration may be closed; check the source notice for official results or future editions.
+        </div>
+      )}
 
       {/* Main Responsive Grid Layout: Filter Sidebar (Desktop) + Results Content */}
       <div className="mt-5 grid gap-6 lg:grid-cols-12 items-start w-full min-w-0 max-w-full">
