@@ -1734,6 +1734,9 @@ export const SPORTS = [
   "Fencing",
   "Equestrian",
   "Kho-Kho",
+  "Squash",
+  "Soft Tennis",
+  "Netball",
 ] as const;
 export const CITIES = [
   "Delhi",
@@ -1748,4 +1751,18 @@ export const CITIES = [
   "Itanagar",
   "Jammu",
   "Chhatrapati Sambhajinagar",
+  "Sagar",
+  "Ajmer",
+  "Dewas",
+  "Indore",
+  "Raipur",
+  "Ludhiana",
+  "Mandsaur",
+  "Gwalior",
+  "Sikar",
+  "Ranchi",
+  "Satna",
+  "Bareilly",
+  "Ayodhya",
+  "Bhopal",
 ] as const;
