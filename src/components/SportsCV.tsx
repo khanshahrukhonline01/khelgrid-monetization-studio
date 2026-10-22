@@ -40,7 +40,7 @@ export interface SportsCVProps {
 }
 
 export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVProps) {
-  const { name } = { name: "" };
+  const name = "";
 
   // Active CV state
   const [data, setData] = useState<SportsCVData>(() => loadSportsCVData(name));
@@ -304,7 +304,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
               const escapeHtml = (value: unknown) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({
                 "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
               })[ch] || ch);
-              const popup = window.open("", "_blank", "noopener,noreferrer");
+              const popup = window.open("", "_blank");
               if (!popup) {
                 toast.error("Allow pop-ups to create your printable PDF.");
                 return;
