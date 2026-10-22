@@ -7,6 +7,7 @@ import {
   saveSportsCVData,
   SPORTS_CV_STORAGE_KEY,
 } from "@/lib/sports-cv-storage";
+import { setSportsCVLanguage, SPORTS_CV_LANGUAGE_KEY } from "@/lib/sports-cv-i18n";
 
 // Mock @tanstack/react-router useNavigate and Link
 vi.mock("@tanstack/react-router", () => ({
@@ -39,6 +40,25 @@ describe("AthleteOnboardingWizard Component & Flow", () => {
     expect(html).toContain("Football");
     expect(html).toContain("Basketball");
     expect(html).toContain("Competition Age Category");
+    expect(html).toContain("Save &amp; Continue");
+  });
+
+
+  it("renders translated onboarding labels and examples in Hindi", () => {
+    setSportsCVLanguage("hi");
+    const html = renderToString(<AthleteOnboardingWizard />);
+
+    expect(html).toContain("चरण 1");
+    expect(html).toContain("उदाहरण: आरव शर्मा");
+    expect(html).toContain("सेव करें और आगे बढ़ें");
+    expect(localStorage.getItem(SPORTS_CV_LANGUAGE_KEY)).toBe("hi");
+  });
+
+  it("keeps English as the default onboarding language", () => {
+    const html = renderToString(<AthleteOnboardingWizard />);
+
+    expect(html).toContain("Step 1 of");
+    expect(html).toContain("e.g. Aarav Sharma");
     expect(html).toContain("Save &amp; Continue");
   });
 
