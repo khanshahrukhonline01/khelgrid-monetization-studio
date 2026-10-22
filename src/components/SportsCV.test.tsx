@@ -9,6 +9,7 @@ import {
   SPORTS_CV_STORAGE_KEY,
 } from "@/lib/sports-cv-storage";
 import { SportsCVCard } from "./SportsCVCard";
+import { setSportsCVLanguage, SPORTS_CV_LANGUAGE_KEY } from "@/lib/sports-cv-i18n";
 import {
   SPORT_POSITION_PRESETS,
   COMMON_METRIC_PRESETS,
@@ -16,6 +17,29 @@ import {
 } from "@/types/sports-cv";
 
 describe("Sports CV Component & Data Layer", () => {
+  describe("Language-aware athlete card", () => {
+    it("renders Hindi card headings when Hindi is selected", () => {
+      setSportsCVLanguage("hi");
+      const data = getBlankSportsCV();
+      data.athleteName = "आरव शर्मा";
+      const html = renderToString(<SportsCVCard data={data} />);
+
+      expect(html).toContain("KhelGrid खिलाड़ी ID");
+      expect(html).toContain("खेल प्रदर्शन के माप");
+      expect(html).toContain("खेल उपलब्धियाँ और सम्मान");
+      expect(html).toContain("KhelGrid खिलाड़ी प्रोफ़ाइल");
+    });
+
+    it("keeps English card headings when English is selected", () => {
+      setSportsCVLanguage("en");
+      const html = renderToString(<SportsCVCard data={getBlankSportsCV()} />);
+
+      expect(html).toContain("KhelGrid Scout ID");
+      expect(html).toContain("Performance Metrics");
+      expect(html).toContain("Honours &amp; Athletic Achievements");
+    });
+  });
+
   beforeEach(() => {
     if (typeof localStorage !== "undefined") {
       localStorage.clear();
