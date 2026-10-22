@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TRIALS } from "@/data/trials";
+import { isTrialArchived } from "@/lib/opportunity-badge";
 
 export const Route = createFileRoute("/api/trials")({
   server: {
@@ -8,10 +9,11 @@ export const Route = createFileRoute("/api/trials")({
         const url = new URL(request.url);
         const sport = url.searchParams.get("sport");
         const city = url.searchParams.get("city");
+        const archive = url.searchParams.get("archive") === "true";
         const limitParam = url.searchParams.get("limit");
         const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 50, 1), 100) : 50;
 
-        let results = [...TRIALS];
+        let results = TRIALS.filter((trial) => (archive ? isTrialArchived(trial) : !isTrialArchived(trial)));
         if (sport && sport.toLowerCase() !== "all") {
           results = results.filter((t) => t.sport.toLowerCase() === sport.toLowerCase());
         }
@@ -24,6 +26,7 @@ export const Route = createFileRoute("/api/trials")({
           platform: "KhelGrid",
           canonicalUrl: "https://www.khelgrid.com/api/trials",
           documentation: "https://www.khelgrid.com/guides",
+          view: archive ? "archive" : "current-and-upcoming",
           total: results.length,
           trials: results.slice(0, limit).map((t) => ({
             id: t.id,
