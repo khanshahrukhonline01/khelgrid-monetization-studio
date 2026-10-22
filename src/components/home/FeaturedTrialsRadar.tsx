@@ -55,7 +55,7 @@ export function FeaturedTrialsRadar({
     const origin =
       typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = `${origin}/trial/${trial.id}`;
-    const text = `🏆 *${trial.sport.toUpperCase()} TRIAL: ${trial.title}*\n📍 *Location:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"}\n\n👉 *Details & Registration:* ${shareUrl}`;
+    const text = `🏆 *${trial.sport.toUpperCase()} ${trial.listingType === "competition" ? "SCHOOL GAMES FIXTURE" : "TRIAL"}: ${trial.title}*\n📍 *Location:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"}\n\n👉 *Details & Registration:* ${shareUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
     toast.success("Opening WhatsApp share!");
   };
@@ -209,7 +209,7 @@ export function FeaturedTrialsRadar({
                       <MapPin className="h-3 w-3 text-white/80 shrink-0" />
                       <span>{trial.city}</span>
                     </span>
-                    <span className="rounded-md bg-emerald-500/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs shrink-0">
+                    <span className={`rounded-md px-2 py-0.5 text-[10px] font-bold shadow-xs shrink-0 ${(!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free") ? "bg-emerald-500/90 text-white" : "bg-secondary text-foreground"}`}>
                       {trial.feeLabel || (trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`)}
                     </span>
                   </div>
