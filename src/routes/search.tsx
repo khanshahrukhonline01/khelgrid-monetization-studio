@@ -202,7 +202,10 @@ export const Route = createFileRoute("/search")({
     let metaDesc =
       "Filter and discover sports selection trials, tournaments, recruitment drives, coaching camps, and academy opportunities across India by sport, age group, and city.";
 
-    if (isCrpf) {
+    if (search?.archive) {
+      pageTitle = "Archived Sports Trials & Past Selection Opportunities in India · KhelGrid";
+      metaDesc = "Browse past sports selection trials and completed opportunities across India. Listings are retained for reference; check official sources for results, updated dates, or the next edition.";
+    } else if (isCrpf) {
       pageTitle =
         "CRPF Meritorious Sportspersons Recruitment 2026 (521 Posts) · Official Apply · KhelGrid";
       metaDesc =
@@ -285,7 +288,7 @@ export const Route = createFileRoute("/search")({
     return buildSeoHead({
       title: pageTitle,
       description: metaDesc,
-      canonicalPath: "/search",
+      canonicalPath: search?.archive ? "/search?archive=true" : "/search",
       noindex: false,
       keywords: `${sSport ? sSport + " trials, " : ""}CRPF recruitment 2026, CRPF meritorious sportspersons recruitment 2026, rect.crpf.gov.in apply online, sports trials India, sports opportunities, sports quota 2026, cricket selection trials, football academy combine, athletics trials, badminton state selections, open sports trials 2026`,
       type: "website",
@@ -746,6 +749,7 @@ function SearchPage() {
         free={params.free}
         trialId={params.trialId}
         savedOnly={params.savedOnly}
+        archive={params.archive}
         totalResults={results.total}
         featuredTrial={crpfTrial}
       />
