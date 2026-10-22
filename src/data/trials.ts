@@ -49,6 +49,58 @@ export interface Trial {
 
 export const TRIALS: Trial[] = [
   {
+    id: "t-punjab-civil-services-mens-football-trials-2026",
+    title: "Punjab Team Selection Trials — All India Civil Services Football (Men) 2026",
+    academy: "Punjab Sports Department",
+    sport: "Football",
+    city: "Mehalpur, Punjab",
+    date: "Oct 26, 2026 · 11:00 AM",
+    registrationDeadline: "Oct 26, 2026 (trial day)",
+    fee: 0,
+    feeLabel: "No trial fee stated in the report",
+    spots: 0,
+    tag: "Government Employee Selection Trial",
+    ageCategory: "Regular government employees — eligibility restrictions apply",
+    gender: "Men",
+    verifiedLabel: "Reported by Patiala Politics; cross-checked with corroborating news reports",
+    urgencyText: "Trial on Oct 26 at 11:00 AM · Departmental NOC required",
+    badge: "New",
+    venue: "Football Sports Stadium, Mehalpur, Punjab, India",
+    sourceUrl: "https://patialapolitics.com/77379/",
+    sourceLabel: "Patiala Politics — Punjab men's civil services football trials",
+    sources: [
+      {
+        label: "Original report — Patiala Politics",
+        url: "https://patialapolitics.com/77379/",
+      },
+      {
+        label: "Corroborating report — Yes Punjab News",
+        url: "https://yespunjab.com/punjab-to-hold-trials-for-all-india-civil-services-mens-football-tournament-on-october-26/",
+      },
+    ],
+    timelines: [
+      {
+        label: "Punjab team selection trials",
+        date: "Oct 26, 2026 · 11:00 AM",
+        description: "Men's football trials at Football Sports Stadium, Mehalpur, Punjab.",
+      },
+      {
+        label: "All India Civil Services Football Tournament",
+        date: "Nov 17–24, 2026",
+        description: "Tournament scheduled in Goa; published reports differ on the end date, so confirm with the organising department.",
+      },
+    ],
+    eligibility: "For eligible regular government employees from relevant departments and organisations, including security services, paramilitary and central/state police organisations, RPF, CISF, BSF, ITBP, NSG, autonomous bodies, public-sector undertakings and public-sector banks. Participants must obtain a No Objection Certificate (NOC) from their department. Casual/daily-wage workers, temporary office workers and employees with less than six months of regular service are excluded, according to the published reports.",
+    requiredDocuments: [
+      "Departmental No Objection Certificate (NOC)",
+      "Government/department employee identity proof",
+      "Confirm any additional documents with the Punjab Sports Department before attending",
+    ],
+    selectionProcess: "In-person selection trials to select Punjab's men's team for the All India Civil Services Football Tournament. Players are responsible for their own travel, accommodation and food expenses, according to the published report.",
+    lastVerified: "2026-10-22",
+  },
+
+  {
     id: "t-delhi-doe-softball-u19-open-selection-trials-2026",
     title: "Delhi School Softball Open Selection Trials — 70th National School Games",
     academy: "Directorate of Education, Sports Branch, Government of NCT of Delhi",
