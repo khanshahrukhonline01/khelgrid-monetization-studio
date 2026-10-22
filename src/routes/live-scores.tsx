@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { LIVE_SPORTS_UPDATES, type LiveMatchUpdate } from "@/data/liveSports";
 import { buildSeoHead } from "@/lib/seo";
-import { playScoreChime, playWhistleSound } from "@/lib/sports-audio";
+import { playScoreChime } from "@/lib/sports-audio";
 import { InFeedAd, ResponsiveAd } from "@/components/ads";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -149,11 +149,8 @@ export function LiveScoresPage() {
   });
 
   // Dynamic simulation tick for in-play realism
-  const [simulationActive, setSimulationActive] = useState<boolean>(true);
   const [matchesState, setMatchesState] = useState<LiveMatchUpdate[]>(LIVE_SPORTS_UPDATES);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [refreshCountdown, setRefreshCountdown] = useState(30);
-  const [lastRefreshedAt, setLastRefreshedAt] = useState<string>("Just now");
 
   // Save pinned matches
   const togglePin = (matchId: string, matchTitle: string) => {
@@ -195,51 +192,16 @@ export function LiveScoresPage() {
     });
   };
 
-  // Manual refresh handler
+  // Status check only: live data fetching is not connected yet.
   const handleManualRefresh = useCallback(() => {
     setIsRefreshing(true);
-    setTimeout(() => {
-      setLastRefreshedAt(
-        new Date().toLocaleTimeString("en-IN", {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        }),
-      );
-      setRefreshCountdown(30);
+    window.setTimeout(() => {
       setIsRefreshing(false);
-      toast.success("Live cricket feeds refreshed", {
-        description: "Checked official international & national cricket feeds",
+      toast.info("Live scores are not connected to a live data provider yet.", {
+        description: "The current match listing has not been refreshed from an external source.",
       });
-      if (soundEnabled) {
-        playWhistleSound();
-      }
-    }, 600);
-  }, [soundEnabled]);
-
-  // Countdown timer for auto-refresh
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setRefreshCountdown((prev) => {
-        if (prev <= 1) {
-          handleManualRefresh();
-          return 30;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [handleManualRefresh]);
-
-  // Dynamic simulation tick for realism
-  useEffect(() => {
-    if (!simulationActive) return;
-    const simInterval = setInterval(() => {
-      // Cricket schedule stays aligned with official match times
-    }, 15000);
-
-    return () => clearInterval(simInterval);
-  }, [simulationActive]);
+    }, 250);
+  }, []);
 
   // Filter calculations
   const filteredMatches = useMemo(() => {
@@ -462,15 +424,15 @@ export function LiveScoresPage() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                   </span>
-                  <span>LIVE CRICKET MATCH CENTER</span>
+                  <span>DEMO DATA · LIVE FEED NOT CONNECTED</span>
                 </span>
                 <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-                  {liveCount} Matches Live Now
+                  {liveCount} Listed as Live
                 </span>
               </div>
 
               <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-                Real-Time Live Cricket Scores
+                Cricket Scores & Match Center
               </h1>
               <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl">
                 Ball-by-ball cricket, international bilateral series, ICC World Cup qualifiers, and
@@ -505,36 +467,6 @@ export function LiveScoresPage() {
                 )}
               </Button>
 
-              {/* In-play Simulation Toggle */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setSimulationActive((prev) => {
-                    const next = !prev;
-                    toast.info(next ? "Live in-play simulation enabled" : "Simulation paused");
-                    return next;
-                  });
-                }}
-                className={cn(
-                  "gap-1.5 text-xs font-semibold rounded-xl border-border/80",
-                  simulationActive && "border-primary/40 bg-primary/5 text-primary",
-                )}
-                title="Toggle simulated live ball-by-ball ticking"
-              >
-                {simulationActive ? (
-                  <>
-                    <Play className="h-3.5 w-3.5 fill-primary text-primary" />
-                    <span>Live Tick</span>
-                  </>
-                ) : (
-                  <>
-                    <Pause className="h-3.5 w-3.5 text-muted-foreground" />
-                    <span>Paused</span>
-                  </>
-                )}
-              </Button>
-
               {/* Refresh CTA */}
               <Button
                 variant="outline"
@@ -542,12 +474,12 @@ export function LiveScoresPage() {
                 onClick={handleManualRefresh}
                 disabled={isRefreshing}
                 className="gap-1.5 text-xs font-semibold rounded-xl border-border/80 hover:bg-secondary active:scale-95 transition cursor-pointer"
-                title="Refresh score feeds from official cricket sources"
+                title="Check live data connection status"
               >
                 <RefreshCw
                   className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin text-primary")}
                 />
-                <span>{isRefreshing ? "Refreshing..." : `Sync (${refreshCountdown}s)`}</span>
+                <span>{isRefreshing ? "Checking..." : "Data status"}</span>
               </Button>
             </div>
           </div>
@@ -555,12 +487,12 @@ export function LiveScoresPage() {
           {/* Real-time ticker ribbon */}
           <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/60 pt-3 text-[11px] text-muted-foreground">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-foreground/80">Active Feeds:</span>
+              <span className="font-semibold text-foreground/80">Data status:</span>
               <span className="rounded bg-secondary/80 px-2 py-0.5 font-medium">
-                Official Cricket Wire
+                Sample match listing
               </span>
               <span className="rounded bg-secondary/80 px-2 py-0.5 font-medium">
-                ICC / BCCI / CSA / PCB
+                Live provider not connected
               </span>
               <span className="hidden sm:inline-block text-muted-foreground">
                 · Last synced {lastRefreshedAt}
