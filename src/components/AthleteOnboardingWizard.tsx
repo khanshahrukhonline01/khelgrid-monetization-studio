@@ -716,7 +716,7 @@ export function AthleteOnboardingWizard({
                     onValueChange={(val) => updateField("ageCategory", val)}
                   >
                     <SelectTrigger id="wiz-age-category" className="h-10 text-xs sm:text-sm">
-                      <SelectValue placeholder="{language === "hi" ? "आयु वर्ग चुनें" : "Select Age Category"}" />
+                      <SelectValue placeholder={language === "hi" ? "आयु वर्ग चुनें" : "Select Age Category"} />
                     </SelectTrigger>
                     <SelectContent>
                       {AGE_CATEGORIES.map((cat) => (
