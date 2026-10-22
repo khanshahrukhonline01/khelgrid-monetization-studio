@@ -119,7 +119,7 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
     const origin =
       typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = `${origin}/trial/${trial.id}`;
-    const text = `🏆 *${trial.sport.toUpperCase()} ${trial.listingType === "competition" ? "SCHOOL GAMES FIXTURE" : "TRIAL NOTICE"}: ${trial.title}*\n\n📍 *Academy:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee/entry:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🛡️ *Verification:* ${trial.verifiedLabel || "Verified Organizer"}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"} · ${trial.gender || "All"}\n\n👉 *View details & register on KhelGrid:* ${shareUrl}`;
+    const text = `🏆 *${trial.sport.toUpperCase()} ${trial.listingType === "competition" ? "SCHOOL GAMES FIXTURE" : "TRIAL NOTICE"}: ${trial.title}*\n\n📍 *Academy:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee/entry:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🛡️ *Verification:* ${trial.verifiedLabel || "Verified Organizer"}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"} · ${trial.gender || "All"}\n\n👉 *${trial.listingType === "competition" ? "View details & official calendar" : "View details & registration"}:* ${shareUrl}`;
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     toast.success("Opening WhatsApp to share trial notice!");
