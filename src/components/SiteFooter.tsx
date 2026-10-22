@@ -854,6 +854,45 @@ export function SiteFooter() {
         </div>
       </div>
 
+      {/* KhelGrid Product Bar — immediately above the IPR notice */}
+      <section aria-label="KhelGrid products" className="border-t border-border bg-background py-4">
+        <div className="mx-auto max-w-7xl px-4 md:px-6">
+          <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+            <div>
+              <h2 className="font-heading text-sm font-bold text-foreground">Explore KhelGrid Products</h2>
+              <p className="mt-0.5 text-xs text-muted-foreground">Tools to help athletes build, train, discover and get noticed.</p>
+            </div>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Made for Indian sport</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+            <Link to="/start-from-zero" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Trophy className="h-4 w-4" /></span>
+              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Sports CV</span><span className="block text-[10px] text-muted-foreground">Show your journey</span></span>
+            </Link>
+            <Link to="/talent-scanner" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Search className="h-4 w-4" /></span>
+              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Talent Scanner</span><span className="block text-[10px] text-muted-foreground">Track performance</span></span>
+            </Link>
+            <Link to="/search" search={{ q: "", sport: "All Sports", city: "All Locations", sort: "Soonest", free: false }} className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Search className="h-4 w-4" /></span>
+              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Find Trials</span><span className="block text-[10px] text-muted-foreground">Discover opportunities</span></span>
+            </Link>
+            <Link to="/ai-guide" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Sparkles className="h-4 w-4" /></span>
+              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">AI Sports Guide</span><span className="block text-[10px] text-muted-foreground">Plan your next step</span></span>
+            </Link>
+            <Link to="/book" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><MapPin className="h-4 w-4" /></span>
+              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Book Venues</span><span className="block text-[10px] text-muted-foreground">Find places to play</span></span>
+            </Link>
+            <Link to="/play" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Zap className="h-4 w-4" /></span>
+              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Play & Match</span><span className="block text-[10px] text-muted-foreground">Find local games</span></span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* IPR, AI & Copyright Footbar Strip (Ultra-Compact) */}
       <section className="border-t border-border bg-muted/15 py-3">
         <div className="mx-auto flex max-w-7xl flex-col gap-2.5 px-4 text-xs md:flex-row md:items-center md:justify-between md:px-6">
