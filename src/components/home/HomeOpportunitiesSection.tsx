@@ -70,6 +70,21 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
   const [activeScrollIndex, setActiveScrollIndex] = useState(0);
   const opportunitiesRef = useRef<HTMLDivElement>(null);
 
+  const discoveryStats = useMemo(() => {
+    const upcomingTrials = trials.filter((trial) => {
+      const match = trial.date.match(/(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+\\d{1,2}(?:[–-]\\d{1,2})?,?\\s+2026/i);
+      if (!match) return true;
+      const parsed = Date.parse(match[0].replace(/[–-]/, " ").replace(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+(\\d{1,2})\\s+(\\d{4})/i, "$1 $2, $3"));
+      return Number.isNaN(parsed) || parsed >= Date.now() - 86400000;
+    });
+    return {
+      opportunities: upcomingTrials.length,
+      sports: new Set(upcomingTrials.map((trial) => trial.sport.trim()).filter(Boolean)).size,
+      cities: new Set(upcomingTrials.map((trial) => trial.city.trim()).filter(Boolean)).size,
+      venues: new Set(upcomingTrials.map((trial) => trial.venue?.trim()).filter((venue): venue is string => Boolean(venue))).size,
+    };
+  }, [trials]);
+
   const filteredOpportunities = useMemo(() => {
     if (selectedSportFilter === "All") {
       return trials;
@@ -219,6 +234,35 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
             Browse all ({trials.length}) →
           </Link>
         </div>
+      </div>
+
+      {/* Compact discovery stats: derived from the current trial dataset, never hard-coded totals. */}
+      <div
+        aria-label="Sports opportunity statistics"
+        className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4"
+      >
+        {[
+          { label: "Upcoming opportunities", value: discoveryStats.opportunities, icon: CalendarDays },
+          { label: "Sports", value: discoveryStats.sports, icon: Trophy },
+          { label: "Cities", value: discoveryStats.cities, icon: MapPin },
+          { label: "Venues listed", value: discoveryStats.venues, icon: MapPin },
+        ].map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="flex min-w-0 items-center gap-3 rounded-xl border border-border/70 bg-card/80 px-3 py-3 shadow-xs"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <Icon className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xl font-bold tabular-nums leading-tight">{stat.value}</span>
+                <span className="block truncate text-[11px] text-muted-foreground">{stat.label}</span>
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       {/* Sport Filter Chips with tablist accessibility */}
