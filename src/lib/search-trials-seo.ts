@@ -193,8 +193,9 @@ export function getSearchTrialsSeoMetadata(
     },
   ];
 
-  // 3. CRPF JobPosting Schema
-  jsonLdData.push({
+  // 3. Emit JobPosting structured data only for the matching CRPF recruitment query.
+  if (isCrpf) {
+    jsonLdData.push({
     "@context": "https://schema.org",
     "@type": "JobPosting",
     title: "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
@@ -244,7 +245,8 @@ export function getSearchTrialsSeoMetadata(
       email: "rectt@crpf.gov.in",
       url: "https://rect.crpf.gov.in",
     },
-  });
+    });
+  }
 
   // 4. FAQPage Schema for Sports Opportunities & Guidance
   jsonLdData.push(generateTrialsFaqSchema());
