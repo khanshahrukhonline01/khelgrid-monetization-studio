@@ -15,23 +15,18 @@ import { AthleteProfileAgent } from "@/components/AthleteProfileAgent";
 import { AthleteOnboardingWizard } from "@/components/AthleteOnboardingWizard";
 import type { AthleteProfile } from "@/lib/athlete-profile-agent";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
-  ShieldCheck,
   Share2,
   Download,
   Copy,
   Edit3,
   Eye,
   Columns,
-  Sparkles,
   RotateCcw,
   Palette,
   ExternalLink,
   Wand2,
 } from "lucide-react";
-import {
-} from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 export interface SportsCVProps {
@@ -47,19 +42,6 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
   const [viewMode, setViewMode] = useState<"card" | "edit" | "split" | "wizard">(initialViewMode);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
-
-  // Sync athleteName from auth if user has logged in and not custom named
-  useEffect(() => {
-    if (!name || name === "Aarav Sharma") return;
-    setData((prev) => {
-      if (prev.athleteName === "Aarav Sharma") {
-        const updated = { ...prev, athleteName: name };
-        saveSportsCVData(updated);
-        return updated;
-      }
-      return prev;
-    });
-  }, [name]);
 
   // Listen for custom event whenever wizard or another editor updates CV
   useEffect(() => {
