@@ -37,6 +37,8 @@ export interface SportsCVProps {
 
 export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVProps) {
   const name = "";
+  const language = getSportsCVLanguage();
+  const tr = (english: string, hindi: string) => language === "hi" ? hindi : english;
 
   // Active CV state
   const [data, setData] = useState<SportsCVData>(() => loadSportsCVData(name));
@@ -71,7 +73,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
     const updated = { ...data, theme };
     setData(updated);
     saveSportsCVData(updated);
-    toast.success(`Theme set to ${theme.toUpperCase()}`);
+    toast.success(language === "hi" ? `थीम ${theme.toUpperCase()} चुनी गई` : `Theme set to ${theme.toUpperCase()}`);
   };
 
   // Download high-res PNG image
@@ -79,10 +81,10 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
     try {
       setIsExporting(true);
       await downloadSportsCardAsPNG(data);
-      toast.success("Downloaded high-resolution Scout Card (PNG)!");
+      toast.success(tr("Downloaded high-resolution Scout Card (PNG)!", "हाई-रेज़ोल्यूशन खिलाड़ी कार्ड (PNG) डाउनलोड हो गया!"));
     } catch (err) {
       console.error(err);
-      toast.error("Failed to generate image download.");
+      toast.error(tr("Failed to generate image download.", "इमेज डाउनलोड नहीं हो सकी।"));
     } finally {
       setIsExporting(false);
     }
@@ -98,7 +100,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
     const summary = buildScoutTextSummary(data);
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       await navigator.clipboard.writeText(summary);
-      toast.success("Scout CV summary copied to clipboard! Ready to paste into WhatsApp or Email.");
+      toast.success(tr("Scout CV summary copied to clipboard! Ready to paste into WhatsApp or Email.", "खिलाड़ी CV का सार कॉपी हो गया! इसे WhatsApp या ईमेल में पेस्ट करें।"));
     }
   };
 
@@ -134,7 +136,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
     };
     setData(fresh);
     saveSportsCVData(fresh);
-    toast.success("Started a fresh Sports CV.");
+    toast.success(tr("Started a fresh Sports CV.", "नया Sports CV शुरू किया गया।"));
   };
 
   // Map to AthleteProfile for completeness agent
@@ -165,7 +167,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             </div>
             <div>
               <div className="font-bold text-foreground text-xs sm:text-sm">
-                Interactive Sports CV & Social Profiles Setup Wizard
+                {tr("Interactive Sports CV & Social Profiles Setup Wizard", "इंटरैक्टिव Sports CV और सोशल प्रोफ़ाइल सेटअप विज़ार्ड")}
               </div>
               <p className="text-[11px] text-muted-foreground mt-0.5">
                 Guided 6-step flow to calibrate performance metrics, honours, and connect your
@@ -179,10 +181,10 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
               onClick={() => setViewMode("wizard")}
               className="h-8 text-xs font-semibold gap-1.5 bg-primary text-primary-foreground shadow-sm"
             >
-              <Wand2 className="h-3.5 w-3.5" /> Start Wizard
+              <Wand2 className="h-3.5 w-3.5" /> {tr("Start Wizard", "विज़ार्ड शुरू करें")}
             </Button>
             <Button asChild variant="outline" size="sm" className="h-8 text-xs">
-              <Link to="/onboarding">Full Screen →</Link>
+              <Link to="/onboarding">{tr("Full Screen →", "पूरी स्क्रीन →")}</Link>
             </Button>
           </div>
         </div>
@@ -256,7 +258,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
                 key={thm}
                 type="button"
                 onClick={() => handleThemeChange(thm)}
-                title={`Select ${thm} theme`}
+                title={language === "hi" ? `थीम ${thm} चुनें` : `Select ${thm} theme`}
                 className={`h-6 w-6 rounded-full border-2 transition-transform ${
                   data.theme === thm
                     ? "scale-110 border-primary"
@@ -289,7 +291,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
               })[ch] || ch);
               const popup = window.open("", "_blank");
               if (!popup) {
-                toast.error("Allow pop-ups to create your printable PDF.");
+                toast.error(tr("Allow pop-ups to create your printable PDF.", "PDF बनाने के लिए ब्राउज़र में पॉप-अप की अनुमति दें।"));
                 return;
               }
               const achievements = (data.achievements || []).map((item) => `<li><strong>${escapeHtml(item.title)}</strong><br>${escapeHtml(item.competition)} · ${escapeHtml(item.level)} · ${escapeHtml(item.year)}</li>`).join("");
@@ -312,7 +314,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             className="text-xs h-8 gap-1.5"
           >
             <Download className="h-3.5 w-3.5" />
-            {isExporting ? "Generating..." : "Download Card (PNG)"}
+            {isExporting ? tr("Generating...", "बन रहा है...") : tr("Download Card (PNG)", "कार्ड डाउनलोड करें (PNG)") }
           </Button>
 
           <Button
@@ -323,7 +325,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             className="text-xs h-8 gap-1.5 font-semibold shadow-sm"
           >
             <Share2 className="h-3.5 w-3.5" />
-            Share CV
+            {tr("Share CV", "CV साझा करें")}
           </Button>
 
           <Button
@@ -332,11 +334,11 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             size="sm"
             asChild
             className="text-xs h-8 gap-1.5"
-            title="Open your public scout portfolio page"
+            title={tr("Open your public scout portfolio page", "अपनी सार्वजनिक खिलाड़ी प्रोफ़ाइल खोलें")}
           >
             <Link to="/cv/$id" params={{ id: slugifyAthleteName(data.athleteName, data.sport) }}>
               <ExternalLink className="h-3.5 w-3.5" />
-              Public Link
+              {tr("Public Link", "सार्वजनिक लिंक")}
             </Link>
           </Button>
 
@@ -346,7 +348,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             size="sm"
             onClick={handleCopySummary}
             className="text-xs h-8 gap-1.5"
-            title="Copy scout-ready text summary"
+            title={tr("Copy scout-ready text summary", "स्काउट के लिए तैयार टेक्स्ट कॉपी करें")}
           >
             <Copy className="h-3.5 w-3.5" />
             Copy Text
@@ -358,7 +360,7 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             size="icon"
             onClick={handleResetSample}
             className="h-8 w-8 text-muted-foreground hover:text-foreground"
-            title="Reset to sample data"
+            title={tr("Start a fresh CV", "नया CV शुरू करें")}
           >
             <RotateCcw className="h-3.5 w-3.5" />
           </Button>
