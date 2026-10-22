@@ -20,6 +20,11 @@ KhelGrid connects grassroots Indian athletes across 28 sports disciplines with a
 - [Live Match Center & Scores](https://www.khelgrid.com/live-scores): Real-time scores, cricket commentary, and live tournament tracking.
 - [Verified Sports Coaches Directory](https://www.khelgrid.com/coaches): Qualified coaches across multiple sports disciplines in India.
 
+## Current & Archived Sports Opportunities
+- [Current and Upcoming Sports Trials](https://www.khelgrid.com/search): Dated opportunities that have not passed their final scheduled day. Listings with unknown dates are withheld until verified.
+- [Archived Sports Trials & Past Opportunities](https://www.khelgrid.com/search?archive=true): Historical listings retained for reference; registration may be closed, so check the source notice before acting.
+- [70th National School Games Calendar](https://www.sgfi.org.in/home/Calender?Cal_Id=BDdh%2BNdIKdJvIQ5pyZYl1A%3D%3D): Official SGFI schedule. KhelGrid labels these as competition fixtures, not open public selection trials; athletes should confirm eligibility and entry through their school/state/unit.
+
 ## Venues, Matchmaking & Athlete Tools
 - [Book Sports Venues & Turfs](https://www.khelgrid.com/book): Turf booking, badminton courts, and cricket nets across Indian metro cities.
 - [Amateur Pickup Games](https://www.khelgrid.com/play): Community sports matchmaking and amateur friendly matches.
