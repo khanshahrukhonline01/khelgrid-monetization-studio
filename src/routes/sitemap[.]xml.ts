@@ -7,13 +7,11 @@ import { VENUES } from "@/data/khelgrid";
 import { hasGuideBody } from "@/content/guide-bodies";
 
 const BASE_URL = "https://www.khelgrid.com";
-const LAST_MOD = "2026-10-20";
 
 interface SitemapEntry {
   loc: string;
   changefreq: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority: number;
-  lastmod: string;
 }
 
 export function generateSitemapEntries(): SitemapEntry[] {
@@ -27,7 +25,6 @@ export function generateSitemapEntries(): SitemapEntry[] {
       loc: `${BASE_URL}${path}`,
       priority,
       changefreq,
-      lastmod: LAST_MOD,
     });
   };
 
@@ -42,7 +39,6 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/book", 0.9, "daily");
   add("/train", 0.9, "daily");
   add("/events", 0.9, "daily");
-  add("/scout-portal", 0.85, "weekly");
   add("/guides", 0.85, "weekly");
   add("/tools", 0.85, "weekly");
   add("/blog", 0.85, "weekly");
@@ -52,7 +48,6 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/sports", 0.8, "weekly");
   add("/cities", 0.8, "weekly");
   add("/start-from-zero", 0.8, "weekly");
-  add("/my-stats", 0.8, "weekly");
   add("/learning-hub", 0.75, "weekly");
   add("/talent-scanner", 0.75, "weekly");
   add("/verify", 0.75, "weekly");
@@ -111,11 +106,7 @@ export function generateSitemapEntries(): SitemapEntry[] {
     add(`/blog/${post.slug}`, 0.8, "weekly");
   }
 
-  // Interactive Tools
-  for (const tool of TOOLS_CATALOG) {
-    add(`/tools/${tool.slug}`, 0.8, "weekly");
-  }
-
+  // Individual tool pages currently declare noindex; only include the public /tools hub.
   // Top Guide Categories
   const guideCategories = [
     "trial-prep",
@@ -152,7 +143,6 @@ export function buildSitemapXml(): string {
   const items = Array.from(uniqueUrls.values()).map(
     (e) => `  <url>
     <loc>${e.loc}</loc>
-    <lastmod>${e.lastmod}</lastmod>
     <changefreq>${e.changefreq}</changefreq>
     <priority>${e.priority.toFixed(2)}</priority>
   </url>`,
