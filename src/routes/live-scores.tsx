@@ -460,22 +460,7 @@ export function LiveScoresPage() {
                               )}
                             </Button>
               
-                            {/* Refresh CTA */}
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={handleManualRefresh}
-                              disabled={isRefreshing}
-                              className="gap-1.5 text-xs font-semibold rounded-xl border-border/80 hover:bg-secondary active:scale-95 transition cursor-pointer"
-                              title="Check live data connection status"
-                            >
-                              <RefreshCw
-                                className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin text-primary")}
-                              />
-                              <span>{isRefreshing ? "Checking..." : "Data status"}</span>
-                            </Button>
                           </div>
-            </div>
           </div>
 
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
