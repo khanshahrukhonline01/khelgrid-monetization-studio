@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { TRIALS } from "@/data/trials";
 import { getRealtimeOpportunityBadge, getTrialEndDate, getTrialStartDate, isTrialArchived, parseTrialDate } from "./opportunity-badge";
 
 describe("Trial archive date handling", () => {
@@ -28,6 +29,23 @@ describe("Trial archive date handling", () => {
     );
     expect(badge?.isExpired).toBe(true);
     expect(badge?.label).toBe("Closed");
+  });
+
+  it("keeps the SGFI calendar fixtures uniquely identified and date-parseable", () => {
+    const fixtures = TRIALS.filter((trial) => trial.id.startsWith("t-sgfi-70th-"));
+    const ids = fixtures.map((trial) => trial.id);
+
+    expect(fixtures.length).toBeGreaterThanOrEqual(50);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(
+      fixtures.every(
+        (trial) =>
+          trial.listingType === "competition" &&
+          Boolean(getTrialStartDate(trial.date)) &&
+          Boolean(getTrialEndDate(trial.date)) &&
+          trial.sourceUrl?.includes("sgfi.org.in"),
+      ),
+    ).toBe(true);
   });
 
   it("does not automatically archive records with unparseable dates", () => {
