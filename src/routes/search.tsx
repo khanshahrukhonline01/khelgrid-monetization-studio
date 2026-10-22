@@ -134,6 +134,13 @@ const SPORT_ICONS: Record<string, string> = {
   Fencing: "🤺",
   Equestrian: "🏇",
   "Multi-Discipline Sports Quota": "🎖️",
+  Rugby: "🏉",
+  "Thang-Ta": "🥋",
+  "Wrestling Freestyle": "🤼",
+  Softball: "🥎",
+  Yogasana: "🧘",
+  "Sepak Takraw": "🤾",
+  "Track Cycling": "🚴",
 };
 
 const CRPF_SPORTS_DISCIPLINES = [
