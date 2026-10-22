@@ -27,6 +27,7 @@ import {
   Smartphone,
 } from "lucide-react";
 import { toast } from "sonner";
+import { getSportsCVLanguage } from "@/lib/sports-cv-i18n";
 
 export interface ShareSportsCVModalProps {
   open: boolean;
@@ -41,6 +42,8 @@ export function ShareSportsCVModal({
   data,
   inline = false,
 }: ShareSportsCVModalProps) {
+  const language = getSportsCVLanguage();
+  const tr = (en: string, hi: string) => language === "hi" ? hi : en;
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedPitch, setCopiedPitch] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
@@ -93,12 +96,12 @@ export function ShareSportsCVModal({
         document.body.removeChild(textarea);
       }
       setCopiedLink(true);
-      toast.success("Public Sports CV link copied!", {
-        description: "Anyone can now view your verified athletic achievements.",
+      toast.success(tr("Public Sports CV link copied!", "सार्वजनिक Sports CV लिंक कॉपी हो गया!"), {
+        description: tr("Anyone can now view your verified athletic achievements.", "अब कोई भी आपकी खिलाड़ी प्रोफ़ाइल और उपलब्धियाँ देख सकता है।"),
       });
       setTimeout(() => setCopiedLink(false), 2500);
     } catch {
-      toast.error("Failed to copy link. Please manually copy the URL.");
+      toast.error(tr("Failed to copy link. Please manually copy the URL.", "लिंक कॉपी नहीं हुआ। कृपया URL को मैन्युअल रूप से कॉपी करें।"));
     }
   };
 
@@ -115,12 +118,12 @@ export function ShareSportsCVModal({
         document.body.removeChild(textarea);
       }
       setCopiedPitch(true);
-      toast.success("Scout Pitch snippet copied!", {
-        description: "Ready to paste into WhatsApp groups or coach emails.",
+      toast.success(tr("Scout Pitch snippet copied!", "स्काउट परिचय कॉपी हो गया!"), {
+        description: tr("Ready to paste into WhatsApp groups or coach emails.", "इसे WhatsApp समूह या कोच के ईमेल में पेस्ट कर सकते हैं।"),
       });
       setTimeout(() => setCopiedPitch(false), 2500);
     } catch {
-      toast.error("Failed to copy pitch text.");
+      toast.error(tr("Failed to copy pitch text.", "परिचय टेक्स्ट कॉपी नहीं हुआ।"));
     }
   };
 
@@ -132,17 +135,17 @@ export function ShareSportsCVModal({
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    toast.success("Downloaded Scout QR Code!");
+    toast.success(tr("Downloaded Scout QR Code!", "स्काउट QR कोड डाउनलोड हो गया!"));
   };
 
   const handleDownloadCard = async () => {
     try {
       setIsExportingCard(true);
       await downloadSportsCardAsPNG(data);
-      toast.success("Downloaded High-Res Scout Card (PNG)!");
+      toast.success(tr("Downloaded High-Res Scout Card (PNG)!", "हाई-रेज़ोल्यूशन खिलाड़ी कार्ड (PNG) डाउनलोड हो गया!"));
     } catch (err) {
       console.error(err);
-      toast.error("Failed to export scout card image.");
+      toast.error(tr("Failed to export scout card image.", "खिलाड़ी कार्ड इमेज एक्सपोर्ट नहीं हो सकी।"));
     } finally {
       setIsExportingCard(false);
     }
@@ -156,7 +159,7 @@ export function ShareSportsCVModal({
           text: socialLinks.shareText,
           url: activeShareUrl,
         });
-        toast.success("Shared successfully!");
+        toast.success(tr("Shared successfully!", "सफलतापूर्वक साझा किया गया!"));
       } catch (err: unknown) {
         if ((err as Error)?.name !== "AbortError") {
           handleCopyLink();
@@ -280,7 +283,7 @@ export function ShareSportsCVModal({
             {/* Unique Public URL Box */}
             <div>
               <div className="flex items-center justify-between text-xs font-medium text-muted-foreground mb-1.5">
-                <span>Your Unique Public Sports CV URL</span>
+                <span>{tr("Your Unique Public Sports CV URL", "आपका सार्वजनिक Sports CV लिंक")}</span>
                 <div className="flex items-center gap-2">
                   <label className="flex items-center gap-1 text-[11px] cursor-pointer text-neutral-400 hover:text-foreground">
                     <input
@@ -289,7 +292,7 @@ export function ShareSportsCVModal({
                       onChange={(e) => setUsePortableUrl(e.target.checked)}
                       className="rounded border-border text-primary focus:ring-primary h-3 w-3"
                     />
-                    <span>Embed full dataset in link</span>
+                    <span>{tr("Embed full dataset in link", "लिंक में पूरा CV डेटा शामिल करें")}</span>
                   </label>
                 </div>
               </div>
@@ -310,12 +313,12 @@ export function ShareSportsCVModal({
                   {copiedLink ? (
                     <>
                       <Check className="h-3.5 w-3.5 text-emerald-500" />
-                      <span>Copied!</span>
+                      <span>{tr("Copied!", "कॉपी हो गया!")}</span>
                     </>
                   ) : (
                     <>
                       <Copy className="h-3.5 w-3.5" />
-                      <span>Copy Link</span>
+                      <span>{tr("Copy Link", "लिंक कॉपी करें")}</span>
                     </>
                   )}
                 </Button>
@@ -339,7 +342,7 @@ export function ShareSportsCVModal({
             {/* Social Channels Share Grid */}
             <div>
               <div className="text-xs font-semibold text-foreground uppercase tracking-wider mb-2.5 flex items-center justify-between">
-                <span>Share Directly to Socials & Coaches</span>
+                <span>{tr("Share Directly to Socials & Coaches", "सोशल मीडिया और कोच के साथ साझा करें")}</span>
                 {typeof navigator !== "undefined" && typeof navigator.share === "function" && (
                   <button
                     type="button"
@@ -366,7 +369,7 @@ export function ShareSportsCVModal({
                   <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
                     WhatsApp
                   </span>
-                  <span className="text-[10px] text-muted-foreground">Scout Formatted</span>
+                  <span className="text-[10px] text-muted-foreground">{tr("Scout Formatted", "स्काउट के लिए तैयार")}</span>
                 </a>
 
                 {/* X / Twitter */}
@@ -382,7 +385,7 @@ export function ShareSportsCVModal({
                   <span className="text-xs font-bold text-sky-600 dark:text-sky-400">
                     Twitter / X
                   </span>
-                  <span className="text-[10px] text-muted-foreground">Post Highlights</span>
+                  <span className="text-[10px] text-muted-foreground">{tr("Post Highlights", "मुख्य उपलब्धियाँ पोस्ट करें")}</span>
                 </a>
 
                 {/* LinkedIn */}
@@ -398,7 +401,7 @@ export function ShareSportsCVModal({
                   <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
                     LinkedIn
                   </span>
-                  <span className="text-[10px] text-muted-foreground">Athletic Portfolio</span>
+                  <span className="text-[10px] text-muted-foreground">{tr("Athletic Portfolio", "खेल पोर्टफोलियो")}</span>
                 </a>
 
                 {/* Email Scout */}
@@ -412,7 +415,7 @@ export function ShareSportsCVModal({
                   <span className="text-xs font-bold text-purple-600 dark:text-purple-400">
                     Email Scout
                   </span>
-                  <span className="text-[10px] text-muted-foreground">Formal Pitch</span>
+                  <span className="text-[10px] text-muted-foreground">{tr("Formal Pitch", "औपचारिक परिचय")}</span>
                 </a>
               </div>
             </div>
@@ -519,12 +522,12 @@ export function ShareSportsCVModal({
                 {copiedPitch ? (
                   <>
                     <Check className="h-3 w-3 text-emerald-500" />
-                    <span>Copied!</span>
+                    <span>{tr("Copied!", "कॉपी हो गया!")}</span>
                   </>
                 ) : (
                   <>
                     <Copy className="h-3 w-3" />
-                    <span>Copy Snippet</span>
+                    <span>{tr("Copy Snippet", "टेक्स्ट कॉपी करें")}</span>
                   </>
                 )}
               </Button>
