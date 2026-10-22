@@ -312,6 +312,8 @@ export function VenueBookingForm({
         </div>
       )}
 
+      <p className="px-1 text-xs text-muted-foreground">“Available” means no overlapping booking record was found for this slot. Venue opening hours and final acceptance still need to be confirmed with the venue.</p>
+
       {/* 3. Interactive Slot & Court Selector */}
       <VenueSlotSelector
         sports={availableSports}
