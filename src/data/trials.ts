@@ -48,6 +48,55 @@ export interface Trial {
 
 export const TRIALS: Trial[] = [
   {
+    id: "t-national-cricket-club-mumbai-talent-hunt-2026",
+    title: "National Cricket Club Mumbai Talent Hunt (Ages 16–23)",
+    academy: "National Cricket Club (NCC), Mumbai",
+    sport: "Cricket",
+    city: "Mumbai",
+    date: "Oct 26–28, 2026",
+    registrationDeadline: "Oct 26, 2026 (in-person reporting)",
+    fee: 0,
+    spots: 20,
+    tag: "Cricket Talent Hunt · 20 Players to Be Selected",
+    ageCategory: "Players aged 16–23 years",
+    gender: "Not specified in the published report",
+    verifiedLabel: "Details sourced from The Tribune (ANI report); confirm logistics with NCC",
+    urgencyText: "Report directly on Monday, Oct 26, 2026 at 8:00 AM",
+    badge: "New",
+    venue: "National Cricket Club (NCC), Cross Maidan, Marine Lines, Mumbai, Maharashtra",
+    sourceUrl: "https://www.tribuneindia.com/news/sports/mumbais-national-cricket-club-announces-talent-hunt-for-players-between-16-23-years-of-age/",
+    sourceLabel: "The Tribune / ANI report (Oct 20, 2026)",
+    sources: [
+      {
+        label: "Original Tribune India report",
+        url: "https://www.tribuneindia.com/news/sports/mumbais-national-cricket-club-announces-talent-hunt-for-players-between-16-23-years-of-age/",
+      },
+      {
+        label: "Additional coverage (Mid-day)",
+        url: "https://www.mid-day.com/amp/sports/cricket/article/national-cricket-club-to-conduct-three-day-talent-hunt-23655949",
+      },
+    ],
+    timelines: [
+      {
+        label: "In-person reporting",
+        date: "Monday, Oct 26, 2026 · 8:00 AM",
+        description: "Players should report directly to National Cricket Club, Cross Maidan, Marine Lines, Mumbai.",
+      },
+      {
+        label: "Talent Hunt",
+        date: "Oct 26–28, 2026",
+        description: "Three-day cricket talent identification programme; NCC plans to select 20 players for sponsorship and development.",
+      },
+    ],
+    eligibility: "Cricketers aged 16–23 years. The report describes the initiative as supporting promising players who lack access to quality training facilities and professional coaching. The published report does not specify gender restrictions, required documents, registration forms, or an entry fee; confirm these details with NCC before travelling.",
+    requiredDocuments: [
+      "The published report does not list required documents. Contact NCC before travelling to confirm age proof, identity documents, cricket kit, and any other requirements.",
+    ],
+    selectionProcess: "A three-day talent hunt from Oct 26 to 28, 2026. NCC says it will select 20 players to sponsor and groom. Detailed trial drills, selection criteria, and the selection committee were not specified in the report.",
+    lastVerified: "2026-10-22",
+  },
+
+  {
     id: "t-sai-ncoe-aurangabad-women-boxing-trials-2026",
     title: "SAI NCOE Women Boxing Open Selection Trials (Only 5 Vacancies)",
     academy: "Sports Authority of India (SAI) & Khelo India",
