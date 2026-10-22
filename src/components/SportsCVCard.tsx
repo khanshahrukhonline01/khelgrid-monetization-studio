@@ -128,7 +128,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
             className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold ${theme.badgeBg} ${theme.badgeText}`}
           >
             <ShieldCheck className="h-3.5 w-3.5" />
-            Verified Sports CV
+            Athlete Sports CV
           </span>
           <span className="text-[11px] font-mono tracking-wider text-neutral-400">
             {data.athleteId}
@@ -466,7 +466,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
         <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <h4 className="flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-white">
             <Zap className={`h-4 w-4 ${theme.accentText}`} />
-            Verified Performance Metrics
+            Performance Metrics
           </h4>
           <span className="text-[11px] text-neutral-400">
             {data.performanceMetrics.length} Metrics Tested
@@ -600,7 +600,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
               <Share2 className={`h-4 w-4 ${theme.accentText}`} />
               Connected Socials & Match Footage
             </h4>
-            <span className="text-[11px] text-neutral-400">Scout Verified</span>
+            <span className="text-[11px] text-neutral-400">Athlete-provided links</span>
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -734,14 +734,14 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
               )}
             </div>
             <div className="text-[11px] text-neutral-400">
-              Scan to inspect full match history & official trial telemetry
+              Scan or open the public profile and athlete-provided details
             </div>
           </div>
         </div>
 
         {data.coachReference && (
           <div className="border-t border-white/10 pt-2 sm:border-t-0 sm:pt-0 sm:text-right">
-            <div className="text-[10px] uppercase text-neutral-400">Verified Reference</div>
+            <div className="text-[10px] uppercase text-neutral-400">Coach / Academy Reference</div>
             <div className="font-medium text-white">{data.coachReference.name}</div>
             <div className="text-[10px] text-neutral-400">{data.coachReference.designation}</div>
           </div>
