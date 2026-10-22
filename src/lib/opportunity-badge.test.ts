@@ -21,6 +21,15 @@ describe("Trial archive date handling", () => {
     expect(isTrialArchived({ date: "Oct 26–28, 2026" }, referenceNow)).toBe(false);
   });
 
+  it("marks completed date ranges as closed in card badges", () => {
+    const badge = getRealtimeOpportunityBadge(
+      { date: "Oct 19 - Oct 20, 2026", spots: 12, badge: undefined, urgencyText: undefined },
+      referenceNow,
+    );
+    expect(badge?.isExpired).toBe(true);
+    expect(badge?.label).toBe("Closed");
+  });
+
   it("does not automatically archive records with unparseable dates", () => {
     expect(isTrialArchived({ date: "Date to be announced" }, referenceNow)).toBe(false);
   });
