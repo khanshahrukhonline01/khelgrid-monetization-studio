@@ -1414,6 +1414,59 @@ export const TRIALS: Trial[] = [
     urgencyText: "National Camp Prep",
     badge: "Popular",
   },
+
+  {
+    id: "t-jk-cycle-polo-boys-national-championship-trials-2026",
+    title: "Jammu & Kashmir Cycle Polo Selection Trials — Sub-Junior, Junior & Senior Boys",
+    academy: "Jammu and Kashmir Cycle Polo Association (JKCPA)",
+    sport: "Cycle Polo",
+    city: "Srinagar, Jammu and Kashmir",
+    date: "Oct 31, 2026 · 11:30 AM",
+    registrationDeadline: "Oct 31, 2026 (trial day)",
+    fee: 0,
+    feeLabel: "No fee stated in the published report",
+    spots: 0,
+    tag: "National Championship Team Selection",
+    ageCategory: "Sub-Junior, Junior and Senior; exact age cut-offs not stated",
+    gender: "Boys",
+    verifiedLabel: "Daily Excelsior report quoting an Association statement",
+    urgencyText: "Bring two passport-size photographs and photocopies of date-of-birth proof and Aadhaar",
+    badge: "New",
+    venue: "Botvi Chavni Play Field, Srinagar, Jammu and Kashmir",
+    sourceUrl: "https://www.dailyexcelsior.com/cycle-polo-selection-trials-on-oct-31/",
+    sourceLabel: "Daily Excelsior — Cycle Polo selection trials on Oct 31",
+    sources: [
+      {
+        label: "Published report quoting the Association statement (separate original notice not located)",
+        url: "https://www.dailyexcelsior.com/cycle-polo-selection-trials-on-oct-31/",
+      },
+    ],
+    timelines: [
+      {
+        label: "J&K team selection trials",
+        date: "Oct 31, 2026 · 11:30 AM",
+        description: "Trials for Sub-Junior, Junior and Senior boys at Botvi Chavni Play Field, Srinagar.",
+      },
+      {
+        label: "National Cycle Polo Championships 2026–27",
+        date: "Dates not specified in the report",
+        description: "41st Sub-Junior, 45th Junior and 47th Senior National Cycle Polo Championships scheduled in Jodhpur, Rajasthan.",
+      },
+    ],
+    eligibility: "Boys in Sub-Junior, Junior and Senior categories. Players from affiliated district units and other interested boys are invited. Exact age cut-offs are not stated in the report; confirm category eligibility with JKCPA.",
+    requiredDocuments: [
+      "Two passport-size photographs",
+      "Photocopy of date-of-birth certificate",
+      "Photocopy of Aadhaar card",
+    ],
+    selectionProcess: "Selection trials to select Jammu and Kashmir representatives for the 2026–27 national championships in Jodhpur, Rajasthan.",
+    organizerContacts: [
+      { title: "JKCPA contact", name: "Jammu and Kashmir Cycle Polo Association", phone: "7006294963" },
+      { title: "JKCPA contact", name: "Jammu and Kashmir Cycle Polo Association", phone: "7006095464" },
+      { title: "JKCPA contact", name: "Jammu and Kashmir Cycle Polo Association", phone: "7006919285" },
+    ],
+    lastVerified: "2026-10-22",
+  },
 ];
 
 export const SPORTS = [
