@@ -1,5 +1,25 @@
 import { describe, it, expect } from "vitest";
-import { getRealtimeOpportunityBadge, parseTrialDate } from "./opportunity-badge";
+import { getRealtimeOpportunityBadge, getTrialEndDate, isTrialArchived, parseTrialDate } from "./opportunity-badge";
+
+describe("Trial archive date handling", () => {
+  const referenceNow = new Date("2026-10-22T12:00:00+05:30");
+
+  it("parses compact date ranges using the final event day", () => {
+    expect(getTrialEndDate("Oct 26–28, 2026")?.getDate()).toBe(28);
+    expect(getTrialEndDate("Oct 23, 24 & 25, 2026")?.getDate()).toBe(25);
+    expect(getTrialEndDate("Nov 01 - Nov 18, 2026")?.getDate()).toBe(18);
+  });
+
+  it("archives only after the event end date has passed", () => {
+    expect(isTrialArchived({ date: "Oct 19 - Oct 20, 2026" }, referenceNow)).toBe(true);
+    expect(isTrialArchived({ date: "Oct 23, 24 & 25, 2026" }, referenceNow)).toBe(false);
+    expect(isTrialArchived({ date: "Oct 26–28, 2026" }, referenceNow)).toBe(false);
+  });
+
+  it("does not automatically archive records with unparseable dates", () => {
+    expect(isTrialArchived({ date: "Date to be announced" }, referenceNow)).toBe(false);
+  });
+});
 
 describe("Real-time Opportunity Badge Calculation", () => {
   const referenceNow = new Date("2026-09-26T12:00:00Z");
