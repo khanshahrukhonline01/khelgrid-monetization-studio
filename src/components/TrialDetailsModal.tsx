@@ -524,38 +524,42 @@ export function TrialDetailsModal({
             </div>
 
             {/* Official Phone Helpline */}
-            <div className="rounded-lg bg-muted/30 p-3 space-y-1">
-              <span className="text-[11px] text-muted-foreground">Phone Helpline</span>
-              <p className="font-bold text-sm text-foreground">
-                <a
-                  href={`tel:${organizer.phone}`}
-                  className="hover:text-primary transition-colors flex items-center gap-1"
-                >
-                  <Phone className="h-3.5 w-3.5 text-primary" />
-                  <span>{organizer.phone}</span>
-                </a>
-              </p>
-              {organizer.helpline && (
-                <p className="text-muted-foreground text-[11px] flex items-center gap-1">
-                  <Headphones className="h-3 w-3" />
-                  <span>{organizer.helpline}</span>
+            {organizer.phone && (
+              <div className="rounded-lg bg-muted/30 p-3 space-y-1">
+                <span className="text-[11px] text-muted-foreground">Phone Helpline</span>
+                <p className="font-bold text-sm text-foreground">
+                  <a
+                    href={`tel:${organizer.phone}`}
+                    className="hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    <Phone className="h-3.5 w-3.5 text-primary" />
+                    <span>{organizer.phone}</span>
+                  </a>
                 </p>
-              )}
-            </div>
+                {organizer.helpline && (
+                  <p className="text-muted-foreground text-[11px] flex items-center gap-1">
+                    <Headphones className="h-3 w-3" />
+                    <span>{organizer.helpline}</span>
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* Official Email */}
-            <div className="rounded-lg bg-muted/30 p-3 space-y-1">
-              <span className="text-[11px] text-muted-foreground">Official Email</span>
-              <p className="font-semibold text-foreground">
-                <a
-                  href={`mailto:${organizer.email}`}
-                  className="hover:text-primary transition-colors flex items-center gap-1 truncate"
-                >
-                  <Mail className="h-3.5 w-3.5 text-primary shrink-0" />
-                  <span className="truncate">{organizer.email}</span>
-                </a>
-              </p>
-            </div>
+            {organizer.email && (
+              <div className="rounded-lg bg-muted/30 p-3 space-y-1">
+                <span className="text-[11px] text-muted-foreground">Official Email</span>
+                <p className="font-semibold text-foreground">
+                  <a
+                    href={`mailto:${organizer.email}`}
+                    className="hover:text-primary transition-colors flex items-center gap-1 truncate"
+                  >
+                    <Mail className="h-3.5 w-3.5 text-primary shrink-0" />
+                    <span className="truncate">{organizer.email}</span>
+                  </a>
+                </p>
+              </div>
+            )}
 
             {/* Secretariat / Address */}
             <div className="rounded-lg bg-muted/30 p-3 space-y-1">
