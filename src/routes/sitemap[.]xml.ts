@@ -3,6 +3,7 @@ import type {} from "@tanstack/start-client-core";
 import { SPORTS_CATALOG, CITIES_CATALOG, GUIDES_CATALOG, TOOLS_CATALOG } from "@/data/catalog";
 import { BLOG_POSTS } from "@/data/blog";
 import { TRIALS } from "@/data/trials";
+import { getTrialEndDate } from "@/lib/opportunity-badge";
 import { VENUES } from "@/data/khelgrid";
 import { hasGuideBody } from "@/content/guide-bodies";
 
@@ -34,6 +35,7 @@ export function generateSitemapEntries(): SitemapEntry[] {
   // High priority core directory & hubs (strictly canonical 200 OK URLs — no redirects)
   add("/", 1.0, "daily");
   add("/search", 0.9, "daily");
+  add("/search?archive=true", 0.55, "weekly");
   add("/opportunities", 0.9, "daily");
   add("/academy", 0.95, "daily");
   add("/live-scores", 0.95, "always");
@@ -78,8 +80,12 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add("/privacy", 0.3, "yearly");
   add("/terms", 0.3, "yearly");
 
-  // Dynamic Trial entries (Verified Opportunities)
+  // Index only dated opportunities that are current or upcoming.
+  // Historical listings remain accessible by direct link and through the archive view.
+  const now = new Date();
   for (const trial of TRIALS) {
+    const endDate = getTrialEndDate(trial.date);
+    if (!endDate || endDate.getTime() < now.getTime()) continue;
     add(`/trial/${trial.id}`, 0.9, "weekly");
     add(`/opportunities/${trial.id}`, 0.85, "weekly");
   }
