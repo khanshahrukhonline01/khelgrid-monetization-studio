@@ -416,11 +416,15 @@ export function TrialDetailsModal({
 
           <div className="space-y-0.5">
             <span className="text-[11px] text-muted-foreground flex items-center gap-1">
-              <ShieldCheck className="h-3 w-3 text-emerald-500" /> Status
+              <ShieldCheck className="h-3 w-3 text-emerald-500" /> {trial.listingType === "competition" ? "Entry status" : "Status"}
             </span>
             <p className="font-semibold text-emerald-600 dark:text-emerald-400">
               {trial.listingType === "competition"
-                ? trial.entryStatus || "Competition fixture — confirm entry with school/state unit"
+                ? trial.entryStatus === "IN PROGRESS" || trial.entryStatus === "INPROGRESS"
+                  ? "Entry in progress"
+                  : trial.entryStatus === "ENTRY NOT STARTED"
+                    ? "Entry not started"
+                    : trial.entryStatus || "Competition fixture — confirm entry with school/state unit"
                 : isRegistered
                   ? "Registered"
                   : "Open for Registration"}
