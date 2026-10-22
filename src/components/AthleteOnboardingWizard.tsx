@@ -323,7 +323,7 @@ export function AthleteOnboardingWizard({
       benchmark: p.benchmark,
     }));
     updateField("performanceMetrics", formatted);
-    toast.success(`Loaded verified benchmark metrics for ${data.sport}`);
+    toast.success(language === "hi" ? `${data.sport} के प्रदर्शन माप लोड हो गए।` : `Loaded benchmark metrics for ${data.sport}`);
   };
 
   // Add Achievement
@@ -355,7 +355,7 @@ export function AthleteOnboardingWizard({
       award: "Gold / 1st Place",
       description: "",
     });
-    toast.success("Achievement added as athlete-reported. It is not independently verified.");
+    toast.success(tr("athleteReported"));
   };
 
   // Remove Achievement
@@ -393,7 +393,7 @@ export function AthleteOnboardingWizard({
       score: 85,
       benchmark: "",
     });
-    toast.success("Added performance benchmark!");
+    toast.success(language === "hi" ? "प्रदर्शन परिणाम जोड़ दिया गया।" : "Added performance benchmark!");
   };
 
   // Remove Metric
@@ -417,7 +417,7 @@ export function AthleteOnboardingWizard({
       toast.success(tr("downloadPng"));
     } catch (err) {
       console.error(err);
-      toast.error("Failed to generate image.");
+      toast.error(language === "hi" ? "प्रोफ़ाइल कार्ड बन नहीं पाया। दोबारा प्रयास करें।" : "Failed to generate image.");
     } finally {
       setIsExporting(false);
     }
@@ -460,7 +460,7 @@ export function AthleteOnboardingWizard({
       window.dispatchEvent(new CustomEvent("khelgrid_sportscv_updated", { detail: data }));
     }
 
-    toast.success("🎉 Sports CV and Social Profiles successfully configured!");
+    toast.success(language === "hi" ? "Sports CV और सोशल प्रोफ़ाइल सफलतापूर्वक सेव हो गईं!" : "Sports CV and Social Profiles successfully configured!");
 
     if (onComplete) {
       onComplete(data);
@@ -555,7 +555,7 @@ export function AthleteOnboardingWizard({
                 const sample = getDefaultSportsCV("Aarav Sharma");
                 setData(sample);
                 saveSportsCVData(sample);
-                toast.success("Loaded verified athlete sample data.");
+                toast.success(language === "hi" ? "नमूना खिलाड़ी डेटा लोड हो गया।" : "Loaded sample athlete data.");
               }}
               className="text-xs"
             >
@@ -1633,7 +1633,7 @@ export function AthleteOnboardingWizard({
                   className="gap-1.5 text-xs h-9"
                 >
                   <Copy className="h-3.5 w-3.5 text-primary" />
-                  <span>Copy Profile Link</span>
+                  <span>{tr("share")}</span>
                 </Button>
               </div>
             </div>
@@ -1648,7 +1648,7 @@ export function AthleteOnboardingWizard({
               disabled={currentStep === 1}
               className="gap-1 text-xs"
             >
-              <ChevronLeft className="h-4 w-4" /> Previous
+              <ChevronLeft className="h-4 w-4" /> {tr("back")}
             </Button>
 
             {/* Mobile preview toggle */}
@@ -1661,13 +1661,13 @@ export function AthleteOnboardingWizard({
                 className="text-xs gap-1.5"
               >
                 <Eye className="h-3.5 w-3.5" />
-                {showMobilePreview ? "{language === "hi" ? "प्रीव्यू छिपाएँ" : "Hide Preview"}" : "{language === "hi" ? "CV देखें" : "View Card"}"}
+                {showMobilePreview ? (language === "hi" ? "प्रीव्यू छिपाएँ" : "Hide Preview") : (language === "hi" ? "CV देखें" : "View Card")}
               </Button>
             </div>
 
             {currentStep < 6 ? (
               <Button type="button" onClick={nextStep} className="gap-1 text-xs font-semibold">
-                Save & Continue <ChevronRight className="h-4 w-4" />
+                {language === "hi" ? "सेव करें और आगे बढ़ें" : "Save & Continue"} <ChevronRight className="h-4 w-4" />
               </Button>
             ) : (
               <Button
@@ -1675,7 +1675,7 @@ export function AthleteOnboardingWizard({
                 onClick={handleFinish}
                 className="gap-1.5 text-xs font-bold bg-primary text-primary-foreground shadow hover:opacity-90"
               >
-                <Check className="h-4 w-4" /> Save & Launch Sports CV
+                <Check className="h-4 w-4" /> {language === "hi" ? "सेव करें और Sports CV खोलें" : "Save & Launch Sports CV"}
               </Button>
             )}
           </div>
