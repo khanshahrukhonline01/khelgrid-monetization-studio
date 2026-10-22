@@ -131,7 +131,10 @@ export function SportsCalendar({
       }
 
       // 3. Free Entry filter
-      if (eventTypeFilter === "free" && trial.fee > 0) {
+      if (
+        eventTypeFilter === "free" &&
+        (trial.fee > 0 || (trial.feeLabel && !trial.feeLabel.toLowerCase().includes("free")))
+      ) {
         return false;
       }
 
