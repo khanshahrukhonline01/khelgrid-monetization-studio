@@ -7,7 +7,7 @@ import { TRIALS, SPORTS, CITIES, type Trial } from "@/data/trials";
 import { fetchAvailableTrialsFromSupabase } from "@/lib/trials-service";
 import { TrialCard } from "@/components/TrialCard";
 import { useAuth } from "@/context/AuthContext";
-import { isTrialArchived } from "@/lib/opportunity-badge";
+import { getTrialEndDate, isTrialArchived } from "@/lib/opportunity-badge";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 
 // Lazy-loaded non-critical modals and calendar to streamline Critical Rendering Path
@@ -415,6 +415,9 @@ function SearchPage() {
     let list = trialsList.filter((t) => {
       // Keep the main discovery feed current. Completed dated opportunities are
       // available through the explicit archive toggle instead of cluttering results.
+      const endDate = getTrialEndDate(t.date);
+      // Unknown/tentative dates are withheld from both feeds until they can be verified.
+      if (!endDate) return false;
       const archived = isTrialArchived(t);
       if (params.archive ? !archived : archived) return false;
 
@@ -466,14 +469,14 @@ function SearchPage() {
 
       // Upcoming Dates Filter
       if (params.dateRange && params.dateRange !== "all") {
-        const trialDate = parseTrialDate(t.date);
+        const trialDate = getTrialEndDate(t.date);
         const regDeadline = t.registrationDeadline
-          ? parseTrialDate(t.registrationDeadline)
+          ? getTrialEndDate(t.registrationDeadline)
           : trialDate;
         const targetDate = trialDate || regDeadline;
 
         if (targetDate) {
-          const now = new Date("2026-09-29T21:00:00Z");
+          const now = new Date();
           const diffMs = targetDate.getTime() - now.getTime();
           const diffHours = diffMs / (1000 * 60 * 60);
           const diffDays = diffHours / 24;
