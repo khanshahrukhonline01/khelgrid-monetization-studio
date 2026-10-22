@@ -137,6 +137,11 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
 
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground w-full min-w-0">
             <span className="text-foreground/75 font-medium">{trial.tag}</span>
+            {trial.listingType === "competition" && trial.entryStatus && (
+              <span className="inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
+                {trial.entryStatus}
+              </span>
+            )}
 
             {statusBadge && (
               <span
@@ -190,7 +195,7 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
             </div>
             <div className="flex min-w-0 items-center gap-1 text-[11px] sm:text-xs">
               <Users className="h-3 w-3 shrink-0 text-muted-foreground/80" />
-              <span className="truncate">{trial.spots} spots</span>
+              <span className="truncate">{trial.listingType === "competition" ? "School competition" : `${trial.spots} spots`}</span>
             </div>
           </div>
         </div>
