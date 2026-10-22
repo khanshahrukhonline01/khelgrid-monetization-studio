@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, CheckCircle2, FileText, MapPin, ShieldCheck, Users } from "lucide-react";
 import { TRIALS } from "@/data/trials";
-import { getRealtimeOpportunityBadge } from "@/lib/opportunity-badge";
+import { getRealtimeOpportunityBadge, getTrialEndDate, getTrialStartDate } from "@/lib/opportunity-badge";
 import { buildSeoHead, SITE_URL, DEFAULT_SITE_NAME, TWITTER_HANDLE } from "@/lib/seo";
 import { FitIndiaFAQ, FIT_INDIA_FAQS } from "@/components/FitIndiaFAQ";
 import { WushuInterUniversityDetails } from "@/components/WushuInterUniversityDetails";
@@ -31,11 +31,15 @@ export const Route = createFileRoute("/trial/$id")({
       });
     }
 
+    const isCompetition = trial.listingType === "competition";
+    const feeDescription = trial.feeLabel || (trial.fee === 0 ? "Free" : `₹${trial.fee}`);
     return buildSeoHead({
-      title: `${trial.title} · ${trial.sport} Trial in ${trial.city}`,
-      description: `${trial.title} hosted by ${trial.academy} in ${trial.city}. Eligibility: ${trial.ageCategory || "all eligible age groups"}, entry fee: ${trial.fee === 0 ? "Free" : `₹${trial.fee}`}, reporting date: ${trial.date} at ${trial.venue || trial.city}. Official selection trials verified on KhelGrid.`,
+      title: `${trial.title} · ${trial.sport} ${isCompetition ? "School Games Fixture" : "Selection Trial"} in ${trial.city} | ${DEFAULT_SITE_NAME}`,
+      description: isCompetition
+        ? `${trial.title} is scheduled for ${trial.date} at ${trial.venue || trial.city} in the 70th National School Games calendar. This is a competition fixture, not an open public trial. Confirm entry and eligibility with your school/state unit. Source: School Games Federation of India.`
+        : `${trial.title} hosted by ${trial.academy} in ${trial.city}. Eligibility: ${trial.ageCategory || "all eligible age groups"}, entry fee: ${feeDescription}, dates: ${trial.date} at ${trial.venue || trial.city}. Check official selection requirements and registration details on KhelGrid.`,
       canonicalPath: `/trial/${trial.id}`,
-      keywords: `${trial.title}, ${trial.sport} trial ${trial.city}, ${trial.academy}, youth sports selection, ${trial.sport} scholarship, SAI NCOE wrestling, sports trials Mumbai 2026`,
+      keywords: `${trial.title}, ${trial.sport} ${isCompetition ? "school games fixture" : "selection trial"} ${trial.city}, ${trial.academy}, youth sports selection, ${trial.sport} opportunities India 2026`,
       type: "website",
       image: "https://www.khelgrid.com/og-image.png",
       author: trial.academy,
@@ -77,28 +81,33 @@ function TrialDetailPage() {
     "Save your confirmation and check for schedule or venue updates before travelling.",
   ];
 
-  const pageTitle = `${trial.title} · ${trial.sport} Selection Trials in ${trial.city} | ${DEFAULT_SITE_NAME}`;
-  const pageDescription = `${trial.title} by ${trial.academy} in ${trial.city}. Eligibility: ${trial.ageCategory || "All categories"}. Date: ${trial.date} at ${trial.venue || trial.city}. Entry fee: ${trial.fee === 0 ? "Free" : `₹${trial.fee}`}. Verified official trial on KhelGrid.`;
+  const isCompetition = trial.listingType === "competition";
+  const feeDescription = trial.feeLabel || (trial.fee === 0 ? "Free" : `₹${trial.fee}`);
+  const pageTitle = `${trial.title} · ${trial.sport} ${isCompetition ? "School Games Fixture" : "Selection Trials"} in ${trial.city} | ${DEFAULT_SITE_NAME}`;
+  const pageDescription = isCompetition
+    ? `${trial.title} is scheduled for ${trial.date} at ${trial.venue || trial.city}. This is a School Games competition fixture, not an open public trial. Confirm entry with your school/state unit. Official source: School Games Federation of India.`
+    : `${trial.title} by ${trial.academy} in ${trial.city}. Eligibility: ${trial.ageCategory || "All categories"}. Date: ${trial.date} at ${trial.venue || trial.city}. Entry fee: ${feeDescription}. Check official selection details on KhelGrid.`;
   const canonicalUrl = `${SITE_URL}/trial/${trial.id}`;
   const ogImageUrl = `${SITE_URL}/og-image.png`;
 
-  // Specific Open Graph & Schema.org event structured data for rich previews
-  const startDateIso = trial.date.includes("Dec 25")
-    ? "2026-12-25T08:00:00+05:30"
-    : trial.date.includes("Oct 10")
-      ? "2026-10-10T08:00:00+05:30"
-      : trial.date.includes("Sep 30")
-        ? "2026-09-30T08:00:00+05:30"
-        : "2026-09-23T09:00:00+05:30";
+  // Use the published event dates; never invent fallback dates for structured data.
+  const startDate = getTrialStartDate(trial.date);
+  const endDate = getTrialEndDate(trial.date);
+  const formatSchemaDate = (date: Date) =>
+    `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-  const sportsEventSchema = {
+  const sportsEventSchema = startDate ? {
     "@context": "https://schema.org",
     "@type": "SportsEvent",
     name: trial.title,
     description: pageDescription,
     url: canonicalUrl,
-    startDate: startDateIso,
-    eventStatus: "https://schema.org/EventScheduled",
+    startDate: formatSchemaDate(startDate),
+    ...(endDate ? { endDate: formatSchemaDate(endDate) } : {}),
+    eventStatus:
+      endDate && endDate.getTime() < Date.now()
+        ? "https://schema.org/EventCompleted"
+        : "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: {
       "@type": "Place",
@@ -114,20 +123,23 @@ function TrialDetailPage() {
       name: trial.academy,
       url: trial.sourceUrl || canonicalUrl,
     },
-    offers: {
-      "@type": "Offer",
-      price: trial.fee.toString(),
-      priceCurrency: "INR",
-      availability: "https://schema.org/InStock",
-      url: canonicalUrl,
-      validFrom: "2026-09-24",
-    },
+    ...(!trial.feeLabel && trial.listingType !== "competition"
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: trial.fee.toString(),
+            priceCurrency: "INR",
+            availability: "https://schema.org/InStock",
+            url: canonicalUrl,
+          },
+          isAccessibleForFree: trial.fee === 0,
+        }
+      : {}),
     image: [ogImageUrl],
-    isAccessibleForFree: trial.fee === 0,
-  };
+  } : null;
 
-  // Assemble Schema.org JSON-LD structured data objects
-  const trialSchemas: Array<Record<string, unknown>> = [sportsEventSchema];
+  // Assemble Schema.org JSON-LD structured data objects only when a reliable date exists.
+  const trialSchemas: Array<Record<string, unknown>> = sportsEventSchema ? [sportsEventSchema] : [];
 
   if (
     trial.id === "t-fit-india-namchi-sikkim-2026" ||
