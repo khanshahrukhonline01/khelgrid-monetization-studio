@@ -1,0 +1,66 @@
+export const SPORTS_CV_LANGUAGE_KEY = "khelgrid_sports_cv_language_v1";
+
+export const SPORTS_CV_LANGUAGES = [
+  { code: "en", nativeLabel: "English" }, { code: "hi", nativeLabel: "हिन्दी" },
+  { code: "bn", nativeLabel: "বাংলা" }, { code: "ta", nativeLabel: "தமிழ்" },
+  { code: "te", nativeLabel: "తెలుగు" }, { code: "mr", nativeLabel: "मराठी" },
+  { code: "kn", nativeLabel: "ಕನ್ನಡ" }, { code: "ml", nativeLabel: "മലയാളം" },
+  { code: "pa", nativeLabel: "ਪੰਜਾਬੀ" }, { code: "gu", nativeLabel: "ગુજરાતી" },
+  { code: "or", nativeLabel: "ଓଡ଼ିଆ" }, { code: "as", nativeLabel: "অসমীয়া" },
+  { code: "ur", nativeLabel: "اردو" },
+] as const;
+export type SportsCVLanguage = (typeof SPORTS_CV_LANGUAGES)[number]["code"];
+export type SportsCVKey = keyof typeof en;
+
+const en = {
+  language: "Language", title: "Sports CV Wizard",
+  subtitle: "Build a professional sports profile to share with coaches, academies and trial organizers.",
+  freeNote: "Free to create and download. No payment or account required.",
+  step1: "1. Athlete identity", step2: "2. Sport and role", step3: "3. Performance",
+  step4: "4. Achievements", step5: "5. Videos and links", step6: "6. Review and CV design",
+  athleteName: "Athlete full name", sport: "Sport", position: "Position / event",
+  ageCategory: "Age category", age: "Age", city: "City", state: "State", academy: "Club / academy",
+  height: "Height", weight: "Weight", bio: "About the athlete",
+  bioHelp: "Describe your playing style, strengths, training and goals. Only include information you can support.",
+  performance: "Performance record", metricName: "Metric name", metricValue: "Result / value",
+  metricUnit: "Unit", addMetric: "Add performance result", achievements: "Achievements and competitions",
+  achievementTitle: "Achievement title", competition: "Competition name", year: "Year", level: "Competition level",
+  award: "Award / result", addAchievement: "Add achievement",
+  athleteReported: "Athlete-reported; not independently verified", video: "Highlight video URL",
+  socialLinks: "Social and sports profile links", goals: "Goals and availability",
+  availability: "Trial / training availability", theme: "CV design", preview: "Live CV preview",
+  review: "Review your Sports CV", reviewHelp: "Check names, dates, results and links before downloading or sharing.",
+  next: "Next", back: "Back", save: "Save progress", downloadPdf: "Print / Save PDF",
+  downloadPng: "Download profile card (PNG)", share: "Share profile", optional: "Optional", required: "Required",
+  requiredName: "Please enter the athlete's name.",
+  requiredAchievement: "Please enter both the achievement title and competition name.",
+  requiredMetric: "Please enter a metric name and result value.", saved: "Your Sports CV progress has been saved.",
+  pdfDisclaimer: "Athlete-provided information. Achievements and credentials are not independently verified unless explicitly stated by KhelGrid.",
+  profile: "ATHLETE SPORTS PROFILE", performanceHeading: "PERFORMANCE", achievementsHeading: "ACHIEVEMENTS",
+  academyHeading: "CLUB / ACADEMY", highlightsHeading: "HIGHLIGHTS", privacy: "Privacy",
+  privacyHelp: "Share only the information you want coaches and organizers to see.",
+  noAchievements: "No achievements added yet. You can add them later.",
+  noMetrics: "No performance results added yet. Add only results you can support.",
+};
+const hi: Record<keyof typeof en, string> = {
+  language:"भाषा",title:"स्पोर्ट्स CV विज़ार्ड",subtitle:"कोच, अकादमी और ट्रायल आयोजकों के साथ साझा करने के लिए पेशेवर खेल प्रोफ़ाइल बनाएँ।",freeNote:"बनाना और डाउनलोड करना मुफ़्त है। भुगतान या अकाउंट की आवश्यकता नहीं।",
+  step1:"1. खिलाड़ी की पहचान",step2:"2. खेल और भूमिका",step3:"3. प्रदर्शन",step4:"4. उपलब्धियाँ",step5:"5. वीडियो और लिंक",step6:"6. समीक्षा और CV डिज़ाइन",
+  athleteName:"खिलाड़ी का पूरा नाम",sport:"खेल",position:"पोज़िशन / इवेंट",ageCategory:"आयु वर्ग",age:"उम्र",city:"शहर",state:"राज्य",academy:"क्लब / अकादमी",height:"लंबाई",weight:"वज़न",bio:"खिलाड़ी के बारे में",bioHelp:"अपनी खेलने की शैली, खूबियों, प्रशिक्षण और लक्ष्यों के बारे में लिखें। केवल सही जानकारी दें।",
+  performance:"प्रदर्शन रिकॉर्ड",metricName:"माप / प्रदर्शन का नाम",metricValue:"परिणाम / मान",metricUnit:"इकाई",addMetric:"प्रदर्शन परिणाम जोड़ें",achievements:"उपलब्धियाँ और प्रतियोगिताएँ",achievementTitle:"उपलब्धि का शीर्षक",competition:"प्रतियोगिता का नाम",year:"वर्ष",level:"प्रतियोगिता का स्तर",award:"पुरस्कार / परिणाम",addAchievement:"उपलब्धि जोड़ें",athleteReported:"खिलाड़ी द्वारा दी गई जानकारी; स्वतंत्र रूप से सत्यापित नहीं",video:"हाइलाइट वीडियो URL",socialLinks:"सोशल और खेल प्रोफ़ाइल लिंक",goals:"लक्ष्य और उपलब्धता",availability:"ट्रायल / प्रशिक्षण उपलब्धता",theme:"CV डिज़ाइन",preview:"लाइव CV प्रीव्यू",review:"अपना Sports CV जाँचें",reviewHelp:"डाउनलोड या साझा करने से पहले नाम, तारीख, परिणाम और लिंक जाँच लें।",next:"आगे",back:"पीछे",save:"प्रगति सेव करें",downloadPdf:"प्रिंट करें / PDF सेव करें",downloadPng:"प्रोफ़ाइल कार्ड डाउनलोड करें (PNG)",share:"प्रोफ़ाइल साझा करें",optional:"वैकल्पिक",required:"ज़रूरी",requiredName:"कृपया खिलाड़ी का नाम दर्ज करें।",requiredAchievement:"कृपया उपलब्धि का शीर्षक और प्रतियोगिता का नाम दोनों दर्ज करें।",requiredMetric:"कृपया माप का नाम और परिणाम दर्ज करें।",saved:"आपकी Sports CV प्रगति सेव हो गई है।",pdfDisclaimer:"खिलाड़ी द्वारा दी गई जानकारी। KhelGrid द्वारा स्पष्ट रूप से बताए जाने तक उपलब्धियों और प्रमाण-पत्रों का स्वतंत्र सत्यापन नहीं हुआ है।",profile:"खिलाड़ी की खेल प्रोफ़ाइल",performanceHeading:"प्रदर्शन",achievementsHeading:"उपलब्धियाँ",academyHeading:"क्लब / अकादमी",highlightsHeading:"हाइलाइट्स",privacy:"गोपनीयता",privacyHelp:"केवल वही जानकारी साझा करें जो आप कोच और आयोजकों को दिखाना चाहते हैं।",noAchievements:"अभी कोई उपलब्धि नहीं जोड़ी गई है। आप बाद में जोड़ सकते हैं।",noMetrics:"अभी कोई प्रदर्शन परिणाम नहीं जोड़ा गया है। केवल सही परिणाम जोड़ें।"
+};
+const bn: Partial<Record<keyof typeof en,string>> = {language:"ভাষা",title:"স্পোর্টস CV উইজার্ড",subtitle:"কোচ, অ্যাকাডেমি ও ট্রায়াল আয়োজকদের সঙ্গে ভাগ করার জন্য পেশাদার ক্রীড়া প্রোফাইল তৈরি করুন।",freeNote:"তৈরি ও ডাউনলোড বিনামূল্যে। পেমেন্ট বা অ্যাকাউন্ট লাগবে না।",step1:"১. খেলোয়াড়ের পরিচয়",step2:"২. খেলা ও ভূমিকা",step3:"৩. পারফরম্যান্স",step4:"৪. অর্জন",step5:"৫. ভিডিও ও লিংক",step6:"৬. পর্যালোচনা ও CV ডিজাইন",athleteName:"খেলোয়াড়ের পুরো নাম",sport:"খেলা",position:"পজিশন / ইভেন্ট",ageCategory:"বয়স বিভাগ",age:"বয়স",city:"শহর",state:"রাজ্য",academy:"ক্লাব / অ্যাকাডেমি",bio:"খেলোয়াড় সম্পর্কে",performance:"পারফরম্যান্স রেকর্ড",achievements:"অর্জন ও প্রতিযোগিতা",competition:"প্রতিযোগিতার নাম",year:"বছর",next:"পরবর্তী",back:"পিছনে",downloadPdf:"প্রিন্ট / PDF সংরক্ষণ",share:"প্রোফাইল শেয়ার"};
+const ta: Partial<Record<keyof typeof en,string>> = {language:"மொழி",title:"விளையாட்டு CV வழிகாட்டி",subtitle:"பயிற்சியாளர்கள், அகாடமிகள் மற்றும் தேர்வு முகாம்களுடன் பகிர தொழில்முறை விளையாட்டு சுயவிவரத்தை உருவாக்குங்கள்.",freeNote:"உருவாக்கவும் பதிவிறக்கவும் இலவசம். கட்டணம் அல்லது கணக்கு தேவையில்லை.",step1:"1. வீரர் விவரங்கள்",step2:"2. விளையாட்டு மற்றும் பங்கு",step3:"3. செயல்திறன்",step4:"4. சாதனைகள்",step5:"5. வீடியோ மற்றும் இணைப்புகள்",step6:"6. மதிப்பாய்வு மற்றும் CV வடிவமைப்பு",athleteName:"வீரரின் முழுப் பெயர்",sport:"விளையாட்டு",position:"பங்கு / பிரிவு",ageCategory:"வயது பிரிவு",age:"வயது",city:"நகரம்",state:"மாநிலம்",academy:"கிளப் / அகாடமி",bio:"வீரரைப் பற்றி",performance:"செயல்திறன் பதிவு",achievements:"சாதனைகள் மற்றும் போட்டிகள்",competition:"போட்டியின் பெயர்",year:"ஆண்டு",next:"அடுத்து",back:"பின்",downloadPdf:"அச்சிடு / PDF சேமி",share:"சுயவிவரத்தைப் பகிர்"};
+const te: Partial<Record<keyof typeof en,string>> = {language:"భాష",title:"స్పోర్ట్స్ CV విజార్డ్",subtitle:"కోచ్‌లు, అకాడమీలు, ట్రయల్ నిర్వాహకులతో పంచుకోవడానికి ప్రొఫెషనల్ క్రీడా ప్రొఫైల్ రూపొందించండి.",freeNote:"తయారు చేయడం, డౌన్‌లోడ్ చేయడం ఉచితం. చెల్లింపు లేదా ఖాతా అవసరం లేదు.",step1:"1. క్రీడాకారుడి వివరాలు",step2:"2. క్రీడ మరియు పాత్ర",step3:"3. ప్రదర్శన",step4:"4. విజయాలు",step5:"5. వీడియోలు మరియు లింకులు",step6:"6. సమీక్ష మరియు CV డిజైన్",athleteName:"క్రీడాకారుడి పూర్తి పేరు",sport:"క్రీడ",position:"స్థానం / ఈవెంట్",ageCategory:"వయస్సు విభాగం",age:"వయస్సు",city:"నగరం",state:"రాష్ట్రం",academy:"క్లబ్ / అకాడమీ",bio:"క్రీడాకారుడి గురించి",performance:"ప్రదర్శన రికార్డు",achievements:"విజయాలు మరియు పోటీలు",competition:"పోటీ పేరు",year:"సంవత్సరం",next:"తర్వాత",back:"వెనుకకు",downloadPdf:"ప్రింట్ / PDFగా సేవ్",share:"ప్రొఫైల్ పంచుకోండి"};
+const mr: Partial<Record<keyof typeof en,string>> = {language:"भाषा",title:"स्पोर्ट्स CV विझार्ड",subtitle:"प्रशिक्षक, अकादमी आणि निवड चाचणी आयोजकांसोबत शेअर करण्यासाठी व्यावसायिक क्रीडा प्रोफाइल तयार करा.",freeNote:"तयार करणे आणि डाउनलोड करणे मोफत. पैसे किंवा खाते आवश्यक नाही.",step1:"१. खेळाडूची ओळख",step2:"२. खेळ आणि भूमिका",step3:"३. कामगिरी",step4:"४. यश",step5:"५. व्हिडिओ आणि दुवे",step6:"६. पुनरावलोकन आणि CV डिझाइन",athleteName:"खेळाडूचे पूर्ण नाव",sport:"खेळ",position:"स्थान / इव्हेंट",ageCategory:"वयोगट",age:"वय",city:"शहर",state:"राज्य",academy:"क्लब / अकादमी",bio:"खेळाडूबद्दल",performance:"कामगिरीची नोंद",achievements:"यश आणि स्पर्धा",competition:"स्पर्धेचे नाव",year:"वर्ष",next:"पुढे",back:"मागे",downloadPdf:"प्रिंट / PDF जतन करा",share:"प्रोफाइल शेअर करा"};
+const dictionaries: Record<SportsCVLanguage, Partial<Record<keyof typeof en,string>>> = {en,hi,bn,ta,te,mr,kn:{language:"ಭಾಷೆ",title:"ಸ್ಪೋರ್ಟ್ಸ್ CV ವಿಝಾರ್ಡ್",athleteName:"ಕ್ರೀಡಾಪಟುವಿನ ಪೂರ್ಣ ಹೆಸರು",sport:"ಕ್ರೀಡೆ",position:"ಸ್ಥಾನ / ಈವೆಂಟ್",achievements:"ಸಾಧನೆಗಳು",next:"ಮುಂದೆ",back:"ಹಿಂದೆ",downloadPdf:"ಮುದ್ರಿಸಿ / PDF ಉಳಿಸಿ"},ml:{language:"ഭാഷ",title:"സ്പോർട്സ് CV വിസാർഡ്",athleteName:"കായികതാരത്തിന്റെ പൂർണ്ണനാമം",sport:"കായിക ഇനം",position:"സ്ഥാനം / ഇനം",achievements:"നേട്ടങ്ങൾ",next:"അടുത്തത്",back:"തിരികെ",downloadPdf:"പ്രിന്റ് / PDF സംരക്ഷിക്കുക"},pa:{language:"ਭਾਸ਼ਾ",title:"ਸਪੋਰਟਸ CV ਵਿਜ਼ਾਰਡ",athleteName:"ਖਿਡਾਰੀ ਦਾ ਪੂਰਾ ਨਾਮ",sport:"ਖੇਡ",position:"ਪੋਜ਼ੀਸ਼ਨ / ਇਵੈਂਟ",achievements:"ਪ੍ਰਾਪਤੀਆਂ",next:"ਅੱਗੇ",back:"ਪਿੱਛੇ",downloadPdf:"ਪ੍ਰਿੰਟ / PDF ਸੰਭਾਲੋ"},gu:{language:"ભાષા",title:"સ્પોર્ટ્સ CV વિઝાર્ડ",athleteName:"ખેલાડીનું પૂરું નામ",sport:"રમત",position:"સ્થાન / ઇવેન્ટ",achievements:"સિદ્ધિઓ",next:"આગળ",back:"પાછળ",downloadPdf:"પ્રિન્ટ / PDF સાચવો"},or:{language:"ଭାଷା",title:"ସ୍ପୋର୍ଟସ୍ CV ୱିଜାର୍ଡ",athleteName:"ଖେଳାଳିଙ୍କ ପୂରା ନାମ",sport:"ଖେଳ",position:"ସ୍ଥାନ / ଇଭେଣ୍ଟ",achievements:"ସଫଳତା",next:"ପରବର୍ତ୍ତୀ",back:"ପଛକୁ",downloadPdf:"ପ୍ରିଣ୍ଟ / PDF ସଂରକ୍ଷଣ"},as:{language:"ভাষা",title:"স্পৰ্টছ CV উইজাৰ্ড",athleteName:"খেলুৱৈৰ সম্পূৰ্ণ নাম",sport:"খেল",position:"স্থান / ইভেণ্ট",achievements:"সাফল্য",next:"পৰৱৰ্তী",back:"পিছলৈ",downloadPdf:"প্ৰিণ্ট / PDF সংৰক্ষণ"},ur:{language:"زبان",title:"اسپورٹس CV وزرڈ",athleteName:"کھلاڑی کا پورا نام",sport:"کھیل",position:"پوزیشن / ایونٹ",achievements:"کامیابیاں",next:"اگلا",back:"واپس",downloadPdf:"پرنٹ / PDF محفوظ کریں"}};
+export function getSportsCVLanguage(): SportsCVLanguage {
+  if (typeof window === "undefined") return "en";
+  const saved = window.localStorage.getItem(SPORTS_CV_LANGUAGE_KEY);
+  return SPORTS_CV_LANGUAGES.some((item) => item.code === saved) ? saved as SportsCVLanguage : "en";
+}
+export function setSportsCVLanguage(language: SportsCVLanguage): void {
+  if (typeof window !== "undefined") window.localStorage.setItem(SPORTS_CV_LANGUAGE_KEY, language);
+}
+export function tSportsCV(key: SportsCVKey, language: SportsCVLanguage = getSportsCVLanguage()): string {
+  return dictionaries[language][key] ?? en[key];
+}
