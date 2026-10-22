@@ -83,6 +83,7 @@ function TrialDetailPage() {
 
   const isCompetition = trial.listingType === "competition";
   const feeDescription = trial.feeLabel || (trial.fee === 0 ? "Free" : `₹${trial.fee}`);
+  const feeIsUnspecified = Boolean(trial.feeLabel && /not stated|not listed|confirm/i.test(trial.feeLabel));
   const pageTitle = `${trial.title} · ${trial.sport} ${isCompetition ? "School Games Fixture" : "Selection Trials"} in ${trial.city} | ${DEFAULT_SITE_NAME}`;
   const pageDescription = isCompetition
     ? `${trial.title} is scheduled for ${trial.date} at ${trial.venue || trial.city}. This is a School Games competition fixture, not an open public trial. Confirm entry with your school/state unit. Official source: School Games Federation of India.`
@@ -541,7 +542,7 @@ function TrialDetailPage() {
         <Detail
           icon={FileText}
           label="Entry fee"
-          value={trial.fee === 0 ? "Free entry" : `₹${trial.fee}`}
+          value={trial.feeLabel || (trial.fee === 0 ? "Free entry" : `₹${trial.fee}`)}
         />
       </section>
 
