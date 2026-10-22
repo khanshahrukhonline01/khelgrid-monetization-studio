@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { SportsCVData, CardTheme } from "@/types/sports-cv";
+import { getSportsCVLanguage, tSportsCV } from "@/lib/sports-cv-i18n";
 import { Badge } from "@/components/ui/badge";
 import {
   Trophy,
@@ -141,7 +142,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
             {data.availability}
           </span>
           <span className="text-[10px] uppercase tracking-widest text-neutral-400">
-            KhelGrid Scout ID
+            {language === "hi" ? "KhelGrid खिलाड़ी ID" : "KhelGrid Scout ID"}
           </span>
         </div>
       </div>
@@ -461,7 +462,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
         </div>
       )}
 
-      {/* Section 1: Performance Metrics */}
+      {/* Section 1: {tr("performanceHeading")} */}
       <div className="mt-6">
         <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <h4 className="flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-white">
@@ -469,7 +470,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
             Performance Metrics
           </h4>
           <span className="text-[11px] text-neutral-400">
-            {data.performanceMetrics.length} Metrics Tested
+            {data.performanceMetrics.length} {language === "hi" ? "प्रदर्शन माप" : "Metrics Tested"}
           </span>
         </div>
 
@@ -530,9 +531,9 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
         <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <h4 className="flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-white">
             <Trophy className={`h-4 w-4 ${theme.accentText}`} />
-            Honours & Athletic Achievements
+            {tr("achievementsHeading")}
           </h4>
-          <span className="text-[11px] text-neutral-400">{data.achievements.length} Recorded</span>
+          <span className="text-[11px] text-neutral-400">{data.achievements.length} {language === "hi" ? "दर्ज" : "Recorded"}</span>
         </div>
 
         {data.achievements.length === 0 ? (
@@ -721,7 +722,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-white">KhelGrid Athlete Profile</span>
+              <span className="font-semibold text-white">{tr("profile")}</span>
               {onShare && (
                 <button
                   type="button"
@@ -729,7 +730,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
                   className={`inline-flex items-center gap-1 rounded px-2 py-0.5 text-[10px] font-bold ${theme.badgeBg} ${theme.badgeText} transition hover:opacity-90`}
                 >
                   <Share2 className="h-3 w-3" />
-                  Share Public Link
+                  {language === "hi" ? "सार्वजनिक लिंक साझा करें" : "Share Public Link"}
                 </button>
               )}
             </div>
