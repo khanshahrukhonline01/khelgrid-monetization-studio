@@ -123,25 +123,25 @@ export const SPORT_TYPES: SportTypeDefinition[] = [
   {
     id: "team_ball",
     name: "Team & Ball Sports",
-    sports: ["Cricket", "Football", "Hockey", "Basketball", "Volleyball", "Handball", "Kho-Kho"],
+    sports: ["Cricket", "Football", "Hockey", "Basketball", "Volleyball", "Handball", "Kho-Kho", "Rugby", "Softball", "Netball", "Sepak Takraw"],
     icon: "⚽",
   },
   {
     id: "racquet",
     name: "Racquet & Net Sports",
-    sports: ["Badminton", "Tennis", "Table Tennis", "Squash", "Pickleball"],
+    sports: ["Badminton", "Tennis", "Table Tennis", "Soft Tennis", "Squash", "Pickleball"],
     icon: "🏸",
   },
   {
     id: "track_field",
     name: "Track, Field & Athletics",
-    sports: ["Athletics", "Running", "Swimming", "Triathlon"],
+    sports: ["Athletics", "Running", "Swimming", "Triathlon", "Track Cycling"],
     icon: "🏃",
   },
   {
     id: "combat",
     name: "Combat & Martial Arts",
-    sports: ["Wrestling", "Boxing", "Kabaddi", "Judo", "Taekwondo", "Karate", "Wushu"],
+    sports: ["Wrestling", "Wrestling Freestyle", "Boxing", "Kabaddi", "Judo", "Taekwondo", "Karate", "Wushu", "Thang-Ta"],
     icon: "🤼",
   },
   {
@@ -149,6 +149,18 @@ export const SPORT_TYPES: SportTypeDefinition[] = [
     name: "Precision & Target Sports",
     sports: ["Shooting", "Archery", "Chess"],
     icon: "🎯",
+  },
+  {
+    id: "mind_body",
+    name: "Mind & Body Sports",
+    sports: ["Yoga", "Yogasana"],
+    icon: "🧘",
+  },
+  {
+    id: "strength",
+    name: "Strength Sports",
+    sports: ["Weightlifting"],
+    icon: "🏋️",
   },
 ];
 
