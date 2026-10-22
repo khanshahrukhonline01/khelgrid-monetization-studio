@@ -64,24 +64,31 @@ function TrialDetailPage() {
   const verificationLabel = trial.lastVerified
     ? `Last verified ${trial.lastVerified}`
     : "Verification date not recorded";
-  const related = TRIALS.filter((item) => item.id !== trial.id && item.sport === trial.sport).slice(
-    0,
-    3,
-  );
+  const isCompetition = trial.listingType === "competition";
+  const related = TRIALS.filter((item) => {
+    if (item.id === trial.id || item.sport !== trial.sport) return false;
+    const endDate = getTrialEndDate(item.date);
+    return Boolean(endDate && endDate.getTime() >= Date.now());
+  }).slice(0, 3);
   const documents = trial.requiredDocuments ?? [
     "Government-issued identity or age proof",
     "Recent sports record, if the organizer requests one",
     "Personal sports equipment and water",
     "Registration confirmation and payment receipt, if applicable",
   ];
-  const applicationSteps = [
-    "Read the eligibility and selection requirements published by the organizer.",
-    "Confirm the date, venue, fee, and registration deadline through an official channel.",
-    "Prepare the requested documents and submit the application using the organizer's process.",
-    "Save your confirmation and check for schedule or venue updates before travelling.",
-  ];
-
-  const isCompetition = trial.listingType === "competition";
+  const applicationSteps = isCompetition
+    ? [
+        "Open the official SGFI calendar and recheck the fixture and entry status.",
+        "Confirm eligibility and nomination with your school, state, or recognized unit.",
+        "Ask the relevant authority for required documents, reporting instructions, and any fees.",
+        "Recheck official notices before travelling; this listing does not confirm public registration.",
+      ]
+    : [
+        "Read the eligibility and selection requirements published by the organizer.",
+        "Confirm the date, venue, fee, and registration deadline through an official channel.",
+        "Prepare the requested documents and submit the application using the organizer's process.",
+        "Save your confirmation and check for schedule or venue updates before travelling.",
+      ];
   const feeDescription = trial.feeLabel || (trial.fee === 0 ? "Free" : `₹${trial.fee}`);
   const feeIsUnspecified = Boolean(trial.feeLabel && /not stated|not listed|confirm/i.test(trial.feeLabel));
   const pageTitle = `${trial.title} · ${trial.sport} ${isCompetition ? "School Games Fixture" : "Selection Trials"} in ${trial.city} | ${DEFAULT_SITE_NAME}`;
