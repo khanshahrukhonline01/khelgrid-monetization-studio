@@ -31,6 +31,60 @@ export function parseTrialDate(dateStr?: string): Date | null {
 }
 
 /**
+ * Returns the end date of a scheduled opportunity. Handles single dates and
+ * common published ranges such as "Oct 26–28, 2026", "Oct 23, 24 & 25, 2026",
+ * and "Oct 27 - Nov 05, 2026". Unparseable/tentative dates return null.
+ */
+export function getTrialEndDate(dateStr?: string): Date | null {
+  if (!dateStr?.trim()) return null;
+
+  let clean = dateStr.trim().split("·")[0].replace(/\([^)]*\)/g, "").trim();
+  clean = clean.replace(/[–—]/g, "-");
+
+  const finish = (value: string): Date | null => {
+    const parsed = new Date(value.trim());
+    if (Number.isNaN(parsed.getTime())) return null;
+    if (!value.includes("T")) parsed.setHours(23, 59, 59, 999);
+    return parsed;
+  };
+
+  // Compact same-month range: "Oct 26-28, 2026".
+  const compactRange = clean.match(/^([A-Za-z]{3,9})\s+(\d{1,2})\s*-\s*(\d{1,2}),?\s*(\d{4})$/i);
+  if (compactRange) {
+    return finish(`${compactRange[1]} ${compactRange[3]}, ${compactRange[4]}`);
+  }
+
+  // Multiple days in one month: "Oct 23, 24 & 25, 2026".
+  const multiDay = clean.match(/^([A-Za-z]{3,9})\s+\d{1,2},\s*\d{1,2}\s*(?:&|and|,)\s*(\d{1,2}),?\s*(\d{4})$/i);
+  if (multiDay) {
+    return finish(`${multiDay[1]} ${multiDay[2]}, ${multiDay[3]}`);
+  }
+
+  // Explicit date range: use the right-hand date as the event end.
+  const rangeParts = clean.split(/\s+-\s+/);
+  if (rangeParts.length >= 2) {
+    const endPart = rangeParts[rangeParts.length - 1].trim();
+    const explicitEnd = finish(endPart);
+    if (explicitEnd) return explicitEnd;
+
+    // Range end omits the month: "Oct 26 - 28, 2026".
+    const endWithoutMonth = endPart.match(/^(\d{1,2}),?\s*(\d{4})$/);
+    const startMonth = rangeParts[0].match(/^([A-Za-z]{3,9})\s+/);
+    if (endWithoutMonth && startMonth) {
+      return finish(`${startMonth[1]} ${endWithoutMonth[1]}, ${endWithoutMonth[2]}`);
+    }
+  }
+
+  return finish(clean);
+}
+
+/** True only after the scheduled event's final date has elapsed. */
+export function isTrialArchived(trial: Pick<Trial, "date">, currentDate: Date = new Date()): boolean {
+  const endDate = getTrialEndDate(trial.date);
+  return Boolean(endDate && endDate.getTime() < currentDate.getTime());
+}
+
+/**
  * Computes dynamic, real-time date-based badges for sports opportunity cards:
  * 1. "Closed" (Red/Muted) - when the trial date / registration deadline is in the past.
  * 2. "Closing Soon" (Rose/Red) - within 24 hours of closing.
