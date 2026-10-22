@@ -80,6 +80,46 @@ describe("AthleteOnboardingWizard Component & Flow", () => {
     expect(loaded.socialProfiles?.youtube).toContain("youtu.be");
   });
 
+
+  it("round-trips athlete-entered CV details through local storage", () => {
+    const data = getDefaultSportsCV("Aarav Sharma");
+    data.athleteName = "Aarav Sharma";
+    data.sport = "Cricket";
+    data.position = "Fast Bowler";
+    data.city = "Delhi";
+    data.achievements = [{
+      id: "achievement-test-1",
+      title: "District Trial Selection",
+      competition: "District Selection Trial",
+      year: 2026,
+      level: "District",
+      award: "Selected",
+      description: "Selected after district trials.",
+      verified: false,
+    }];
+
+    saveSportsCVData(data);
+    const loaded = loadSportsCVData();
+
+    expect(loaded.athleteName).toBe("Aarav Sharma");
+    expect(loaded.sport).toBe("Cricket");
+    expect(loaded.position).toBe("Fast Bowler");
+    expect(loaded.city).toBe("Delhi");
+    expect(loaded.achievements[0]?.title).toBe("District Trial Selection");
+    expect(loaded.achievements[0]?.verified).toBe(false);
+  });
+
+  it("keeps Hindi language preference when athlete CV data is saved", () => {
+    setSportsCVLanguage("hi");
+    const data = getDefaultSportsCV("आरव शर्मा");
+    data.athleteName = "आरव शर्मा";
+
+    saveSportsCVData(data);
+
+    expect(loadSportsCVData().athleteName).toBe("आरव शर्मा");
+    expect(localStorage.getItem(SPORTS_CV_LANGUAGE_KEY)).toBe("hi");
+  });
+
   it("saves onboarding completed flag to localStorage when requested", () => {
     if (typeof localStorage !== "undefined") {
       localStorage.setItem(ONBOARDING_COMPLETED_KEY, "true");
