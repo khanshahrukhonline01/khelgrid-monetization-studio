@@ -155,10 +155,10 @@ export function VenueBookingForm({
             </div>
             <div>
               <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                Booking Reserved & Confirmed
+                Booking Request Submitted
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
-                Slot Reserved at {bookingSuccess.venue_name}
+                Request for {bookingSuccess.venue_name}
               </h2>
             </div>
           </div>
@@ -191,7 +191,7 @@ export function VenueBookingForm({
           </div>
           <div className="p-3.5 rounded-2xl bg-muted/40 border border-border/60">
             <span className="text-[11px] text-muted-foreground uppercase font-semibold">
-              Total Amount
+              Estimated Total
             </span>
             <p className="mt-1 text-sm font-bold text-primary">₹{bookingSuccess.total_price}</p>
           </div>
@@ -212,7 +212,7 @@ export function VenueBookingForm({
           <div className="flex items-start gap-2 pt-2 border-t border-border/40">
             <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
             <p className="text-muted-foreground">
-              Present this booking confirmation code or registered mobile (
+              This is a booking request, not a confirmed reservation or payment receipt. Contact the venue to confirm acceptance. Reference code / mobile (
               {customer.phone || bookingSuccess.user_phone}) at the venue front desk 10 minutes
               prior to game time.
             </p>
@@ -407,7 +407,7 @@ export function VenueBookingForm({
             <User className="h-4 w-4 text-primary" /> Player & Contact Information
           </h3>
           <p className="text-xs text-muted-foreground">
-            No account is required. Enter contact details so the venue can follow up if confirmation is needed.
+            No account is required. This submits a request only; contact the venue to confirm acceptance. KhelGrid does not collect payment in this phase.
           </p>
         </div>
 
