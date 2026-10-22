@@ -533,6 +533,19 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
                   </div>
 
                   <div className="flex items-center gap-2">
+                    {trial.id === "t-delhi-doe-softball-u19-open-selection-trials-2026" && (
+                      <a
+                        href="https://www.edudel.nic.in/mis/misadmin/frmCircular_pdf_File.aspx?id=010000005694A6333B84699ED65AAE19E4F7E47AD6796C10562B4A7E04AEB181FC8B058C5FFA6899461896FDD205855CBF4A1DFD"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 rounded-lg border border-primary/30 bg-primary/5 px-2.5 py-1 text-[11px] font-bold text-primary transition-colors hover:bg-primary/10 cursor-pointer"
+                        aria-label="Open official Delhi Education softball trial circular PDF"
+                      >
+                        <span>Official Notice</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
                     {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" && (
                       <a
                         href="https://rect.crpf.gov.in"
