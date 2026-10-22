@@ -438,7 +438,8 @@ function SearchPage() {
   // Filtered and sorted results
   const results = useMemo(() => {
     const q = params.q.trim().toLowerCase();
-    let list = trialsList.filter((t) => {\n      if (!isValidTrialRecord(t)) return false;
+    let list = trialsList.filter((t) => {
+      if (!isValidTrialRecord(t)) return false;
       // Keep the main discovery feed current. Completed dated opportunities are
       // available through the explicit archive toggle instead of cluttering results.
       const endDate = getTrialEndDate(t.date);
