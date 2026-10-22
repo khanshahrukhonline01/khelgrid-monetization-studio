@@ -1467,6 +1467,65 @@ export const TRIALS: Trial[] = [
     ],
     lastVerified: "2026-10-22",
   },
+
+  {
+    id: "t-jk-roller-skating-championship-2026",
+    title: "J&K UT Roller Skating Championship & Selection Trials — 64th Nationals 2026",
+    academy: "Jammu and Kashmir Roller Sports Association (JKRSA)",
+    sport: "Roller Skating",
+    city: "Jammu, Jammu and Kashmir",
+    date: "Nov 5–7 & Nov 9, 2026",
+    registrationDeadline: "Contact the association to confirm registration deadline",
+    fee: 0,
+    feeLabel: "Fee not stated in the published report",
+    spots: 0,
+    tag: "UT Championship & National Selection Trials",
+    ageCategory: "Not specified in the published report",
+    gender: "Not specified in the published report",
+    verifiedLabel: "Daily Excelsior report; official RSFI notice linked for national-championship context",
+    urgencyText: "Skaters from all districts of Jammu and Kashmir are eligible; confirm registration requirements before attending",
+    badge: "New",
+    venue: "MA Stadium, Jammu, Jammu and Kashmir",
+    sourceUrl: "https://www.dailyexcelsior.com/jk-roller-skating-championship-from-nov-5/",
+    sourceLabel: "Daily Excelsior — J&K Roller Skating Championship from Nov 5",
+    sources: [
+      {
+        label: "Published event report — Daily Excelsior",
+        url: "https://www.dailyexcelsior.com/jk-roller-skating-championship-from-nov-5/",
+      },
+      {
+        label: "Official RSFI notice: State/UT Championships and Selection Trials for 64th Nationals (general notice; not the specific J&K circular)",
+        url: "https://www.worldskateindia.com/news-detail.php?id=229",
+      },
+      {
+        label: "Official RSFI Jammu & Kashmir unit page",
+        url: "https://indiaskate.com/jammu-kashmir/",
+      },
+    ],
+    timelines: [
+      {
+        label: "J&K UT Roller Skating Championship-cum-selection trials",
+        date: "Nov 5–7 and Nov 9, 2026",
+        description: "At MA Stadium, Jammu; events include speed skating, roller hockey, inline hockey, downhill, roller derby, classical freestyle and other disciplines.",
+      },
+      {
+        label: "64th National Roller Skating Championship 2026",
+        date: "National dates not specified in the Daily Excelsior report",
+        description: "The UT championship serves as a selection platform for Jammu and Kashmir skaters to compete at the national championship.",
+      },
+    ],
+    eligibility: "Skaters from all districts of Jammu and Kashmir are eligible to participate in the listed disciplines. Exact age groups, gender-specific categories and discipline-wise schedule are not stated in the Daily Excelsior report; confirm them with JKRSA before travelling.",
+    requiredDocuments: [
+      "Confirm the current RSFI skater registration requirement with JKRSA",
+      "Confirm age proof, identity documents, discipline-specific equipment and any additional paperwork with the association",
+    ],
+    selectionProcess: "UT-level championship-cum-selection trials to identify skaters for Jammu and Kashmir representation at the 64th National Roller Skating Championship. The published report does not specify selection criteria or registration fees.",
+    organizerContacts: [
+      { title: "Association contact", name: "Kamal Anand", phone: "9419359299" },
+      { title: "Association contact", name: "PP Singh", phone: "9419112005" },
+    ],
+    lastVerified: "2026-10-22",
+  },
 ];
 
 export const SPORTS = [
