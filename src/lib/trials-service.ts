@@ -36,6 +36,8 @@ export interface TrialDiscoveryItem {
   requiredDocuments?: string[];
   selectionProcess?: string;
   lastVerified?: string;
+  listingType?: "trial" | "competition";
+  entryStatus?: string;
 }
 
 /**
