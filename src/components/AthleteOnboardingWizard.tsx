@@ -330,7 +330,7 @@ export function AthleteOnboardingWizard({
   const handleAddAchievement = (e: React.FormEvent) => {
     e.preventDefault();
     if (!achDraft.title.trim() || !achDraft.competition.trim()) {
-      toast.error("{tr("requiredAchievement")}");
+      toast.error(tr("requiredAchievement"));
       return;
     }
 
@@ -369,7 +369,7 @@ export function AthleteOnboardingWizard({
   const handleAddMetric = (e: React.FormEvent) => {
     e.preventDefault();
     if (!metricDraft.name.trim() || !metricDraft.value.trim()) {
-      toast.error("Please specify a metric name and score value.");
+      toast.error(tr("requiredMetric"));
       return;
     }
 
@@ -414,7 +414,7 @@ export function AthleteOnboardingWizard({
     try {
       setIsExporting(true);
       await downloadSportsCardAsPNG(data);
-      toast.success("Downloaded your official Scout Card (PNG)!");
+      toast.success(tr("downloadPng"));
     } catch (err) {
       console.error(err);
       toast.error("Failed to generate image.");
@@ -431,7 +431,7 @@ export function AthleteOnboardingWizard({
         : `https://www.khelgrid.com/profile/${data.athleteId}`;
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       await navigator.clipboard.writeText(url);
-      toast.success("Shareable Sports CV link copied!");
+      toast.success(tr("share"));
     }
   };
 
@@ -473,7 +473,7 @@ export function AthleteOnboardingWizard({
   const nextStep = () => {
     if (currentStep === 1) {
       if (!data.athleteName.trim()) {
-        toast.error("{tr("requiredName")}");
+        toast.error(tr("requiredName"));
         return;
       }
     }
@@ -860,7 +860,7 @@ export function AthleteOnboardingWizard({
               {/* Position selector with sport-specific recommendations */}
               <div className="space-y-2">
                 <Label htmlFor="wiz-pos" className="text-xs font-semibold">
-                  Primary Playing Position *
+                  {tr("position")} *
                 </Label>
                 <Input
                   id="wiz-pos"
@@ -1030,7 +1030,7 @@ export function AthleteOnboardingWizard({
                     </h2>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Speed, endurance, and sport-specific physical telemetry reviewed by scouts.
+                    {language === "hi" ? "गति, सहनशक्ति और खेल-विशिष्ट प्रदर्शन के अपने परिणाम दर्ज करें।" : "Add your speed, endurance and sport-specific performance results."}
                   </p>
                 </div>
                 <Button
@@ -1184,7 +1184,7 @@ export function AthleteOnboardingWizard({
                   </h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Document your competitive track record, state trials, and tournament awards.
+                  {language === "hi" ? "अपनी प्रतियोगिताओं, राज्य स्तरीय ट्रायल और पुरस्कारों का रिकॉर्ड जोड़ें।" : "Record your competitions, state trials and tournament awards."}
                 </p>
               </div>
 
@@ -1192,7 +1192,7 @@ export function AthleteOnboardingWizard({
               <div className="space-y-3">
                 {data.achievements.length === 0 ? (
                   <div className="rounded-xl border border-dashed border-border/80 p-6 text-center text-xs text-muted-foreground">
-                    No achievements registered yet. Add your tournament honours below.
+                    {language === "hi" ? "अभी कोई उपलब्धि नहीं जोड़ी गई है। नीचे अपनी प्रतियोगिताओं की उपलब्धियाँ जोड़ें।" : "No achievements added yet. Add your competition achievements below."}
                   </div>
                 ) : (
                   data.achievements.map((ach) => (
@@ -1536,7 +1536,7 @@ export function AthleteOnboardingWizard({
               {/* Theme Picker Swatches */}
               <div className="space-y-3">
                 <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Select Card Theme
+                  {language === "hi" ? "CV डिज़ाइन चुनें" : "Select Card Theme"}
                 </Label>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   {CARD_THEMES.map((thm) => {
