@@ -55,7 +55,7 @@ export function FeaturedTrialsRadar({
     const origin =
       typeof window !== "undefined" ? window.location.origin : "https://www.khelgrid.com";
     const shareUrl = `${origin}/trial/${trial.id}`;
-    const text = `🏆 *${trial.sport.toUpperCase()} ${trial.listingType === "competition" ? "SCHOOL GAMES FIXTURE" : "TRIAL"}: ${trial.title}*\n📍 *Location:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"}\n\n👉 *Details & Registration:* ${shareUrl}`;
+    const text = `🏆 *${trial.sport.toUpperCase()} ${trial.listingType === "competition" ? "SCHOOL GAMES FIXTURE" : "TRIAL"}: ${trial.title}*\n📍 *Location:* ${trial.academy}, ${trial.city}\n🗓️ *Date:* ${trial.date}\n🎟️ *Fee:* ${trial.feeLabel || (trial.fee === 0 ? "Free Entry" : "₹" + trial.fee)}\n🎯 *Eligibility:* ${trial.ageCategory || "Open"}\n\n👉 *${trial.listingType === "competition" ? "Details & official calendar" : "Details & registration"}:* ${shareUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
     toast.success("Opening WhatsApp share!");
   };
