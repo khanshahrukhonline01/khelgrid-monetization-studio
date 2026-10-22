@@ -122,7 +122,7 @@ export function getRealtimeOpportunityBadge(
   trial: Pick<Trial, "date" | "registrationDeadline" | "badge" | "spots" | "urgencyText">,
   currentDate: Date = new Date(),
 ): ComputedOpportunityBadge | null {
-  const targetDate = parseTrialDate(trial.registrationDeadline || trial.date);
+  const targetDate = getTrialEndDate(trial.registrationDeadline || trial.date);
 
   if (targetDate) {
     const diffMs = targetDate.getTime() - currentDate.getTime();
