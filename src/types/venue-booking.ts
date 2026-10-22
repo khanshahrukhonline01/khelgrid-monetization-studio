@@ -9,6 +9,7 @@ export interface CourtFacility {
   surface: string;
   isIndoor: boolean;
   hasFloodlights: boolean;
+  pricePerHour?: number | null;
 }
 
 export interface CourtSlot {

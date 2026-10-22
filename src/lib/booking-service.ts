@@ -133,17 +133,8 @@ export async function getVenueCourts(venueId: string, sport?: string): Promise<C
     }
   }
 
-  // Fallback default court
-  return [
-    {
-      id: `${venueId}-court-1`,
-      venue_id: venueId,
-      name: "Court 1 / Main Pitch",
-      sport: sport || "Multi-Sport",
-      surface_type: "Standard Pro Surface",
-      is_active: true,
-    },
-  ];
+  return [];
+
 }
 
 /**
@@ -261,7 +252,7 @@ export async function checkSlotAvailability(params: {
   duration_hours?: number;
 }): Promise<{ available: boolean; conflictReason?: string }> {
   if (!isSupabaseConfigured) {
-    return { available: true };
+    return { available: false, conflictReason: "Online availability is not connected. Please contact the venue directly." };
   }
 
   const startTimeSQL = formatTimeToSQL(params.start_time);
@@ -310,7 +301,7 @@ export async function checkSlotAvailability(params: {
       .is("deleted_at", null);
 
     if (error || !existingBookings) {
-      return { available: true };
+      return { available: false, conflictReason: "Live availability could not be verified. Please try again or contact the venue." };
     }
 
     const now = new Date();
@@ -337,7 +328,7 @@ export async function checkSlotAvailability(params: {
     return { available: true };
   } catch (err) {
     console.warn("Error checking slot availability:", err);
-    return { available: true };
+    return { available: false, conflictReason: "Live availability could not be verified. Please try again or contact the venue." };
   }
 }
 
@@ -360,6 +351,7 @@ export async function createVenueBooking(params: {
   booking_date: string;
   start_time: string;
   duration_hours?: number;
+  total_price?: number;
   user_email?: string;
   user_phone?: string;
   idempotency_key?: string;
@@ -369,7 +361,7 @@ export async function createVenueBooking(params: {
   message: string;
 }> {
   const duration = params.duration_hours || 1;
-  const totalPrice = params.venue.price_per_hour * duration;
+  const totalPrice = params.total_price ?? params.venue.price_per_hour * duration;
   const startTimeSQL = formatTimeToSQL(params.start_time);
   const endTimeSQL = calculateEndTimeSQL(params.start_time, duration);
 
@@ -398,7 +390,9 @@ export async function createVenueBooking(params: {
     };
   }
 
-  const bookingId = `KG-BK-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+  const bookingId = typeof crypto !== "undefined" && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `00000000-0000-4000-8000-${Date.now().toString(16).padStart(12, "0").slice(-12)}`;
 
   const bookingRecord: BookingRecord = {
     id: bookingId,
@@ -416,7 +410,7 @@ export async function createVenueBooking(params: {
     duration_hours: duration,
     price_per_hour: params.venue.price_per_hour,
     total_price: totalPrice,
-    status: "confirmed",
+    status: "pending",
     idempotency_key: idempotencyKey,
     user_email: params.user_email || "guest@khelgrid.com",
     user_phone: params.user_phone || "",
@@ -427,26 +421,18 @@ export async function createVenueBooking(params: {
   // 1. Persist to Supabase if configured
   if (isSupabaseConfigured) {
     try {
-      // First ensure the venue exists in the database
-      const { data: existingVenue } = await supabase
+      // Only venues published in the live directory can be booked. Never promote sample cards into database venues.
+      const { data: existingVenue, error: venueLookupError } = await supabase
         .from("venues")
         .select("id")
         .eq("id", params.venue.id)
         .maybeSingle();
 
-      if (!existingVenue) {
-        await supabase.from("venues").upsert({
-          id: params.venue.id,
-          name: params.venue.name,
-          area: params.venue.area,
-          city: params.venue.city,
-          sports: params.venue.sports,
-          price_per_hour: params.venue.price_per_hour,
-          image_url: params.venue.image_url || null,
-          bookable: true,
-          rating: 4.8,
-          reviews_count: 24,
-        });
+      if (venueLookupError || !existingVenue) {
+        return {
+          success: false,
+          message: "This is a sample listing or is not connected to live booking yet. Please contact the venue directly.",
+        };
       }
 
       // 1A. Attempt Atomic RPC Booking with Advisory Lock & Pessimistic Concurrency
@@ -468,7 +454,7 @@ export async function createVenueBooking(params: {
           p_user_email: bookingRecord.user_email,
           p_user_phone: bookingRecord.user_phone,
           p_idempotency_key: idempotencyKey,
-          p_status: "confirmed",
+          p_status: "pending",
           p_custom_booking_id: bookingId,
         });
 
@@ -504,7 +490,7 @@ export async function createVenueBooking(params: {
             start_time: startTimeSQL,
             end_time: endTimeSQL,
             total_price: totalPrice,
-            status: "confirmed",
+            status: "pending",
             idempotency_key: idempotencyKey,
             user_email: bookingRecord.user_email,
             user_phone: bookingRecord.user_phone,
@@ -522,8 +508,11 @@ export async function createVenueBooking(params: {
             };
           }
           console.warn("Supabase booking insert error:", error);
+          return { success: false, message: "The booking could not be saved online. No reservation has been confirmed. Please try again or contact the venue." };
         } else if (inserted) {
           bookingRecord.synced_to_db = true;
+        } else {
+          return { success: false, message: "The booking could not be verified online. No reservation has been confirmed." };
         }
       }
     } catch (dbErr: unknown) {
@@ -536,10 +525,13 @@ export async function createVenueBooking(params: {
         };
       }
       console.warn("Supabase booking insert warning:", dbErr);
+      return { success: false, message: "The booking could not be saved online. No reservation has been confirmed. Please try again or contact the venue." };
     }
+  } else {
+    return { success: false, message: "Online booking is not connected in this environment. Please contact the venue directly." };
   }
 
-  // 2. Always persist to memoryBookings and localStorage for instant client durability
+  // 2. Save only the successful online booking reference locally for this device
   memoryBookings = [bookingRecord, ...memoryBookings.filter((b) => b.id !== bookingRecord.id)];
   if (typeof window !== "undefined") {
     try {
@@ -557,8 +549,8 @@ export async function createVenueBooking(params: {
     success: true,
     booking: bookingRecord,
     message: bookingRecord.synced_to_db
-      ? "Booking confirmed and synced to cloud"
-      : "Booking confirmed and saved to your device",
+      ? "Booking request recorded online; contact the venue to confirm acceptance."
+      : "Booking request saved on this device; online confirmation is unavailable.",
   };
 }
 
