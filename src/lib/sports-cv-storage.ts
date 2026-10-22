@@ -179,6 +179,43 @@ export const SAMPLE_METRICS: PerformanceMetric[] = [
   },
 ];
 
+/**
+ * Starts a real athlete with an honest, empty profile. Demo fixtures remain available
+ * through getDefaultSportsCV() for explicitly labelled previews and tests.
+ */
+export function getBlankSportsCV(athleteName = ""): SportsCVData {
+  return {
+    id: `scv-${Date.now().toString(36)}`,
+    athleteName,
+    sport: "Cricket",
+    position: "",
+    secondaryPosition: "",
+    jerseyNumber: "",
+    ageCategory: "",
+    age: 0,
+    city: "",
+    state: "",
+    currentAcademy: "",
+    dominantSide: "",
+    height: "",
+    weight: "",
+    bio: "",
+    verified: false,
+    athleteId: "",
+    theme: "classic",
+    achievements: [],
+    positionHistory: [],
+    careerSummary: undefined,
+    careerSeasonStats: [],
+    performanceMetrics: [],
+    highlightVideoUrl: "",
+    socialProfiles: {},
+    coachReference: undefined,
+    availability: "",
+    lastUpdated: new Date().toISOString(),
+  };
+}
+
 export function getDefaultSportsCV(athleteName = "Aarav Sharma"): SportsCVData {
   return {
     id: "scv-user-default",
@@ -239,7 +276,7 @@ export function loadSportsCVData(fallbackName?: string): SportsCVData {
     }
 
     if (!raw) {
-      const initial = getDefaultSportsCV(fallbackName);
+      const initial = getBlankSportsCV(fallbackName);
       saveSportsCVData(initial);
       return initial;
     }
@@ -249,19 +286,15 @@ export function loadSportsCVData(fallbackName?: string): SportsCVData {
     if (fallbackName && parsed.athleteName === "Aarav Sharma" && fallbackName !== "Aarav Sharma") {
       parsed.athleteName = fallbackName;
     }
-    // Backfill position history and career stats if missing in stored payload
-    if (!parsed.positionHistory || parsed.positionHistory.length === 0) {
-      parsed.positionHistory = SAMPLE_POSITION_HISTORY;
-    }
-    if (!parsed.careerSummary) {
-      parsed.careerSummary = SAMPLE_CAREER_SUMMARY;
-    }
-    if (!parsed.careerSeasonStats || parsed.careerSeasonStats.length === 0) {
-      parsed.careerSeasonStats = SAMPLE_SEASON_STATS;
-    }
+    // Missing optional fields stay empty; never inject demo achievements into a real athlete's CV.
+    if (!Array.isArray(parsed.achievements)) parsed.achievements = [];
+    if (!Array.isArray(parsed.positionHistory)) parsed.positionHistory = [];
+    if (!Array.isArray(parsed.careerSeasonStats)) parsed.careerSeasonStats = [];
+    if (!Array.isArray(parsed.performanceMetrics)) parsed.performanceMetrics = [];
+    if (!parsed.socialProfiles || typeof parsed.socialProfiles !== "object") parsed.socialProfiles = {};
     return parsed;
   } catch {
-    return getDefaultSportsCV(fallbackName);
+    return getBlankSportsCV(fallbackName);
   }
 }
 
