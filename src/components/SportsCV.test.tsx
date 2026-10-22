@@ -160,7 +160,7 @@ describe("Sports CV Component & Data Layer", () => {
       const data = getDefaultSportsCV("Sahil Khan");
       const html = renderToString(<SportsCVCard data={data} />);
 
-      expect(html).toContain("Verified Sports CV");
+      expect(html).toContain("Athlete Sports CV");
       expect(html).toContain("Digital Scout Verification");
       expect(html).toContain(data.athleteId);
     });
