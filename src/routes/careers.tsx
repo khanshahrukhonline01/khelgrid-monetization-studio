@@ -292,7 +292,7 @@ function CareersPage() {
               </label>
               <Input
                 id="careers-email"
-                name="Applicant email"
+                name="email"
                 type="email"
                 placeholder="name@example.com"
                 value={email}
