@@ -49,6 +49,76 @@ export interface Trial {
 
 export const TRIALS: Trial[] = [
   {
+    id: "t-sai-stc-andaman-kayaking-canoeing-rowing-trials-2026",
+    title: "SAI STC Andaman Residential Athlete Selection Trials 2026 — Kayaking, Canoeing & Rowing",
+    academy: "Sports Authority of India (SAI), Sports Training Centre (STC), Sri Vijaya Puram",
+    sport: "Kayaking & Canoeing, Rowing",
+    city: "North and Middle Andaman, Andaman and Nicobar Islands",
+    date: "Oct 22–26, 2026 · Multiple venues and session times",
+    fee: 0,
+    feeLabel: "No fee mentioned in the report",
+    spots: 0,
+    tag: "SAI Residential Scheme Selection Trials",
+    ageCategory: "Not specified in this report",
+    gender: "Not specified in this report",
+    verifiedLabel: "Reported by Nicobar Times; confirm details with SAI STC",
+    urgencyText: "Multiple sessions Oct 22–26 · Bring original documents and medical fitness certificate",
+    badge: "New",
+    venue: "GSSS Baratang; PM Shri Model School, Mayabunder; GSSS Karmatang; Netaji Stadium, Mayabunder; GSSS Kishori Nagar, Diglipur",
+    sourceUrl: "https://nicobartimes.com/local-news/sai-to-conduct-selection-trials-in-north-and-middle-andaman-for-residential-athletes-in-kayaking-canoeing-and-rowing/",
+    sourceLabel: "Nicobar Times — SAI residential athlete trials in North and Middle Andaman",
+    sources: [
+      {
+        label: "Read full report — Nicobar Times",
+        url: "https://nicobartimes.com/local-news/sai-to-conduct-selection-trials-in-north-and-middle-andaman-for-residential-athletes-in-kayaking-canoeing-and-rowing/",
+      },
+    ],
+    timelines: [
+      {
+        label: "Baratang",
+        date: "Oct 22, 2026 · 10:00 AM–1:00 PM",
+        description: "Government Senior Secondary School (GSSS), Baratang.",
+      },
+      {
+        label: "Mayabunder — PM Shri Model School",
+        date: "Oct 23, 2026 · 10:00 AM–12:00 PM",
+        description: "Selection trials at PM Shri Model School, Mayabunder.",
+      },
+      {
+        label: "Karmatang",
+        date: "Oct 23, 2026 · 12:30–2:30 PM",
+        description: "Government Senior Secondary School (GSSS), Karmatang.",
+      },
+      {
+        label: "Mayabunder — Netaji Stadium",
+        date: "Oct 24, 2026 · 10:00 AM–1:00 PM",
+        description: "Selection trials at Netaji Stadium, Mayabunder.",
+      },
+      {
+        label: "Kishori Nagar, Diglipur",
+        date: "Oct 26, 2026 · 10:00 AM–1:00 PM",
+        description: "Government Senior Secondary School (GSSS), Kishori Nagar, Diglipur.",
+      },
+    ],
+    eligibility: "For induction of residential athletes to fill existing vacancies at SAI STC, Sri Vijaya Puram, in kayaking and canoeing, and rowing. The linked report does not specify an age range or gender eligibility; confirm eligibility with SAI before attending.",
+    requiredDocuments: [
+      "Original birth certificate",
+      "Aadhaar card",
+      "Sports certificates",
+      "Four passport-size photographs",
+      "Medical fitness certificate",
+    ],
+    selectionProcess: "Selection trials at the listed North and Middle Andaman venues. The report says preference will be given to candidates who have won medals or participated at State or National level. Selected residential athletes may receive lodging and boarding, sports kits, competition exposure, educational expenses and medical insurance as per applicable SAI norms.",
+    organizerContacts: [
+      { title: "Email", name: "SAI STC Sri Vijaya Puram", email: "saiandaman88@gmail.com" },
+      { title: "Rowing Coach", name: "Jenil Krishnan", phone: "9441188645" },
+      { title: "Assistant Coach — Kayaking & Canoeing", name: "Karma Toppo", phone: "9531956474 / 6297596680" },
+      { title: "Assistant Coach — Rowing", name: "Justin J. Thomas", phone: "9440533793" },
+    ],
+    lastVerified: "2026-10-22",
+  },
+
+  {
     id: "t-punjab-civil-services-mens-football-trials-2026",
     title: "Punjab Team Selection Trials — All India Civil Services Football (Men) 2026",
     academy: "Punjab Sports Department",
