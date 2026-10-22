@@ -70,17 +70,33 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
   const [activeScrollIndex, setActiveScrollIndex] = useState(0);
   const opportunitiesRef = useRef<HTMLDivElement>(null);
 
+  const discoveryStats = useMemo(() => {
+    const upcomingTrials = trials.filter((trial) => {
+      const match = trial.date.match(/(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+\\d{1,2}(?:[–-]\\d{1,2})?,?\\s+2026/i);
+      if (!match) return true;
+      const parsed = Date.parse(match[0].replace(/[–-]/, " ").replace(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+(\\d{1,2})\\s+(\\d{4})/i, "$1 $2, $3"));
+      return Number.isNaN(parsed) || parsed >= Date.now() - 86400000;
+    });
+    return {
+      opportunities: upcomingTrials.length,
+      sports: new Set(upcomingTrials.map((trial) => trial.sport.trim()).filter(Boolean)).size,
+      cities: new Set(upcomingTrials.map((trial) => trial.city.trim()).filter(Boolean)).size,
+      venues: new Set(upcomingTrials.map((trial) => trial.venue?.trim()).filter((venue): venue is string => Boolean(venue))).size,
+    };
+  }, [trials]);
+
   const currentTrials = useMemo(
-    () =>
-      trials.filter((trial) => {
-        const endDate = getTrialEndDate(trial.date);
-        return Boolean(endDate && endDate.getTime() >= Date.now());
-      }),
+    () => trials.filter((trial) => {
+      const endDate = getTrialEndDate(trial.date);
+      return Boolean(endDate && endDate.getTime() >= Date.now());
+    }),
     [trials],
   );
 
   const filteredOpportunities = useMemo(() => {
-    if (selectedSportFilter === "All") return currentTrials;
+    if (selectedSportFilter === "All") {
+      return currentTrials;
+    }
     return currentTrials.filter((t) => t.sport.toLowerCase() === selectedSportFilter.toLowerCase());
   }, [selectedSportFilter, currentTrials]);
 
@@ -221,11 +237,40 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
           <Link
             to="/search"
             className="text-sm font-semibold text-primary hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
-            aria-label={`Browse all ${currentTrials.length} sports opportunities`}
+            aria-label={`Browse all ${trials.length} sports opportunities`}
           >
-            Browse all ({currentTrials.length}) →
+            Browse all ({trials.length}) →
           </Link>
         </div>
+      </div>
+
+      {/* Compact discovery stats: derived from the current trial dataset, never hard-coded totals. */}
+      <div
+        aria-label="Sports opportunity statistics"
+        className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4"
+      >
+        {[
+          { label: "Upcoming opportunities", value: discoveryStats.opportunities, icon: CalendarDays },
+          { label: "Sports", value: discoveryStats.sports, icon: Trophy },
+          { label: "Cities", value: discoveryStats.cities, icon: MapPin },
+          { label: "Venues listed", value: discoveryStats.venues, icon: MapPin },
+        ].map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="flex min-w-0 items-center gap-3 rounded-xl border border-border/70 bg-card/80 px-3 py-3 shadow-xs"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <Icon className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xl font-bold tabular-nums leading-tight">{stat.value}</span>
+                <span className="block truncate text-[11px] text-muted-foreground">{stat.label}</span>
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       {/* Sport Filter Chips with tablist accessibility */}
@@ -237,8 +282,8 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
         {SPORT_FILTER_CHIPS.map((chip) => {
           const count =
             chip.id === "All"
-              ? currentTrials.length
-              : currentTrials.filter((t) => t.sport.toLowerCase() === chip.id.toLowerCase()).length;
+              ? trials.length
+              : trials.filter((t) => t.sport.toLowerCase() === chip.id.toLowerCase()).length;
           const isActive = selectedSportFilter === chip.id;
           return (
             <button
@@ -522,24 +567,37 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
 
                 <div className="mt-2.5 flex items-center justify-between">
                   <div>
-                    {(!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free") ? (
+                    {trial.fee === 0 ? (
                       <span
                         className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400"
                         aria-label="Registration fee: Free entry"
                       >
-                        {trial.feeLabel || "Free entry"}
+                        Free entry
                       </span>
                     ) : (
                       <span
                         className="rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-bold text-foreground"
-                        aria-label={`Entry fee: ${trial.feeLabel || `₹${trial.fee}`}`}
+                        aria-label={`Registration fee: ₹${trial.fee}`}
                       >
-                        {trial.feeLabel || `₹${trial.fee}`}
+                        ₹{trial.fee}
                       </span>
                     )}
                   </div>
 
                   <div className="flex items-center gap-2">
+                    {trial.id === "t-delhi-doe-softball-u19-open-selection-trials-2026" && (
+                      <a
+                        href="https://www.edudel.nic.in/mis/misadmin/frmCircular_pdf_File.aspx?id=010000005694A6333B84699ED65AAE19E4F7E47AD6796C10562B4A7E04AEB181FC8B058C5FFA6899461896FDD205855CBF4A1DFD"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 rounded-lg border border-primary/30 bg-primary/5 px-2.5 py-1 text-[11px] font-bold text-primary transition-colors hover:bg-primary/10 cursor-pointer"
+                        aria-label="Open official Delhi Education softball trial circular PDF"
+                      >
+                        <span>Official Notice</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
                     {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" && (
                       <a
                         href="https://rect.crpf.gov.in"
