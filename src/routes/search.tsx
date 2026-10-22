@@ -31,7 +31,6 @@ import {
   REGIONS,
   SPORT_TYPES,
   DATE_RANGE_OPTIONS,
-  parseTrialDate,
   type DateRangeOption,
 } from "@/components/TrialsSearchFilter";
 import { Button } from "@/components/ui/button";
