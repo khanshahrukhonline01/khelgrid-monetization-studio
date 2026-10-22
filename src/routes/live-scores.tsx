@@ -494,9 +494,6 @@ export function LiveScoresPage() {
               <span className="rounded bg-secondary/80 px-2 py-0.5 font-medium">
                 Live provider not connected
               </span>
-              <span className="hidden sm:inline-block text-muted-foreground">
-                · Last synced {lastRefreshedAt}
-              </span>
             </div>
 
             <div className="flex items-center gap-3">
