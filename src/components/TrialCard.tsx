@@ -326,7 +326,19 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" ? (
+          {trial.listingType === "competition" ? (
+            <a
+              href={trial.sourceUrl || "https://www.sgfi.org.in"}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex-1 min-w-0 h-9 inline-flex items-center justify-center gap-1.5 text-xs font-bold truncate px-2.5 rounded-xl shadow-xs bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition-colors"
+              aria-label={`View official calendar for ${trial.title}`}
+            >
+              <span className="truncate">Official Calendar</span>
+              <ExternalLink className="h-3.5 w-3.5 shrink-0 opacity-90" />
+            </a>
+          ) : trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" ? (
             <a
               href="https://rect.crpf.gov.in"
               target="_blank"
