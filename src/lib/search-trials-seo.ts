@@ -10,6 +10,7 @@ export interface SearchTrialsHelmetSEOProps {
   free?: boolean;
   trialId?: string;
   savedOnly?: boolean;
+  archive?: boolean;
   totalResults?: number;
   featuredTrial?: Trial | null;
 }
@@ -33,7 +34,7 @@ export interface SearchTrialsSeoMetadata {
 export function getSearchTrialsSeoMetadata(
   props: SearchTrialsHelmetSEOProps = {},
 ): SearchTrialsSeoMetadata {
-  const { query = "", sport = "", city = "", trialId = "", savedOnly = false } = props;
+  const { query = "", sport = "", city = "", trialId = "", savedOnly = false, archive = false } = props;
 
   const qLower = query.toLowerCase();
   const idLower = trialId.toLowerCase();
@@ -51,7 +52,9 @@ export function getSearchTrialsSeoMetadata(
 
   // Dynamic Title Construction
   let pageTitle = `Sports Selection Trials, Combines & Recruitment Drives in India (2026) · ${DEFAULT_SITE_NAME}`;
-  if (isCrpf) {
+  if (archive) {
+    pageTitle = `Archived Sports Trials & Past Selection Opportunities in India · ${DEFAULT_SITE_NAME}`;
+  } else if (isCrpf) {
     pageTitle = `CRPF Meritorious Sportspersons Recruitment 2026 (521 Posts) | Official Sports Quota Apply · ${DEFAULT_SITE_NAME}`;
   } else if (savedOnly) {
     pageTitle = `My Saved Sports Opportunities & Selection Trials · ${DEFAULT_SITE_NAME}`;
@@ -67,7 +70,10 @@ export function getSearchTrialsSeoMetadata(
 
   // Dynamic Meta Description Construction
   let metaDescription = `Discover verified sports selection trials, government quota recruitments (CRPF 2026), junior academy combines, and state trials across India. Filter by sport, city, age group, and free entry.`;
-  if (isCrpf) {
+  if (archive) {
+    metaDescription =
+      "Browse past sports selection trials and completed opportunities from across India on KhelGrid. Archived listings are retained for reference; check each official source for results, updated dates, or the next edition.";
+  } else if (isCrpf) {
     metaDescription =
       "Apply online for 521 vacancies (182 Head Constable GD + 339 Constable GD) under CRPF Meritorious Sportspersons Recruitment 2026 at rect.crpf.gov.in across 22 sports disciplines. Check eligibility, PST physical standards, trial test marks, selection phases, and official notification.";
   } else if (activeSport && activeCity) {
@@ -83,6 +89,7 @@ export function getSearchTrialsSeoMetadata(
   // Dynamic Canonical URL
   const params = new URLSearchParams();
   if (query.trim()) params.set("q", query.trim());
+  if (archive) params.set("archive", "true");
   if (activeSport) params.set("sport", activeSport);
   if (activeCity) params.set("city", activeCity);
   if (trialId) params.set("trialId", trialId);
@@ -101,7 +108,13 @@ export function getSearchTrialsSeoMetadata(
     "junior selection trials",
   ];
 
-  if (isCrpf) {
+  if (archive) {
+    baseKeywords.unshift(
+      "past sports trials India",
+      "archived sports selection trials",
+      "completed sports opportunities",
+    );
+  } else if (isCrpf) {
     baseKeywords.unshift(
       "CRPF recruitment 2026",
       "CRPF meritorious sportspersons recruitment 2026",
