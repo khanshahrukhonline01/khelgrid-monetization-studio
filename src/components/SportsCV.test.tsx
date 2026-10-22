@@ -173,7 +173,7 @@ describe("Sports CV Component & Data Layer", () => {
       const html = renderToString(<SportsCVCard data={data} />);
 
       expect(html).toContain("Athlete Sports CV");
-      expect(html).toContain("Digital Scout Verification");
+      expect(html).toContain("KhelGrid Athlete Profile");
       expect(html).toContain(data.athleteId);
     });
 
