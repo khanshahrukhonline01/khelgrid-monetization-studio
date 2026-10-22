@@ -263,24 +263,6 @@ function CareersPage() {
           </p>
         </div>
 
-        <>
-          <div className="mt-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-center">
-            <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-500" />
-            <h3 className="mt-3 text-lg font-bold text-foreground">Application Received</h3>
-            <p className="mt-1 text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
-              Thank you for applying to join KhelGrid. Our recruitment and talent desk will review
-              your submission and reach out via email.
-            </p>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setSubmitted(false)}
-              className="mt-5 rounded-xl text-xs"
-            >
-              Submit Another Application
-            </Button>
-          </div>
-        ) : (
           <form action="https://formsubmit.co/khelgrid@gmail.com" method="POST" encType="multipart/form-data" className="mt-6 grid gap-4 sm:grid-cols-2">
             <input type="hidden" name="_subject" value="New KhelGrid Careers Application" />
             <input type="hidden" name="_template" value="table" />
@@ -398,7 +380,6 @@ function CareersPage() {
               </Button>
             </div>
           </form>
-        </>
       </section>
     </main>
   );
