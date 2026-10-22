@@ -432,8 +432,7 @@ function BookVenues() {
               <Calendar className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
               <h3 className="text-base font-semibold">No bookings yet</h3>
               <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
-                Explore venues and turfs near you. When you book a slot, your confirmed reservations
-                will appear here.
+                Explore venues and turfs near you. Booking requests saved on this device will appear here; contact the venue to confirm acceptance.
               </p>
               <Button
                 variant="default"
@@ -491,7 +490,7 @@ function BookVenues() {
                       <span className="font-semibold text-foreground">{b.start_time}</span>
                     </div>
                     <div>
-                      <span className="text-muted-foreground block text-[11px]">Total Paid</span>
+                      <span className="text-muted-foreground block text-[11px]">Estimated total</span>
                       <span className="font-bold text-primary">₹{b.total_price}</span>
                     </div>
                   </div>
