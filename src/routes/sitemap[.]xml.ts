@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/start-client-core";
-import { SPORTS_CATALOG, CITIES_CATALOG, GUIDES_CATALOG, TOOLS_CATALOG } from "@/data/catalog";
+import { SPORTS_CATALOG, CITIES_CATALOG, GUIDES_CATALOG } from "@/data/catalog";
 import { BLOG_POSTS } from "@/data/blog";
 import { TRIALS } from "@/data/trials";
 import { VENUES } from "@/data/khelgrid";
