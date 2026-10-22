@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TRIALS, type Trial } from "@/data/trials";
-import { getRealtimeOpportunityBadge } from "@/lib/opportunity-badge";
+import { getRealtimeOpportunityBadge, getTrialEndDate } from "@/lib/opportunity-badge";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 import { toast } from "sonner";
 
@@ -70,12 +70,19 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
   const [activeScrollIndex, setActiveScrollIndex] = useState(0);
   const opportunitiesRef = useRef<HTMLDivElement>(null);
 
+  const currentTrials = useMemo(
+    () =>
+      trials.filter((trial) => {
+        const endDate = getTrialEndDate(trial.date);
+        return Boolean(endDate && endDate.getTime() >= Date.now());
+      }),
+    [trials],
+  );
+
   const filteredOpportunities = useMemo(() => {
-    if (selectedSportFilter === "All") {
-      return trials;
-    }
-    return trials.filter((t) => t.sport.toLowerCase() === selectedSportFilter.toLowerCase());
-  }, [selectedSportFilter, trials]);
+    if (selectedSportFilter === "All") return currentTrials;
+    return currentTrials.filter((t) => t.sport.toLowerCase() === selectedSportFilter.toLowerCase());
+  }, [selectedSportFilter, currentTrials]);
 
   const handleOpportunitiesScroll = () => {
     if (!opportunitiesRef.current) return;
@@ -214,9 +221,9 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
           <Link
             to="/search"
             className="text-sm font-semibold text-primary hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
-            aria-label={`Browse all ${trials.length} sports opportunities`}
+            aria-label={`Browse all ${currentTrials.length} sports opportunities`}
           >
-            Browse all ({trials.length}) →
+            Browse all ({currentTrials.length}) →
           </Link>
         </div>
       </div>
@@ -230,8 +237,8 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
         {SPORT_FILTER_CHIPS.map((chip) => {
           const count =
             chip.id === "All"
-              ? trials.length
-              : trials.filter((t) => t.sport.toLowerCase() === chip.id.toLowerCase()).length;
+              ? currentTrials.length
+              : currentTrials.filter((t) => t.sport.toLowerCase() === chip.id.toLowerCase()).length;
           const isActive = selectedSportFilter === chip.id;
           return (
             <button
