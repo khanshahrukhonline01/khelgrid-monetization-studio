@@ -351,6 +351,7 @@ export async function createVenueBooking(params: {
   booking_date: string;
   start_time: string;
   duration_hours?: number;
+  total_price?: number;
   user_email?: string;
   user_phone?: string;
   idempotency_key?: string;
@@ -360,7 +361,7 @@ export async function createVenueBooking(params: {
   message: string;
 }> {
   const duration = params.duration_hours || 1;
-  const totalPrice = params.venue.price_per_hour * duration;
+  const totalPrice = params.total_price ?? params.venue.price_per_hour * duration;
   const startTimeSQL = formatTimeToSQL(params.start_time);
   const endTimeSQL = calculateEndTimeSQL(params.start_time, duration);
 
@@ -409,7 +410,7 @@ export async function createVenueBooking(params: {
     duration_hours: duration,
     price_per_hour: params.venue.price_per_hour,
     total_price: totalPrice,
-    status: "confirmed",
+    status: "pending",
     idempotency_key: idempotencyKey,
     user_email: params.user_email || "guest@khelgrid.com",
     user_phone: params.user_phone || "",
@@ -453,7 +454,7 @@ export async function createVenueBooking(params: {
           p_user_email: bookingRecord.user_email,
           p_user_phone: bookingRecord.user_phone,
           p_idempotency_key: idempotencyKey,
-          p_status: "confirmed",
+          p_status: "pending",
           p_custom_booking_id: bookingId,
         });
 
@@ -489,7 +490,7 @@ export async function createVenueBooking(params: {
             start_time: startTimeSQL,
             end_time: endTimeSQL,
             total_price: totalPrice,
-            status: "confirmed",
+            status: "pending",
             idempotency_key: idempotencyKey,
             user_email: bookingRecord.user_email,
             user_phone: bookingRecord.user_phone,
@@ -548,8 +549,8 @@ export async function createVenueBooking(params: {
     success: true,
     booking: bookingRecord,
     message: bookingRecord.synced_to_db
-      ? "Booking confirmed and synced to cloud"
-      : "Booking confirmed and saved to your device",
+      ? "Booking request recorded online; contact the venue to confirm acceptance."
+      : "Booking request saved on this device; online confirmation is unavailable.",
   };
 }
 
