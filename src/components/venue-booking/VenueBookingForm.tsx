@@ -72,6 +72,9 @@ export function VenueBookingForm({
     setDurationHours,
     periodFilter,
     setPeriodFilter,
+    courtsLoading,
+    availabilityLoading,
+    availabilityError,
 
     // Addons
     addons,
@@ -262,7 +265,7 @@ export function VenueBookingForm({
               {venue.area}, {venue.city}
               <span className="text-muted-foreground/60">•</span>
               <span className="font-semibold text-foreground">
-                Starting at ₹{venue.pricePerHour}/hr
+                {venue.pricePerHour > 0 ? `Starting at ₹${venue.pricePerHour.toLocaleString("en-IN")}/hr` : "Contact venue for price"}
               </span>
             </p>
           </div>
@@ -295,6 +298,19 @@ export function VenueBookingForm({
         onSelectDate={setSelectedDate}
         venueName={venue.name}
       />
+
+      {/* Availability is fail-closed: never invent courts or claim a slot is available when the live check fails. */}
+      {(courtsLoading || availabilityLoading) && (
+        <div role="status" className="rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
+          Checking this venue’s published courts and recorded booking conflicts…
+        </div>
+      )}
+      {availabilityError && !courtsLoading && !availabilityLoading && (
+        <div role="status" className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-muted-foreground">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+          <span>{availabilityError}</span>
+        </div>
+      )}
 
       {/* 3. Interactive Slot & Court Selector */}
       <VenueSlotSelector
@@ -391,7 +407,7 @@ export function VenueBookingForm({
             <User className="h-4 w-4 text-primary" /> Player & Contact Information
           </h3>
           <p className="text-xs text-muted-foreground">
-            We will send instantaneous booking verification and SMS/email receipt
+            No account is required. Enter contact details so the venue can follow up if confirmation is needed.
           </p>
         </div>
 
