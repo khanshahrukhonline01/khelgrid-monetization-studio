@@ -230,8 +230,8 @@ export function FeaturesSidebar() {
         id="khelgrid-features-sidebar"
         aria-label="Features and Services Sidebar"
         className={cn(
-          "sticky top-16 hidden h-[calc(100dvh-4rem)] shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] duration-200 ease-in-out motion-reduce:transition-none dark:border-slate-800 dark:bg-slate-950 lg:flex",
-          collapsed ? "w-[4.25rem]" : "w-64",
+          "sticky top-16 hidden h-[calc(100dvh-4rem)] shrink-0 flex-col border-r border-slate-200/80 bg-white transition-[width] duration-200 ease-in-out motion-reduce:transition-none dark:border-slate-800 dark:bg-slate-950 lg:flex",
+          collapsed ? "w-[4.5rem]" : "w-[15rem]",
         )}
       >
         {/* Top Header — one clear, keyboard-accessible collapse control */}
@@ -243,7 +243,7 @@ export function FeaturesSidebar() {
         >
           {!collapsed && (
             <div className="flex min-w-0 items-center gap-2">
-              <span className="truncate text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+              <span className="truncate text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600 dark:text-slate-300">
                 Features
               </span>
               <span className="shrink-0 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">
@@ -285,7 +285,7 @@ export function FeaturesSidebar() {
 
         {/* Search Bar & Category Tabs (Expanded Only) */}
         {!collapsed && (
-          <div className="space-y-2 border-b border-border/40 px-3 py-2.5">
+          <div className="space-y-2 border-b border-border/50 px-3 py-2">
             <div className="relative">
               <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
               <input
@@ -319,7 +319,7 @@ export function FeaturesSidebar() {
               <div
                 role="tablist"
                 aria-label="Feature categories"
-                className="no-scrollbar flex items-center gap-1 overflow-x-auto rounded-lg bg-secondary/40 p-0.5"
+                className="no-scrollbar flex items-center gap-1 overflow-x-auto rounded-full bg-secondary/50 p-0.5"
               >
                 {NAV_CATEGORIES.map((cat) => {
                   const isSelected = activeCategory === cat.id;
@@ -330,7 +330,7 @@ export function FeaturesSidebar() {
                       aria-selected={isSelected}
                       onClick={() => setActiveCategory(cat.id)}
                       className={cn(
-                        "shrink-0 rounded-md px-2 py-1 text-[11px] font-medium transition-all cursor-pointer",
+                        "shrink-0 rounded-full px-2 py-1 text-[10px] font-medium transition-all cursor-pointer",
                         isSelected
                           ? "bg-card text-foreground shadow-xs font-semibold"
                           : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
@@ -350,7 +350,7 @@ export function FeaturesSidebar() {
           id="khelgrid-sidebar-navigation"
           aria-label="Sidebar navigation links"
           className={cn(
-            "flex flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain pb-4",
+            "flex flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain pb-3",
             collapsed ? "gap-1 px-1.5 pt-2" : "gap-1 px-2 pt-2",
           )}
         >
@@ -419,18 +419,18 @@ export function FeaturesSidebar() {
           )}
 
           {!collapsed && groupedSections && (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {groupedSections.map((sec) => {
                 const isSectionCollapsed = Boolean(collapsedSections[sec.category]);
                 return (
-                  <div key={sec.category} className="space-y-1">
+                  <div key={sec.category} className="space-y-1.5">
                     <button
                       type="button"
                       onClick={() => toggleSection(sec.category)}
                       aria-expanded={!isSectionCollapsed}
-                      className="flex w-full items-center justify-between px-2.5 py-1.5 text-left rounded-lg hover:bg-secondary/50 transition-colors group cursor-pointer"
+                      className="flex w-full items-center justify-between px-2.5 py-2 text-left rounded-lg hover:bg-secondary/60 transition-colors group cursor-pointer"
                     >
-                      <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground group-hover:text-foreground transition-colors">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground group-hover:text-foreground transition-colors">
                         {sec.meta.title}
                       </span>
                       <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/70 font-mono">
@@ -602,7 +602,7 @@ export function FeaturesSidebar() {
 
           {/* Ad slot in expanded state */}
           {!collapsed && (
-            <div className="mt-auto pt-3 px-1">
+            <div className="mt-auto pt-2 px-1">
               <SidebarAd adSlot="sidebarBottom" minHeight={250} />
             </div>
           )}
