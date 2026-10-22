@@ -53,6 +53,9 @@ const SPORT_EMOJIS: Record<string, string> = {
   Shooting: "🎯",
   Archery: "🏹",
   Boxing: "🥊",
+  Squash: "🎾",
+  "Soft Tennis": "🎾",
+  Netball: "🤾",
 };
 
 export function TrialsDiscoveryDashboard({
@@ -134,6 +137,10 @@ export function TrialsDiscoveryDashboard({
 
   // Quick apply simulation
   const handleApply = (trial: TrialDiscoveryItem) => {
+    if (trial.listingType === "competition") {
+      window.open(trial.sourceUrl || "https://www.sgfi.org.in", "_blank", "noopener,noreferrer");
+      return;
+    }
     if (auth.applications?.includes(trial.id)) {
       toast.info(`You have already applied for ${trial.title}`);
       return;
@@ -152,7 +159,7 @@ export function TrialsDiscoveryDashboard({
   const filteredTrials = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return trials.filter((t) => {
-      if (freeOnly && t.fee > 0) return false;
+      if (freeOnly && (t.fee > 0 || (t.feeLabel && !t.feeLabel.toLowerCase().includes("free")))) return false;
       if (q) {
         const text =
           `${t.title} ${t.academy} ${t.sport} ${t.city} ${t.venue || ""} ${t.eligibility || ""}`.toLowerCase();
@@ -485,12 +492,12 @@ export function TrialsDiscoveryDashboard({
                       <Badge
                         variant="outline"
                         className={
-                          trial.fee === 0
+                          (!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free")
                             ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold"
                             : "border-primary/30 text-primary font-bold"
                         }
                       >
-                        {trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`}
+                        {trial.feeLabel || (trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`)}
                       </Badge>
                     </div>
 
@@ -536,31 +543,44 @@ export function TrialsDiscoveryDashboard({
                     <ExternalLink className="h-3 w-3" />
                   </Button>
 
-                  <Button
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleApply(trial);
-                    }}
-                    disabled={isApplied}
-                    className={`h-8 text-xs font-semibold px-3.5 gap-1.5 cursor-pointer ${
-                      isApplied
-                        ? "bg-secondary text-secondary-foreground"
-                        : "bg-primary text-primary-foreground hover:bg-primary/90"
-                    }`}
-                  >
-                    {isApplied ? (
-                      <>
-                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-                        <span>Registered</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Apply Now</span>
-                        <ArrowRight className="h-3 w-3" />
-                      </>
-                    )}
-                  </Button>
+                  {trial.listingType === "competition" ? (
+                    <a
+                      href={trial.sourceUrl || "https://www.sgfi.org.in"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-3.5 text-xs font-semibold text-white transition-colors hover:bg-emerald-700"
+                    >
+                      <span>Official Calendar</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  ) : (
+                    <Button
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleApply(trial);
+                      }}
+                      disabled={isApplied}
+                      className={`h-8 text-xs font-semibold px-3.5 gap-1.5 cursor-pointer ${
+                        isApplied
+                          ? "bg-secondary text-secondary-foreground"
+                          : "bg-primary text-primary-foreground hover:bg-primary/90"
+                      }`}
+                    >
+                      {isApplied ? (
+                        <>
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                          <span>Registered</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Apply Now</span>
+                          <ArrowRight className="h-3 w-3" />
+                        </>
+                      )}
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             );
