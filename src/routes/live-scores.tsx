@@ -435,32 +435,30 @@ export function LiveScoresPage() {
               )}
             </div>
             <div className="flex flex-wrap items-center gap-2 xl:shrink-0">
-              {/* Sound Toggle */}
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={toggleSound}
-                              className={cn(
-                                "gap-1.5 text-xs font-semibold rounded-xl border-border/80 transition-all",
-                                soundEnabled &&
-                                  "border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-                              )}
-                              title={soundEnabled ? "Mute audio alerts" : "Enable sound chimes on score changes"}
-                            >
-                              {soundEnabled ? (
-                                <>
-                                  <Volume2 className="h-4 w-4 text-emerald-500" />
-                                  <span>Sound On</span>
-                                </>
-                              ) : (
-                                <>
-                                  <VolumeX className="h-4 w-4 text-muted-foreground" />
-                                  <span>Muted</span>
-                                </>
-                              )}
-                            </Button>
-              
-                          </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={toggleSound}
+                className={cn(
+                  "gap-1.5 text-xs font-semibold rounded-xl border-border/80 transition-all",
+                  soundEnabled &&
+                    "border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+                )}
+                title={soundEnabled ? "Mute audio alerts" : "Enable sound chimes on score changes"}
+              >
+                {soundEnabled ? (
+                  <>
+                    <Volume2 className="h-4 w-4 text-emerald-500" />
+                    <span>Sound On</span>
+                  </>
+                ) : (
+                  <>
+                    <VolumeX className="h-4 w-4 text-muted-foreground" />
+                    <span>Muted</span>
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
 
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
