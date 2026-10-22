@@ -78,6 +78,32 @@ export function getTrialEndDate(dateStr?: string): Date | null {
   return finish(clean);
 }
 
+/**
+ * Parses the first scheduled day from common trial/event date ranges.
+ * Returns null when the source has no reliable calendar date.
+ */
+export function getTrialStartDate(dateStr?: string): Date | null {
+  if (!dateStr?.trim()) return null;
+
+  const clean = dateStr.trim().split("·")[0].replace(/\([^)]*\)/g, "").replace(/[–—]/g, "-").trim();
+  const startPart = clean.split(/\s+-\s+/)[0].trim();
+  const direct = new Date(startPart);
+  if (!Number.isNaN(direct.getTime()) && /\b20\d{2}\b/.test(startPart)) {
+    direct.setHours(0, 0, 0, 0);
+    return direct;
+  }
+
+  const firstDay = startPart.match(/^([A-Za-z]{3,9})\s+(\d{1,2})/);
+  const years = [...clean.matchAll(/\b(20\d{2})\b/g)].map((match) => match[1]);
+  const year = startPart.match(/\b(20\d{2})\b/)?.[1] || years[years.length - 1];
+  if (!firstDay || !year) return null;
+
+  const parsed = new Date(`${firstDay[1]} ${firstDay[2]}, ${year}`);
+  if (Number.isNaN(parsed.getTime())) return null;
+  parsed.setHours(0, 0, 0, 0);
+  return parsed;
+}
+
 /** True only after the scheduled event's final date has elapsed. */
 export function isTrialArchived(trial: Pick<Trial, "date">, currentDate: Date = new Date()): boolean {
   const endDate = getTrialEndDate(trial.date);
