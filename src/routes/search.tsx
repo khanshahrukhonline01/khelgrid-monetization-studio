@@ -321,7 +321,7 @@ function SearchPage() {
 
   useEffect(() => {
     let isMounted = true;
-    fetchAvailableTrialsFromSupabase().then((res) => {
+    fetchAvailableTrialsFromSupabase({ archive: params.archive }).then((res) => {
       if (isMounted && res.isSupabaseLive && res.trials.length > 0) {
         const map = new Map<string, Trial>();
         TRIALS.forEach((t) => map.set(t.id, t));
@@ -334,7 +334,7 @@ function SearchPage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [params.archive]);
 
   const crpfTrial = useMemo(
     () =>
