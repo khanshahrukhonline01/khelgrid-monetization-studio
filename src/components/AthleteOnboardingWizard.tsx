@@ -59,6 +59,7 @@ import {
   Layers,
 } from "lucide-react";
 import { toast } from "sonner";
+import { SPORTS_CV_LANGUAGES, getSportsCVLanguage, setSportsCVLanguage, tSportsCV, type SportsCVLanguage } from "@/lib/sports-cv-i18n";
 
 export const ONBOARDING_COMPLETED_KEY = "khelgrid_onboarding_completed_v1";
 
@@ -223,6 +224,8 @@ export function AthleteOnboardingWizard({
   });
 
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const [language, setLanguage] = useState<SportsCVLanguage>(() => getSportsCVLanguage());
+  const tr = (key: Parameters<typeof tSportsCV>[0]) => tSportsCV(key, language);
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
@@ -327,7 +330,7 @@ export function AthleteOnboardingWizard({
   const handleAddAchievement = (e: React.FormEvent) => {
     e.preventDefault();
     if (!achDraft.title.trim() || !achDraft.competition.trim()) {
-      toast.error("Please enter both the achievement title and competition name.");
+      toast.error("{tr("requiredAchievement")}");
       return;
     }
 
@@ -420,7 +423,7 @@ export function AthleteOnboardingWizard({
     }
   };
 
-  // Copy Profile Link
+  // {tr("share")}
   const handleCopyLink = async () => {
     const url =
       typeof window !== "undefined"
@@ -470,7 +473,7 @@ export function AthleteOnboardingWizard({
   const nextStep = () => {
     if (currentStep === 1) {
       if (!data.athleteName.trim()) {
-        toast.error("Please enter your athlete name.");
+        toast.error("{tr("requiredName")}");
         return;
       }
     }
@@ -532,10 +535,10 @@ export function AthleteOnboardingWizard({
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
               <Sparkles className="h-4 w-4" />
-              <span>Athlete Onboarding Wizard · KhelGrid Scout Network</span>
+              <span>{tr("title")} · KhelGrid</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              Build Your Scout-Ready Sports CV & Connect Socials
+              {tr("title")}
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl">
               Showcase verified performance benchmarks, tournament honours, and direct social match
@@ -556,11 +559,11 @@ export function AthleteOnboardingWizard({
               }}
               className="text-xs"
             >
-              Load Sample Data
+              {language === "hi" ? "नमूना डेटा लोड करें" : "Load Sample Data"}
             </Button>
             {onCancel && (
               <Button type="button" variant="ghost" size="sm" onClick={onCancel}>
-                Close
+                {language === "hi" ? "बंद करें" : "Close"}
               </Button>
             )}
           </div>
@@ -570,7 +573,7 @@ export function AthleteOnboardingWizard({
         <div className="mt-6 border-t border-border/60 pt-5">
           <div className="flex items-center justify-between text-xs text-muted-foreground pb-2">
             <span className="font-semibold text-foreground">
-              Step {currentStep} of {STEPS.length}: {STEPS[currentStep - 1].label}
+              {language === "hi" ? `चरण ${currentStep} / ${STEPS.length}` : `Step ${currentStep} of ${STEPS.length}`}: {tr((`step${currentStep}`) as Parameters<typeof tSportsCV>[0])}
             </span>
             <span className="font-mono font-medium text-primary">
               {Math.round(((currentStep - 1) / (STEPS.length - 1)) * 100)}% Completed
@@ -637,7 +640,7 @@ export function AthleteOnboardingWizard({
                 <div className="flex items-center gap-2">
                   <User className="h-5 w-5 text-primary" />
                   <h2 className="text-lg font-bold text-foreground">
-                    Step 1: Athlete Identity & Sport
+                    {tr("step1")}
                   </h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -649,7 +652,7 @@ export function AthleteOnboardingWizard({
               {/* Sport Selector Carousel / Grid */}
               <div className="space-y-2">
                 <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Select Primary Sport *
+                  {tr("sport")} *
                 </Label>
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                   {SPORTS_LIST.map((sp) => {
@@ -673,11 +676,11 @@ export function AthleteOnboardingWizard({
                 </div>
               </div>
 
-              {/* Athlete Full Name & Jersey Number */}
+              {/* Athlete Full Name & {language === "hi" ? "जर्सी नंबर" : "Jersey Number"} */}
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="sm:col-span-2 space-y-1.5">
                   <Label htmlFor="wiz-name" className="text-xs font-semibold">
-                    Athlete Full Name *
+                    {tr("athleteName")} *
                   </Label>
                   <Input
                     id="wiz-name"
@@ -706,14 +709,14 @@ export function AthleteOnboardingWizard({
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="sm:col-span-2 space-y-1.5">
                   <Label htmlFor="wiz-age-category" className="text-xs font-semibold">
-                    Competition Age Category *
+                    {tr("ageCategory")} *
                   </Label>
                   <Select
                     value={data.ageCategory}
                     onValueChange={(val) => updateField("ageCategory", val)}
                   >
                     <SelectTrigger id="wiz-age-category" className="h-10 text-xs sm:text-sm">
-                      <SelectValue placeholder="Select Age Category" />
+                      <SelectValue placeholder="{language === "hi" ? "आयु वर्ग चुनें" : "Select Age Category"}" />
                     </SelectTrigger>
                     <SelectContent>
                       {AGE_CATEGORIES.map((cat) => (
@@ -727,7 +730,7 @@ export function AthleteOnboardingWizard({
 
                 <div className="space-y-1.5">
                   <Label htmlFor="wiz-age-val" className="text-xs font-semibold">
-                    Current Age (Years)
+                    {tr("age")}
                   </Label>
                   <Input
                     id="wiz-age-val"
@@ -845,7 +848,7 @@ export function AthleteOnboardingWizard({
                 <div className="flex items-center gap-2">
                   <Flame className="h-5 w-5 text-primary" />
                   <h2 className="text-lg font-bold text-foreground">
-                    Step 2: Athletic Role & Affiliation
+                    {tr("step2")}
                   </h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -1023,7 +1026,7 @@ export function AthleteOnboardingWizard({
                   <div className="flex items-center gap-2">
                     <Zap className="h-5 w-5 text-amber-500" />
                     <h2 className="text-lg font-bold text-foreground">
-                      Step 3: Performance Benchmarks & Tested Metrics
+                      {tr("step3")}
                     </h2>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">
@@ -1177,7 +1180,7 @@ export function AthleteOnboardingWizard({
                 <div className="flex items-center gap-2">
                   <Trophy className="h-5 w-5 text-amber-500" />
                   <h2 className="text-lg font-bold text-foreground">
-                    Step 4: Honours, Medals & Tournament Record
+                    {tr("step4")}
                   </h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -1333,7 +1336,7 @@ export function AthleteOnboardingWizard({
                 <div className="flex items-center gap-2">
                   <Share2 className="h-5 w-5 text-primary" />
                   <h2 className="text-lg font-bold text-foreground">
-                    Step 5: Connect Social Profiles & Match Footage
+                    {tr("step5")}
                   </h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -1522,7 +1525,7 @@ export function AthleteOnboardingWizard({
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-5 w-5 text-emerald-500" />
                   <h2 className="text-lg font-bold text-foreground">
-                    Step 6: Choose Theme & Finalize Scout Card
+                    {tr("step6")}
                   </h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -1565,7 +1568,7 @@ export function AthleteOnboardingWizard({
               {/* Completion Checklist Summary */}
               <div className="rounded-xl border border-border/80 bg-secondary/30 p-4 space-y-2.5 text-xs">
                 <div className="font-bold text-foreground flex items-center justify-between">
-                  <span>Profile Readiness Summary:</span>
+                  <span>{language === "hi" ? "प्रोफ़ाइल की तैयारी:" : "Profile Readiness Summary:"}</span>
                   <span className="font-mono text-primary font-bold">
                     {completionPercentage}% Ready
                   </span>
@@ -1658,7 +1661,7 @@ export function AthleteOnboardingWizard({
                 className="text-xs gap-1.5"
               >
                 <Eye className="h-3.5 w-3.5" />
-                {showMobilePreview ? "Hide Preview" : "View Card"}
+                {showMobilePreview ? "{language === "hi" ? "प्रीव्यू छिपाएँ" : "Hide Preview"}" : "{language === "hi" ? "CV देखें" : "View Card"}"}
               </Button>
             </div>
 
@@ -1678,7 +1681,7 @@ export function AthleteOnboardingWizard({
           </div>
         </div>
 
-        {/* Right Column: Live Interactive Scout Card Preview (5 cols) */}
+        {/* Right Column: {tr("preview")} (5 cols) */}
         <div
           className={`space-y-4 lg:col-span-5 ${showMobilePreview ? "block" : "hidden lg:block"}`}
         >
