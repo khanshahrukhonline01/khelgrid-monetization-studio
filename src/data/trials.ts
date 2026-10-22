@@ -24,6 +24,7 @@ export interface Trial {
   city: string;
   date: string;
   fee: number;
+  feeLabel?: string;
   spots: number;
   tag: string;
   posterUrl?: string;
@@ -47,6 +48,56 @@ export interface Trial {
 }
 
 export const TRIALS: Trial[] = [
+  {
+    id: "t-national-cricket-club-mumbai-talent-hunt-2026",
+    title: "National Cricket Club Mumbai Talent Hunt (Ages 16–23)",
+    academy: "National Cricket Club (NCC), Mumbai",
+    sport: "Cricket",
+    city: "Mumbai",
+    date: "Oct 26–28, 2026",
+    registrationDeadline: "Oct 26, 2026 (in-person reporting)",
+    fee: 0,
+    feeLabel: "Fee not stated",
+    spots: 20,
+    tag: "Cricket Talent Hunt · 20 Players to Be Selected",
+    ageCategory: "Players aged 16–23 years",
+    gender: "Not specified in the published report",
+    verifiedLabel: "Details sourced from The Tribune (ANI report); confirm logistics with NCC",
+    urgencyText: "Report directly on Monday, Oct 26, 2026 at 8:00 AM",
+    badge: "New",
+    venue: "National Cricket Club (NCC), Cross Maidan, Marine Lines, Mumbai, Maharashtra",
+    sourceUrl: "https://www.tribuneindia.com/news/sports/mumbais-national-cricket-club-announces-talent-hunt-for-players-between-16-23-years-of-age/",
+    sourceLabel: "The Tribune / ANI report (Oct 20, 2026)",
+    sources: [
+      {
+        label: "Original Tribune India report",
+        url: "https://www.tribuneindia.com/news/sports/mumbais-national-cricket-club-announces-talent-hunt-for-players-between-16-23-years-of-age/",
+      },
+      {
+        label: "Additional coverage (Mid-day)",
+        url: "https://www.mid-day.com/amp/sports/cricket/article/national-cricket-club-to-conduct-three-day-talent-hunt-23655949",
+      },
+    ],
+    timelines: [
+      {
+        label: "In-person reporting",
+        date: "Monday, Oct 26, 2026 · 8:00 AM",
+        description: "Players should report directly to National Cricket Club, Cross Maidan, Marine Lines, Mumbai.",
+      },
+      {
+        label: "Talent Hunt",
+        date: "Oct 26–28, 2026",
+        description: "Three-day cricket talent identification programme; NCC plans to select 20 players for sponsorship and development.",
+      },
+    ],
+    eligibility: "Cricketers aged 16–23 years. The initiative aims to support promising players who lack access to quality training facilities and professional coaching. The report does not specify gender restrictions, required documents, registration forms, or the entry fee; confirm these details with NCC before travelling. Selected players are to receive sponsorship, access to NCC facilities, coaching by Mumbai Cricket Association (MCA)-certified coaches and staff, potential visits to international clubs for learning and exposure, and opportunities to pursue MCA tournaments including the Mumbai T20 League. These are development opportunities, not a guarantee of selection for the Ranji Trophy or Indian team.",
+    requiredDocuments: [
+      "The published report does not list required documents. Contact NCC before travelling to confirm age proof, identity documents, cricket kit, and any other requirements.",
+    ],
+    selectionProcess: "A three-day talent hunt from Oct 26 to 28, 2026. NCC plans to select 20 players for sponsorship and development. The report does not publish the specific skill tests, selection criteria, or a named selection panel. The initiative is supported by SanRaj Group.",
+    lastVerified: "2026-10-22",
+  },
+
   {
     id: "t-sai-ncoe-aurangabad-women-boxing-trials-2026",
     title: "SAI NCOE Women Boxing Open Selection Trials (Only 5 Vacancies)",

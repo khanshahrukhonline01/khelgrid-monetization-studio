@@ -291,12 +291,12 @@ export function TrialDetailsModal({
             <Badge
               variant="outline"
               className={
-                trial.fee === 0
+                (trial.feeLabel || trial.fee === 0)
                   ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-xs"
                   : "border-primary/30 text-primary font-bold text-xs"
               }
             >
-              {trial.fee === 0 ? "Free Entry (₹0)" : `₹${trial.fee}`}
+              {trial.feeLabel || (trial.fee === 0 ? "Free Entry (₹0)" : `₹${trial.fee}`)}
             </Badge>
 
             {trial.verifiedLabel && (
@@ -716,7 +716,7 @@ export function TrialDetailsModal({
       <div className="border-t border-border/80 bg-muted/20 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="text-xs text-muted-foreground flex items-center gap-2">
           <span className="font-bold text-foreground">
-            {trial.fee === 0 ? "Zero Registration Fee" : `Entry Fee: ₹${trial.fee}`}
+            {trial.feeLabel ? `Entry fee: ${trial.feeLabel}` : trial.fee === 0 ? "Zero Registration Fee" : `Entry Fee: ₹${trial.fee}`}
           </span>
           <span>·</span>
           <span>{trial.spots} Total Openings</span>

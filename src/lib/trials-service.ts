@@ -15,6 +15,7 @@ export interface TrialDiscoveryItem {
   date: string;
   registrationDeadline?: string;
   fee: number;
+  feeLabel?: string;
   spots: number;
   tag: string;
   ageCategory?: string;
