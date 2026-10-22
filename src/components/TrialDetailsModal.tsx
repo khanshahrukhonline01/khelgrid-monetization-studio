@@ -52,6 +52,16 @@ export interface OrganizerContact {
  * Returns organizer contact details for a given trial
  */
 export function getOrganizerContact(trial: Partial<Trial | TrialDiscoveryItem>): OrganizerContact {
+  if (trial.listingType === "competition") {
+    return {
+      name: "School Games Federation of India (SGFI)",
+      role: "Official calendar source — contact your school/state unit for entry details",
+      email: "",
+      phone: "",
+      website: trial.sourceUrl || "https://www.sgfi.org.in",
+    };
+  }
+
   const academy = trial.academy || "Sports Authority & Talent Board";
   const city = trial.city || "Pan-India";
   const slug = academy
@@ -409,7 +419,11 @@ export function TrialDetailsModal({
               <ShieldCheck className="h-3 w-3 text-emerald-500" /> Status
             </span>
             <p className="font-semibold text-emerald-600 dark:text-emerald-400">
-              {isRegistered ? "Registered" : "Open for Registration"}
+              {trial.listingType === "competition"
+                ? trial.entryStatus || "Competition fixture — confirm entry with school/state unit"
+                : isRegistered
+                  ? "Registered"
+                  : "Open for Registration"}
             </p>
           </div>
         </div>
@@ -510,38 +524,42 @@ export function TrialDetailsModal({
             </div>
 
             {/* Official Phone Helpline */}
-            <div className="rounded-lg bg-muted/30 p-3 space-y-1">
-              <span className="text-[11px] text-muted-foreground">Phone Helpline</span>
-              <p className="font-bold text-sm text-foreground">
-                <a
-                  href={`tel:${organizer.phone}`}
-                  className="hover:text-primary transition-colors flex items-center gap-1"
-                >
-                  <Phone className="h-3.5 w-3.5 text-primary" />
-                  <span>{organizer.phone}</span>
-                </a>
-              </p>
-              {organizer.helpline && (
-                <p className="text-muted-foreground text-[11px] flex items-center gap-1">
-                  <Headphones className="h-3 w-3" />
-                  <span>{organizer.helpline}</span>
+            {organizer.phone && (
+              <div className="rounded-lg bg-muted/30 p-3 space-y-1">
+                <span className="text-[11px] text-muted-foreground">Phone Helpline</span>
+                <p className="font-bold text-sm text-foreground">
+                  <a
+                    href={`tel:${organizer.phone}`}
+                    className="hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    <Phone className="h-3.5 w-3.5 text-primary" />
+                    <span>{organizer.phone}</span>
+                  </a>
                 </p>
-              )}
-            </div>
+                {organizer.helpline && (
+                  <p className="text-muted-foreground text-[11px] flex items-center gap-1">
+                    <Headphones className="h-3 w-3" />
+                    <span>{organizer.helpline}</span>
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* Official Email */}
-            <div className="rounded-lg bg-muted/30 p-3 space-y-1">
-              <span className="text-[11px] text-muted-foreground">Official Email</span>
-              <p className="font-semibold text-foreground">
-                <a
-                  href={`mailto:${organizer.email}`}
-                  className="hover:text-primary transition-colors flex items-center gap-1 truncate"
-                >
-                  <Mail className="h-3.5 w-3.5 text-primary shrink-0" />
-                  <span className="truncate">{organizer.email}</span>
-                </a>
-              </p>
-            </div>
+            {organizer.email && (
+              <div className="rounded-lg bg-muted/30 p-3 space-y-1">
+                <span className="text-[11px] text-muted-foreground">Official Email</span>
+                <p className="font-semibold text-foreground">
+                  <a
+                    href={`mailto:${organizer.email}`}
+                    className="hover:text-primary transition-colors flex items-center gap-1 truncate"
+                  >
+                    <Mail className="h-3.5 w-3.5 text-primary shrink-0" />
+                    <span className="truncate">{organizer.email}</span>
+                  </a>
+                </p>
+              </div>
+            )}
 
             {/* Secretariat / Address */}
             <div className="rounded-lg bg-muted/30 p-3 space-y-1">
@@ -718,8 +736,12 @@ export function TrialDetailsModal({
           <span className="font-bold text-foreground">
             {trial.feeLabel ? `Entry fee: ${trial.feeLabel}` : trial.fee === 0 ? "Zero Registration Fee" : `Entry Fee: ₹${trial.fee}`}
           </span>
-          <span>·</span>
-          <span>{trial.spots} Total Openings</span>
+          {trial.listingType !== "competition" && (
+            <>
+              <span>·</span>
+              <span>{trial.spots} Total Openings</span>
+            </>
+          )}
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -733,7 +755,18 @@ export function TrialDetailsModal({
             Close
           </Button>
 
-          {trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" ? (
+          {trial.listingType === "competition" ? (
+            <a
+              id="btn-modal-register-trial"
+              href={trial.sourceUrl || "https://www.sgfi.org.in"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-xs font-bold px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm cursor-pointer transition-colors"
+            >
+              <span>View Official SGFI Calendar</span>
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          ) : trial.id === "t-crpf-meritorious-sportspersons-recruitment-2026" ? (
             <a
               id="btn-modal-register-trial"
               href="https://rect.crpf.gov.in"
