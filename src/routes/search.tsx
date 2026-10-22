@@ -540,6 +540,15 @@ function SearchPage() {
   }, [params, auth.boostedTrials, savedIds, trialsList]);
 
   const handleApply = (trial: Trial) => {
+    if (trial.id === "t-national-cricket-club-mumbai-talent-hunt-2026") {
+      window.open(
+        "https://www.tribuneindia.com/news/sports/mumbais-national-cricket-club-announces-talent-hunt-for-players-between-16-23-years-of-age/",
+        "_blank",
+        "noopener,noreferrer",
+      );
+      toast.info("Opening the published NCC Mumbai talent-hunt report. Confirm any missing logistics with the organizer before travelling.");
+      return;
+    }
     if (trial.id === "t-sai-ncoe-aurangabad-women-boxing-trials-2026") {
       window.open(
         "https://sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/selection_trials/5716899f-6ea1-42bf-b571-bb75e888d1c0.jpeg",
