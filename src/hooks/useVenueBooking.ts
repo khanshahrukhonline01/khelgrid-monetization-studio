@@ -88,7 +88,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
   const venue: Venue = useMemo(() => {
     if (options.initialVenue?.id === selectedVenueId) return options.initialVenue;
     return VENUES.find((v) => v.id === selectedVenueId) || VENUES[0];
-  }, [selectedVenueId]);
+  }, [selectedVenueId, options.initialVenue]);
 
   const [selectedSport, setSelectedSport] = useState<string>(
     options.initialSport || venue.sports[0] || "Football",
@@ -171,6 +171,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
           surface: record.surface_type || "Surface details not provided",
           isIndoor: /indoor|covered/i.test(record.surface_type || ""),
           hasFloodlights: false,
+          pricePerHour: record.price_per_hour,
         }));
         setCourts(mapped);
         setSelectedCourtId(mapped[0]?.id || "");
@@ -250,7 +251,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
   // Show slots only after the live conflict check succeeds. No seeded/fake availability.
   const slots: CourtSlot[] = useMemo(() => {
     if (!isSupabaseConfigured || courts.length === 0 || !selectedCourtId || availabilityRows === null) return [];
-    const baseRate = venue.pricePerHour || 0;
+    const baseRate = courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? venue.pricePerHour ?? 0;
     return DEFAULT_HOURS.map((hour, index) => {
       const startSQL = formatTimeToSQL(hour.time);
       const endSQL = calculateEndTimeSQL(hour.time, durationHours);
@@ -289,7 +290,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
 
   // Calculate detailed price breakdown
   const priceBreakdown: BookingPriceBreakdown = useMemo(() => {
-    const baseRate = venue.pricePerHour || 0;
+    const baseRate = courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? venue.pricePerHour ?? 0;
     const slotRate = selectedSlot ? selectedSlot.finalPrice : baseRate;
     const courtTotal = slotRate * durationHours;
 
@@ -323,7 +324,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
       taxesAndFees,
       grandTotal,
     };
-  }, [venue, selectedSlot, durationHours, selectedAddonIds]);
+  }, [venue, courts, selectedCourtId, selectedSlot, durationHours, selectedAddonIds]);
 
   // Addon toggle
   const toggleAddon = useCallback((addonId: string) => {
