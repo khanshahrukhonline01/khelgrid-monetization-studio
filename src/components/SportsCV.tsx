@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { useAuth } from "@/context/AuthContext";
 import type { SportsCVData, CardTheme } from "@/types/sports-cv";
 import {
   loadSportsCVData,
   saveSportsCVData,
   downloadSportsCardAsPNG,
   buildScoutTextSummary,
-  getDefaultSportsCV,
 } from "@/lib/sports-cv-storage";
 import { SportsCVCard } from "@/components/SportsCVCard";
 import { SportsCVEditor } from "@/components/SportsCVEditor";
@@ -17,31 +15,18 @@ import { AthleteProfileAgent } from "@/components/AthleteProfileAgent";
 import { AthleteOnboardingWizard } from "@/components/AthleteOnboardingWizard";
 import type { AthleteProfile } from "@/lib/athlete-profile-agent";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
-  ShieldCheck,
   Share2,
   Download,
   Copy,
   Edit3,
   Eye,
   Columns,
-  Sparkles,
-  Lock,
-  Wallet,
-  QrCode,
   RotateCcw,
   Palette,
   ExternalLink,
   Wand2,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 export interface SportsCVProps {
@@ -50,28 +35,13 @@ export interface SportsCVProps {
 }
 
 export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVProps) {
-  const { sportsCVUnlocked, unlockSportsCV, wallet, name, plan } = useAuth();
+  const name = "";
 
   // Active CV state
   const [data, setData] = useState<SportsCVData>(() => loadSportsCVData(name));
   const [viewMode, setViewMode] = useState<"card" | "edit" | "split" | "wizard">(initialViewMode);
-  const [unlockModalOpen, setUnlockModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"wallet" | "upi">("wallet");
   const [isExporting, setIsExporting] = useState(false);
-
-  // Sync athleteName from auth if user has logged in and not custom named
-  useEffect(() => {
-    if (!name || name === "Aarav Sharma") return;
-    setData((prev) => {
-      if (prev.athleteName === "Aarav Sharma") {
-        const updated = { ...prev, athleteName: name };
-        saveSportsCVData(updated);
-        return updated;
-      }
-      return prev;
-    });
-  }, [name]);
 
   // Listen for custom event whenever wizard or another editor updates CV
   useEffect(() => {
@@ -131,30 +101,40 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
     }
   };
 
-  // Reset to default sample data
+  // Start a fresh, empty CV without injecting sample achievements or verification claims.
   const handleResetSample = () => {
-    const sample = getDefaultSportsCV(name || "Aarav Sharma");
-    setData(sample);
-    saveSportsCVData(sample);
-    toast.info("Reset Sports CV to verified sample records.");
+    const fresh: SportsCVData = {
+      ...data,
+      athleteName: name || "",
+      position: "",
+      secondaryPosition: "",
+      jerseyNumber: "",
+      ageCategory: "",
+      age: 0,
+      city: "",
+      state: "",
+      currentAcademy: "",
+      dominantSide: "",
+      height: "",
+      weight: "",
+      bio: "",
+      verified: false,
+      athleteId: "",
+      theme: "classic",
+      achievements: [],
+      positionHistory: [],
+      careerSummary: undefined,
+      careerSeasonStats: [],
+      performanceMetrics: [],
+      highlightVideoUrl: "",
+      socialProfiles: {},
+      coachReference: undefined,
+      availability: "",
+    };
+    setData(fresh);
+    saveSportsCVData(fresh);
+    toast.success("Started a fresh Sports CV.");
   };
-
-  // Handle Pro Unlock
-  const handleUnlock = () => {
-    if (paymentMethod === "wallet") {
-      const ok = unlockSportsCV("wallet");
-      if (!ok) {
-        toast.error("Insufficient wallet balance.");
-        return;
-      }
-    } else {
-      unlockSportsCV("upi");
-    }
-    toast.success("Verified Sports CV unlocked ✨");
-    setUnlockModalOpen(false);
-  };
-
-  const isVerifiedUnlocked = sportsCVUnlocked || plan === "pro";
 
   // Map to AthleteProfile for completeness agent
   const athleteProfileForAgent: AthleteProfile = {
@@ -302,6 +282,28 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             type="button"
             variant="outline"
             size="sm"
+            onClick={() => {
+              const escapeHtml = (value: unknown) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+              })[ch] || ch);
+              const popup = window.open("", "_blank");
+              if (!popup) {
+                toast.error("Allow pop-ups to create your printable PDF.");
+                return;
+              }
+              const achievements = (data.achievements || []).map((item) => `<li><strong>${escapeHtml(item.title)}</strong><br>${escapeHtml(item.competition)} · ${escapeHtml(item.level)} · ${escapeHtml(item.year)}</li>`).join("");
+              const metrics = (data.performanceMetrics || []).map((item) => `<li><strong>${escapeHtml(item.name)}:</strong> ${escapeHtml(item.value)} ${escapeHtml(item.unit)}</li>`).join("");
+              popup.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(data.athleteName || "Athlete")} — Sports CV</title><style>body{font:14px/1.5 Arial,sans-serif;color:#172033;margin:32px}header{border-bottom:3px solid #16845b;padding-bottom:16px;margin-bottom:20px}h1{font-size:28px;margin:0}h2{font-size:16px;color:#08764f;margin:22px 0 8px}p{margin:4px 0}.muted{color:#526174}ul{padding-left:20px}li{margin:8px 0}.tag{display:inline-block;border:1px solid #d1d9e0;border-radius:20px;padding:3px 8px;margin:4px 4px 0 0}@media print{body{margin:15mm}button{display:none}}</style></head><body><header><h1>${escapeHtml(data.athleteName || "Athlete name not added")}</h1><p>${escapeHtml(data.sport)} · ${escapeHtml(data.position || "Position/event not added")}</p><p class="muted">${escapeHtml([data.ageCategory, data.city, data.state].filter(Boolean).join(" · "))}</p></header>${data.bio ? `<h2>PROFILE</h2><p>${escapeHtml(data.bio)}</p>` : ""}${metrics ? `<h2>PERFORMANCE</h2><ul>${metrics}</ul>` : ""}${achievements ? `<h2>ACHIEVEMENTS</h2><ul>${achievements}</ul>` : ""}${data.currentAcademy ? `<h2>ACADEMY / CLUB</h2><p>${escapeHtml(data.currentAcademy)}</p>` : ""}${data.highlightVideoUrl ? `<h2>HIGHLIGHTS</h2><p>${escapeHtml(data.highlightVideoUrl)}</p>` : ""}<p class="muted" style="margin-top:28px">Created with KhelGrid Sports CV. Athlete-provided information; achievements are not independently verified unless explicitly stated by KhelGrid.</p><button onclick="window.print()">Print / Save as PDF</button><script>window.onload=()=>window.print()</script></body></html>`);
+              popup.document.close();
+            }}
+            className="text-xs h-8 gap-1.5"
+          >
+            <Download className="h-3.5 w-3.5" /> Print / Save PDF
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
             onClick={handleDownloadCard}
             disabled={isExporting}
             className="text-xs h-8 gap-1.5"
@@ -415,93 +417,9 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
         </div>
       )}
 
-      {/* Verified Status Banner if not unlocked */}
-      {!isVerifiedUnlocked && (
-        <div className="rounded-2xl border border-border bg-gradient-card p-5">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="text-xs">
-                  Official Verification
-                </Badge>
-                <span className="text-xs font-medium text-muted-foreground">
-                  Permanent Scout ID & Trial Stamp
-                </span>
-              </div>
-              <h4 className="font-bold text-base">Get KhelGrid Verified Scout Badge</h4>
-              <p className="text-xs text-muted-foreground max-w-xl">
-                Upgrade to affix official verification seals, auto-sync trial performance results,
-                and generate scannable tamper-proof QR codes for state recruiters.
-              </p>
-            </div>
-
-            <Button
-              onClick={() => setUnlockModalOpen(true)}
-              className="bg-gradient-gold text-primary-foreground hover:opacity-90 shrink-0 gap-2"
-            >
-              <Lock className="h-4 w-4" /> Unlock Official Verification (₹199)
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Verification Unlock Modal */}
-      <Dialog open={unlockModalOpen} onOpenChange={setUnlockModalOpen}>
-        <DialogContent className="max-w-md border-border bg-gradient-card">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary" /> Unlock Official Verified Sports CV
-            </DialogTitle>
-            <DialogDescription>
-              One-time verification fee · valid for current sports season across all state trials.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="rounded-xl border border-border bg-background/40 p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Verification Package</span>
-              <span className="text-2xl font-bold">₹199</span>
-            </div>
-            <p className="text-[11px] text-muted-foreground mt-1">
-              Includes tamper-proof QR verification and priority scout listing.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={() => setPaymentMethod("wallet")}
-              className={`flex items-center justify-center gap-2 rounded-lg border p-3 text-sm transition-colors ${
-                paymentMethod === "wallet"
-                  ? "border-primary bg-primary/10 font-semibold text-primary"
-                  : "border-border text-muted-foreground"
-              }`}
-            >
-              <Wallet className="h-4 w-4" /> Wallet · ₹{wallet.toLocaleString("en-IN")}
-            </button>
-            <button
-              onClick={() => setPaymentMethod("upi")}
-              className={`flex items-center justify-center gap-2 rounded-lg border p-3 text-sm transition-colors ${
-                paymentMethod === "upi"
-                  ? "border-primary bg-primary/10 font-semibold text-primary"
-                  : "border-border text-muted-foreground"
-              }`}
-            >
-              <QrCode className="h-4 w-4" /> UPI FastPay
-            </button>
-          </div>
-
-          <Button
-            onClick={handleUnlock}
-            className="w-full"
-            size="lg"
-            disabled={paymentMethod === "wallet" && wallet < 199}
-          >
-            {paymentMethod === "wallet" && wallet < 199
-              ? "Insufficient wallet balance"
-              : "Confirm & Seal Verified Sports CV"}
-          </Button>
-        </DialogContent>
-      </Dialog>
+      <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-muted-foreground">
+        Sports CV creation, editing, PNG card export and profile sharing are free. Only display achievements and verification claims that you can support.
+      </div>
 
       {/* Shareable Link & Social Media Modal */}
       <ShareSportsCVModal open={shareModalOpen} onOpenChange={setShareModalOpen} data={data} />

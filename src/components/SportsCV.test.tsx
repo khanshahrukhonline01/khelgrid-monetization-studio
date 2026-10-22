@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 import { renderToString } from "react-dom/server";
 import {
   getDefaultSportsCV,
+  getBlankSportsCV,
   loadSportsCVData,
   saveSportsCVData,
   buildScoutTextSummary,
@@ -22,6 +23,17 @@ describe("Sports CV Component & Data Layer", () => {
   });
 
   describe("Data Storage and Helper Utilities", () => {
+    it("starts new athlete CVs blank and never pre-fills achievements or verification", () => {
+      const data = getBlankSportsCV();
+      expect(data.athleteName).toBe("");
+      expect(data.verified).toBe(false);
+      expect(data.athleteId).toBe("");
+      expect(data.achievements).toEqual([]);
+      expect(data.performanceMetrics).toEqual([]);
+      expect(data.positionHistory).toEqual([]);
+      expect(data.highlightVideoUrl).toBe("");
+    });
+
     it("generates realistic default sports CV data with position, metrics, and achievements", () => {
       const data = getDefaultSportsCV("Rohan Verma");
       expect(data.athleteName).toBe("Rohan Verma");
@@ -160,8 +172,8 @@ describe("Sports CV Component & Data Layer", () => {
       const data = getDefaultSportsCV("Sahil Khan");
       const html = renderToString(<SportsCVCard data={data} />);
 
-      expect(html).toContain("Verified Sports CV");
-      expect(html).toContain("Digital Scout Verification");
+      expect(html).toContain("Athlete Sports CV");
+      expect(html).toContain("KhelGrid Athlete Profile");
       expect(html).toContain(data.athleteId);
     });
 

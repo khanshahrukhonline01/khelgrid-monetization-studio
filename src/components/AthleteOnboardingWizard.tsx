@@ -15,7 +15,6 @@ import { SPORT_POSITION_PRESETS, COMMON_METRIC_PRESETS } from "@/types/sports-cv
 import {
   loadSportsCVData,
   saveSportsCVData,
-  getDefaultSportsCV,
   downloadSportsCardAsPNG,
 } from "@/lib/sports-cv-storage";
 import { updateUserProfile } from "@/lib/user-profile-service";
@@ -218,14 +217,8 @@ export function AthleteOnboardingWizard({
     const existing = loadSportsCVData();
     return {
       ...existing,
-      socialProfiles: existing.socialProfiles || {
-        instagram: "@" + existing.athleteName.toLowerCase().replace(/\s+/g, "."),
-        youtube: existing.highlightVideoUrl || "https://youtu.be/sample-reel",
-        twitter: "@" + existing.athleteName.toLowerCase().replace(/\s+/g, "_"),
-        cricheroes: "",
-        strava: "",
-        khelgrid: "",
-      },
+      socialProfiles: existing.socialProfiles || {},
+      highlightVideoUrl: existing.highlightVideoUrl || "",
     };
   });
 
@@ -300,30 +293,18 @@ export function AthleteOnboardingWizard({
   const handleSportChange = (newSport: SportType) => {
     const presets = SPORT_POSITION_PRESETS[newSport] || [];
     const defaultPosition = presets[0] || "Competitor";
-    const metricPresets = COMMON_METRIC_PRESETS[newSport] || COMMON_METRIC_PRESETS.Other;
-
-    const formattedMetrics: PerformanceMetric[] = metricPresets.slice(0, 4).map((p, idx) => ({
-      id: `met-preset-${newSport.toLowerCase()}-${idx + 1}-${Date.now()}`,
-      name: p.name,
-      value: p.value,
-      unit: p.unit,
-      category: p.category,
-      score: p.score ?? 85,
-      benchmark: p.benchmark,
-    }));
-
     setData((prev) => {
       const next = {
         ...prev,
         sport: newSport,
         position: defaultPosition,
-        performanceMetrics: formattedMetrics,
+        performanceMetrics: [],
       };
       saveSportsCVData(next);
       return next;
     });
 
-    toast.info(`Updated position & benchmark presets for ${newSport}`);
+    toast.info(`Updated sport and suggested position for ${newSport}`);
   };
 
   // Load sample metrics for current sport
@@ -358,7 +339,7 @@ export function AthleteOnboardingWizard({
       level: achDraft.level,
       award: achDraft.award,
       description: achDraft.description.trim(),
-      verified: true,
+      verified: false,
     };
 
     const updated = [newAch, ...data.achievements];
@@ -371,7 +352,7 @@ export function AthleteOnboardingWizard({
       award: "Gold / 1st Place",
       description: "",
     });
-    toast.success("Added achievement honours!");
+    toast.success("Achievement added as athlete-reported. It is not independently verified.");
   };
 
   // Remove Achievement
