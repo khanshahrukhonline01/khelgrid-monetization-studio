@@ -210,7 +210,7 @@ export function FeaturedTrialsRadar({
                       <span>{trial.city}</span>
                     </span>
                     <span className="rounded-md bg-emerald-500/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs shrink-0">
-                      {trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`}
+                      {trial.feeLabel || (trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`)}
                     </span>
                   </div>
                 </div>
