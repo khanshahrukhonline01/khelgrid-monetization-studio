@@ -410,116 +410,10 @@ export function LiveScoresPage() {
       </nav>
 
       <div className="mx-auto w-full min-w-0 max-w-7xl space-y-4 px-3 sm:space-y-6 sm:px-6 lg:px-8">
-        {/* 1. HERO & REAL-TIME STATUS COMMAND BAR */}
-        <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-card via-card/95 to-background p-4 shadow-xs sm:rounded-3xl sm:p-6 lg:p-7">
-          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
-          <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-
-          <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            {/* Title & Pulse Indicator */}
-            <div className="space-y-1.5">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-3 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                  </span>
-                  <span>DEMO DATA · LIVE FEED NOT CONNECTED</span>
-                </span>
-                <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-                  {liveCount} Listed as Live
-                </span>
-              </div>
-
-              <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-                Cricket Scores & Match Center
-              </h1>
-              <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl">
-                Ball-by-ball cricket, international bilateral series, ICC World Cup qualifiers, and
-                Women&apos;s Premier League (WPL) match schedules.
-              </p>
-            </div>
-
-            {/* Quick Actions (Sound, Refresh, Simulation Toggle) */}
-            <div className="flex flex-wrap items-center gap-2 pt-2 md:pt-0">
-              {/* Sound Toggle */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={toggleSound}
-                className={cn(
-                  "gap-1.5 text-xs font-semibold rounded-xl border-border/80 transition-all",
-                  soundEnabled &&
-                    "border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-                )}
-                title={soundEnabled ? "Mute audio alerts" : "Enable sound chimes on score changes"}
-              >
-                {soundEnabled ? (
-                  <>
-                    <Volume2 className="h-4 w-4 text-emerald-500" />
-                    <span>Sound On</span>
-                  </>
-                ) : (
-                  <>
-                    <VolumeX className="h-4 w-4 text-muted-foreground" />
-                    <span>Muted</span>
-                  </>
-                )}
-              </Button>
-
-              {/* Refresh CTA */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleManualRefresh}
-                disabled={isRefreshing}
-                className="gap-1.5 text-xs font-semibold rounded-xl border-border/80 hover:bg-secondary active:scale-95 transition cursor-pointer"
-                title="Check live data connection status"
-              >
-                <RefreshCw
-                  className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin text-primary")}
-                />
-                <span>{isRefreshing ? "Checking..." : "Data status"}</span>
-              </Button>
-            </div>
-          </div>
-
-          {/* Real-time ticker ribbon */}
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/60 pt-3 text-[11px] text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-foreground/80">Data status:</span>
-              <span className="rounded bg-secondary/80 px-2 py-0.5 font-medium">
-                Sample match listing
-              </span>
-              <span className="rounded bg-secondary/80 px-2 py-0.5 font-medium">
-                Live provider not connected
-              </span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => setOnlyFavorites((prev) => !prev)}
-                className={cn(
-                  "inline-flex items-center gap-1 font-semibold rounded-lg px-2 py-0.5 transition-colors cursor-pointer",
-                  onlyFavorites
-                    ? "bg-amber-500/15 text-amber-500 font-bold"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                <Star
-                  className={cn("h-3.5 w-3.5", onlyFavorites && "fill-amber-500 text-amber-500")}
-                />
-                <span>Starred ({pinnedIds.size})</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* 2. TOP SEARCH BAR: FILTER CRICKET MATCHES BY TEAM OR TOURNAMENT */}
+        {/* Search-first layout: keep the sports selector immediately above search. */}
         <div className="space-y-3 rounded-2xl border border-border/80 bg-card p-3.5 shadow-xs sm:rounded-3xl sm:p-5">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            <div className="relative flex-1">
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
+            <div className="relative min-w-0 flex-1">
               <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="text"
@@ -527,6 +421,7 @@ export function LiveScoresPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-11 rounded-2xl pl-10 pr-9 text-xs sm:text-sm bg-background/80 border-border/80 shadow-xs focus-visible:ring-primary"
+                aria-label="Search teams, tournaments or matches"
               />
               {searchQuery && (
                 <button
@@ -539,39 +434,61 @@ export function LiveScoresPage() {
                 </button>
               )}
             </div>
-
-            {searchQuery && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSearchQuery("")}
-                className="rounded-xl text-xs font-semibold shrink-0 cursor-pointer"
-              >
-                Clear Search
-              </Button>
-            )}
+            <div className="flex flex-wrap items-center gap-2 xl:shrink-0">
+              {/* Sound Toggle */}
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={toggleSound}
+                              className={cn(
+                                "gap-1.5 text-xs font-semibold rounded-xl border-border/80 transition-all",
+                                soundEnabled &&
+                                  "border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+                              )}
+                              title={soundEnabled ? "Mute audio alerts" : "Enable sound chimes on score changes"}
+                            >
+                              {soundEnabled ? (
+                                <>
+                                  <Volume2 className="h-4 w-4 text-emerald-500" />
+                                  <span>Sound On</span>
+                                </>
+                              ) : (
+                                <>
+                                  <VolumeX className="h-4 w-4 text-muted-foreground" />
+                                  <span>Muted</span>
+                                </>
+                              )}
+                            </Button>
+              
+                            {/* Refresh CTA */}
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={handleManualRefresh}
+                              disabled={isRefreshing}
+                              className="gap-1.5 text-xs font-semibold rounded-xl border-border/80 hover:bg-secondary active:scale-95 transition cursor-pointer"
+                              title="Check live data connection status"
+                            >
+                              <RefreshCw
+                                className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin text-primary")}
+                              />
+                              <span>{isRefreshing ? "Checking..." : "Data status"}</span>
+                            </Button>
+                          </div>
+            </div>
           </div>
 
-          {/* Quick Filter Chips for Cricket Tournaments */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
-            <span className="text-[11px] font-semibold text-muted-foreground mr-1">
-              Quick Filters:
-            </span>
+            <span className="mr-1 text-[11px] font-semibold text-muted-foreground">Quick Filters:</span>
             {SUGGESTED_CRICKET_FILTERS.map((chip) => {
               const isActive = searchQuery.toLowerCase() === chip.query.toLowerCase();
               return (
                 <button
                   key={chip.label}
                   type="button"
-                  onClick={() => {
-                    if (isActive) {
-                      setSearchQuery("");
-                    } else {
-                      setSearchQuery(chip.query);
-                    }
-                  }}
+                  onClick={() => setSearchQuery(isActive ? "" : chip.query)}
                   className={cn(
-                    "rounded-xl px-2.5 py-1 text-[11px] font-medium transition-all cursor-pointer border",
+                    "shrink-0 rounded-full px-3 py-1.5 text-[11px] font-medium transition-all cursor-pointer border",
                     isActive
                       ? "bg-primary text-primary-foreground border-primary font-bold shadow-xs"
                       : "bg-secondary/70 text-muted-foreground border-transparent hover:bg-secondary hover:text-foreground",
@@ -582,24 +499,18 @@ export function LiveScoresPage() {
               );
             })}
           </div>
-
           {searchQuery && (
-            <div className="flex items-center justify-between text-xs text-muted-foreground border-t border-border/40 pt-2">
+            <div className="flex items-center justify-between border-t border-border/40 pt-2 text-xs text-muted-foreground">
               <span>
                 Found <strong>{filteredMatches.length}</strong> match
                 {filteredMatches.length === 1 ? "" : "es"} matching &ldquo;{searchQuery}&rdquo;
               </span>
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="text-primary hover:underline font-semibold cursor-pointer"
-              >
-                Show all matches
+              <button type="button" onClick={() => setSearchQuery("")} className="font-semibold hover:text-foreground">
+                Clear search
               </button>
             </div>
           )}
         </div>
-
         {/* 3. CRICKET FORMAT CATEGORY RAILS */}
         <div className="space-y-3">
           <div className="no-scrollbar flex items-center gap-2 overflow-x-auto pb-1 touch-scroll-rail">
