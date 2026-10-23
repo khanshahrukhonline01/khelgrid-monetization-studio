@@ -470,7 +470,7 @@ export function generateRouteSpecificSchema(
       name: title,
       description,
       url: canonicalUrl,
-      isPartOf: { "@id": `${SITE_URL}#website` },
+      isPartOf: { "@id": `${SITE_URL}/#website` },
     };
   }
 
