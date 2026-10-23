@@ -59,15 +59,15 @@ describe("Official Selection Trial SEO & React Helmet Integration", () => {
     const canonicalLink = seoResult.links.find((l) => l.rel === "canonical");
     expect(canonicalLink?.href).toContain("/trial/t-sai-wrestling-mumbai-2026");
 
-    // SportsEvent structured data script
+    // Trial pages must not emit incomplete SportsEvent or Offer structured data.
     const jsonLdScript = seoResult.scripts.find((s) => s.type === "application/ld+json");
     expect(jsonLdScript).toBeDefined();
     if (jsonLdScript) {
       const parsed = JSON.parse(jsonLdScript.children as string);
-      expect(parsed["@graph"]).toBeDefined();
-      const sportsEvent = parsed["@graph"].find((item: any) => item["@type"] === "SportsEvent");
-      expect(sportsEvent).toBeDefined();
-      expect(sportsEvent.name).toContain("SAI NCOE Wrestling");
+      const graph = parsed["@graph"] ?? [parsed];
+      expect(graph.some((item: any) => item["@type"] === "WebPage")).toBe(true);
+      expect(graph.some((item: any) => item["@type"] === "SportsEvent")).toBe(false);
+      expect(graph.some((item: any) => item["@type"] === "Offer")).toBe(false);
     }
   });
 
