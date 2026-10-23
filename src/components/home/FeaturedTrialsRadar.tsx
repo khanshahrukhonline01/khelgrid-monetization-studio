@@ -42,8 +42,8 @@ export function FeaturedTrialsRadar({
       setLoadError(null);
       try {
         const result = await fetchAvailableTrialsFromSupabase({
-          sport: selectedSport,
-          city: selectedCity,
+          sport: selectedSport === "All" ? "All Sports" : selectedSport,
+          city: selectedCity === "All Cities" ? "All Locations" : selectedCity,
           maxLimit: 100,
         });
         if (!cancelled) {
