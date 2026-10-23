@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.venue_submissions (
   website_url text CHECK (website_url IS NULL OR website_url ~* '^https?://[^[:space:]]+$'),
   opening_hours text,
   booking_method text NOT NULL DEFAULT 'WhatsApp or phone'
-    CHECK (booking_method IN ('WhatsApp or phone','Website','KhelGrid booking request','Not sure yet')),
+    CHECK (booking_method IN ('WhatsApp or phone','Online booking','Walk-in only','Other')),
   notes text CHECK (notes IS NULL OR length(notes) <= 3000),
   status text NOT NULL DEFAULT 'pending'
     CHECK (status IN ('pending','in_review','approved','rejected','needs_changes')),
