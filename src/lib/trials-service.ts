@@ -168,9 +168,9 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
   let results = Array.from(merged.values()).filter((trial) => {
     const endDate = getTrialEndDate(trial.date);
 
-    // Keep source-backed listings visible if the date parser cannot understand
-    // a published date format. The detail page can still show the original source
-    // date; never hide a curated record solely because parsing failed.
+    // Preserve curated listings on the homepage if the database is temporarily
+    // unavailable. Only the archive view should hide records with no parseable date.
+    if (queryError && !archive && !trial.isSupabaseOrigin) return true;
     if (!endDate) return !archive;
     return archive ? endDate.getTime() < now.getTime() : endDate.getTime() >= now.getTime();
   });
