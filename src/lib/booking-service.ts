@@ -109,109 +109,74 @@ export function calculateEndTimeSQL(timeStr: string, durationHours: number = 1):
 }
 
 /**
- * Fetch courts for a given venue, with sensible fallback for offline/unconfigured environments.
+ * Fetch active courts from the database. Empty results mean no courts are published;
+ * connection and permission failures are thrown so the UI can distinguish them.
  */
 export async function getVenueCourts(venueId: string, sport?: string): Promise<CourtRecord[]> {
-  if (isSupabaseConfigured) {
-    try {
-      let query = supabase
-        .from("venue_courts")
-        .select("*")
-        .eq("venue_id", venueId)
-        .eq("is_active", true);
-
-      if (sport) {
-        query = query.eq("sport", sport);
-      }
-
-      const { data, error } = await query;
-      if (!error && data && data.length > 0) {
-        return data as CourtRecord[];
-      }
-    } catch (e) {
-      console.warn("Could not fetch venue courts from database", e);
-    }
+  if (!isSupabaseConfigured) {
+    throw new Error("Online booking is not configured.");
   }
 
-  return [];
+  let query = supabase
+    .from("venue_courts")
+    .select("*")
+    .eq("venue_id", venueId)
+    .eq("is_active", true);
 
+  if (sport) query = query.eq("sport", sport);
+
+  const { data, error } = await query;
+  if (error) throw new Error(`Could not load published courts: ${error.message}`);
+  return (data ?? []) as CourtRecord[];
 }
 
 /**
- * Retrieves all user venue bookings. Merges Supabase remote records with local storage.
+ * Reads booking records exclusively from Supabase. Browser storage is never merged
+ * into booking truth; database failures are surfaced to the calling UI.
  */
 export async function getVenueBookings(): Promise<BookingRecord[]> {
-  const localList: BookingRecord[] = [];
+  if (!isSupabaseConfigured) throw new Error("Online booking is not configured.");
 
-  // Load from localStorage first, falling back to memoryBookings
-  if (typeof window !== "undefined") {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        localList.push(...JSON.parse(stored));
-      } else {
-        localList.push(...memoryBookings);
-      }
-    } catch (e) {
-      console.warn("Failed to load bookings from localStorage", e);
-      localList.push(...memoryBookings);
-    }
-  } else {
-    localList.push(...memoryBookings);
-  }
+  const { data, error } = await supabase
+    .from("venue_bookings")
+    .select("*, venues(name, area, city, image_url)")
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false });
 
-  // If Supabase is configured, fetch live records and merge
-  if (isSupabaseConfigured) {
-    try {
-      const { data, error } = await supabase
-        .from("venue_bookings")
-        .select("*, venues(name, area, city, image_url)")
-        .is("deleted_at", null)
-        .order("created_at", { ascending: false });
+  if (error) throw new Error(`Could not load bookings: ${error.message}`);
 
-      if (!error && data) {
-        const rows = data as unknown as SupabaseBookingJoinedRow[];
-        const dbBookings: BookingRecord[] = rows.map((item) => ({
-          id: item.id,
-          venue_id: item.venue_id,
-          court_id: item.court_id,
-          venue_name: item.venues?.name || "Sports Venue",
-          venue_area: item.venues?.area || "Area",
-          venue_city: item.venues?.city || "City",
-          venue_image: item.venues?.image_url,
-          sport: item.sport,
-          booking_date: item.booking_date,
-          start_time: item.start_time,
-          end_time: item.end_time,
-          duration_hours: 1,
-          price_per_hour: Number(item.total_price),
-          total_price: Number(item.total_price),
-          status: item.status,
-          idempotency_key: item.idempotency_key || undefined,
-          held_until: item.held_until || undefined,
-          user_email: item.user_email || "guest@khelgrid.com",
-          user_phone: item.user_phone || "",
-          created_at: item.created_at || new Date().toISOString(),
-          synced_to_db: true,
-        }));
-
-        // Merge DB and local (DB takes precedence by id)
-        const dbMap = new Map(dbBookings.map((b) => [b.id, b]));
-        const merged = [...dbBookings];
-
-        for (const local of localList) {
-          if (!dbMap.has(local.id)) {
-            merged.push(local);
-          }
-        }
-        return merged;
-      }
-    } catch (err) {
-      console.warn("Error fetching bookings from Supabase:", err);
-    }
-  }
-
-  return localList;
+  const rows = (data ?? []) as unknown as SupabaseBookingJoinedRow[];
+  return rows.map((item) => {
+    const start = formatTimeToSQL(item.start_time);
+    const end = formatTimeToSQL(item.end_time);
+    const [sh, sm] = start.split(":").map(Number);
+    const [eh, em] = end.split(":").map(Number);
+    const duration = Math.max(1, ((eh * 60 + em) - (sh * 60 + sm) + 1440) % 1440 / 60);
+    const total = Number(item.total_price) || 0;
+    return {
+      id: item.id,
+      venue_id: item.venue_id,
+      court_id: item.court_id ?? null,
+      venue_name: item.venues?.name || "Sports Venue",
+      venue_area: item.venues?.area || "",
+      venue_city: item.venues?.city || "",
+      venue_image: item.venues?.image_url,
+      sport: item.sport,
+      booking_date: item.booking_date,
+      start_time: item.start_time,
+      end_time: item.end_time,
+      duration_hours: duration,
+      price_per_hour: duration > 0 ? total / duration : total,
+      total_price: total,
+      status: item.status,
+      idempotency_key: item.idempotency_key || undefined,
+      held_until: item.held_until || undefined,
+      user_email: item.user_email || "",
+      user_phone: item.user_phone || "",
+      created_at: item.created_at || "",
+      synced_to_db: true,
+    };
+  });
 }
 
 interface SlotAvailabilityRpcRow {
@@ -477,43 +442,12 @@ export async function createVenueBooking(params: {
         console.warn("Atomic RPC booking invocation fallback:", rpcErr);
       }
 
-      // 1B. Fallback to direct insertion if atomic RPC is unavailable
+      // Never fall back to a non-atomic insert: it can race and double-book a slot.
       if (!atomicCompleted) {
-        const { data: inserted, error } = await supabase
-          .from("venue_bookings")
-          .insert({
-            id: bookingId,
-            venue_id: params.venue.id,
-            court_id: params.court_id || null,
-            sport: bookingRecord.sport,
-            booking_date: bookingRecord.booking_date,
-            start_time: startTimeSQL,
-            end_time: endTimeSQL,
-            total_price: totalPrice,
-            status: "pending",
-            idempotency_key: idempotencyKey,
-            user_email: bookingRecord.user_email,
-            user_phone: bookingRecord.user_phone,
-          })
-          .select()
-          .single();
-
-        if (error) {
-          // Check for double booking exclusion violation (Postgres error 23P01)
-          if (error.code === "23P01" || error.message.includes("no_overlapping_bookings")) {
-            return {
-              success: false,
-              message:
-                "Conflict detected: This slot was just reserved by another player. Please select another slot.",
-            };
-          }
-          console.warn("Supabase booking insert error:", error);
-          return { success: false, message: "The booking could not be saved online. No reservation has been confirmed. Please try again or contact the venue." };
-        } else if (inserted) {
-          bookingRecord.synced_to_db = true;
-        } else {
-          return { success: false, message: "The booking could not be verified online. No reservation has been confirmed." };
-        }
+        return {
+          success: false,
+          message: "The booking protection service is unavailable. No reservation was created. Please retry shortly.",
+        };
       }
     } catch (dbErr: unknown) {
       const errObj = dbErr as { code?: string; message?: string } | null;
@@ -531,18 +465,9 @@ export async function createVenueBooking(params: {
     return { success: false, message: "Online booking is not connected in this environment. Please contact the venue directly." };
   }
 
-  // 2. Save only the successful online booking reference locally for this device
-  memoryBookings = [bookingRecord, ...memoryBookings.filter((b) => b.id !== bookingRecord.id)];
+  // Notify active views; persisted booking data is always re-read from Supabase.
   if (typeof window !== "undefined") {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      const list: BookingRecord[] = stored ? JSON.parse(stored) : [];
-      list.unshift(bookingRecord);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-      window.dispatchEvent(new CustomEvent("khelgrid_booking_created", { detail: bookingRecord }));
-    } catch (e) {
-      console.warn("LocalStorage write error:", e);
-    }
+    window.dispatchEvent(new CustomEvent("khelgrid_booking_created", { detail: bookingRecord }));
   }
 
   return {
