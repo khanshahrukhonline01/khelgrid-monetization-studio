@@ -64,6 +64,18 @@ export function Footer() {
             </div>
           </div>
 
+            <a
+              href="https://www.reddit.com/r/Khelgridonline/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit the KhelGrid Reddit community"
+              className="mt-3 inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-foreground transition hover:border-primary/50 hover:text-primary"
+            >
+              <MessageCircle className="h-4 w-4 text-primary" />
+              Join our Reddit community
+            </a>
+          </div>
+
           {/* Primary Navigation */}
           <div>
             <h4 className="font-semibold text-foreground mb-4">Main</h4>
