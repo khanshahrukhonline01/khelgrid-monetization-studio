@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { TRIALS } from "@/data/trials";
 import {
   fetchAvailableTrialsFromSupabase,
   type TrialDiscoveryItem,
@@ -31,11 +30,7 @@ export function FeaturedTrialsRadar({
 }: FeaturedTrialsRadarProps) {
   const { isSaved, toggleSaved } = useSavedOpportunities();
   const { scrollRef, scroll } = useTouchScroll(340);
-  const curatedFallback: TrialDiscoveryItem[] = TRIALS.map((trial) => ({
-    ...trial,
-    isSupabaseOrigin: false,
-  }));
-  const [trials, setTrials] = useState<TrialDiscoveryItem[]>(curatedFallback);
+  const [trials, setTrials] = useState<TrialDiscoveryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -52,15 +47,13 @@ export function FeaturedTrialsRadar({
           maxLimit: 100,
         });
         if (!cancelled) {
-          // Keep the homepage populated if the database query fails or returns no
-          // rows yet. This uses the existing curated source records, not invented data.
-          setTrials(result.trials.length > 0 ? result.trials : curatedFallback);
+          setTrials(result.trials);
           if (result.error) setLoadError(result.error);
         }
       } catch (error) {
         if (!cancelled) {
           setLoadError(error instanceof Error ? error.message : "Unable to load trials.");
-          setTrials(curatedFallback);
+          setTrials([]);
         }
       } finally {
         if (!cancelled) setIsLoading(false);
