@@ -121,6 +121,8 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
   const [bookingSuccess, setBookingSuccess] = useState<BookingRecord | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [existingBookings, setExistingBookings] = useState<BookingRecord[]>([]);
+  const [bookingsLoading, setBookingsLoading] = useState(false);
+  const [bookingsLoadError, setBookingsLoadError] = useState<string | null>(null);
   const [availabilityRows, setAvailabilityRows] = useState<Array<{ start_time: string; end_time: string; status: string; is_held: boolean }> | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
@@ -133,13 +135,18 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     }
   }, [venue, selectedSport]);
 
-  // Load existing bookings from local storage / service
+  // Booking truth comes only from Supabase; never silently fall back to browser storage.
   const refreshBookings = useCallback(async () => {
+    setBookingsLoading(true);
+    setBookingsLoadError(null);
     try {
       const records = await getVenueBookings();
       setExistingBookings(records);
-    } catch {
-      // Local fallback
+    } catch (loadError) {
+      setExistingBookings([]);
+      setBookingsLoadError(loadError instanceof Error ? loadError.message : "Bookings could not be loaded.");
+    } finally {
+      setBookingsLoading(false);
     }
   }, []);
 
@@ -459,6 +466,8 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     periodFilter,
     setPeriodFilter,
     courtsLoading,
+    bookingsLoading,
+    bookingsLoadError,
     availabilityLoading,
     availabilityError,
 
