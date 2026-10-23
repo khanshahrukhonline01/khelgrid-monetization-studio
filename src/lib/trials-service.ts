@@ -1,5 +1,4 @@
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { TRIALS, type Trial } from "@/data/trials";
 import { getTrialEndDate } from "@/lib/opportunity-badge";
 import type { Database } from "@/types/database";
 
@@ -61,7 +60,7 @@ export function normalizeSupabaseTrial(row: TrialRow): TrialDiscoveryItem {
     ageCategory: row.age_category || undefined,
     gender: row.gender || undefined,
     eligibility: row.eligibility || undefined,
-    verifiedLabel: row.verified_label || row.source_label || "Verified Scouting Combine",
+    verifiedLabel: row.verified_label || undefined,
     urgencyText:
       row.urgency_text || (row.reporting_time ? `Reporting at ${row.reporting_time}` : undefined),
     badge:
@@ -80,7 +79,7 @@ export function normalizeSupabaseTrial(row: TrialRow): TrialDiscoveryItem {
           phone?: string;
         }>)
       : undefined,
-    sourceUrl: row.apply_url || row.source_url || undefined,
+    sourceUrl: row.source_url || undefined,
     sourceLabel: row.source_label || undefined,
     applyUrl: row.apply_url || undefined,
     isGovernmentQuota: row.is_government_quota || false,
@@ -100,7 +99,7 @@ export function normalizeSupabaseTrial(row: TrialRow): TrialDiscoveryItem {
 
 /**
  * Fetches all available and active sports trials from Supabase.
- * Falls back to curated static trials if Supabase has 0 rows or is offline.
+ * Uses Supabase as the only source of truth; errors return an empty result with an error message.
  */
 export async function fetchAvailableTrialsFromSupabase(options?: {
   sport?: string;
@@ -143,7 +142,7 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
         databaseTrials = (data || []).map(normalizeSupabaseTrial);
       } else {
         queryError = error.message;
-        console.warn("Supabase trials query failed, using curated listings:", error.message);
+        console.warn("Supabase trials query failed:", error.message);
       }
     } catch (err: unknown) {
       queryError = err instanceof Error ? err.message : String(err);
@@ -163,8 +162,7 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
   let results = Array.from(merged.values()).filter((trial) => {
     const endDate = getTrialEndDate(trial.date);
 
-    // If the database query fails, use the curated homepage feed as a resilient
-    // fallback instead of letting date parsing empty the entire section.
+    // Never present static mock/curated data as a database result.
     // Archive mode still applies date rules so expired listings remain findable there.
     if (queryError) return false;
     if (!endDate) return !archive;
