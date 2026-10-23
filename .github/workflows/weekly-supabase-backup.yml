@@ -1,0 +1,71 @@
+name: Weekly encrypted Supabase backup
+
+on:
+  schedule:
+    - cron: "0 3 * * 0" # Sunday 03:00 UTC / 08:30 IST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-weekly-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check required secrets
+        shell: bash
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          test -n "$SUPABASE_DB_URL" || { echo "::error::Missing SUPABASE_DB_URL repository secret"; exit 1; }
+          test -n "$BACKUP_PASSPHRASE" || { echo "::error::Missing BACKUP_PASSPHRASE repository secret"; exit 1; }
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client openssl
+
+      - name: Create encrypted custom-format database dump
+        shell: bash
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p backup
+          stamp="$(date -u +%Y-%m-%dT%H-%M-%SZ)"
+          dump="backup/khelgrid-db-${stamp}.dump"
+          encrypted="${dump}.enc"
+
+          pg_dump "$SUPABASE_DB_URL" --format=custom --no-owner --no-acl --file "$dump"
+          test -s "$dump"
+          openssl enc -aes-256-cbc -salt -pbkdf2 -iter 600000 \
+            -in "$dump" -out "$encrypted" -pass env:BACKUP_PASSPHRASE
+          test -s "$encrypted"
+          sha256sum "$encrypted" > "${encrypted}.sha256"
+          rm -f "$dump"
+          echo "BACKUP_FILE=${encrypted}" >> "$GITHUB_ENV"
+          echo "BACKUP_CHECKSUM=${encrypted}.sha256" >> "$GITHUB_ENV"
+
+      - name: Upload encrypted backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: khelgrid-supabase-backup-${{ github.run_id }}
+          path: |
+            ${{ env.BACKUP_FILE }}
+            ${{ env.BACKUP_CHECKSUM }}
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Cleanup runner files
+        if: always()
+        shell: bash
+        run: rm -rf backup
