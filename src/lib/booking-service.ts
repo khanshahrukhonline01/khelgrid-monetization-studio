@@ -60,14 +60,9 @@ interface SupabaseBookingJoinedRow {
   created_at?: string;
 }
 
-const STORAGE_KEY = "khelgrid_venue_bookings";
-let memoryBookings: BookingRecord[] = [];
-
-/**
- * Resets memory bookings (primarily for test isolation)
- */
+/** Compatibility test helper; bookings are no longer stored in browser memory. */
 export function resetLocalBookingsForTesting(): void {
-  memoryBookings = [];
+  // Intentionally empty: Supabase is the only booking source of truth.
 }
 
 /**
@@ -298,7 +293,7 @@ export async function checkSlotAvailability(params: {
 }
 
 /**
- * Persists a new booking to Supabase and localStorage with double-booking safety and idempotency.
+ * Persists a new booking through the database's atomic booking RPC and idempotency checks.
  */
 export async function createVenueBooking(params: {
   venue: {
@@ -544,12 +539,9 @@ export async function holdVenueSlot(params: {
     }
   }
 
-  // Local fallback
   return {
-    success: true,
-    booking_id: `KG-HOLD-${Date.now()}`,
-    held_until: new Date(Date.now() + (params.hold_duration_minutes || 10) * 60000).toISOString(),
-    message: "Slot held locally for checkout.",
+    success: false,
+    message: "The live slot-hold service is unavailable. No slot has been reserved. Please retry shortly.",
   };
 }
 
@@ -557,24 +549,7 @@ export async function holdVenueSlot(params: {
  * Cancel an existing booking (soft delete / status change with atomic RPC support)
  */
 export async function cancelVenueBooking(bookingId: string, reason?: string): Promise<boolean> {
-  memoryBookings = memoryBookings.map((b) =>
-    b.id === bookingId ? { ...b, status: "cancelled" as const } : b,
-  );
-  if (typeof window !== "undefined") {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const list: BookingRecord[] = JSON.parse(stored);
-        const updated = list.map((b) =>
-          b.id === bookingId ? { ...b, status: "cancelled" as const } : b,
-        );
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-        window.dispatchEvent(new CustomEvent("khelgrid_booking_created"));
-      }
-    } catch (e) {
-      console.warn("LocalStorage cancel update error:", e);
-    }
-  }
+  if (!isSupabaseConfigured) return false;
 
   if (isSupabaseConfigured) {
     // 1. Attempt atomic cancellation RPC
