@@ -168,9 +168,11 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
   let results = Array.from(merged.values()).filter((trial) => {
     const endDate = getTrialEndDate(trial.date);
 
-    // Preserve curated listings on the homepage if the database is temporarily
-    // unavailable. Only the archive view should hide records with no parseable date.
+    // If the database query fails, use the curated homepage feed as a resilient
+    // fallback instead of letting date parsing empty the entire section.
+    // Archive mode still applies date rules so expired listings remain findable there.
     if (queryError && !archive && !trial.isSupabaseOrigin) return true;
+    if (queryError && !archive && trial.isSupabaseOrigin) return false;
     if (!endDate) return !archive;
     return archive ? endDate.getTime() < now.getTime() : endDate.getTime() >= now.getTime();
   });
