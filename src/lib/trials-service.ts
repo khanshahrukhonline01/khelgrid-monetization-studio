@@ -117,6 +117,11 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
   const archive = options?.archive === true;
   let isSupabaseLive = false;
   let databaseTrials: TrialDiscoveryItem[] = [];
+  let queryError: string | undefined;
+
+  if (!isSupabaseConfigured) {
+    queryError = "Supabase is not configured in this deployment.";
+  }
 
   if (isSupabaseConfigured) {
     try {
@@ -137,12 +142,14 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
         isSupabaseLive = true;
         databaseTrials = (data || []).map(normalizeSupabaseTrial);
       } else {
+        queryError = error.message;
         console.warn("Supabase trials query failed, using curated listings:", error.message);
       }
     } catch (err: unknown) {
+      queryError = err instanceof Error ? err.message : String(err);
       console.warn(
         "Supabase trials query failed, using curated listings:",
-        err instanceof Error ? err.message : String(err),
+        queryError,
       );
     }
   }
@@ -175,6 +182,7 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
     trials: results.slice(0, limit),
     isSupabaseLive,
     totalCount: results.length,
+    error: queryError,
   };
 }
 
