@@ -31,7 +31,11 @@ export function FeaturedTrialsRadar({
 }: FeaturedTrialsRadarProps) {
   const { isSaved, toggleSaved } = useSavedOpportunities();
   const { scrollRef, scroll } = useTouchScroll(340);
-  const [trials, setTrials] = useState<TrialDiscoveryItem[]>([]);
+  const curatedFallback: TrialDiscoveryItem[] = TRIALS.map((trial) => ({
+    ...trial,
+    isSupabaseOrigin: false,
+  }));
+  const [trials, setTrials] = useState<TrialDiscoveryItem[]>(curatedFallback);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -50,17 +54,13 @@ export function FeaturedTrialsRadar({
         if (!cancelled) {
           // Keep the homepage populated if the database query fails or returns no
           // rows yet. This uses the existing curated source records, not invented data.
-          const curatedFallback: TrialDiscoveryItem[] = TRIALS.map((trial) => ({
-            ...trial,
-            isSupabaseOrigin: false,
-          }));
           setTrials(result.trials.length > 0 ? result.trials : curatedFallback);
           if (result.error) setLoadError(result.error);
         }
       } catch (error) {
         if (!cancelled) {
           setLoadError(error instanceof Error ? error.message : "Unable to load trials.");
-          setTrials([]);
+          setTrials(curatedFallback);
         }
       } finally {
         if (!cancelled) setIsLoading(false);
