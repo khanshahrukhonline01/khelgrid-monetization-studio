@@ -509,7 +509,7 @@ function TrialDetailPage() {
         keywords={`${trial.title}, ${trial.sport} trials ${trial.city}, ${trial.academy}, Fit India school games, selection trials ${trial.city}, youth sports competition India, government trials 2026`}
         ogImage={ogImageUrl}
         imageAlt={`${trial.title} - Official Selection Trials`}
-        schema={trialSchemas}
+        schema={trialSchemas.filter((schema) => schema["@type"] !== "SportsEvent")}
       />
 
       <Link to="/search" className="text-sm text-muted-foreground hover:text-foreground">
