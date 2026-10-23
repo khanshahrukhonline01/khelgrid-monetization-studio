@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check:data-policy": "node scripts/check-trial-data-policy.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.24.0",
