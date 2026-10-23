@@ -67,6 +67,7 @@ export interface Database {
       trials: {
         Row: {
           id: string;
+          external_id?: string | null;
           venue_id: string | null;
           academy_name: string;
           title: string;
