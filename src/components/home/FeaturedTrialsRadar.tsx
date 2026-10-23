@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { TRIALS } from "@/data/trials";
 import {
   fetchAvailableTrialsFromSupabase,
   type TrialDiscoveryItem,
@@ -47,7 +48,13 @@ export function FeaturedTrialsRadar({
           maxLimit: 100,
         });
         if (!cancelled) {
-          setTrials(result.trials);
+          // Keep the homepage populated if the database query fails or returns no
+          // rows yet. This uses the existing curated source records, not invented data.
+          const curatedFallback: TrialDiscoveryItem[] = TRIALS.map((trial) => ({
+            ...trial,
+            isSupabaseOrigin: false,
+          }));
+          setTrials(result.trials.length > 0 ? result.trials : curatedFallback);
           if (result.error) setLoadError(result.error);
         }
       } catch (error) {
