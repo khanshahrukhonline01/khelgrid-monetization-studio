@@ -62,8 +62,6 @@ export function Footer() {
                 <MessageCircle className="h-5 w-5" />
               </a>
             </div>
-          </div>
-
             <a
               href="https://www.reddit.com/r/Khelgridonline/"
               target="_blank"
@@ -74,6 +72,7 @@ export function Footer() {
               <MessageCircle className="h-4 w-4 text-primary" />
               Join our Reddit community
             </a>
+          </div>
           </div>
 
           {/* Primary Navigation */}
