@@ -82,14 +82,22 @@ function BookVenues() {
   const [selectedVenueForDetails, setSelectedVenueForDetails] = useState<Venue | null>(null);
   const [activeTab, setActiveTab] = useState<"venues" | "slot-booking" | "my-bookings">("venues");
   const [bookings, setBookings] = useState<BookingRecord[]>([]);
+  const [bookingsLoading, setBookingsLoading] = useState(false);
+  const [bookingsError, setBookingsError] = useState<string | null>(null);
   const today = new Date().toISOString().slice(0, 10);
 
   const loadBookings = useCallback(async () => {
+    setBookingsLoading(true);
+    setBookingsError(null);
     try {
       const list = await getVenueBookings();
       setBookings(list);
     } catch (e) {
-      console.warn("Failed to load bookings", e);
+      console.warn("Failed to load bookings from Supabase", e);
+      setBookings([]);
+      setBookingsError(e instanceof Error ? e.message : "Bookings could not be loaded. Please try again.");
+    } finally {
+      setBookingsLoading(false);
     }
   }, []);
 
@@ -427,12 +435,25 @@ function BookVenues() {
       {/* Tab: My Bookings */}
       {activeTab === "my-bookings" && (
         <div className="mt-6">
-          {bookings.length === 0 ? (
+          {bookingsLoading ? (
+            <div role="status" className="rounded-2xl border border-border p-10 text-center text-sm text-muted-foreground">
+              Loading bookings from the database…
+            </div>
+          ) : bookingsError ? (
+            <div role="alert" className="rounded-2xl border border-destructive/30 bg-destructive/5 p-8 text-center">
+              <AlertCircle className="mx-auto mb-3 h-8 w-8 text-destructive" />
+              <h3 className="font-semibold">Bookings are temporarily unavailable</h3>
+              <p className="mx-auto mt-2 max-w-lg text-sm text-muted-foreground">{bookingsError}</p>
+              <Button className="mt-4" variant="outline" onClick={loadBookings}>
+                <RefreshCw className="mr-2 h-4 w-4" /> Retry
+              </Button>
+            </div>
+          ) : bookings.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border p-12 text-center">
               <Calendar className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
               <h3 className="text-base font-semibold">No bookings yet</h3>
               <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
-                Explore venues and turfs near you. Booking requests saved on this device will appear here; contact the venue to confirm acceptance.
+                Explore venues and turfs near you. Bookings saved successfully online will appear here. Contact the venue to confirm acceptance.
               </p>
               <Button
                 variant="default"
