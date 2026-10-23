@@ -46,7 +46,7 @@ export interface TrialDiscoveryItem {
  */
 export function normalizeSupabaseTrial(row: TrialRow): TrialDiscoveryItem {
   return {
-    id: row.id,
+    id: row.external_id || row.id,
     title: row.title,
     academy: row.academy_name,
     sport: row.sport,
@@ -154,15 +154,10 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
     }
   }
 
-  // Merge curated, source-rich records with database-only listings without duplicating IDs.
-  // Curated records remain authoritative for their dates and verified metadata.
+  // Supabase is the source of truth. Do not merge hard-coded curated cards
+  // into a successful database response; stable external IDs preserve card URLs.
   const merged = new Map<string, TrialDiscoveryItem>();
-  for (const trial of TRIALS) {
-    merged.set(trial.id, { ...trial, isSupabaseOrigin: false });
-  }
-  for (const trial of databaseTrials) {
-    if (!merged.has(trial.id)) merged.set(trial.id, trial);
-  }
+  for (const trial of databaseTrials) merged.set(trial.id, trial);
 
   const now = new Date();
   let results = Array.from(merged.values()).filter((trial) => {
@@ -171,8 +166,7 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
     // If the database query fails, use the curated homepage feed as a resilient
     // fallback instead of letting date parsing empty the entire section.
     // Archive mode still applies date rules so expired listings remain findable there.
-    if (queryError && !archive && !trial.isSupabaseOrigin) return true;
-    if (queryError && !archive && trial.isSupabaseOrigin) return false;
+    if (queryError) return false;
     if (!endDate) return !archive;
     return archive ? endDate.getTime() < now.getTime() : endDate.getTime() >= now.getTime();
   });
