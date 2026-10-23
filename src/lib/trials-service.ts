@@ -167,7 +167,11 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
   const now = new Date();
   let results = Array.from(merged.values()).filter((trial) => {
     const endDate = getTrialEndDate(trial.date);
-    if (!endDate) return false;
+
+    // Keep source-backed listings visible if the date parser cannot understand
+    // a published date format. The detail page can still show the original source
+    // date; never hide a curated record solely because parsing failed.
+    if (!endDate) return !archive;
     return archive ? endDate.getTime() < now.getTime() : endDate.getTime() >= now.getTime();
   });
 
