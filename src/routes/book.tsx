@@ -70,8 +70,8 @@ type BookingSelection = { venue: Venue; date: string; time: string | null };
 
 function BookVenues() {
   const [q, setQ] = useState("");
-  const [directoryVenues, setDirectoryVenues] = useState<Venue[]>(VENUES);
-  const [directorySource, setDirectorySource] = useState<"sample" | "database">("sample");
+  const [directoryVenues, setDirectoryVenues] = useState<Venue[]>([]);
+  const [directorySource, setDirectorySource] = useState<"sample" | "database">("database");
   const [directoryLoading, setDirectoryLoading] = useState(false);
   const [sport, setSport] = useState<string>("All");
   const [city, setCity] = useState<string>("All");
@@ -113,8 +113,13 @@ function BookVenues() {
   }, [loadBookings]);
 
   useEffect(() => {
-    if (!isSupabaseConfigured) return;
     let active = true;
+    if (!isSupabaseConfigured) {
+      setDirectoryVenues([]);
+      setDirectorySource("database");
+      setDirectoryLoading(false);
+      return () => { active = false; };
+    }
     setDirectoryLoading(true);
     supabase
       .from("venues")
@@ -127,8 +132,8 @@ function BookVenues() {
         if (!active) return;
         if (error) {
           console.error("Could not load venue directory from Supabase", error);
-          setDirectorySource("sample");
-          setDirectoryVenues(VENUES);
+          setDirectorySource("database");
+          setDirectoryVenues([]);
           return;
         }
         const rows = data ?? [];
@@ -156,8 +161,8 @@ function BookVenues() {
       .catch((error) => {
         if (!active) return;
         console.error("Venue directory request failed", error);
-        setDirectorySource("sample");
-        setDirectoryVenues(VENUES);
+        setDirectorySource("database");
+        setDirectoryVenues([]);
       })
       .finally(() => {
         if (active) setDirectoryLoading(false);
