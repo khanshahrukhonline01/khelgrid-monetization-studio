@@ -83,22 +83,9 @@ export const Route = createFileRoute("/blog/$slug")({
       });
     }
 
-    if (post?.matchStats) {
-      customSchema.push({
-        "@type": "SportsEvent",
-        name: post.matchStats.matchTitle,
-        startDate: `${post.matchStats.date}T09:30:00+02:00`,
-        location: {
-          "@type": "Place",
-          name: post.matchStats.venue,
-        },
-        competitor: [
-          { "@type": "SportsTeam", name: post.matchStats.teams.team1.name },
-          { "@type": "SportsTeam", name: post.matchStats.teams.team2.name },
-        ],
-        description: post.excerpt,
-      });
-    }
+    // Match-analysis cards may contain editorial/statistical data rather than a
+    // verified scheduled event. Do not emit SportsEvent markup without a trusted
+    // ISO 8601 start date and a real event record.
 
     return buildSeoHead({
       title,
