@@ -1,6 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { TRIALS, type Trial } from "@/data/trials";
-import { getTrialEndDate } from "@/lib/opportunity-badge";
+import { useEffect, useState } from "react";
+import {
+  fetchAvailableTrialsFromSupabase,
+  type TrialDiscoveryItem,
+} from "@/lib/trials-service";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 import {
   Trophy,
@@ -27,29 +30,45 @@ export function FeaturedTrialsRadar({
 }: FeaturedTrialsRadarProps) {
   const { isSaved, toggleSaved } = useSavedOpportunities();
   const { scrollRef, scroll } = useTouchScroll(340);
+  const [trials, setTrials] = useState<TrialDiscoveryItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  const currentTrials = TRIALS.filter((trial) => {
-    const endDate = getTrialEndDate(trial.date);
-    return Boolean(endDate && endDate.getTime() >= Date.now());
-  });
+  useEffect(() => {
+    let cancelled = false;
 
-  const filteredTrials = currentTrials.filter((trial) => {
-    const matchSport =
-      selectedSport === "All" ||
-      selectedSport === "All Sports" ||
-      trial.sport.toLowerCase() === selectedSport.toLowerCase();
+    async function loadTrials() {
+      setIsLoading(true);
+      setLoadError(null);
+      try {
+        const result = await fetchAvailableTrialsFromSupabase({
+          sport: selectedSport,
+          city: selectedCity,
+          maxLimit: 100,
+        });
+        if (!cancelled) {
+          setTrials(result.trials);
+          if (result.error) setLoadError(result.error);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setLoadError(error instanceof Error ? error.message : "Unable to load trials.");
+          setTrials([]);
+        }
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    }
 
-    const matchCity =
-      selectedCity === "All Cities" ||
-      selectedCity === "All Locations" ||
-      trial.city.toLowerCase() === selectedCity.toLowerCase();
+    void loadTrials();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedSport, selectedCity]);
 
-    return matchSport && matchCity;
-  }).slice(0, 8);
+  const displayTrials = trials.slice(0, 8);
 
-  const displayTrials = filteredTrials.length > 0 ? filteredTrials : currentTrials.slice(0, 8);
-
-  const handleShare = (e: React.MouseEvent, trial: Trial) => {
+  const handleShare = (e: React.MouseEvent, trial: TrialDiscoveryItem) => {
     e.preventDefault();
     e.stopPropagation();
     const origin =
@@ -111,18 +130,32 @@ export function FeaturedTrialsRadar({
             search={{ sport: "All Sports", city: "All Locations" }}
             className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-0.5"
           >
-            <span>All ({TRIALS.length})</span>
+            <span>All ({trials.length})</span>
             <ChevronRight className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
+
+      {loadError && (
+        <p role="status" className="px-1 pb-2 text-xs text-amber-600">
+          Trial listings could not be refreshed. Showing available saved listings where possible.
+        </p>
+      )}
 
       {/* Horizontally Scrollable Rail of Trial Cards across all screen devices */}
       <div
         ref={scrollRef}
         className="flex w-full min-w-0 max-w-full items-stretch gap-3 sm:gap-3.5 overflow-x-auto no-scrollbar touch-scroll-rail pb-2.5 pt-1 px-0.5 snap-x snap-proximity select-none cursor-grab active:cursor-grabbing"
       >
-        {displayTrials.map((trial) => {
+        {isLoading ? (
+          <div className="w-full rounded-xl border border-border/70 bg-card p-5 text-sm text-muted-foreground">
+            Loading selection trials…
+          </div>
+        ) : displayTrials.length === 0 ? (
+          <div className="w-full rounded-xl border border-border/70 bg-card p-5 text-sm text-muted-foreground">
+            No upcoming trials match these filters yet.
+          </div>
+        ) : displayTrials.map((trial) => {
           const saved = isSaved(trial.id);
 
           return (
