@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { PRIMARY_ITEMS, FEATURE_ITEMS } from "@/config/nav";
-import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, MessageCircle, Mail, MapPin, Phone } from "lucide-react";
 import { TrialNewsletterSignup } from "@/components/TrialNewsletterSignup";
 
 export function Footer() {
@@ -50,6 +50,16 @@ export function Footer() {
               </a>
               <a href="#" className="text-muted-foreground hover:text-primary transition">
                 <Linkedin className="h-5 w-5" />
+              </a>
+              <a
+                href="https://www.reddit.com/r/Khelgridonline/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Join KhelGrid on Reddit"
+                title="KhelGrid on Reddit"
+                className="text-muted-foreground hover:text-primary transition"
+              >
+                <MessageCircle className="h-5 w-5" />
               </a>
             </div>
           </div>
