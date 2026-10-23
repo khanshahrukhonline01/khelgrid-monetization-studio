@@ -73,7 +73,6 @@ export function Footer() {
               Join our Reddit community
             </a>
           </div>
-          </div>
 
           {/* Primary Navigation */}
           <div>
