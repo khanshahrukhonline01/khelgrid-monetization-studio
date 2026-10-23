@@ -31,7 +31,6 @@ SECURITY DEFINER
 SET search_path = public, auth
 AS $$
 DECLARE
-  is_service_role boolean := coalesce(auth.role(), '') = 'service_role';
   is_profile_admin boolean := false;
 BEGIN
   IF NEW.review_status = 'approved'
@@ -43,8 +42,8 @@ BEGIN
       ) INTO is_profile_admin;
     END IF;
 
-    IF NOT is_service_role AND NOT is_profile_admin THEN
-      RAISE EXCEPTION 'Only an authorized KhelGrid administrator may approve trial/opportunity listings'
+    IF NOT is_profile_admin THEN
+      RAISE EXCEPTION 'Approval requires an authenticated KhelGrid administrator; automated/service-role writes cannot approve listings'
         USING ERRCODE = '42501';
     END IF;
 
