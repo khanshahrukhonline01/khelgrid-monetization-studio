@@ -462,27 +462,16 @@ export function generateRouteSpecificSchema(
   }
 
   if (cleanPath.startsWith("/trial/")) {
+    // Trial pages can describe opportunities with incomplete or changing dates and
+    // registration terms. Do not emit generic SportsEvent/Offer markup here:
+    // page-specific structured data should only be added from verified trial records.
     return {
-      "@type": "SportsEvent",
-      "@id": `${canonicalUrl}#event`,
+      "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
       name: title,
       description,
       url: canonicalUrl,
-      eventStatus: "https://schema.org/EventScheduled",
-      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-      organizer: {
-        "@type": "SportsOrganization",
-        name: options?.author || DEFAULT_SITE_NAME,
-        url: canonicalUrl,
-      },
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "INR",
-        availability: "https://schema.org/InStock",
-        url: canonicalUrl,
-        validFrom: "2026-09-24",
-      },
+      isPartOf: { "@id": `${SITE_URL}/#website` },
     };
   }
 
