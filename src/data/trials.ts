@@ -532,21 +532,21 @@ export const TRIALS: Trial[] = [
     academy: "Department of Sports & Youth Welfare, Government of Assam",
     sport: "Athletics",
     city: "Guwahati",
-    date: "Nov 07 - Dec 28, 2026",
-    registrationDeadline: "Nov 06, 2026",
+    date: "Begins Nov 7, 2026 · full schedule to be confirmed",
+    registrationDeadline: "Not stated in the linked report",
     fee: 0,
-    spots: 15000,
+    spots: 0,
     tag: "Assam Govt Grassroots Combine",
     ageCategory: "Under-12 (Shoushab Krida Samaroh with Scholarship) & 12+ Open Categories",
     gender: "Boys & Girls / Men & Women",
-    verifiedLabel: "Official Assam State Government Sports Initiative",
-    urgencyText: "Competitions Begin Nov 7 · Free Registration Open Across All 35 Districts",
+    verifiedLabel: "Reported by NKTV; confirm current details on the official portal",
+    urgencyText: "Edition reported to begin Nov 7; check official portal for current registration status",
     badge: "New",
     venue:
       "Gram Panchayat & Ward Grounds to Sarusajai Sports Complex & Indira Gandhi Athletic Stadium, Guwahati",
     sourceUrl:
       "https://www.nktv.in/khel-maharan-3-0-to-begin-on-november-7-registration-opens-across-assam/",
-    sourceLabel: "NKTV National News / Sports & Youth Welfare Govt of Assam",
+    sourceLabel: "NKTV report; official portal linked for confirmation",
     sources: [
       {
         label: "NKTV News Report (Khel Maharan 3.0)",
