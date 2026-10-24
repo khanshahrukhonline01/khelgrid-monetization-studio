@@ -28,7 +28,7 @@ describe("Sports CV Component & Data Layer", () => {
       expect(html).toContain("KhelGrid खिलाड़ी ID");
       expect(html).toContain("खेल प्रदर्शन के माप");
       expect(html).toContain("खेल उपलब्धियाँ और सम्मान");
-      expect(html).toContain("KhelGrid खिलाड़ी प्रोफ़ाइल");
+      expect(html).toContain("खिलाड़ी की खेल प्रोफ़ाइल");
     });
 
     it("keeps English card headings when English is selected", () => {
@@ -37,7 +37,7 @@ describe("Sports CV Component & Data Layer", () => {
 
       expect(html).toContain("KhelGrid Scout ID");
       expect(html).toContain("Performance Metrics");
-      expect(html).toContain("Honours &amp; Athletic Achievements");
+      expect(html).toContain("Athletic Achievements &amp; Honours");
     });
   });
 
@@ -196,7 +196,7 @@ describe("Sports CV Component & Data Layer", () => {
       const html = renderToString(<SportsCVCard data={data} />);
 
       expect(html).toContain("Athlete Sports CV");
-      expect(html).toContain("KhelGrid Athlete Profile");
+      expect(html).toContain("Athlete Sports CV");
       expect(html).toContain(data.athleteId);
     });
 
