@@ -175,11 +175,6 @@ export function VenueBookingCalendar({
           const isPast = isBefore(day, minDate);
           const isCurrentDay = isToday(day);
 
-          // Availability simulation dot:
-          // Weekends and even dates have high activity
-          const dayNum = day.getDate();
-          const isWeekend = day.getDay() === 0 || day.getDay() === 6;
-          const isFastFilling = isWeekend || dayNum % 3 === 0;
 
           return (
             <button
@@ -210,9 +205,7 @@ export function VenueBookingCalendar({
                     className={`h-1.5 w-1.5 rounded-full ${
                       isSelected
                         ? "bg-primary-foreground"
-                        : isFastFilling
-                          ? "bg-amber-500"
-                          : "bg-emerald-500"
+                        : "bg-muted-foreground/50"
                     }`}
                   />
                 </div>
@@ -226,12 +219,8 @@ export function VenueBookingCalendar({
       <div className="mt-4 pt-3 border-t border-border/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted-foreground">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            <span>Available</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-amber-500" />
-            <span>Fast Filling</span>
+            <span className="h-2 w-2 rounded-full bg-muted-foreground/50" />
+            <span>Select a date to check live court availability</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
