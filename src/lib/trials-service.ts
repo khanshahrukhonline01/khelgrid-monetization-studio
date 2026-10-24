@@ -140,7 +140,7 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
       const { data, error } = await query.order("trial_date", { ascending: true }).limit(500);
       if (!error) {
         isSupabaseLive = true;
-        databaseTrials = (data || []).filter((row) => !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(row.external_id || row.id))).map(normalizeSupabaseTrial);
+        databaseTrials = (data || []).filter((row) => !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(row.id)) && !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(row.external_id || "")).map(normalizeSupabaseTrial);
       } else {
         queryError = error.message;
         console.warn("Supabase trials query failed:", error.message);
