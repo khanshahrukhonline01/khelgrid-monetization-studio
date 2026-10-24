@@ -48,7 +48,7 @@ jobs:
           const files = report
             .filter((entry) => entry.messages.some((message) => message.ruleId === "prettier/prettier"))
             .map((entry) => entry.filePath);
-          fs.writeFileSync("/tmp/prettier-files.txt", files.join("\\n"));
+          fs.writeFileSync("/tmp/prettier-files.txt", files.join("\n"));
           console.log(`Prettier formatting will be applied to ${files.length} files.`);
           NODE
 
