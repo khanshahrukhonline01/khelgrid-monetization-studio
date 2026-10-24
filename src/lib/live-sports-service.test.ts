@@ -1,6 +1,11 @@
-import { describe, it, expect } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { getLiveSportsUpdates, simulateRealtimeSportsTick } from "./live-sports-service";
 import type { LiveMatchUpdate } from "@/data/liveSports";
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
+});
 
 describe("LiveSportsService", () => {
   it("fetches sports data and returns structured matches", async () => {
@@ -68,9 +73,28 @@ describe("LiveSportsService", () => {
   });
 
   it("ensures live feeds attribute to Google Sports and non-copyrighted sources", async () => {
+    const rssFeed = `<?xml version="1.0"?>
+      <rss><channel><item>
+        <title>India vs Australia - live cricket score</title>
+        <link>https://news.google.com/articles/test-fixture</link>
+        <pubDate>Sat, 24 Oct 2026 12:00:00 GMT</pubDate>
+      </item></channel></rss>`;
+
+    // Keep this a deterministic feed-contract test, not a dependency on Google's live network.
+    vi.stubEnv("GEMINI_API_KEY", "");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        new Response(rssFeed, {
+          status: 200,
+          headers: { "Content-Type": "application/rss+xml" },
+        }),
+      ),
+    );
+
     const result = await getLiveSportsUpdates(true);
     expect(result.sourceSummary).toMatch(/Google Sports/i);
-    expect(result.matches.some((m) => m.source.includes("Google Sports"))).toBe(true);
+    expect(result.matches.some((match) => match.source.includes("Google Sports"))).toBe(true);
 
     // Absolutely no ESPN proprietary source
     for (const match of result.matches) {
