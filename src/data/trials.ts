@@ -808,16 +808,16 @@ export const TRIALS: Trial[] = [
     fee: 0,
     feeLabel: "Fee not stated in the report; confirm with the Regional Sports Office",
     spots: 0,
-    tag: "Reported selection notice",
+    tag: "Unverified — inactive",
     ageCategory: "Junior (Boys)",
     gender: "Boys",
-    verifiedLabel: "Reported by The Times of India; confirm current status with the Regional Sports Office",
+    verifiedLabel: "UNVERIFIED — no relevant basketball notice located; do not rely on this listing",
     urgencyText:
       "Reporting 3:00 PM on Oct 12 & 13 at Green Park · Pathway to State Championship in Aligarh",
     badge: "New",
     sourceUrl:
       "https://timesofindia.indiatimes.com/city/kanpur/kca-conducts-u-14-trials-for-165-aspirants/articleshow/134840235.cms",
-    sourceLabel: "The Times of India — Kanpur cricket and junior basketball trial report (Oct 9, 2026)",
+    sourceLabel: "No matching basketball source found; listing excluded pending confirmation",
     sources: [
       {
         label: "The Times of India — report covering cricket and junior basketball trials",
