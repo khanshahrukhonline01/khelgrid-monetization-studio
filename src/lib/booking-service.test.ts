@@ -120,6 +120,46 @@ describe("Booking Service - Atomic Transactions & Concurrency", () => {
   });
 
   describe("Atomic Slot Hold & Reservation", () => {
+    it.each([undefined, 0, -1, Number.NaN, Number.POSITIVE_INFINITY])(
+      "rejects missing or invalid court price before creating a hold (price: %s)",
+      async (price) => {
+        const holdRes = await holdVenueSlot({
+          venue_id: "venue-test",
+          court_id: "court-test",
+          sport: "Badminton",
+          booking_date: "2026-11-15",
+          start_time: "08:00 AM",
+          duration_hours: 1,
+          price_per_hour: price,
+          user_email: "test@example.invalid",
+        });
+
+        expect(holdRes.success).toBe(false);
+        expect(holdRes.message).toMatch(/published court price is required/i);
+        expect(holdRes.booking_id).toBeUndefined();
+      },
+    );
+
+    it.each([0, -1, Number.NaN, Number.POSITIVE_INFINITY])(
+      "rejects invalid duration before creating a hold (duration: %s)",
+      async (duration) => {
+        const holdRes = await holdVenueSlot({
+          venue_id: "venue-test",
+          court_id: "court-test",
+          sport: "Badminton",
+          booking_date: "2026-11-15",
+          start_time: "08:00 AM",
+          duration_hours: duration,
+          price_per_hour: 700,
+          user_email: "test@example.invalid",
+        });
+
+        expect(holdRes.success).toBe(false);
+        expect(holdRes.message).toMatch(/valid booking duration is required/i);
+        expect(holdRes.booking_id).toBeUndefined();
+      },
+    );
+
     it("holds a venue slot for a checkout session with auto-expiry window", async () => {
       const holdRes = await holdVenueSlot({
         venue_id: "v-1",
