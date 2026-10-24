@@ -8,6 +8,7 @@ import {
   SPORTS_CV_STORAGE_KEY,
 } from "@/lib/sports-cv-storage";
 import { setSportsCVLanguage, SPORTS_CV_LANGUAGE_KEY } from "@/lib/sports-cv-i18n";
+import { installLocalStorageTestDouble } from "@/test/localStorage-test-double";
 
 // Mock @tanstack/react-router useNavigate and Link
 vi.mock("@tanstack/react-router", () => ({
@@ -25,9 +26,7 @@ vi.mock("@tanstack/react-router", () => ({
 
 describe("AthleteOnboardingWizard Component & Flow", () => {
   beforeEach(() => {
-    if (typeof localStorage !== "undefined") {
-      localStorage.clear();
-    }
+    installLocalStorageTestDouble();
   });
 
   it("renders the onboarding wizard with initial Step 1 details and sport selections", () => {
