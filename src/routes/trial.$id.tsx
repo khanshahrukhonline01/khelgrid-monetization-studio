@@ -559,10 +559,10 @@ function TrialDetailPage() {
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-2">
               <Badge className="bg-primary text-primary-foreground font-bold text-xs">
-                📜 Official Selection Trial Circular
+                📄 Source document / image
               </Badge>
               <span className="text-xs text-muted-foreground font-medium">
-                Verified Govt Circular &amp; Poster
+                Source material attached to this listing
               </span>
             </div>
             <a
