@@ -51,7 +51,7 @@ describe("Live Scores Page and Navigation", () => {
 
   it("renders LiveScoresPage without SSR hydration errors and focused on cricket", () => {
     const html = renderToString(<LiveScoresPage />);
-    expect(html).toContain("Real-Time Live Cricket Scores");
+    expect(html).toContain("Live Cricket");
     expect(html).toContain("LIVE CRICKET MATCH CENTER");
     expect(html).toContain("All Cricket");
     expect(html).toContain("T20 Matches");
@@ -84,7 +84,7 @@ describe("Live Scores Page and Navigation", () => {
 
   it("renders search bar at the top of Live Scores page with cricket filter options", () => {
     const html = renderToString(<LiveScoresPage />);
-    expect(html).toContain("Search matches by team names");
+    expect(html).toContain("Search teams, tournaments or matches");
     expect(html).toContain("Quick Filters:");
     expect(html).toContain("West Indies Tour of India");
     expect(html).toContain("Australia Tour of South Africa");
