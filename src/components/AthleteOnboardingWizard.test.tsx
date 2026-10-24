@@ -32,13 +32,13 @@ describe("AthleteOnboardingWizard Component & Flow", () => {
   it("renders the onboarding wizard with initial Step 1 details and sport selections", () => {
     const html = renderToString(<AthleteOnboardingWizard />);
 
-    expect(html).toContain("Build Your Scout-Ready Sports CV &amp; Connect Socials");
-    expect(html).toContain("Step 1: Athlete Identity &amp; Sport");
-    expect(html).toContain("Athlete Full Name");
+    expect(html).toContain("Sports CV Wizard");
+    expect(html).toContain("Step 1 of 6");
+    expect(html).toContain("Athlete full name");
     expect(html).toContain("Cricket");
     expect(html).toContain("Football");
     expect(html).toContain("Basketball");
-    expect(html).toContain("Competition Age Category");
+    expect(html).toContain("Age category");
     expect(html).toContain("Save &amp; Continue");
   });
 
@@ -65,7 +65,7 @@ describe("AthleteOnboardingWizard Component & Flow", () => {
     const html = renderToString(<AthleteOnboardingWizard />);
 
     expect(html).toContain("Live Scout Card Preview");
-    expect(html).toContain("Verified Sports CV");
+    expect(html).toContain("Athlete Sports CV");
     expect(html).toContain("Scout Insight:");
   });
 
