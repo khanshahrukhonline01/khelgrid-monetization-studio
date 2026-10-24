@@ -462,7 +462,21 @@ export async function holdVenueSlot(params: {
   message: string;
 }> {
   const duration = params.duration_hours || 1;
-  const totalPrice = (params.price_per_hour || 500) * duration;
+  // Never create a hold using a guessed/default rate. The caller must pass a
+  // published positive court rate; the database RPC revalidates it atomically.
+  if (!Number.isFinite(params.price_per_hour) || (params.price_per_hour ?? 0) <= 0) {
+    return {
+      success: false,
+      message: "A published court price is required before a slot can be held. No hold was created.",
+    };
+  }
+  if (!Number.isFinite(duration) || duration <= 0) {
+    return {
+      success: false,
+      message: "A valid booking duration is required before a slot can be held. No hold was created.",
+    };
+  }
+  const totalPrice = params.price_per_hour * duration;
   const startTimeSQL = formatTimeToSQL(params.start_time);
   const endTimeSQL = calculateEndTimeSQL(params.start_time, duration);
   const idempotencyKey =
