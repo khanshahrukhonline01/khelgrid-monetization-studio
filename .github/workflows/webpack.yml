@@ -24,6 +24,7 @@ jobs:
           cache: npm
 
       - name: Report Node.js and npm versions
+        # Record exact resolved runtime versions for reproducible CI diagnostics.
         run: |
           node --version
           npm --version
