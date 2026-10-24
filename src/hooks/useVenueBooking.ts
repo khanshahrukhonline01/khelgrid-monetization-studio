@@ -322,10 +322,9 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
       offPeakDiscount = Math.round(baseRate * (selectedSlot.discountPercent / 100) * durationHours);
     }
 
-    const addonsTotal = selectedAddonIds.reduce((sum, id) => {
-      const addon = STANDARD_ADDONS.find((a) => a.id === id);
-      return sum + (addon ? addon.price : 0);
-    }, 0);
+    // Add-ons are not part of the database-validated court price in this phase.
+    // Keep them out of the booking total until they have a verified server-side price model.
+    const addonsTotal = 0;
 
     const subtotal = courtTotal + addonsTotal;
     // KhelGrid does not charge a platform or convenience fee in this phase.
