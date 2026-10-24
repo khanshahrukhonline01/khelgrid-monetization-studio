@@ -52,7 +52,8 @@ describe("Live Scores Page and Navigation", () => {
   it("renders LiveScoresPage without SSR hydration errors and focused on cricket", () => {
     const html = renderToString(<LiveScoresPage />);
     expect(html).toContain("Live Cricket");
-    expect(html).toContain("LIVE CRICKET MATCH CENTER");
+    expect(html).toContain("Live Cricket Matches");
+    expect(html).toContain("Official Schedules &amp; Real-Time Tracking");
     expect(html).toContain("All Cricket");
     expect(html).toContain("T20 Matches");
     expect(html).toContain("ODI Matches");
