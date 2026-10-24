@@ -42,12 +42,10 @@ describe("Booking Service - Atomic Transactions & Concurrency", () => {
   });
 
   describe("Venue Courts Fetching", () => {
-    it("returns default courts when Supabase is not connected", async () => {
-      const courts = await getVenueCourts("v-1", "Football");
-      expect(courts).toHaveLength(1);
-      expect(courts[0].venue_id).toBe("v-1");
-      expect(courts[0].sport).toBe("Football");
-      expect(courts[0].is_active).toBe(true);
+    it("rejects court lookup when Supabase is not connected", async () => {
+      await expect(getVenueCourts("v-1", "Football")).rejects.toThrow(
+        "Online booking is not configured.",
+      );
     });
   });
 
