@@ -179,6 +179,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
           isIndoor: /indoor|covered/i.test(record.surface_type || ""),
           hasFloodlights: false,
           pricePerHour: record.price_per_hour,
+          operatingHours: record.operating_hours || {},
         }));
         setCourts(mapped);
         setSelectedCourtId(mapped[0]?.id || "");
@@ -258,8 +259,19 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
   // Show slots only after the live conflict check succeeds. No seeded/fake availability.
   const slots: CourtSlot[] = useMemo(() => {
     if (!isSupabaseConfigured || courts.length === 0 || !selectedCourtId || availabilityRows === null) return [];
-    const baseRate = courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? venue.pricePerHour ?? 0;
-    return DEFAULT_HOURS.map((hour, index) => {
+    const selectedCourt = courts.find((court) => court.id === selectedCourtId);
+    const baseRate = selectedCourt?.pricePerHour ?? 0;
+    const weekday = format(parse(selectedDate, "yyyy-MM-dd", new Date()), "EEEE").toLowerCase();
+    const hours = selectedCourt?.operatingHours?.[weekday];
+    if (!hours || hours.closed || !hours.open || !hours.close || !baseRate || baseRate <= 0) return [];
+    const opening = hours.open.slice(0, 5);
+    const closing = hours.close.slice(0, 5);
+    const publishedHours = DEFAULT_HOURS.filter((hour) => {
+      const start = formatTimeToSQL(hour.time).slice(0, 5);
+      const end = calculateEndTimeSQL(hour.time, durationHours).slice(0, 5);
+      return start >= opening && end <= closing;
+    });
+    return publishedHours.map((hour, index) => {
       const startSQL = formatTimeToSQL(hour.time);
       const endSQL = calculateEndTimeSQL(hour.time, durationHours);
       const hasConflict = availabilityRows.some((booking) => startSQL < booking.end_time && endSQL > booking.start_time);
@@ -281,7 +293,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
         remainingCapacity: hasConflict ? 0 : 1,
       };
     });
-  }, [venue, selectedCourtId, durationHours, selectedSlotTime, courts, availabilityRows, calculateSlotEndTime]);
+  }, [venue, selectedCourtId, selectedDate, durationHours, selectedSlotTime, courts, availabilityRows, calculateSlotEndTime]);
 
   // Filtered slots by time of day (morning, afternoon, evening, night)
   const filteredSlots = useMemo(() => {
@@ -356,8 +368,8 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
       return { success: false, error: availabilityError || "Live booking is unavailable." };
     }
 
-    if (!selectedSlotTime || !selectedSlot || selectedSlot.status === "booked") {
-      setError("Please choose a slot that has no recorded booking conflict.");
+    if (!selectedSlotTime || !selectedSlot || selectedSlot.status === "booked" || !courts.find((court) => court.id === selectedCourtId)?.pricePerHour) {
+      setError("Choose an available slot with a published court price.");
       return { success: false, error: "Please choose an available time slot." };
     }
 
@@ -381,7 +393,8 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
           name: venue.name,
           area: venue.area,
           city: venue.city,
-          price_per_hour: venue.pricePerHour,
+          price_per_hour: courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? 0,
+          court_price_per_hour: courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? 0,
           sports: venue.sports,
           image_url: venue.image,
         },
@@ -393,7 +406,7 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
         duration_hours: durationHours,
         user_email: customer.email || "guest@khelgrid.com",
         user_phone: customer.phone,
-        total_price: priceBreakdown.grandTotal,
+        total_price: (courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? 0) * durationHours,
       });
 
       if (res.success && res.booking) {
