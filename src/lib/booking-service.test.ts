@@ -6,6 +6,7 @@ const { state, supabaseMock } = vi.hoisted(() => {
   const state = {
     bookings: [] as MockRow[],
     courts: [] as MockRow[],
+    courtQueryError: null as { message: string } | null,
     availabilityRows: [] as MockRow[],
     availabilityError: null as { message: string } | null,
     venueExists: true,
@@ -35,7 +36,7 @@ const { state, supabaseMock } = vi.hoisted(() => {
             : table === "venue_bookings"
               ? state.bookings.filter((booking) => !booking.deleted_at)
               : null,
-        error: null,
+        error: table === "venue_courts" ? state.courtQueryError : null,
       }).then(resolve, reject);
     return builder;
   });
@@ -174,6 +175,7 @@ describe("Booking service — atomic transactions and concurrency", () => {
   beforeEach(() => {
     resetLocalBookingsForTesting();
     state.bookings = [];
+    state.courtQueryError = null;
     state.courts = [
       {
         id: "court-1",
@@ -223,9 +225,7 @@ describe("Booking service — atomic transactions and concurrency", () => {
     });
 
     it("surfaces a court lookup database error", async () => {
-      const query = supabaseMock.from("venue_courts");
-      query.then = (resolve: (value: unknown) => unknown, reject: (reason: unknown) => unknown) =>
-        Promise.resolve({ data: null, error: { message: "permission denied" } }).then(resolve, reject);
+      state.courtQueryError = { message: "permission denied" };
 
       await expect(getVenueCourts(venue.id)).rejects.toThrow("Could not load published courts");
     });
