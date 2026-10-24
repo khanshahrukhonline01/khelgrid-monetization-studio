@@ -20,6 +20,31 @@ type VercelResponse = {
 const allowedStatuses = ["published"] as const;
 const maxResults = 10;
 
+type SportRelation = { name: string } | Array<{ name: string }> | null;
+type PublicOpportunityRecord = {
+  id: string;
+  title: string;
+  opportunity_type: string;
+  sport?: SportRelation;
+  description: string | null;
+  eligibility: string | null;
+  location_name: string | null;
+  city: string | null;
+  state: string | null;
+  start_at: string | null;
+  end_at: string | null;
+  registration_deadline: string | null;
+  fee: number | string | null;
+  status: string;
+  metadata: Record<string, unknown> | null;
+  requirements?: unknown;
+};
+
+function getSportName(sport: SportRelation | undefined): string | null {
+  if (Array.isArray(sport)) return sport[0]?.name ?? null;
+  return sport?.name ?? null;
+}
+
 function makeServer() {
   const server = new McpServer({
     name: "khelgrid-sports-opportunities",
@@ -78,11 +103,11 @@ function makeServer() {
         return { isError: true, content: [{ type: "text", text: "Unable to search Khelgrid opportunities right now. Please try again later." }] };
       }
 
-      const results = (data ?? []).map((item: any) => ({
+      const results = ((data ?? []) as PublicOpportunityRecord[]).map((item) => ({
         id: item.id,
         title: item.title,
         type: item.opportunity_type,
-        sport: Array.isArray(item.sport) ? item.sport[0]?.name ?? null : item.sport?.name ?? null,
+        sport: getSportName(item.sport),
         description: item.description,
         eligibility: item.eligibility,
         location: [item.location_name, item.city, item.state].filter(Boolean).join(", ") || null,
@@ -137,7 +162,7 @@ function makeServer() {
         return { content: [{ type: "text", text: "No publicly accessible opportunity was found for that ID." }] };
       }
 
-      const item: any = data;
+      const item = data as PublicOpportunityRecord;
       const result = {
         id: item.id,
         title: item.title,
@@ -188,7 +213,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     await server.connect(transport);
-    await transport.handleRequest(req as any, res as any, req.body);
+    await transport.handleRequest(
+      req as unknown as Parameters<StreamableHTTPServerTransport["handleRequest"]>[0],
+      res as unknown as Parameters<StreamableHTTPServerTransport["handleRequest"]>[1],
+      req.body,
+    );
   } catch (error) {
     console.error("Khelgrid MCP request failed:", error instanceof Error ? error.message : "unknown error");
     if (!res) return;
