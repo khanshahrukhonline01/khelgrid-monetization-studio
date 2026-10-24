@@ -10,6 +10,8 @@ export interface CourtRecord {
   surface_type?: string | null;
   price_per_hour?: number | null;
   is_active: boolean;
+  booking_enabled?: boolean;
+  operating_hours?: Record<string, { open?: string; close?: string; closed?: boolean }>;
 }
 
 export interface BookingRecord {
@@ -116,7 +118,8 @@ export async function getVenueCourts(venueId: string, sport?: string): Promise<C
     .from("venue_courts")
     .select("*")
     .eq("venue_id", venueId)
-    .eq("is_active", true);
+    .eq("is_active", true)
+    .eq("booking_enabled", true);
 
   if (sport) query = query.eq("sport", sport);
 
@@ -218,8 +221,11 @@ export async function checkSlotAvailability(params: {
   const startTimeSQL = formatTimeToSQL(params.start_time);
   const endTimeSQL = calculateEndTimeSQL(params.start_time, params.duration_hours || 1);
 
+  if (!params.court_id) {
+    return { available: false, conflictReason: "Select a published court before checking availability." };
+  }
+
   try {
-    // 1. First attempt privacy-preserving RPC (doesn't expose customer PII to other users)
     const { data: rpcData, error: rpcError } = await (
       supabase.rpc as unknown as (
         fn: string,
@@ -228,67 +234,26 @@ export async function checkSlotAvailability(params: {
     )("get_venue_slot_availability", {
       p_venue_id: params.venue_id,
       p_booking_date: params.booking_date,
-      p_court_id: params.court_id || null,
+      p_court_id: params.court_id,
     });
 
-    if (!rpcError && rpcData) {
-      for (const slot of rpcData) {
-        const isOverlap = startTimeSQL < slot.end_time && endTimeSQL > slot.start_time;
-        if (isOverlap) {
-          return {
-            available: false,
-            conflictReason:
-              slot.status === "confirmed"
-                ? "This slot is already booked."
-                : "This slot is temporarily held by another customer completing payment.",
-          };
-        }
-      }
-      return { available: true };
-    }
-  } catch (rpcErr) {
-    console.warn("Availability RPC check fallback to query:", rpcErr);
-  }
-
-  try {
-    // 2. Fallback to direct table query
-    const { data: existingBookings, error } = await supabase
-      .from("venue_bookings")
-      .select("id, start_time, end_time, status, held_until")
-      .eq("venue_id", params.venue_id)
-      .eq("booking_date", params.booking_date)
-      .in("status", ["confirmed", "pending"])
-      .is("deleted_at", null);
-
-    if (error || !existingBookings) {
-      return { available: false, conflictReason: "Live availability could not be verified. Please try again or contact the venue." };
+    if (rpcError || !rpcData) {
+      return { available: false, conflictReason: "Live court availability could not be verified. No booking will be submitted; please retry." };
     }
 
-    const now = new Date();
-
-    for (const b of existingBookings) {
-      // If pending but held_until has expired, ignore
-      if (b.status === "pending" && b.held_until) {
-        if (new Date(b.held_until) < now) continue;
-      }
-
-      // Check time overlap: (startA < endB) and (endA > startB)
-      const isOverlap = startTimeSQL < b.end_time && endTimeSQL > b.start_time;
-      if (isOverlap) {
+    for (const slot of rpcData) {
+      if (startTimeSQL < slot.end_time && endTimeSQL > slot.start_time) {
         return {
           available: false,
-          conflictReason:
-            b.status === "confirmed"
-              ? "This slot is already booked."
-              : "This slot is temporarily held by another customer completing payment.",
+          conflictReason: slot.status === "confirmed"
+            ? "This court slot is already booked."
+            : "This court slot is temporarily held by another customer.",
         };
       }
     }
-
     return { available: true };
-  } catch (err) {
-    console.warn("Error checking slot availability:", err);
-    return { available: false, conflictReason: "Live availability could not be verified. Please try again or contact the venue." };
+  } catch {
+    return { available: false, conflictReason: "Live court availability could not be verified. No booking will be submitted; please retry." };
   }
 }
 
@@ -321,7 +286,7 @@ export async function createVenueBooking(params: {
   message: string;
 }> {
   const duration = params.duration_hours || 1;
-  const totalPrice = params.total_price ?? params.venue.price_per_hour * duration;
+  const totalPrice = params.total_price ?? params.court_price_per_hour * duration;
   const startTimeSQL = formatTimeToSQL(params.start_time);
   const endTimeSQL = calculateEndTimeSQL(params.start_time, duration);
 
@@ -368,7 +333,7 @@ export async function createVenueBooking(params: {
     start_time: params.start_time,
     end_time: endTimeSQL,
     duration_hours: duration,
-    price_per_hour: params.venue.price_per_hour,
+    price_per_hour: params.court_price_per_hour,
     total_price: totalPrice,
     status: "pending",
     idempotency_key: idempotencyKey,
