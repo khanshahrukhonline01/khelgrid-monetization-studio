@@ -22,6 +22,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Regenerate lockfile for review (temporary agent branch only)
+        if: github.head_ref == 'agent/lockfile-artifact'
+        run: npm install --package-lock-only --legacy-peer-deps --ignore-scripts --no-audit --no-fund
+
+      - name: Upload regenerated lockfile for review (temporary agent branch only)
+        if: github.head_ref == 'agent/lockfile-artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: repaired-package-lock
+          path: package-lock.json
+          retention-days: 1
+
       - name: Install dependencies
         run: npm install --legacy-peer-deps --no-package-lock --no-audit --no-fund
 
