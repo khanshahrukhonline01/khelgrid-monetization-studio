@@ -122,7 +122,13 @@ export function getRealtimeOpportunityBadge(
   trial: Pick<Trial, "date" | "registrationDeadline" | "badge" | "spots" | "urgencyText">,
   currentDate: Date = new Date(),
 ): ComputedOpportunityBadge | null {
-  const targetDate = getTrialEndDate(trial.registrationDeadline || trial.date);
+  // A listing is closed if either its registration deadline or event end date has passed.
+  // Use the earlier published date so a stale deadline cannot leave a finished event open.
+  const statusDates = [getTrialEndDate(trial.registrationDeadline), getTrialEndDate(trial.date)]
+    .filter((date): date is Date => Boolean(date));
+  const targetDate = statusDates.length
+    ? new Date(Math.min(...statusDates.map((date) => date.getTime())))
+    : null;
 
   if (targetDate) {
     const diffMs = targetDate.getTime() - currentDate.getTime();
