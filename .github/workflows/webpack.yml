@@ -21,12 +21,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps --no-package-lock --no-audit --no-fund
+      - name: Report Node.js and npm versions
+        run: |
+          node --version
+          npm --version
+
+      - name: Install dependencies from lockfile
+        run: npm ci --no-audit --no-fund
 
       - name: Build
         run: npm run build
 
       - name: Run Tests
         run: npm test
+
+      - name: Run lint
+        run: npm run lint
