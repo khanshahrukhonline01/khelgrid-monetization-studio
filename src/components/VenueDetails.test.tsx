@@ -101,7 +101,7 @@ describe("VenueDetails", () => {
     const html = renderToString(<VenueDetails venue={mockVenue} />);
     expect(html).toContain('id="venue-carousel-reviews-spotlight-bar"');
     expect(html).toContain('id="venue-jump-to-reviews-link"');
-    expect(html).toContain("Verified Player Ratings &amp; Customer Testimonials");
+    expect(html).toContain("User Reviews &amp; Testimonials");
     expect(html).toContain('id="venue-user-reviews-section"');
     expect(html).toContain('id="venue-star-rating-summary-card"');
     expect(html).toContain('id="venue-customer-testimonials-container"');
