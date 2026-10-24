@@ -10,6 +10,7 @@ import {
 } from "@/lib/sports-cv-storage";
 import { SportsCVCard } from "./SportsCVCard";
 import { setSportsCVLanguage, SPORTS_CV_LANGUAGE_KEY } from "@/lib/sports-cv-i18n";
+import { installLocalStorageTestDouble } from "@/test/localStorage-test-double";
 import {
   SPORT_POSITION_PRESETS,
   COMMON_METRIC_PRESETS,
@@ -41,9 +42,7 @@ describe("Sports CV Component & Data Layer", () => {
   });
 
   beforeEach(() => {
-    if (typeof localStorage !== "undefined") {
-      localStorage.clear();
-    }
+    installLocalStorageTestDouble();
   });
 
   describe("Data Storage and Helper Utilities", () => {
