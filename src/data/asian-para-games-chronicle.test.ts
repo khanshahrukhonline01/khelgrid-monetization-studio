@@ -40,9 +40,10 @@ describe("Asian Para Games 2026 Yahoo Sports Article in KhelChronicle", () => {
   it("ensures the article is strictly NOT present in TRIALS (only in KhelChronicle as instructed)", () => {
     const inTrials = TRIALS.find(
       (t) =>
-        t.id.includes("asian-para-games") ||
-        t.title.toLowerCase().includes("asian para games") ||
-        t.sourceUrl?.includes("sports.yahoo.com/articles/asian-para-games"),
+        Boolean(t) &&
+        (t.id.includes("asian-para-games") ||
+          t.title.toLowerCase().includes("asian para games") ||
+          t.sourceUrl?.includes("sports.yahoo.com/articles/asian-para-games")),
     );
     expect(inTrials).toBeUndefined();
   });
