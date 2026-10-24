@@ -724,7 +724,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-white">{tr("profile")}</span>
+              <span className="font-semibold text-white">{tr("Profile", "खिलाड़ी की खेल प्रोफ़ाइल")}</span>
               {onShare && (
                 <button
                   type="button"
