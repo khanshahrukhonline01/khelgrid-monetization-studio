@@ -23,14 +23,15 @@ describe("VenueBookingCalendar Component", () => {
     expect(html).toContain("Sun");
   });
 
-  it("renders legend and availability indicator", () => {
+  it("explains that live availability is checked after date selection", () => {
     const html = renderToString(
       <VenueBookingCalendar selectedDate="2026-09-22" onSelectDate={vi.fn()} />,
     );
 
-    expect(html).toContain("Available");
-    expect(html).toContain("Fast Filling");
+    expect(html).toContain("Select a date to check live court availability");
+    expect(html).toContain("Past / Closed");
     expect(html).toContain("Selected:");
+    expect(html).not.toContain("Fast Filling");
   });
 });
 
