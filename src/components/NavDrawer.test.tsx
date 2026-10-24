@@ -53,9 +53,9 @@ describe("NavDrawer /play active styling", () => {
 
     expect(links.length).toBeGreaterThan(0);
     for (const link of links) {
-      expect(hasToken(link.anchorClass, "bg-secondary")).toBe(true);
-      expect(hasToken(link.anchorClass, "text-foreground")).toBe(true);
-      expect(hasToken(link.iconClass, "text-primary")).toBe(true);
+      expect(hasToken(link.anchorClass, "bg-emerald-100")).toBe(true);
+      expect(hasToken(link.anchorClass, "text-slate-900")).toBe(true);
+      expect(hasToken(link.iconClass, "text-emerald-700")).toBe(true);
     }
   });
 
@@ -67,8 +67,8 @@ describe("NavDrawer /play active styling", () => {
 
     expect(links.length).toBeGreaterThan(0);
     for (const link of links) {
-      expect(hasToken(link.anchorClass, "bg-secondary")).toBe(false);
-      expect(hasToken(link.iconClass, "text-primary")).toBe(false);
+      expect(hasToken(link.anchorClass, "bg-emerald-100")).toBe(false);
+      expect(hasToken(link.iconClass, "text-emerald-700")).toBe(false);
     }
   });
 });
