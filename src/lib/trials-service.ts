@@ -1,4 +1,5 @@
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { UNVERIFIED_SAMPLE_TRIAL_IDS } from "@/data/trials";
 import { getTrialEndDate } from "@/lib/opportunity-badge";
 import type { Database } from "@/types/database";
 
@@ -139,7 +140,7 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
       const { data, error } = await query.order("trial_date", { ascending: true }).limit(500);
       if (!error) {
         isSupabaseLive = true;
-        databaseTrials = (data || []).map(normalizeSupabaseTrial);
+        databaseTrials = (data || []).filter((row) => !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(row.external_id || row.id))).map(normalizeSupabaseTrial);
       } else {
         queryError = error.message;
         console.warn("Supabase trials query failed:", error.message);
@@ -216,7 +217,7 @@ export async function searchTrialsInSupabase(params: {
 
     if (data && data.length > 0) {
       return {
-        trials: data.map(normalizeSupabaseTrial),
+        trials: data.map(normalizeSupabaseTrial).filter((trial) => !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(trial.id))),
         isSupabaseLive: true,
       };
     }
