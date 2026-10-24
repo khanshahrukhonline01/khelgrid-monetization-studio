@@ -59,10 +59,14 @@ describe("Live Scores Page and Navigation", () => {
     expect(html).toContain("ODI Matches");
     expect(html).toContain("Test Series");
     expect(html).toContain("WPL 2026");
-    // Verify non-cricket sports tabs are removed
-    expect(html).not.toContain("Football");
-    expect(html).not.toContain("Badminton");
-    expect(html).not.toContain("Kabaddi");
+    // The shared sports selector remains visible above the cricket-focused match list.
+    // Other sports may appear in navigation, but their match data must not appear here.
+    expect(html).toContain("Football");
+    expect(html).toContain("Badminton");
+    expect(html).toContain("Kabaddi");
+    expect(html).not.toContain("Mumbai City FC");
+    expect(html).not.toContain("Lakshya Sen");
+    expect(html).not.toContain("Dabang Delhi KC");
   });
 
   it("contains cricket matches from LIVE_SPORTS_UPDATES in page render", () => {
