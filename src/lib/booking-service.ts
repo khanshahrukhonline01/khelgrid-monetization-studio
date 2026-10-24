@@ -276,6 +276,7 @@ export async function createVenueBooking(params: {
   booking_date: string;
   start_time: string;
   duration_hours?: number;
+  court_price_per_hour: number;
   total_price?: number;
   user_email?: string;
   user_phone?: string;
