@@ -46,8 +46,8 @@ describe("NavLink focus-visible + hover parity", () => {
   it("applies identical hover styles for the inactive /play link on both surfaces", () => {
     const desktop = classesOf("sidebar_desktop", false);
     const mobile = classesOf("sidebar_mobile", false);
-    expect(desktop).toContain("hover:bg-secondary/60");
-    expect(desktop).toContain("hover:text-foreground");
+    expect(desktop).toContain("hover:bg-emerald-50");
+    expect(desktop).toContain("hover:text-slate-950");
     expect(mobile.filter((c) => c.startsWith("hover:"))).toEqual(
       desktop.filter((c) => c.startsWith("hover:")),
     );
@@ -58,6 +58,6 @@ describe("NavLink focus-visible + hover parity", () => {
     for (const token of FOCUS_TOKENS) {
       expect(active).toContain(token);
     }
-    expect(active).toContain("hover:bg-secondary");
+    expect(active).toContain("hover:bg-emerald-100");
   });
 });
