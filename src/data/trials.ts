@@ -1647,7 +1647,6 @@ export const TRIALS: Trial[] = [
     ],
     lastVerified: "2026-10-22",
   },
-  ,
   {
     id: "t-sgfi-70th-badminton-u14-sagar-2026",
     title: "Badminton U-14 Boys & Girls · 70th National School Games",
