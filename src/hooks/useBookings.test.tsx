@@ -4,6 +4,59 @@ import { renderToString } from "react-dom/server";
 import { useBookings, type CreateBookingParams } from "./useBookings";
 import { resetLocalBookingsForTesting, type BookingRecord } from "@/lib/booking-service";
 
+const bookingServiceMocks = vi.hoisted(() => {
+  let records: any[] = [];
+
+  return {
+    resetLocalBookingsForTesting: vi.fn(() => {
+      records = [];
+    }),
+    getVenueBookings: vi.fn(async () => records),
+    createVenueBooking: vi.fn(async (params: any) => {
+      const duration = params.duration_hours ?? 1;
+      const pricePerHour = params.venue.price_per_hour;
+      const booking: any = {
+        id: "KG-BK-HOOK-CREATED",
+        venue_id: params.venue.id,
+        court_id: params.court_id ?? null,
+        venue_name: params.venue.name,
+        venue_area: params.venue.area,
+        venue_city: params.venue.city,
+        sport: params.sport,
+        booking_date: params.booking_date,
+        start_time: params.start_time,
+        end_time: "09:00:00",
+        duration_hours: duration,
+        price_per_hour: pricePerHour,
+        total_price: pricePerHour * duration,
+        status: "pending",
+        user_email: params.user_email ?? "guest@khelgrid.com",
+        user_phone: params.user_phone ?? "",
+        created_at: "2026-10-24T00:00:00.000Z",
+        synced_to_db: true,
+      };
+      records = [booking, ...records];
+      return { success: true, booking, message: "Mock atomic booking persisted." };
+    }),
+    cancelVenueBooking: vi.fn(async (bookingId: string) => {
+      const exists = records.some((record) => record.id === bookingId);
+      if (exists) {
+        records = records.map((record) =>
+          record.id === bookingId ? { ...record, status: "cancelled" } : record,
+        );
+      }
+      return exists;
+    }),
+    holdVenueSlot: vi.fn(async () => ({
+      success: false,
+      message: "No mock hold was created.",
+    })),
+    checkSlotAvailability: vi.fn(async () => ({ available: true })),
+  };
+});
+
+vi.mock("@/lib/booking-service", () => bookingServiceMocks);
+
 const sampleBooking: BookingRecord = {
   id: "KG-BK-TEST-1",
   venue_id: "v-1",
