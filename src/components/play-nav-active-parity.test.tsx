@@ -53,8 +53,8 @@ function hasToken(className: string, token: string) {
 }
 
 const ACTIVE_TOKENS = {
-  anchor: ["bg-secondary", "text-foreground"],
-  icon: ["text-primary"],
+  anchor: ["bg-emerald-100", "text-slate-900"],
+  icon: ["text-emerald-700"],
 };
 
 describe("/play active styling parity between desktop sidebar and mobile drawer", () => {
