@@ -28,9 +28,10 @@ describe("VenueBookingCalendar Component", () => {
       <VenueBookingCalendar selectedDate="2026-09-22" onSelectDate={vi.fn()} />,
     );
 
-    expect(html).toContain("Available");
-    expect(html).toContain("Fast Filling");
+    expect(html).toContain("Select a date to check live court availability");
+    expect(html).toContain("Past / Closed");
     expect(html).toContain("Selected:");
+    expect(html).not.toContain("Fast Filling");
   });
 });
 
