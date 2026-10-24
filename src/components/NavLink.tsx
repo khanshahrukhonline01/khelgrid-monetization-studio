@@ -30,7 +30,7 @@ export function NavLink({ item, active, source, showLabel = true, className }: N
       aria-current={active ? "page" : undefined}
       onClick={onClick}
       className={cn(
-        "group flex min-h-10 items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium leading-5 transition-colors duration-150",
+        "group flex min-h-12 items-center gap-3 rounded-xl px-3 py-3.5 text-[13px] font-medium leading-5 transition-colors duration-150 sm:min-h-10 sm:py-2.5 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         !showLabel && "justify-center px-0",
         active

@@ -43,8 +43,10 @@ describe("NavLink tap target", () => {
     const classMatch = html.match(/class="([^"]+)"/);
     expect(classMatch).toBeTruthy();
     const className = classMatch?.[1] ?? "";
-    // 14px text + py-3.5 (14px each) = 48px minimum recommended tap height
+    // Ensure a 48px minimum mobile tap target while keeping the desktop sidebar compact.
+    expect(hasToken(className, "min-h-12")).toBe(true);
     expect(hasToken(className, "py-3.5")).toBe(true);
+    expect(hasToken(className, "sm:min-h-10")).toBe(true);
     expect(hasToken(className, "sm:py-2.5")).toBe(true);
   });
 });
