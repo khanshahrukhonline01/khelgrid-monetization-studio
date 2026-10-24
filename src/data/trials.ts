@@ -50,6 +50,7 @@ export interface Trial {
 }
 
 export const UNVERIFIED_SAMPLE_TRIAL_IDS = [
+  "t-up-sports-directorate-junior-basketball-trials-kanpur-2026",
   "t-1",
   "t-2",
   "t-3",
