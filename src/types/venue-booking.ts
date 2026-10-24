@@ -10,6 +10,7 @@ export interface CourtFacility {
   isIndoor: boolean;
   hasFloodlights: boolean;
   pricePerHour?: number | null;
+  operatingHours?: Record<string, { open?: string; close?: string; closed?: boolean }>;
 }
 
 export interface CourtSlot {
