@@ -469,7 +469,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
         <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <h4 className="flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-white">
             <Zap className={`h-4 w-4 ${theme.accentText}`} />
-            Performance Metrics
+            {tr("Performance Metrics", "खेल प्रदर्शन के माप")}
           </h4>
           <span className="text-[11px] text-neutral-400">
             {data.performanceMetrics.length} {language === "hi" ? "प्रदर्शन माप" : "Metrics Tested"}
@@ -533,7 +533,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
         <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <h4 className="flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-white">
             <Trophy className={`h-4 w-4 ${theme.accentText}`} />
-            {tr("achievementsHeading")}
+            {tr("Athletic Achievements &amp; Honours", "खेल उपलब्धियाँ और सम्मान")}
           </h4>
           <span className="text-[11px] text-neutral-400">{data.achievements.length} {language === "hi" ? "दर्ज" : "Recorded"}</span>
         </div>
