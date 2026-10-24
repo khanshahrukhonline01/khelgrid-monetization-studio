@@ -255,7 +255,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
           <div className="flex items-center justify-between border-b border-white/10 pb-2">
             <h4 className="flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-white">
               <BarChart3 className={`h-4 w-4 ${theme.accentText}`} />
-              {tr("Career Stats &amp; Match Records", "करियर आँकड़े और मैच रिकॉर्ड")}
+              {tr("Career Stats & Match Records", "करियर आँकड़े और मैच रिकॉर्ड")}
             </h4>
             <span className="text-[11px] text-neutral-400">
               {data.careerSummary?.totalMatches ||
