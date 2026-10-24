@@ -8,6 +8,9 @@ on:
 
 jobs:
   build:
+    # Temporary capability on agent/lockfile-artifact only; remove before closing PR.
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,9 +25,19 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Regenerate lockfile for review (temporary agent branch only)
-        if: github.head_ref == 'agent/lockfile-artifact'
-        run: npm install --package-lock-only --legacy-peer-deps --ignore-scripts --no-audit --no-fund
+      - name: Regenerate and commit lockfile on temporary agent branch only
+        if: github.event_name == 'pull_request' && github.head_ref == 'agent/lockfile-artifact'
+        run: |
+          git fetch origin "$GITHUB_HEAD_REF"
+          git checkout -B "$GITHUB_HEAD_REF" "origin/$GITHUB_HEAD_REF"
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "fix: synchronize npm lockfile"
+            git push origin "HEAD:refs/heads/$GITHUB_HEAD_REF"
+          fi
 
       - name: Upload regenerated lockfile for review (temporary agent branch only)
         if: github.head_ref == 'agent/lockfile-artifact'
