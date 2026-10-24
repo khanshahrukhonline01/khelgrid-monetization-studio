@@ -33,7 +33,7 @@ export const getBackendTrials = createServerFn({ method: "GET" })
           return {
             success: true,
             isSupabaseLive: true,
-            trials: dbTrials.filter((row) => !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(row.external_id || row.id))).map(normalizeSupabaseTrial),
+            trials: dbTrials.filter((row) => !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(row.id)) && !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(row.external_id || "")).map(normalizeSupabaseTrial),
             totalCount: dbTrials.length,
           };
         }
