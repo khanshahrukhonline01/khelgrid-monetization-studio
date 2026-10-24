@@ -495,20 +495,18 @@ export const TRIALS: Trial[] = [
     academy: "Board of Control for Cricket in India (BCCI)",
     sport: "Cricket",
     city: "Itanagar",
-    date: "Nov 01 - Nov 18, 2026",
-    registrationDeadline: "Oct 31, 2026",
+    date: "Trial dates and venues to be announced by BCCI",
     fee: 0,
-    spots: 80,
-    tag: "BCCI National State Combine",
+    feeLabel: "Fee not stated in the linked report",
+    spots: 0,
+    tag: "Reported BCCI selection initiative",
     ageCategory: "Senior Men (Ranji Trophy), U-23 (C.K. Nayudu), Senior Women & Age Groups",
     gender: "Men & Women",
-    verifiedLabel: "Direct BCCI Apex Council & Independent Selection Committee",
-    urgencyText: "BCCI Appointed Committee · Direct Open Trials to Field State Teams",
-    badge: "New",
-    venue: "Yupia Cricket Ground & Rajiv Gandhi Stadium, Itanagar, Arunachal Pradesh",
+    verifiedLabel: "Reported by Hindustan Times; dates, venue and entry process not stated in the linked report",
+    urgencyText: "Follow official BCCI or state-association updates for confirmed details",
     sourceUrl:
       "https://www.hindustantimes.com/cricket/bcci-to-conduct-trials-to-ensure-arunachal-pradeshs-ranji-participation-101791969126681.html",
-    sourceLabel: "Hindustan Times Sports / Official BCCI Domestic Notification",
+    sourceLabel: "Hindustan Times report on BCCI intervention",
     sources: [
       {
         label: "Hindustan Times Special Report",
@@ -523,65 +521,9 @@ export const TRIALS: Trial[] = [
         url: "https://www.bcci.tv/domestic",
       },
     ],
-    timelines: [
-      {
-        label: "BCCI Open Call & Registration Window",
-        date: "Oct 15 - Oct 31, 2026",
-        description:
-          "Open call advertised across public media by BCCI for cricketers with Arunachal Pradesh domicile / registration",
-      },
-      {
-        label: "Phase 1: Open Net Trials & Skill Assessment",
-        date: "Nov 01 - Nov 05, 2026",
-        description:
-          "Independent Selection Committee (Satya Gopal Chakraborty, Jayanta Chowdhury, Deep Bora) evaluates players at Yupia Cricket Ground",
-      },
-      {
-        label: "Phase 2: Match Simulations & Fitness Screenings",
-        date: "Nov 07 - Nov 12, 2026",
-        description:
-          "Intra-squad practice matches monitored by BCCI Apex Council Convener M. Khairul Jamal Majumdar",
-      },
-      {
-        label: "Final Ranji & State Squad Announcement",
-        date: "Nov 18, 2026",
-        description:
-          "Official announcement of Arunachal Pradesh Senior Men Ranji Trophy and age-group squads to prevent tournament forfeit",
-      },
-    ],
-    organizerContacts: [
-      {
-        title: "BCCI Independent Selection Committee Convener",
-        name: "M. Khairul Jamal Majumdar (BCCI Apex Council Member)",
-        email: "domesticcricket@bcci.tv",
-        phone: "+91 22 2289 8800",
-      },
-      {
-        title: "Selection Committee Chairman",
-        name: "Satya Gopal Chakraborty (Former Assam First-Class Cricketer)",
-        email: "operations@bcci.tv",
-        phone: "+91 360 221 2100",
-      },
-      {
-        title: "BCCI Headquarters",
-        name: "Cricket Centre, Wankhede Stadium, D-Road, Churchgate, Mumbai",
-        email: "contact@bcci.tv",
-        phone: "+91 22 6759 8800",
-      },
-    ],
-    eligibility:
-      "Open to all bona fide cricketers residing or studying in Arunachal Pradesh with valid Domicile / Permanent Resident Certificate (PRC) or prior state BCCI player registration. Trials cover multiple categories: Senior Men (Ranji Trophy), Men's U-23 (Col. C.K. Nayudu Trophy), Senior Women's T20, and Under-16/Under-19 junior tournaments. Selections are strictly merit-based, conducted directly by the BCCI-appointed independent 3-member panel to insulate players from local association administrative deadlocks.",
-    requiredDocuments: [
-      "Permanent Resident Certificate (PRC) of Arunachal Pradesh / Domicile Certificate issued by District Commissioner",
-      "Digitized Birth Certificate registered with statutory municipal/panchayat authority",
-      "BCCI Player Registration Card / Prior State Representation Certificates (if applicable)",
-      "Aadhaar Card / Government Photo ID Card (showing Arunachal Pradesh address)",
-      "School / College Bonafide Certificate for age-group participants",
-      "Medical Fitness Certificate from a certified physician",
-      "Four passport-size color photographs in official cricket whites",
-    ],
-    selectionProcess:
-      "Direct, neutral, transparent assessment by BCCI-appointed independent panel: 1) Open skill assessment nets for batting, pace bowling, spin bowling, and wicket-keeping; 2) Physical fitness and agility testing; 3) Multi-day practice match simulations at Yupia Cricket Stadium under BCCI Apex Council observers to select the official squads for the 2026–27 domestic season.",
+    eligibility: "The report says an independent selection committee would conduct trials for Arunachal Pradesh teams across age groups and senior level. It does not specify individual eligibility rules, registration process, dates, venues, fees, or required documents. Await an official BCCI or state-association notice before making plans.",
+    requiredDocuments: ["Not specified in the linked report; confirm documents in the official notice before attending"],
+    selectionProcess: "The report identifies a three-member independent selection committee but does not publish trial stages or scoring criteria.",
   },
   {
     id: "t-khel-maharan-3-assam-2026",
@@ -682,20 +624,21 @@ export const TRIALS: Trial[] = [
     academy: "Delhi & District Cricket Association (DDCA)",
     sport: "Cricket",
     city: "Delhi",
-    date: "Nov 05 - Nov 20, 2026",
-    registrationDeadline: "Nov 02, 2026",
+    date: "Trial dates to be announced by DDCA",
+    registrationDeadline: "Oct 18, 2026 (reported registration deadline)",
     fee: 0,
-    spots: 60,
+    feeLabel: "Fee not stated in the linked report",
+    spots: 0,
     tag: "BCCI State Selection",
-    ageCategory: "Women U-15 (Born 01-09-2011 to 31-08-2013)",
+    ageCategory: "Women U-15 (born 1 Sep 2011 to 31 Aug 2014, as reported)",
     gender: "Women / Girls",
-    verifiedLabel: "Verified DDCA State Cricket Circular",
-    urgencyText: "Applications Open for 2026–27 Domestic Season · Closes Nov 2",
+    verifiedLabel: "Reported by Deccan Chronicle; trial dates were not announced in the linked report",
+    urgencyText: "Published registration deadline was Oct 18, 2026; confirm any update directly with DDCA",
     badge: "New",
-    venue: "Arun Jaitley Stadium & DDCA Practice Complex, Feroz Shah Kotla, Delhi",
+    venue: "Trial venue not announced in the linked report",
     sourceUrl:
       "https://www.deccanchronicle.com/amp/sports/ddca-invites-applications-for-delhi-womens-u-15-team-open-trials-for-202627-season-1995820",
-    sourceLabel: "Deccan Chronicle / DDCA Official Circular",
+    sourceLabel: "Deccan Chronicle report quoting DDCA information",
     sources: [
       {
         label: "Deccan Chronicle Official Report",
@@ -706,63 +649,9 @@ export const TRIALS: Trial[] = [
         url: "https://ddca.in",
       },
     ],
-    timelines: [
-      {
-        label: "Registration & Application Window",
-        date: "Oct 15 - Nov 02, 2026",
-        description:
-          "Submit registration forms along with digitized MCD birth certificate and school bonafide certificate",
-      },
-      {
-        label: "Document & Age Verification",
-        date: "Nov 03 - Nov 04, 2026",
-        description:
-          "Scrutiny of date of birth and Delhi NCR residency proofs by DDCA verification committee",
-      },
-      {
-        label: "Open Net Trials (Phase 1)",
-        date: "Nov 05 - Nov 10, 2026",
-        description:
-          "Batting, bowling, and wicket-keeping skill tests under Junior Women Selection Committee at Arun Jaitley Stadium",
-      },
-      {
-        label: "Fitness Drills & Intra-squad Matches (Phase 2)",
-        date: "Nov 12 - Nov 16, 2026",
-        description: "Yo-Yo and sprint tests, match simulations and tactical evaluation",
-      },
-      {
-        label: "Final Delhi U-15 Squad Announcement",
-        date: "Nov 20, 2026",
-        description:
-          "Announcement of final Delhi team and reserves for BCCI Women's U-15 One Day Trophy",
-      },
-    ],
-    organizerContacts: [
-      {
-        title: "DDCA Cricket Operations",
-        name: "Junior Selection Committee, Delhi & District Cricket Association",
-        email: "cricketops@ddca.in",
-        phone: "+91 11 2331 9323",
-      },
-      {
-        title: "DDCA Stadium Office",
-        name: "Arun Jaitley Stadium, Feroz Shah Kotla Ground, Delhi",
-        email: "support@ddca.in",
-        phone: "+91 11 2331 4220",
-      },
-    ],
-    eligibility:
-      "Female cricketers born on or between 01-09-2011 and 31-08-2013 (U-15 category for BCCI Domestic Cricket Season 2026–27). Applicants must be studying in a recognized Delhi school or residing in Delhi NCR for at least 3 years with valid documentation.",
-    requiredDocuments: [
-      "Digitized Birth Certificate issued by MCD / competent municipal authority (registered within 3 years of birth)",
-      "School Bonafide Certificate / School Photo ID Card stating Date of Birth from a recognized Delhi school",
-      "Address Proof of Delhi NCR (Aadhaar Card / Passport / Voter ID of parents)",
-      "Medical Fitness Certificate from registered MBBS medical practitioner",
-      "Four recent passport-size color photographs in cricket white kit",
-      "Parent / Guardian consent declaration form for state trial participation",
-    ],
-    selectionProcess:
-      "Open net trial evaluation by DDCA Junior Women Selection Committee covering batting technique, bowling accuracy/pace/spin, agility in wicket-keeping, followed by fitness screening and intra-squad practice matches at Arun Jaitley Stadium.",
+    eligibility: "The report states applicants must be born between September 1, 2011 and August 31, 2014, and must have been born in Delhi, be studying in Delhi, or have been bona fide residents of Delhi since September 1, 2025. Confirm current rules with DDCA.",
+    requiredDocuments: ["Aadhaar card with a recent photograph (the report says updated on or after April 1, 2026)", "Check DDCA current registration instructions for any additional documents"],
+    selectionProcess: "The report says DDCA would announce trial dates and shortlisted players after registration. No trial schedule or venue was published in the linked report."
   },
   {
     id: "t-crpf-meritorious-sportspersons-recruitment-2026",
@@ -850,15 +739,16 @@ export const TRIALS: Trial[] = [
     academy: "Kanpur Cricket Association (KCA) & UPCA",
     sport: "Cricket",
     city: "Kanpur",
-    date: "Oct 08 - Oct 09, 2026",
-    registrationDeadline: "Oct 09, 2026",
+    date: "Oct 9–10, 2026 (reported trial dates; event concluded)",
+    registrationDeadline: "Oct 10, 2026 (event concluded)",
     fee: 0,
-    spots: 165,
+    feeLabel: "Fee not stated in the report",
+    spots: 0,
     tag: "UPCA District Selection",
     ageCategory: "Under-14 (Boys)",
     gender: "Boys",
-    verifiedLabel: "UPCA & Kanpur Cricket Association Official",
-    urgencyText: "165 Aspirants Assessed · Pathway to UPCA State Selection",
+    verifiedLabel: "Reported by The Times of India; this report is not an official circular",
+    urgencyText: "Trials reported on Oct 9–10, 2026; event concluded",
     badge: "New",
     sourceUrl:
       "https://timesofindia.indiatimes.com/city/kanpur/kca-conducts-u-14-trials-for-165-aspirants/articleshow/134840235.cms",
@@ -876,13 +766,13 @@ export const TRIALS: Trial[] = [
     timelines: [
       {
         label: "Day 1 Selection Session",
-        date: "October 08, 2026",
+        date: "October 9, 2026",
         description:
           "Pace and spin bowling evaluations, wicketkeeper drills, and initial fielding assessments at Kanpur South Ground",
       },
       {
         label: "Day 2 Match Situations & Batting Nets",
-        date: "October 09, 2026",
+        date: "October 10, 2026",
         description:
           "Top-order and middle-order batting technical assessment, power hitting, and match simulations under KCA selectors",
       },
@@ -893,29 +783,10 @@ export const TRIALS: Trial[] = [
           "Shortlisted players from KCA represent Kanpur in the upcoming UPCA state-level selection trials",
       },
     ],
-    organizerContacts: [
-      {
-        title: "Honorary General Secretary",
-        name: "Mr. Dinesh Katiyar",
-      },
-      {
-        title: "KCA Selector",
-        name: "Mr. Rakesh Tiwari",
-      },
-      {
-        title: "KCA Selector",
-        name: "Mr. Vikas Yadav",
-      },
-      {
-        title: "Kanpur Cricket Association Office",
-        name: "KCA Secretariat",
-        phone: "+91 512 230 4567",
-      },
-    ],
-    lastVerified: "Oct 10, 2026",
+    organizerContacts: [{ title: "Association contact", name: "Contact KCA through its current official channel; the report does not publish a phone number" }],
+    lastVerified: "2026-10-10",
     venue: "Kanpur South Ground, Kidwai Nagar, Kanpur, Uttar Pradesh - 208011",
-    eligibility:
-      "Under-14 junior male cricketers residing or enrolled in clubs/schools across Kanpur district. Aspirants must meet the BCCI/UPCA age criteria (born on or after the specified cutoff for the U-14 season) with valid age and school documentation.",
+    eligibility: "The report identifies the event as Under-14 boys trials. It does not state the exact date-of-birth cutoff; confirm current age criteria with KCA/UPCA.",
     requiredDocuments: [
       "Original Digital Birth Certificate (issued by Municipal Corporation / Nagar Nigam)",
       "Aadhaar Card with full date of birth visible",
@@ -923,8 +794,7 @@ export const TRIALS: Trial[] = [
       "Recent passport-size photographs",
       "White cricket playing uniform (flannels) and personal cricket kit (bat, pads, gloves, helmet, spikes)",
     ],
-    selectionProcess:
-      "Held over two intensive days at Kanpur South Ground in Kidwai Nagar. Over 165 aspiring junior cricketers participated. Official KCA selectors Rakesh Tiwari and Vikas Yadav assessed players on batting technique against pace and spin, bowling seam/spin release, line and length consistency, running between wickets, and ground fielding. Selected boys earn spots in the Kanpur district squad for the upcoming Uttar Pradesh Cricket Association (UPCA) state trials.",
+    selectionProcess: "The report says 165 Under-14 cricketers appeared at the trials and identifies KCA selectors. It does not publish a detailed scoring rubric or selection results."
   },
   {
     id: "t-up-sports-directorate-junior-basketball-trials-kanpur-2026",
@@ -1122,15 +992,16 @@ export const TRIALS: Trial[] = [
     academy: "Sports & Youth Affairs Department, Government of Sikkim",
     sport: "Athletics",
     city: "Namchi",
-    date: "Sep 23 - Sep 28, 2026",
-    registrationDeadline: "Sep 28, 2026",
+    date: "Sep 23, 2026 (event concluded)",
+    registrationDeadline: "Sep 23, 2026 (event concluded)",
     fee: 0,
-    spots: 120,
+    feeLabel: "Entry fee not stated in the government report",
+    spots: 0,
     tag: "Government Official",
     ageCategory: "Under-17 (Boys & Girls)",
     gender: "Boys & Girls",
     verifiedLabel: "Government of Sikkim Verified",
-    urgencyText: "District Selection for State School Games Gangtok · Free Entry",
+    urgencyText: "Government report confirms event was held on Sep 23, 2026; closed",
     badge: "New",
     sourceUrl:
       "https://www.sikkim.gov.in/media/news-announcement/news-info?name=District-Level+Competition+cum+Selection+Trials+for+Fit+India+School+Games+2026+Held+in+Namchi",
@@ -1140,13 +1011,7 @@ export const TRIALS: Trial[] = [
       "Bhaichung Stadium, Namchi Indoor Stadium, Boxing Hall Car Plaza & Namchi Public School, Namchi, Sikkim",
     eligibility:
       "Under-17 school students representing the 8 Block Administrative Centers (BACs) across Namchi district. Disciplines include Athletics (Track: 100m, 400m, 800m, 1500m, Relay; Field: Shot Put, Long Jump), Archery, Boxing, Kabaddi, Karate, Kho-Kho, Table Tennis, and Taekwondo.",
-    requiredDocuments: [
-      "School identity card / bonafide student certificate",
-      "Government-issued Date of Birth certificate or Aadhaar",
-      "Block Administrative Center (BAC) qualification slip / certificate",
-      "Medical fitness certificate signed by a registered medical practitioner",
-      "Sports kit / track gear according to chosen discipline",
-    ],
+    requiredDocuments: ["The government report does not list required documents for the concluded event"],
     selectionProcess:
       "Competition-cum-selection trials organized across 4 major sporting hubs in Namchi (Bhaichung Stadium, Indoor Stadium, Car Plaza Boxing Hall, Namchi Public School). Winners and top medalists qualify directly for the State-Level School Games in Gangtok.",
   },
