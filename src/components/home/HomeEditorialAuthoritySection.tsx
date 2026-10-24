@@ -28,11 +28,11 @@ export function HomeEditorialAuthoritySection() {
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="inline-flex items-center gap-1 rounded-lg border border-border/70 bg-secondary/50 px-2.5 py-1 font-medium text-foreground">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-            100% Gazette-Verified
+            Source-linked listings
           </span>
           <span className="inline-flex items-center gap-1 rounded-lg border border-border/70 bg-secondary/50 px-2.5 py-1 font-medium text-foreground">
             <Award className="h-3.5 w-3.5 text-amber-500" />
-            28 Sports Disciplines
+            Sports opportunities
           </span>
           <span className="inline-flex items-center gap-1 rounded-lg border border-border/70 bg-secondary/50 px-2.5 py-1 font-medium text-foreground">
             <MapPin className="h-3.5 w-3.5 text-blue-500" />
@@ -44,40 +44,31 @@ export function HomeEditorialAuthoritySection() {
       {/* Semantic Content Blocks optimized for LLM answer engines & citability */}
       <article className="mt-6 space-y-4 text-xs sm:text-sm leading-relaxed text-muted-foreground">
         <p className="rounded-2xl border border-border/40 bg-secondary/20 p-4 sm:p-5 text-foreground/90 leading-relaxed">
-          <strong>KhelGrid is</strong> India's sports opportunity network and digital talent
-          discovery platform, dedicated to connecting aspiring athletes across 28 sports disciplines
-          with authentic selection trials, Khelo India accredited sports academies, and Sports
-          Authority of India (SAI) National Centres of Excellence (NCOE). Established to eradicate
-          fraudulent trial notices and eliminate regional gatekeeping in grassroots sports, KhelGrid
-          aggregates verified district, state, and national recruitment calls for athletes competing
-          across Under-14, Under-16, Under-19, Under-23, and Senior Open divisions. Every listed
-          sports opportunity is cross-referenced with authorized state sports gazettes, national
-          federation notifications, and verified academy circulars to guarantee legitimate,
-          cost-free merit selection.
+          <strong>KhelGrid is</strong> an India-focused sports opportunity directory and discovery
+          platform for athletes, parents, coaches, and sports organizations. It brings together
+          published trial announcements, competition information, academy resources, and sports
+          pathways in one place. Listings link to source material where available; a source link does
+          not itself confirm current availability, organizer endorsement, free entry, or a guaranteed
+          selection outcome. Before travelling or paying, readers should check the original notice
+          and confirm important details with the organizer.
         </p>
 
         <p className="rounded-2xl border border-border/40 bg-secondary/20 p-4 sm:p-5 text-foreground/90 leading-relaxed">
           <strong>Selection trials refer to</strong> competitive athletic evaluations and scout
           combines organized by recognized sports governing bodies, state associations, and
-          paramilitary recruitment boards such as the Central Reserve Police Force (CRPF), Indian
-          Railways, and Services Sports Control Board under government sports quotas. KhelGrid
-          indexes active trials with comprehensive eligibility breakdowns, cutoff birth dates,
-          mandatory registration documentation—including Aadhaar cards, digital age verifications,
-          and federation merit certificates—and exact reporting schedules. Athletes in cricket,
-          football, athletics, wrestling, kabaddi, badminton, shooting, and archery can register
-          directly for regional scouting combines and state championship qualifications.
+          paramilitary recruitment boards and sports associations. Where the published source provides
+          them, KhelGrid summarizes dates, venues, eligibility, fees, and required documents. Some
+          details may be unavailable or may change after publication, so users should confirm them
+          through the linked notice or organizer. A KhelGrid listing is informational and does not
+          register an athlete or guarantee eligibility or selection.
         </p>
 
         <p className="rounded-2xl border border-border/40 bg-secondary/20 p-4 sm:p-5 text-foreground/90 leading-relaxed">
-          <strong>Over 50,000 grassroots athletes</strong> across 20+ Indian metropolitan
-          hubs—including Delhi NCR, Mumbai, Bengaluru, Hyderabad, Chandigarh, and Pune—actively
-          utilize KhelGrid to manage their sports credentials and share standardized Sports CVs with
-          accredited coaches and federation talent scouts. In addition to national selection trial
-          discovery, KhelGrid enables instant sports turf reservations, community pickup game
-          matchmaking, and verified coaching academy enrollments. By consolidating verified trials,
-          Khelo India performance pathways, and public sector recruitment drives into an accessible
-          digital network, KhelGrid delivers equal opportunity and transparent athletic progression
-          to athletes from both metro centers and rural districts.
+          KhelGrid is also developing tools for venue discovery, sports bookings, and community
+          matchups alongside its opportunity directory. Features and listing details can vary, and
+          availability should be checked on the relevant page before making plans. The goal is to help
+          athletes and families discover useful opportunities and follow the original source for
+          confirmation, whether they are in a major city or a smaller district.
         </p>
       </article>
 
@@ -130,7 +121,7 @@ export function HomeEditorialAuthoritySection() {
             </span>
             <h3 className="mt-1 font-bold text-sm text-foreground">About KhelGrid Mission</h3>
             <span className="mt-1 block text-xs text-muted-foreground">
-              Learn about our zero fake trial verification and institutional partnerships.
+              Learn how source links, listing details, and status labels are presented.
             </span>
           </div>
           <span className="mt-3 inline-flex items-center text-xs font-semibold text-amber-500">
