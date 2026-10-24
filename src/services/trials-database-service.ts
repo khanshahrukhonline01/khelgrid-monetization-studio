@@ -1,5 +1,5 @@
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { TRIALS, type Trial } from "@/data/trials";
+import { TRIALS, UNVERIFIED_SAMPLE_TRIAL_IDS, type Trial } from "@/data/trials";
 import type { Database } from "@/types/database";
 import { normalizeSupabaseTrial, type TrialDiscoveryItem } from "@/lib/trials-service";
 
@@ -85,6 +85,7 @@ export const trialsDatabaseService = {
    * Retrieves a single trial by ID from Supabase or static TRIALS.
    */
   async getTrialById(trialId: string): Promise<TrialDiscoveryItem | null> {
+    if ((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(trialId)) return null;
     if (isSupabaseConfigured) {
       try {
         const { data, error } = await supabase
