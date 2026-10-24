@@ -1,4 +1,5 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { installLocalStorageTestDouble, resetLocalStorageTestDouble } from "@/test/localStorage-test-double";
 import {
   SPORTS_CV_LANGUAGES,
   SPORTS_CV_LANGUAGE_KEY,
@@ -22,8 +23,12 @@ const coreKeys: SportsCVKey[] = [
   "highlightsHeading", "privacy", "privacyHelp", "noAchievements", "noMetrics",
 ];
 
+beforeEach(() => {
+  installLocalStorageTestDouble();
+});
+
 afterEach(() => {
-  window.localStorage.removeItem(SPORTS_CV_LANGUAGE_KEY);
+  resetLocalStorageTestDouble();
 });
 
 describe("Sports CV localization", () => {
