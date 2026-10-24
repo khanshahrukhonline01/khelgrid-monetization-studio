@@ -42,7 +42,6 @@ describe("AthleteOnboardingWizard Component & Flow", () => {
     expect(html).toContain("Save &amp; Continue");
   });
 
-
   it("renders translated onboarding labels and examples in Hindi", () => {
     setSportsCVLanguage("hi");
     const html = renderToString(<AthleteOnboardingWizard />);
@@ -79,23 +78,24 @@ describe("AthleteOnboardingWizard Component & Flow", () => {
     expect(loaded.socialProfiles?.youtube).toContain("youtu.be");
   });
 
-
   it("round-trips athlete-entered CV details through local storage", () => {
     const data = getDefaultSportsCV("Aarav Sharma");
     data.athleteName = "Aarav Sharma";
     data.sport = "Cricket";
     data.position = "Fast Bowler";
     data.city = "Delhi";
-    data.achievements = [{
-      id: "achievement-test-1",
-      title: "District Trial Selection",
-      competition: "District Selection Trial",
-      year: 2026,
-      level: "District",
-      award: "Selected",
-      description: "Selected after district trials.",
-      verified: false,
-    }];
+    data.achievements = [
+      {
+        id: "achievement-test-1",
+        title: "District Trial Selection",
+        competition: "District Selection Trial",
+        year: 2026,
+        level: "District",
+        award: "Selected",
+        description: "Selected after district trials.",
+        verified: false,
+      },
+    ];
 
     saveSportsCVData(data);
     const loaded = loadSportsCVData();

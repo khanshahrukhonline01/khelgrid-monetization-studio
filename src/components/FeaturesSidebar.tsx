@@ -413,10 +413,7 @@ export function FeaturesSidebar() {
           )}
 
           {/* B. Expanded View: Grouped Sections or Filtered Results */}
-          {!collapsed && !query && activeCategory === "all" && (
-            <div className="mb-2">
-            </div>
-          )}
+          {!collapsed && !query && activeCategory === "all" && <div className="mb-2"></div>}
 
           {!collapsed && groupedSections && (
             <div className="space-y-2">

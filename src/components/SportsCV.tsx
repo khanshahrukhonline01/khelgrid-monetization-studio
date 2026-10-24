@@ -38,7 +38,7 @@ export interface SportsCVProps {
 export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVProps) {
   const name = "";
   const language = getSportsCVLanguage();
-  const tr = (english: string, hindi: string) => language === "hi" ? hindi : english;
+  const tr = (english: string, hindi: string) => (language === "hi" ? hindi : english);
 
   // Active CV state
   const [data, setData] = useState<SportsCVData>(() => loadSportsCVData(name));
@@ -73,7 +73,11 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
     const updated = { ...data, theme };
     setData(updated);
     saveSportsCVData(updated);
-    toast.success(language === "hi" ? `थीम ${theme.toUpperCase()} चुनी गई` : `Theme set to ${theme.toUpperCase()}`);
+    toast.success(
+      language === "hi"
+        ? `थीम ${theme.toUpperCase()} चुनी गई`
+        : `Theme set to ${theme.toUpperCase()}`,
+    );
   };
 
   // Download high-res PNG image
@@ -81,7 +85,12 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
     try {
       setIsExporting(true);
       await downloadSportsCardAsPNG(data);
-      toast.success(tr("Downloaded high-resolution Scout Card (PNG)!", "हाई-रेज़ोल्यूशन खिलाड़ी कार्ड (PNG) डाउनलोड हो गया!"));
+      toast.success(
+        tr(
+          "Downloaded high-resolution Scout Card (PNG)!",
+          "हाई-रेज़ोल्यूशन खिलाड़ी कार्ड (PNG) डाउनलोड हो गया!",
+        ),
+      );
     } catch (err) {
       console.error(err);
       toast.error(tr("Failed to generate image download.", "इमेज डाउनलोड नहीं हो सकी।"));
@@ -100,7 +109,12 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
     const summary = buildScoutTextSummary(data);
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       await navigator.clipboard.writeText(summary);
-      toast.success(tr("Scout CV summary copied to clipboard! Ready to paste into WhatsApp or Email.", "खिलाड़ी CV का सार कॉपी हो गया! इसे WhatsApp या ईमेल में पेस्ट करें।"));
+      toast.success(
+        tr(
+          "Scout CV summary copied to clipboard! Ready to paste into WhatsApp or Email.",
+          "खिलाड़ी CV का सार कॉपी हो गया! इसे WhatsApp या ईमेल में पेस्ट करें।",
+        ),
+      );
     }
   };
 
@@ -167,7 +181,10 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             </div>
             <div>
               <div className="font-bold text-foreground text-xs sm:text-sm">
-                {tr("Interactive Sports CV & Social Profiles Setup Wizard", "इंटरैक्टिव Sports CV और सोशल प्रोफ़ाइल सेटअप विज़ार्ड")}
+                {tr(
+                  "Interactive Sports CV & Social Profiles Setup Wizard",
+                  "इंटरैक्टिव Sports CV और सोशल प्रोफ़ाइल सेटअप विज़ार्ड",
+                )}
               </div>
               <p className="text-[11px] text-muted-foreground mt-0.5">
                 Guided 6-step flow to calibrate performance metrics, honours, and connect your
@@ -286,19 +303,45 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             variant="outline"
             size="sm"
             onClick={() => {
-              const escapeHtml = (value: unknown) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({
-                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-              })[ch] || ch);
+              const escapeHtml = (value: unknown) =>
+                String(value ?? "").replace(
+                  /[&<>"']/g,
+                  (ch) =>
+                    ({
+                      "&": "&amp;",
+                      "<": "&lt;",
+                      ">": "&gt;",
+                      '"': "&quot;",
+                      "'": "&#39;",
+                    })[ch] || ch,
+                );
               const popup = window.open("", "_blank");
               if (!popup) {
-                toast.error(tr("Allow pop-ups to create your printable PDF.", "PDF बनाने के लिए ब्राउज़र में पॉप-अप की अनुमति दें।"));
+                toast.error(
+                  tr(
+                    "Allow pop-ups to create your printable PDF.",
+                    "PDF बनाने के लिए ब्राउज़र में पॉप-अप की अनुमति दें।",
+                  ),
+                );
                 return;
               }
-              const achievements = (data.achievements || []).map((item) => `<li><strong>${escapeHtml(item.title)}</strong><br>${escapeHtml(item.competition)} · ${escapeHtml(item.level)} · ${escapeHtml(item.year)}</li>`).join("");
+              const achievements = (data.achievements || [])
+                .map(
+                  (item) =>
+                    `<li><strong>${escapeHtml(item.title)}</strong><br>${escapeHtml(item.competition)} · ${escapeHtml(item.level)} · ${escapeHtml(item.year)}</li>`,
+                )
+                .join("");
               const language = getSportsCVLanguage();
               const tr = (key: Parameters<typeof tSportsCV>[0]) => tSportsCV(key, language);
-              const metrics = (data.performanceMetrics || []).map((item) => `<li><strong>${escapeHtml(item.name)}:</strong> ${escapeHtml(item.value)} ${escapeHtml(item.unit)}</li>`).join("");
-              popup.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(data.athleteName || tr("athleteName"))} — ${escapeHtml(tr("title"))}</title><style>body{font:14px/1.6 "Noto Sans Devanagari","Nirmala UI","Mangal",Arial,sans-serif;color:#172033;margin:32px;overflow-wrap:anywhere}header{border-bottom:3px solid #16845b;padding-bottom:16px;margin-bottom:20px}h1{font-size:28px;margin:0}h2{font-size:16px;color:#08764f;margin:22px 0 8px}p{margin:4px 0}.muted{color:#526174}ul{padding-left:20px}li{margin:8px 0;break-inside:avoid;page-break-inside:avoid}.tag{display:inline-block;border:1px solid #d1d9e0;border-radius:20px;padding:3px 8px;margin:4px 4px 0 0}@media print{@page{size:A4;margin:15mm}body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}header,h2{break-after:avoid;page-break-after:avoid}button{display:none}}</style></head><body><header><h1>${escapeHtml(data.athleteName || tr("athleteName"))}</h1><p>${escapeHtml(data.sport)} · ${escapeHtml(data.position || (language === "hi" ? "पोज़िशन / इवेंट नहीं जोड़ा गया" : "Position/event not added"))}</p><p class="muted">${escapeHtml([data.ageCategory, data.city, data.state].filter(Boolean).join(" · "))}</p></header>${data.bio ? `<h2>${escapeHtml(tr("bio"))}</h2><p>${escapeHtml(data.bio)}</p>` : ""}${metrics ? `<h2>${escapeHtml(tr("performanceHeading"))}</h2><ul>${metrics}</ul>` : ""}${achievements ? `<h2>${escapeHtml(tr("achievementsHeading"))}</h2><ul>${achievements}</ul>` : ""}${data.currentAcademy ? `<h2>${escapeHtml(tr("academyHeading"))}</h2><p>${escapeHtml(data.currentAcademy)}</p>` : ""}${data.highlightVideoUrl ? `<h2>${escapeHtml(tr("highlightsHeading"))}</h2><p>${escapeHtml(data.highlightVideoUrl)}</p>` : ""}<p class="muted" style="margin-top:28px">${escapeHtml(tr("pdfDisclaimer"))}</p><button onclick="window.print()">${escapeHtml(tr("downloadPdf"))}</button><script>window.onload=()=>window.print()</script></body></html>`);
+              const metrics = (data.performanceMetrics || [])
+                .map(
+                  (item) =>
+                    `<li><strong>${escapeHtml(item.name)}:</strong> ${escapeHtml(item.value)} ${escapeHtml(item.unit)}</li>`,
+                )
+                .join("");
+              popup.document.write(
+                `<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(data.athleteName || tr("athleteName"))} — ${escapeHtml(tr("title"))}</title><style>body{font:14px/1.6 "Noto Sans Devanagari","Nirmala UI","Mangal",Arial,sans-serif;color:#172033;margin:32px;overflow-wrap:anywhere}header{border-bottom:3px solid #16845b;padding-bottom:16px;margin-bottom:20px}h1{font-size:28px;margin:0}h2{font-size:16px;color:#08764f;margin:22px 0 8px}p{margin:4px 0}.muted{color:#526174}ul{padding-left:20px}li{margin:8px 0;break-inside:avoid;page-break-inside:avoid}.tag{display:inline-block;border:1px solid #d1d9e0;border-radius:20px;padding:3px 8px;margin:4px 4px 0 0}@media print{@page{size:A4;margin:15mm}body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}header,h2{break-after:avoid;page-break-after:avoid}button{display:none}}</style></head><body><header><h1>${escapeHtml(data.athleteName || tr("athleteName"))}</h1><p>${escapeHtml(data.sport)} · ${escapeHtml(data.position || (language === "hi" ? "पोज़िशन / इवेंट नहीं जोड़ा गया" : "Position/event not added"))}</p><p class="muted">${escapeHtml([data.ageCategory, data.city, data.state].filter(Boolean).join(" · "))}</p></header>${data.bio ? `<h2>${escapeHtml(tr("bio"))}</h2><p>${escapeHtml(data.bio)}</p>` : ""}${metrics ? `<h2>${escapeHtml(tr("performanceHeading"))}</h2><ul>${metrics}</ul>` : ""}${achievements ? `<h2>${escapeHtml(tr("achievementsHeading"))}</h2><ul>${achievements}</ul>` : ""}${data.currentAcademy ? `<h2>${escapeHtml(tr("academyHeading"))}</h2><p>${escapeHtml(data.currentAcademy)}</p>` : ""}${data.highlightVideoUrl ? `<h2>${escapeHtml(tr("highlightsHeading"))}</h2><p>${escapeHtml(data.highlightVideoUrl)}</p>` : ""}<p class="muted" style="margin-top:28px">${escapeHtml(tr("pdfDisclaimer"))}</p><button onclick="window.print()">${escapeHtml(tr("downloadPdf"))}</button><script>window.onload=()=>window.print()</script></body></html>`,
+              );
               popup.document.close();
             }}
             className="text-xs h-8 gap-1.5"
@@ -314,7 +357,9 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             className="text-xs h-8 gap-1.5"
           >
             <Download className="h-3.5 w-3.5" />
-            {isExporting ? tr("Generating...", "बन रहा है...") : tr("Download Card (PNG)", "कार्ड डाउनलोड करें (PNG)") }
+            {isExporting
+              ? tr("Generating...", "बन रहा है...")
+              : tr("Download Card (PNG)", "कार्ड डाउनलोड करें (PNG)")}
           </Button>
 
           <Button
@@ -334,7 +379,10 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
             size="sm"
             asChild
             className="text-xs h-8 gap-1.5"
-            title={tr("Open your public scout portfolio page", "अपनी सार्वजनिक खिलाड़ी प्रोफ़ाइल खोलें")}
+            title={tr(
+              "Open your public scout portfolio page",
+              "अपनी सार्वजनिक खिलाड़ी प्रोफ़ाइल खोलें",
+            )}
           >
             <Link to="/cv/$id" params={{ id: slugifyAthleteName(data.athleteName, data.sport) }}>
               <ExternalLink className="h-3.5 w-3.5" />
@@ -423,7 +471,8 @@ export function SportsCV({ initialViewMode = "card", className = "" }: SportsCVP
       )}
 
       <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-muted-foreground">
-        Sports CV creation, editing, PNG card export and profile sharing are free. Only display achievements and verification claims that you can support.
+        Sports CV creation, editing, PNG card export and profile sharing are free. Only display
+        achievements and verification claims that you can support.
       </div>
 
       {/* Shareable Link & Social Media Modal */}

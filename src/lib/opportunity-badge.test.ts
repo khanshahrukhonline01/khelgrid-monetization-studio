@@ -1,6 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { TRIALS } from "@/data/trials";
-import { getRealtimeOpportunityBadge, getTrialEndDate, getTrialStartDate, isTrialArchived, parseTrialDate } from "./opportunity-badge";
+import {
+  getRealtimeOpportunityBadge,
+  getTrialEndDate,
+  getTrialStartDate,
+  isTrialArchived,
+  parseTrialDate,
+} from "./opportunity-badge";
 
 describe("Trial archive date handling", () => {
   const referenceNow = new Date("2026-10-22T12:00:00+05:30");

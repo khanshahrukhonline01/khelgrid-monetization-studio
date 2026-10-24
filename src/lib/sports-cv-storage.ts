@@ -291,7 +291,8 @@ export function loadSportsCVData(fallbackName?: string): SportsCVData {
     if (!Array.isArray(parsed.positionHistory)) parsed.positionHistory = [];
     if (!Array.isArray(parsed.careerSeasonStats)) parsed.careerSeasonStats = [];
     if (!Array.isArray(parsed.performanceMetrics)) parsed.performanceMetrics = [];
-    if (!parsed.socialProfiles || typeof parsed.socialProfiles !== "object") parsed.socialProfiles = {};
+    if (!parsed.socialProfiles || typeof parsed.socialProfiles !== "object")
+      parsed.socialProfiles = {};
     return parsed;
   } catch {
     return getBlankSportsCV(fallbackName);

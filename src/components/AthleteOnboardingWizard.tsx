@@ -59,7 +59,13 @@ import {
   Layers,
 } from "lucide-react";
 import { toast } from "sonner";
-import { SPORTS_CV_LANGUAGES, getSportsCVLanguage, setSportsCVLanguage, tSportsCV, type SportsCVLanguage } from "@/lib/sports-cv-i18n";
+import {
+  SPORTS_CV_LANGUAGES,
+  getSportsCVLanguage,
+  setSportsCVLanguage,
+  tSportsCV,
+  type SportsCVLanguage,
+} from "@/lib/sports-cv-i18n";
 
 export const ONBOARDING_COMPLETED_KEY = "khelgrid_onboarding_completed_v1";
 
@@ -307,7 +313,11 @@ export function AthleteOnboardingWizard({
       return next;
     });
 
-    toast.info(language === "hi" ? `${newSport} खेल और सुझाई गई पोज़िशन अपडेट की गई।` : `Updated sport and suggested position for ${newSport}`);
+    toast.info(
+      language === "hi"
+        ? `${newSport} खेल और सुझाई गई पोज़िशन अपडेट की गई।`
+        : `Updated sport and suggested position for ${newSport}`,
+    );
   };
 
   // Load sample metrics for current sport
@@ -323,7 +333,11 @@ export function AthleteOnboardingWizard({
       benchmark: p.benchmark,
     }));
     updateField("performanceMetrics", formatted);
-    toast.success(language === "hi" ? `${data.sport} के प्रदर्शन माप लोड हो गए।` : `Loaded benchmark metrics for ${data.sport}`);
+    toast.success(
+      language === "hi"
+        ? `${data.sport} के प्रदर्शन माप लोड हो गए।`
+        : `Loaded benchmark metrics for ${data.sport}`,
+    );
   };
 
   // Add Achievement
@@ -393,7 +407,9 @@ export function AthleteOnboardingWizard({
       score: 85,
       benchmark: "",
     });
-    toast.success(language === "hi" ? "प्रदर्शन परिणाम जोड़ दिया गया।" : "Added performance benchmark!");
+    toast.success(
+      language === "hi" ? "प्रदर्शन परिणाम जोड़ दिया गया।" : "Added performance benchmark!",
+    );
   };
 
   // Remove Metric
@@ -417,7 +433,11 @@ export function AthleteOnboardingWizard({
       toast.success(tr("downloadPng"));
     } catch (err) {
       console.error(err);
-      toast.error(language === "hi" ? "प्रोफ़ाइल कार्ड बन नहीं पाया। दोबारा प्रयास करें।" : "Failed to generate image.");
+      toast.error(
+        language === "hi"
+          ? "प्रोफ़ाइल कार्ड बन नहीं पाया। दोबारा प्रयास करें।"
+          : "Failed to generate image.",
+      );
     } finally {
       setIsExporting(false);
     }
@@ -460,7 +480,11 @@ export function AthleteOnboardingWizard({
       window.dispatchEvent(new CustomEvent("khelgrid_sportscv_updated", { detail: data }));
     }
 
-    toast.success(language === "hi" ? "Sports CV और सोशल प्रोफ़ाइल सफलतापूर्वक सेव हो गईं!" : "Sports CV and Social Profiles successfully configured!");
+    toast.success(
+      language === "hi"
+        ? "Sports CV और सोशल प्रोफ़ाइल सफलतापूर्वक सेव हो गईं!"
+        : "Sports CV and Social Profiles successfully configured!",
+    );
 
     if (onComplete) {
       onComplete(data);
@@ -555,7 +579,11 @@ export function AthleteOnboardingWizard({
                 const sample = getDefaultSportsCV("Aarav Sharma");
                 setData(sample);
                 saveSportsCVData(sample);
-                toast.success(language === "hi" ? "नमूना खिलाड़ी डेटा लोड हो गया।" : "Loaded sample athlete data.");
+                toast.success(
+                  language === "hi"
+                    ? "नमूना खिलाड़ी डेटा लोड हो गया।"
+                    : "Loaded sample athlete data.",
+                );
               }}
               className="text-xs"
             >
@@ -573,7 +601,10 @@ export function AthleteOnboardingWizard({
         <div className="mt-6 border-t border-border/60 pt-5">
           <div className="flex items-center justify-between text-xs text-muted-foreground pb-2">
             <span className="font-semibold text-foreground">
-              {language === "hi" ? `चरण ${currentStep} / ${STEPS.length}` : `Step ${currentStep} of ${STEPS.length}`}: {tr((`step${currentStep}`) as Parameters<typeof tSportsCV>[0])}
+              {language === "hi"
+                ? `चरण ${currentStep} / ${STEPS.length}`
+                : `Step ${currentStep} of ${STEPS.length}`}
+              : {tr(`step${currentStep}` as Parameters<typeof tSportsCV>[0])}
             </span>
             <span className="font-mono font-medium text-primary">
               {Math.round(((currentStep - 1) / (STEPS.length - 1)) * 100)}% Completed
@@ -639,9 +670,7 @@ export function AthleteOnboardingWizard({
               <div className="border-b border-border/60 pb-3">
                 <div className="flex items-center gap-2">
                   <User className="h-5 w-5 text-primary" />
-                  <h2 className="text-lg font-bold text-foreground">
-                    {tr("step1")}
-                  </h2>
+                  <h2 className="text-lg font-bold text-foreground">{tr("step1")}</h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Enter your core athlete details as you want them recognized by clubs and scouting
@@ -716,7 +745,9 @@ export function AthleteOnboardingWizard({
                     onValueChange={(val) => updateField("ageCategory", val)}
                   >
                     <SelectTrigger id="wiz-age-category" className="h-10 text-xs sm:text-sm">
-                      <SelectValue placeholder={language === "hi" ? "आयु वर्ग चुनें" : "Select Age Category"} />
+                      <SelectValue
+                        placeholder={language === "hi" ? "आयु वर्ग चुनें" : "Select Age Category"}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {AGE_CATEGORIES.map((cat) => (
@@ -757,12 +788,22 @@ export function AthleteOnboardingWizard({
                     }
                   >
                     <SelectTrigger id="wiz-dominant" className="h-10 text-xs sm:text-sm">
-                      <SelectValue placeholder={language === "hi" ? "प्रमुख हाथ / पैर चुनें" : "Select Dominant Side"} />
+                      <SelectValue
+                        placeholder={
+                          language === "hi" ? "प्रमुख हाथ / पैर चुनें" : "Select Dominant Side"
+                        }
+                      />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Right">{language === "hi" ? "दायाँ हाथ / पैर" : "Right-Hand / Foot"}</SelectItem>
-                      <SelectItem value="Left">{language === "hi" ? "बायाँ हाथ / पैर" : "Left-Hand / Foot"}</SelectItem>
-                      <SelectItem value="Ambidextrous">{language === "hi" ? "दोनों हाथ / पैर" : "Ambidextrous / Both"}</SelectItem>
+                      <SelectItem value="Right">
+                        {language === "hi" ? "दायाँ हाथ / पैर" : "Right-Hand / Foot"}
+                      </SelectItem>
+                      <SelectItem value="Left">
+                        {language === "hi" ? "बायाँ हाथ / पैर" : "Left-Hand / Foot"}
+                      </SelectItem>
+                      <SelectItem value="Ambidextrous">
+                        {language === "hi" ? "दोनों हाथ / पैर" : "Ambidextrous / Both"}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -818,7 +859,9 @@ export function AthleteOnboardingWizard({
 
                 {/* Popular athletic city quick chips */}
                 <div className="pt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-                  <span className="text-[11px] font-medium">{language === "hi" ? "जल्दी चुनें:" : "Quick Select:"}</span>
+                  <span className="text-[11px] font-medium">
+                    {language === "hi" ? "जल्दी चुनें:" : "Quick Select:"}
+                  </span>
                   {POPULAR_CITIES.slice(0, 6).map((city) => (
                     <button
                       key={city}
@@ -847,9 +890,7 @@ export function AthleteOnboardingWizard({
               <div className="border-b border-border/60 pb-3">
                 <div className="flex items-center gap-2">
                   <Flame className="h-5 w-5 text-primary" />
-                  <h2 className="text-lg font-bold text-foreground">
-                    {tr("step2")}
-                  </h2>
+                  <h2 className="text-lg font-bold text-foreground">{tr("step2")}</h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Specify your exact on-field position, playing style, and academy training
@@ -866,7 +907,11 @@ export function AthleteOnboardingWizard({
                   id="wiz-pos"
                   value={data.position}
                   onChange={(e) => updateField("position", e.target.value)}
-                  placeholder={language === "hi" ? "उदाहरण: दाएँ हाथ का तेज़ गेंदबाज़" : "e.g. Right-Arm Fast Bowler"}
+                  placeholder={
+                    language === "hi"
+                      ? "उदाहरण: दाएँ हाथ का तेज़ गेंदबाज़"
+                      : "e.g. Right-Arm Fast Bowler"
+                  }
                   className="h-10 text-sm font-medium"
                 />
 
@@ -905,7 +950,11 @@ export function AthleteOnboardingWizard({
                   id="wiz-sec-pos"
                   value={data.secondaryPosition || ""}
                   onChange={(e) => updateField("secondaryPosition", e.target.value)}
-                  placeholder={language === "hi" ? "उदाहरण: मिडिल-ऑर्डर बल्लेबाज़ या विंग-बैक" : "e.g. Middle-Order Finisher or Wing-Back"}
+                  placeholder={
+                    language === "hi"
+                      ? "उदाहरण: मिडिल-ऑर्डर बल्लेबाज़ या विंग-बैक"
+                      : "e.g. Middle-Order Finisher or Wing-Back"
+                  }
                   className="h-10 text-sm"
                 />
               </div>
@@ -920,7 +969,11 @@ export function AthleteOnboardingWizard({
                     id="wiz-academy"
                     value={data.currentAcademy || ""}
                     onChange={(e) => updateField("currentAcademy", e.target.value)}
-                    placeholder={language === "hi" ? "उदाहरण: राष्ट्रीय खेल उत्कृष्टता अकादमी" : "e.g. National Sports Excellence Academy"}
+                    placeholder={
+                      language === "hi"
+                        ? "उदाहरण: राष्ट्रीय खेल उत्कृष्टता अकादमी"
+                        : "e.g. National Sports Excellence Academy"
+                    }
                     className="h-10 text-sm"
                   />
                 </div>
@@ -936,7 +989,9 @@ export function AthleteOnboardingWizard({
                     }
                   >
                     <SelectTrigger id="wiz-avail" className="h-10 text-xs sm:text-sm">
-                      <SelectValue placeholder={language === "hi" ? "स्थिति चुनें" : "Select Status"} />
+                      <SelectValue
+                        placeholder={language === "hi" ? "स्थिति चुनें" : "Select Status"}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Open for Trials">🟢 Open for Trials</SelectItem>
@@ -959,7 +1014,11 @@ export function AthleteOnboardingWizard({
                     onClick={() => {
                       const sampleBio = `Dedicated ${data.sport.toLowerCase()} athlete specializing in ${data.position.toLowerCase()}. Known for explosive match temperament, consistent tactical discipline, and relentless physical conditioning. Actively seeking state and academy competitive trial slots.`;
                       updateField("bio", sampleBio);
-                      toast.info(language === "hi" ? "खिलाड़ी परिचय तैयार किया गया।" : "Generated athletic pitch statement.");
+                      toast.info(
+                        language === "hi"
+                          ? "खिलाड़ी परिचय तैयार किया गया।"
+                          : "Generated athletic pitch statement.",
+                      );
                     }}
                     className="text-[11px] text-primary hover:underline font-medium"
                   >
@@ -971,7 +1030,11 @@ export function AthleteOnboardingWizard({
                   rows={3}
                   value={data.bio}
                   onChange={(e) => updateField("bio", e.target.value)}
-                  placeholder={language === "hi" ? "अपनी खूबियों, खेलने की शैली, प्रमुख क्षमताओं और लक्ष्यों का सार लिखें..." : "Summarize your strengths, playing style, key attributes, and goals..."}
+                  placeholder={
+                    language === "hi"
+                      ? "अपनी खूबियों, खेलने की शैली, प्रमुख क्षमताओं और लक्ष्यों का सार लिखें..."
+                      : "Summarize your strengths, playing style, key attributes, and goals..."
+                  }
                   className="text-xs sm:text-sm leading-relaxed"
                 />
               </div>
@@ -983,7 +1046,9 @@ export function AthleteOnboardingWizard({
                     <ShieldCheck className="h-4 w-4 text-emerald-500" />
                     Verified Coach or Academy Reference (Optional)
                   </span>
-                  <span className="text-[11px] text-muted-foreground">{language === "hi" ? "स्काउट सत्यापन" : "Scout Verification"}</span>
+                  <span className="text-[11px] text-muted-foreground">
+                    {language === "hi" ? "स्काउट सत्यापन" : "Scout Verification"}
+                  </span>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <Input
@@ -995,7 +1060,11 @@ export function AthleteOnboardingWizard({
                         phoneOrEmail: data.coachReference?.phoneOrEmail || "",
                       })
                     }
-                    placeholder={language === "hi" ? "कोच का नाम (उदाहरण: कोच नेगी)" : "Coach Name (e.g. Coach Negi)"}
+                    placeholder={
+                      language === "hi"
+                        ? "कोच का नाम (उदाहरण: कोच नेगी)"
+                        : "Coach Name (e.g. Coach Negi)"
+                    }
                     className="h-9 text-xs"
                   />
                   <Input
@@ -1007,7 +1076,11 @@ export function AthleteOnboardingWizard({
                         phoneOrEmail: data.coachReference?.phoneOrEmail || "",
                       })
                     }
-                    placeholder={language === "hi" ? "पद / क्लब (उदाहरण: अकादमी कोच)" : "Designation / Club (e.g. NSEA Coach)"}
+                    placeholder={
+                      language === "hi"
+                        ? "पद / क्लब (उदाहरण: अकादमी कोच)"
+                        : "Designation / Club (e.g. NSEA Coach)"
+                    }
                     className="h-9 text-xs"
                   />
                 </div>
@@ -1025,12 +1098,12 @@ export function AthleteOnboardingWizard({
                 <div>
                   <div className="flex items-center gap-2">
                     <Zap className="h-5 w-5 text-amber-500" />
-                    <h2 className="text-lg font-bold text-foreground">
-                      {tr("step3")}
-                    </h2>
+                    <h2 className="text-lg font-bold text-foreground">{tr("step3")}</h2>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    {language === "hi" ? "गति, सहनशक्ति और खेल-विशिष्ट प्रदर्शन के अपने परिणाम दर्ज करें।" : "Add your speed, endurance and sport-specific performance results."}
+                    {language === "hi"
+                      ? "गति, सहनशक्ति और खेल-विशिष्ट प्रदर्शन के अपने परिणाम दर्ज करें।"
+                      : "Add your speed, endurance and sport-specific performance results."}
                   </p>
                 </div>
                 <Button
@@ -1135,7 +1208,11 @@ export function AthleteOnboardingWizard({
                     <Input
                       value={metricDraft.name}
                       onChange={(e) => setMetricDraft({ ...metricDraft, name: e.target.value })}
-                      placeholder={language === "hi" ? "माप का नाम (उदाहरण: शटल रन)" : "Metric Name (e.g. Shuttle Run)"}
+                      placeholder={
+                        language === "hi"
+                          ? "माप का नाम (उदाहरण: शटल रन)"
+                          : "Metric Name (e.g. Shuttle Run)"
+                      }
                       className="h-9 text-xs"
                     />
                   </div>
@@ -1151,7 +1228,11 @@ export function AthleteOnboardingWizard({
                     <Input
                       value={metricDraft.unit}
                       onChange={(e) => setMetricDraft({ ...metricDraft, unit: e.target.value })}
-                      placeholder={language === "hi" ? "इकाई (उदाहरण: सेकंड, किमी/घंटा)" : "Unit (e.g. s, km/h)"}
+                      placeholder={
+                        language === "hi"
+                          ? "इकाई (उदाहरण: सेकंड, किमी/घंटा)"
+                          : "Unit (e.g. s, km/h)"
+                      }
                       className="h-9 text-xs"
                     />
                   </div>
@@ -1179,12 +1260,12 @@ export function AthleteOnboardingWizard({
               <div className="border-b border-border/60 pb-3">
                 <div className="flex items-center gap-2">
                   <Trophy className="h-5 w-5 text-amber-500" />
-                  <h2 className="text-lg font-bold text-foreground">
-                    {tr("step4")}
-                  </h2>
+                  <h2 className="text-lg font-bold text-foreground">{tr("step4")}</h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  {language === "hi" ? "अपनी प्रतियोगिताओं, राज्य स्तरीय ट्रायल और पुरस्कारों का रिकॉर्ड जोड़ें।" : "Record your competitions, state trials and tournament awards."}
+                  {language === "hi"
+                    ? "अपनी प्रतियोगिताओं, राज्य स्तरीय ट्रायल और पुरस्कारों का रिकॉर्ड जोड़ें।"
+                    : "Record your competitions, state trials and tournament awards."}
                 </p>
               </div>
 
@@ -1192,7 +1273,9 @@ export function AthleteOnboardingWizard({
               <div className="space-y-3">
                 {data.achievements.length === 0 ? (
                   <div className="rounded-xl border border-dashed border-border/80 p-6 text-center text-xs text-muted-foreground">
-                    {language === "hi" ? "अभी कोई उपलब्धि नहीं जोड़ी गई है। नीचे अपनी प्रतियोगिताओं की उपलब्धियाँ जोड़ें।" : "No achievements added yet. Add your competition achievements below."}
+                    {language === "hi"
+                      ? "अभी कोई उपलब्धि नहीं जोड़ी गई है। नीचे अपनी प्रतियोगिताओं की उपलब्धियाँ जोड़ें।"
+                      : "No achievements added yet. Add your competition achievements below."}
                   </div>
                 ) : (
                   data.achievements.map((ach) => (
@@ -1247,27 +1330,43 @@ export function AthleteOnboardingWizard({
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1">
-                    <Label className="text-xs">{language === "hi" ? "उपलब्धि का शीर्षक *" : "Title / Accomplishment *"}</Label>
+                    <Label className="text-xs">
+                      {language === "hi" ? "उपलब्धि का शीर्षक *" : "Title / Accomplishment *"}
+                    </Label>
                     <Input
                       value={achDraft.title}
                       onChange={(e) => setAchDraft({ ...achDraft, title: e.target.value })}
-                      placeholder={language === "hi" ? "उदाहरण: राज्य चैंपियनशिप स्वर्ण पदक विजेता" : "e.g. State Championship Gold Medalist"}
+                      placeholder={
+                        language === "hi"
+                          ? "उदाहरण: राज्य चैंपियनशिप स्वर्ण पदक विजेता"
+                          : "e.g. State Championship Gold Medalist"
+                      }
                       className="h-9 text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <Label className="text-xs">{language === "hi" ? "टूर्नामेंट / प्रतियोगिता *" : "Tournament / Competition *"}</Label>
+                    <Label className="text-xs">
+                      {language === "hi"
+                        ? "टूर्नामेंट / प्रतियोगिता *"
+                        : "Tournament / Competition *"}
+                    </Label>
                     <Input
                       value={achDraft.competition}
                       onChange={(e) => setAchDraft({ ...achDraft, competition: e.target.value })}
-                      placeholder={language === "hi" ? "उदाहरण: दिल्ली राज्य युवा एथलेटिक्स प्रतियोगिता 2025" : "e.g. Delhi State Youth Athletics Meet 2025"}
+                      placeholder={
+                        language === "hi"
+                          ? "उदाहरण: दिल्ली राज्य युवा एथलेटिक्स प्रतियोगिता 2025"
+                          : "e.g. Delhi State Youth Athletics Meet 2025"
+                      }
                       className="h-9 text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <Label className="text-xs">{language === "hi" ? "प्रतियोगिता का स्तर" : "Competition Level"}</Label>
+                    <Label className="text-xs">
+                      {language === "hi" ? "प्रतियोगिता का स्तर" : "Competition Level"}
+                    </Label>
                     <Select
                       value={achDraft.level}
                       onValueChange={(val: AchievementLevel) =>
@@ -1288,7 +1387,9 @@ export function AthleteOnboardingWizard({
                   </div>
 
                   <div className="space-y-1">
-                    <Label className="text-xs">{language === "hi" ? "पुरस्कार / स्थान" : "Award / Standing"}</Label>
+                    <Label className="text-xs">
+                      {language === "hi" ? "पुरस्कार / स्थान" : "Award / Standing"}
+                    </Label>
                     <Select
                       value={achDraft.award}
                       onValueChange={(val: AwardType) => setAchDraft({ ...achDraft, award: val })}
@@ -1307,11 +1408,19 @@ export function AthleteOnboardingWizard({
                   </div>
 
                   <div className="sm:col-span-2 space-y-1">
-                    <Label className="text-xs">{language === "hi" ? "विवरण / मैच की मुख्य झलकियाँ (वैकल्पिक)" : "Description / Key Match Highlights (Optional)"}</Label>
+                    <Label className="text-xs">
+                      {language === "hi"
+                        ? "विवरण / मैच की मुख्य झलकियाँ (वैकल्पिक)"
+                        : "Description / Key Match Highlights (Optional)"}
+                    </Label>
                     <Input
                       value={achDraft.description}
                       onChange={(e) => setAchDraft({ ...achDraft, description: e.target.value })}
-                      placeholder={language === "hi" ? "उदाहरण: 348 रन और 11 विकेट; टूर्नामेंट के सर्वश्रेष्ठ खिलाड़ी..." : "e.g. Scored 348 runs and 11 wickets; awarded Player of Tournament..."}
+                      placeholder={
+                        language === "hi"
+                          ? "उदाहरण: 348 रन और 11 विकेट; टूर्नामेंट के सर्वश्रेष्ठ खिलाड़ी..."
+                          : "e.g. Scored 348 runs and 11 wickets; awarded Player of Tournament..."
+                      }
                       className="h-9 text-xs"
                     />
                   </div>
@@ -1335,9 +1444,7 @@ export function AthleteOnboardingWizard({
               <div className="border-b border-border/60 pb-3">
                 <div className="flex items-center gap-2">
                   <Share2 className="h-5 w-5 text-primary" />
-                  <h2 className="text-lg font-bold text-foreground">
-                    {tr("step5")}
-                  </h2>
+                  <h2 className="text-lg font-bold text-foreground">{tr("step5")}</h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Scouts and recruitment agents require video proof and active social handles to
@@ -1372,7 +1479,11 @@ export function AthleteOnboardingWizard({
                   <Input
                     value={data.socialProfiles?.instagram || ""}
                     onChange={(e) => cleanInstagramInput(e.target.value)}
-                    placeholder={language === "hi" ? "उदाहरण: @aarav.cricket या https://instagram.com/..." : "e.g. @aarav.cricket or https://instagram.com/..."}
+                    placeholder={
+                      language === "hi"
+                        ? "उदाहरण: @aarav.cricket या https://instagram.com/..."
+                        : "e.g. @aarav.cricket or https://instagram.com/..."
+                    }
                     className="h-10 text-xs sm:text-sm font-medium"
                   />
                   {data.socialProfiles?.instagram && (
@@ -1419,7 +1530,11 @@ export function AthleteOnboardingWizard({
                 <Input
                   value={data.socialProfiles?.youtube || data.highlightVideoUrl || ""}
                   onChange={(e) => updateSocialField("youtube", e.target.value)}
-                  placeholder={language === "hi" ? "उदाहरण: https://youtu.be/sample-reel या YouTube वीडियो लिंक" : "e.g. https://youtu.be/sample-reel or https://www.youtube.com/watch?v=..."}
+                  placeholder={
+                    language === "hi"
+                      ? "उदाहरण: https://youtu.be/sample-reel या YouTube वीडियो लिंक"
+                      : "e.g. https://youtu.be/sample-reel or https://www.youtube.com/watch?v=..."
+                  }
                   className="h-10 text-xs sm:text-sm font-medium"
                 />
 
@@ -1428,7 +1543,11 @@ export function AthleteOnboardingWizard({
                   <div className="overflow-hidden rounded-xl border border-border/80 bg-black aspect-video mt-2">
                     <iframe
                       src={youtubeEmbedUrl}
-                      title={language === "hi" ? "खेल कौशल वीडियो का पूर्वावलोकन" : "Skills Highlight Reel Preview"}
+                      title={
+                        language === "hi"
+                          ? "खेल कौशल वीडियो का पूर्वावलोकन"
+                          : "Skills Highlight Reel Preview"
+                      }
                       className="w-full h-full border-0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -1449,7 +1568,9 @@ export function AthleteOnboardingWizard({
                       𝕏
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-foreground">{language === "hi" ? "Twitter / 𝕏 हैंडल" : "Twitter / 𝕏 Handle"}</div>
+                      <div className="text-xs font-bold text-foreground">
+                        {language === "hi" ? "Twitter / 𝕏 हैंडल" : "Twitter / 𝕏 Handle"}
+                      </div>
                       <div className="text-[11px] text-muted-foreground">
                         Official announcements & athlete updates
                       </div>
@@ -1479,7 +1600,11 @@ export function AthleteOnboardingWizard({
                     <Input
                       value={data.socialProfiles?.cricheroes || ""}
                       onChange={(e) => updateSocialField("cricheroes", e.target.value)}
-                      placeholder={language === "hi" ? "CricHeroes खिलाड़ी प्रोफ़ाइल लिंक" : "https://cricheroes.com/player-profile/..."}
+                      placeholder={
+                        language === "hi"
+                          ? "CricHeroes खिलाड़ी प्रोफ़ाइल लिंक"
+                          : "https://cricheroes.com/player-profile/..."
+                      }
                       className="h-9 text-xs"
                     />
                   </div>
@@ -1491,7 +1616,11 @@ export function AthleteOnboardingWizard({
                     <Input
                       value={data.socialProfiles?.strava || ""}
                       onChange={(e) => updateSocialField("strava", e.target.value)}
-                      placeholder={language === "hi" ? "Strava खिलाड़ी प्रोफ़ाइल लिंक" : "https://www.strava.com/athletes/..."}
+                      placeholder={
+                        language === "hi"
+                          ? "Strava खिलाड़ी प्रोफ़ाइल लिंक"
+                          : "https://www.strava.com/athletes/..."
+                      }
                       className="h-9 text-xs"
                     />
                   </div>
@@ -1506,7 +1635,11 @@ export function AthleteOnboardingWizard({
                       onChange={(e) => {
                         updateSocialField("khelgrid", e.target.value);
                       }}
-                      placeholder={language === "hi" ? "उदाहरण: https://www.khelgrid.com/profile/..." : "e.g. https://www.khelgrid.com/profile/..."}
+                      placeholder={
+                        language === "hi"
+                          ? "उदाहरण: https://www.khelgrid.com/profile/..."
+                          : "e.g. https://www.khelgrid.com/profile/..."
+                      }
                       className="h-9 text-xs"
                     />
                   </div>
@@ -1524,9 +1657,7 @@ export function AthleteOnboardingWizard({
               <div className="border-b border-border/60 pb-3">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-5 w-5 text-emerald-500" />
-                  <h2 className="text-lg font-bold text-foreground">
-                    {tr("step6")}
-                  </h2>
+                  <h2 className="text-lg font-bold text-foreground">{tr("step6")}</h2>
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Select a digital badge theme and verify your complete athlete profile.
@@ -1568,7 +1699,9 @@ export function AthleteOnboardingWizard({
               {/* Completion Checklist Summary */}
               <div className="rounded-xl border border-border/80 bg-secondary/30 p-4 space-y-2.5 text-xs">
                 <div className="font-bold text-foreground flex items-center justify-between">
-                  <span>{language === "hi" ? "प्रोफ़ाइल की तैयारी:" : "Profile Readiness Summary:"}</span>
+                  <span>
+                    {language === "hi" ? "प्रोफ़ाइल की तैयारी:" : "Profile Readiness Summary:"}
+                  </span>
                   <span className="font-mono text-primary font-bold">
                     {completionPercentage}% Ready
                   </span>
@@ -1623,7 +1756,9 @@ export function AthleteOnboardingWizard({
                   className="gap-1.5 text-xs h-9"
                 >
                   <Download className="h-3.5 w-3.5 text-primary" />
-                  <span>{language === "hi" ? "कार्ड डाउनलोड करें (PNG)" : "Download Card PNG"}</span>
+                  <span>
+                    {language === "hi" ? "कार्ड डाउनलोड करें (PNG)" : "Download Card PNG"}
+                  </span>
                 </Button>
 
                 <Button
@@ -1661,13 +1796,20 @@ export function AthleteOnboardingWizard({
                 className="text-xs gap-1.5"
               >
                 <Eye className="h-3.5 w-3.5" />
-                {showMobilePreview ? (language === "hi" ? "प्रीव्यू छिपाएँ" : "Hide Preview") : (language === "hi" ? "CV देखें" : "View Card")}
+                {showMobilePreview
+                  ? language === "hi"
+                    ? "प्रीव्यू छिपाएँ"
+                    : "Hide Preview"
+                  : language === "hi"
+                    ? "CV देखें"
+                    : "View Card"}
               </Button>
             </div>
 
             {currentStep < 6 ? (
               <Button type="button" onClick={nextStep} className="gap-1 text-xs font-semibold">
-                {language === "hi" ? "सेव करें और आगे बढ़ें" : "Save & Continue"} <ChevronRight className="h-4 w-4" />
+                {language === "hi" ? "सेव करें और आगे बढ़ें" : "Save & Continue"}{" "}
+                <ChevronRight className="h-4 w-4" />
               </Button>
             ) : (
               <Button
@@ -1675,7 +1817,8 @@ export function AthleteOnboardingWizard({
                 onClick={handleFinish}
                 className="gap-1.5 text-xs font-bold bg-primary text-primary-foreground shadow hover:opacity-90"
               >
-                <Check className="h-4 w-4" /> {language === "hi" ? "सेव करें और Sports CV खोलें" : "Save & Launch Sports CV"}
+                <Check className="h-4 w-4" />{" "}
+                {language === "hi" ? "सेव करें और Sports CV खोलें" : "Save & Launch Sports CV"}
               </Button>
             )}
           </div>
@@ -1705,9 +1848,10 @@ export function AthleteOnboardingWizard({
 
             {/* Card quick helper tips */}
             <div className="rounded-xl border border-border/60 bg-card p-3 text-[11px] text-muted-foreground leading-relaxed">
-              💡 <strong>{language === "hi" ? "स्काउट सुझाव:" : "Scout Insight:"}</strong> Indian sports scouts prioritize verified 40m sprint
-              / Yo-Yo benchmarks and high-definition video reels. Connect your Instagram training
-              handles so directors can review your recent match form.
+              💡 <strong>{language === "hi" ? "स्काउट सुझाव:" : "Scout Insight:"}</strong> Indian
+              sports scouts prioritize verified 40m sprint / Yo-Yo benchmarks and high-definition
+              video reels. Connect your Instagram training handles so directors can review your
+              recent match form.
             </div>
           </div>
         </div>

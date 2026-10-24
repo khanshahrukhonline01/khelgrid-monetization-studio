@@ -301,7 +301,7 @@ export function TrialDetailsModal({
             <Badge
               variant="outline"
               className={
-                (trial.feeLabel || trial.fee === 0)
+                trial.feeLabel || trial.fee === 0
                   ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-xs"
                   : "border-primary/30 text-primary font-bold text-xs"
               }
@@ -416,7 +416,8 @@ export function TrialDetailsModal({
 
           <div className="space-y-0.5">
             <span className="text-[11px] text-muted-foreground flex items-center gap-1">
-              <ShieldCheck className="h-3 w-3 text-emerald-500" /> {trial.listingType === "competition" ? "Entry status" : "Status"}
+              <ShieldCheck className="h-3 w-3 text-emerald-500" />{" "}
+              {trial.listingType === "competition" ? "Entry status" : "Status"}
             </span>
             <p className="font-semibold text-emerald-600 dark:text-emerald-400">
               {trial.listingType === "competition"
@@ -424,7 +425,8 @@ export function TrialDetailsModal({
                   ? "Entry in progress"
                   : trial.entryStatus === "ENTRY NOT STARTED"
                     ? "Entry not started"
-                    : trial.entryStatus || "Competition fixture — confirm entry with school/state unit"
+                    : trial.entryStatus ||
+                      "Competition fixture — confirm entry with school/state unit"
                 : isRegistered
                   ? "Registered"
                   : "Open for Registration"}
@@ -738,7 +740,11 @@ export function TrialDetailsModal({
       <div className="border-t border-border/80 bg-muted/20 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="text-xs text-muted-foreground flex items-center gap-2">
           <span className="font-bold text-foreground">
-            {trial.feeLabel ? `Entry fee: ${trial.feeLabel}` : trial.fee === 0 ? "Zero Registration Fee" : `Entry Fee: ₹${trial.fee}`}
+            {trial.feeLabel
+              ? `Entry fee: ${trial.feeLabel}`
+              : trial.fee === 0
+                ? "Zero Registration Fee"
+                : `Entry Fee: ₹${trial.fee}`}
           </span>
           {trial.listingType !== "competition" && (
             <>

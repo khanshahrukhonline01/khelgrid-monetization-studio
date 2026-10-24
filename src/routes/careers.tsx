@@ -263,123 +263,147 @@ function CareersPage() {
           </p>
         </div>
 
-          <form action="https://formsubmit.co/khelgrid@gmail.com" method="POST" encType="multipart/form-data" className="mt-6 grid gap-4 sm:grid-cols-2">
-            <input type="hidden" name="_subject" value="New KhelGrid Careers Application" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_next" value="https://www.khelgrid.com/careers?application=submitted" />
-            <div aria-hidden="true" className="hidden">
-              <label htmlFor="careers-website">Leave this field empty</label>
-              <input id="careers-website" type="text" name="_honey" tabIndex={-1} autoComplete="off" />
-            </div>
-            <div className="space-y-1">
-              <label htmlFor="careers-full-name" className="text-xs font-semibold text-foreground">
-                Full Name *
-              </label>
-              <Input
-                id="careers-full-name"
-                name="Full name"
-                placeholder="e.g. Rohan Varma"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-                className="rounded-xl text-xs"
-              />
-            </div>
+        <form
+          action="https://formsubmit.co/khelgrid@gmail.com"
+          method="POST"
+          encType="multipart/form-data"
+          className="mt-6 grid gap-4 sm:grid-cols-2"
+        >
+          <input type="hidden" name="_subject" value="New KhelGrid Careers Application" />
+          <input type="hidden" name="_template" value="table" />
+          <input
+            type="hidden"
+            name="_next"
+            value="https://www.khelgrid.com/careers?application=submitted"
+          />
+          <div aria-hidden="true" className="hidden">
+            <label htmlFor="careers-website">Leave this field empty</label>
+            <input
+              id="careers-website"
+              type="text"
+              name="_honey"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+          <div className="space-y-1">
+            <label htmlFor="careers-full-name" className="text-xs font-semibold text-foreground">
+              Full Name *
+            </label>
+            <Input
+              id="careers-full-name"
+              name="Full name"
+              placeholder="e.g. Rohan Varma"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+              className="rounded-xl text-xs"
+            />
+          </div>
 
-            <div className="space-y-1">
-              <label htmlFor="careers-email" className="text-xs font-semibold text-foreground">
-                Email Address *
-              </label>
-              <Input
-                id="careers-email"
-                name="email"
-                type="email"
-                placeholder="name@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="rounded-xl text-xs"
-              />
-            </div>
+          <div className="space-y-1">
+            <label htmlFor="careers-email" className="text-xs font-semibold text-foreground">
+              Email Address *
+            </label>
+            <Input
+              id="careers-email"
+              name="email"
+              type="email"
+              placeholder="name@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="rounded-xl text-xs"
+            />
+          </div>
 
-            <div className="space-y-1">
-              <label htmlFor="careers-phone" className="text-xs font-semibold text-foreground">
-                Phone / WhatsApp
-              </label>
-              <Input
-                id="careers-phone"
-                name="Phone / WhatsApp"
-                placeholder="+91 98765 43210"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="rounded-xl text-xs"
-              />
-            </div>
+          <div className="space-y-1">
+            <label htmlFor="careers-phone" className="text-xs font-semibold text-foreground">
+              Phone / WhatsApp
+            </label>
+            <Input
+              id="careers-phone"
+              name="Phone / WhatsApp"
+              placeholder="+91 98765 43210"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="rounded-xl text-xs"
+            />
+          </div>
 
-            <div className="space-y-1">
-              <label htmlFor="careers-role" className="text-xs font-semibold text-foreground">
-                Position of Interest *
-              </label>
-              <select
-                id="careers-role"
-                name="Position of interest"
-                value={selectedRole}
-                onChange={(e) => setSelectedRole(e.target.value)}
-                className="w-full rounded-xl border border-input bg-background px-3 py-2 text-xs font-medium"
-              >
-                {OPEN_ROLES.map((role) => (
-                  <option key={role.id} value={role.title}>
-                    {role.title} ({role.department})
-                  </option>
-                ))}
-                <option value="General Interest">General Interest / Open Candidate</option>
-              </select>
-            </div>
+          <div className="space-y-1">
+            <label htmlFor="careers-role" className="text-xs font-semibold text-foreground">
+              Position of Interest *
+            </label>
+            <select
+              id="careers-role"
+              name="Position of interest"
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+              className="w-full rounded-xl border border-input bg-background px-3 py-2 text-xs font-medium"
+            >
+              {OPEN_ROLES.map((role) => (
+                <option key={role.id} value={role.title}>
+                  {role.title} ({role.department})
+                </option>
+              ))}
+              <option value="General Interest">General Interest / Open Candidate</option>
+            </select>
+          </div>
 
-            <div className="sm:col-span-2 space-y-1">
-              <label htmlFor="careers-portfolio" className="text-xs font-semibold text-foreground">
-                LinkedIn Profile / GitHub / Portfolio Link
-              </label>
-              <Input
-                id="careers-portfolio"
-                name="Portfolio / LinkedIn / GitHub"
-                placeholder="https://linkedin.com/in/username or https://github.com/username"
-                value={portfolio}
-                onChange={(e) => setPortfolio(e.target.value)}
-                className="rounded-xl text-xs"
-              />
-            </div>
+          <div className="sm:col-span-2 space-y-1">
+            <label htmlFor="careers-portfolio" className="text-xs font-semibold text-foreground">
+              LinkedIn Profile / GitHub / Portfolio Link
+            </label>
+            <Input
+              id="careers-portfolio"
+              name="Portfolio / LinkedIn / GitHub"
+              placeholder="https://linkedin.com/in/username or https://github.com/username"
+              value={portfolio}
+              onChange={(e) => setPortfolio(e.target.value)}
+              className="rounded-xl text-xs"
+            />
+          </div>
 
-            <div className="sm:col-span-2 space-y-1">
-              <label htmlFor="careers-cover-note" className="text-xs font-semibold text-foreground">
-                Why KhelGrid? (Tell us briefly about your sports or engineering background)
-              </label>
-              <Textarea
-                id="careers-cover-note"
-                name="Cover note"
-                rows={3}
-                placeholder="Share your experience, achievements, or why you want to work on Indian sports infrastructure…"
-                value={coverNote}
-                onChange={(e) => setCoverNote(e.target.value)}
-                className="rounded-xl text-xs"
-              />
-            </div>
+          <div className="sm:col-span-2 space-y-1">
+            <label htmlFor="careers-cover-note" className="text-xs font-semibold text-foreground">
+              Why KhelGrid? (Tell us briefly about your sports or engineering background)
+            </label>
+            <Textarea
+              id="careers-cover-note"
+              name="Cover note"
+              rows={3}
+              placeholder="Share your experience, achievements, or why you want to work on Indian sports infrastructure…"
+              value={coverNote}
+              onChange={(e) => setCoverNote(e.target.value)}
+              className="rounded-xl text-xs"
+            />
+          </div>
 
-            <div className="sm:col-span-2 space-y-1">
-              <label htmlFor="careers-cv" className="text-xs font-semibold text-foreground">CV / Resume * (PDF, DOC or DOCX; max 10 MB)</label>
-              <input id="careers-cv" name="attachment" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required className="block w-full rounded-xl border border-input bg-background px-3 py-2 text-xs file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-1.5 file:font-semibold file:text-primary-foreground" />
-              <p className="text-xs text-muted-foreground">Your application and attached CV will be emailed to khelgrid@gmail.com via FormSubmit. Please do not include sensitive information that is not needed for your application.</p>
-            </div>
-            <div className="sm:col-span-2 flex justify-end pt-2">
-              <Button
-                type="submit"
-                className="rounded-xl px-6 text-xs font-semibold"
-              >
-                <Send className="mr-1.5 h-3.5 w-3.5" />
-                Send CV & Application
-              </Button>
-            </div>
-          </form>
+          <div className="sm:col-span-2 space-y-1">
+            <label htmlFor="careers-cv" className="text-xs font-semibold text-foreground">
+              CV / Resume * (PDF, DOC or DOCX; max 10 MB)
+            </label>
+            <input
+              id="careers-cv"
+              name="attachment"
+              type="file"
+              accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              required
+              className="block w-full rounded-xl border border-input bg-background px-3 py-2 text-xs file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-1.5 file:font-semibold file:text-primary-foreground"
+            />
+            <p className="text-xs text-muted-foreground">
+              Your application and attached CV will be emailed to khelgrid@gmail.com via FormSubmit.
+              Please do not include sensitive information that is not needed for your application.
+            </p>
+          </div>
+          <div className="sm:col-span-2 flex justify-end pt-2">
+            <Button type="submit" className="rounded-xl px-6 text-xs font-semibold">
+              <Send className="mr-1.5 h-3.5 w-3.5" />
+              Send CV & Application
+            </Button>
+          </div>
+        </form>
       </section>
     </main>
   );

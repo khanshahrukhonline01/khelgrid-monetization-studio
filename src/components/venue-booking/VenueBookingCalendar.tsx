@@ -175,7 +175,6 @@ export function VenueBookingCalendar({
           const isPast = isBefore(day, minDate);
           const isCurrentDay = isToday(day);
 
-
           return (
             <button
               key={day.toISOString()}
@@ -203,9 +202,7 @@ export function VenueBookingCalendar({
                 <div className="flex items-center gap-0.5 mt-0.5">
                   <span
                     className={`h-1.5 w-1.5 rounded-full ${
-                      isSelected
-                        ? "bg-primary-foreground"
-                        : "bg-muted-foreground/50"
+                      isSelected ? "bg-primary-foreground" : "bg-muted-foreground/50"
                     }`}
                   />
                 </div>

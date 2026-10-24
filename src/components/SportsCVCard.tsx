@@ -103,7 +103,7 @@ const THEME_CONFIG: Record<
 export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProps) {
   const theme = THEME_CONFIG[data.theme] || THEME_CONFIG.gold;
   const language = getSportsCVLanguage();
-  const tr = (en: string, hi: string) => language === "hi" ? hi : en;
+  const tr = (en: string, hi: string) => (language === "hi" ? hi : en);
 
   // Average performance rating
   const overallRating = useMemo(() => {
@@ -232,19 +232,27 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
           <div className="mt-0.5 font-bold text-neutral-100">{data.weight || "—"}</div>
         </div>
         <div className="rounded-lg border border-white/10 bg-white/[0.03] p-2">
-          <div className="text-[10px] uppercase text-neutral-400">{tr("Dominant Side", "प्रमुख हाथ / पैर")}</div>
+          <div className="text-[10px] uppercase text-neutral-400">
+            {tr("Dominant Side", "प्रमुख हाथ / पैर")}
+          </div>
           <div className="mt-0.5 font-bold text-neutral-100">{data.dominantSide}</div>
         </div>
         <div className="col-span-2 sm:col-span-1 rounded-lg border border-white/10 bg-white/[0.03] p-2">
-          <div className="text-[10px] uppercase text-neutral-400">{tr("Trial Status", "ट्रायल स्थिति")}</div>
-          <div className="mt-0.5 font-bold text-emerald-400">{tr("Active Ready", "ट्रायल के लिए तैयार")}</div>
+          <div className="text-[10px] uppercase text-neutral-400">
+            {tr("Trial Status", "ट्रायल स्थिति")}
+          </div>
+          <div className="mt-0.5 font-bold text-emerald-400">
+            {tr("Active Ready", "ट्रायल के लिए तैयार")}
+          </div>
         </div>
       </div>
 
       {/* Bio / Scout Statement */}
       {data.bio && (
         <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.02] p-3.5 text-xs sm:text-sm leading-relaxed text-neutral-300">
-          <span className="font-semibold text-white mr-1">{tr("Athlete Summary:", "खिलाड़ी परिचय:")}</span>
+          <span className="font-semibold text-white mr-1">
+            {tr("Athlete Summary:", "खिलाड़ी परिचय:")}
+          </span>
           {data.bio}
         </div>
       )}
@@ -291,7 +299,9 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
                 >
                   {data.careerSummary.primaryMetric.value}
                 </div>
-                <div className="mt-0.5 text-[10px] text-neutral-400">{tr("Primary Benchmark", "प्रमुख मानक")}</div>
+                <div className="mt-0.5 text-[10px] text-neutral-400">
+                  {tr("Primary Benchmark", "प्रमुख मानक")}
+                </div>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-center">
@@ -301,7 +311,9 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
                 <div className="mt-1 font-mono text-xl sm:text-2xl font-black text-white tabular-nums">
                   {data.careerSummary.secondaryMetric.value}
                 </div>
-                <div className="mt-0.5 text-[10px] text-neutral-400">{tr("Secondary Benchmark", "द्वितीय मानक")}</div>
+                <div className="mt-0.5 text-[10px] text-neutral-400">
+                  {tr("Secondary Benchmark", "द्वितीय मानक")}
+                </div>
               </div>
 
               {data.careerSummary.tertiaryMetric ? (
@@ -312,15 +324,21 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
                   <div className="mt-1 font-mono text-xl sm:text-2xl font-black text-white tabular-nums">
                     {data.careerSummary.tertiaryMetric.value}
                   </div>
-                  <div className="mt-0.5 text-[10px] text-neutral-400">{tr("Efficiency Rate", "दक्षता दर")}</div>
+                  <div className="mt-0.5 text-[10px] text-neutral-400">
+                    {tr("Efficiency Rate", "दक्षता दर")}
+                  </div>
                 </div>
               ) : (
                 <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-center">
                   <div className="text-[10px] uppercase tracking-wider text-neutral-400">
                     Status
                   </div>
-                  <div className="mt-1 text-sm font-bold text-emerald-400">{tr("Active Scouted", "स्काउटिंग सक्रिय")}</div>
-                  <div className="mt-0.5 text-[10px] text-neutral-400">{tr("State Circuit", "राज्य स्तर")}</div>
+                  <div className="mt-1 text-sm font-bold text-emerald-400">
+                    {tr("Active Scouted", "स्काउटिंग सक्रिय")}
+                  </div>
+                  <div className="mt-0.5 text-[10px] text-neutral-400">
+                    {tr("State Circuit", "राज्य स्तर")}
+                  </div>
                 </div>
               )}
             </div>
@@ -333,8 +351,12 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
                 <thead>
                   <tr className="border-b border-white/10 bg-white/[0.03] text-[10px] uppercase tracking-wider text-neutral-400">
                     <th className="px-3 py-2.5 font-semibold">{tr("Season", "सीज़न")}</th>
-                    <th className="px-3 py-2.5 font-semibold">{tr("Tournament / Team", "टूर्नामेंट / टीम")}</th>
-                    <th className="px-3 py-2.5 font-semibold text-center">{tr("Matches", "मैच")}</th>
+                    <th className="px-3 py-2.5 font-semibold">
+                      {tr("Tournament / Team", "टूर्नामेंट / टीम")}
+                    </th>
+                    <th className="px-3 py-2.5 font-semibold text-center">
+                      {tr("Matches", "मैच")}
+                    </th>
                     <th className="px-3 py-2.5 font-semibold text-right">
                       {data.careerSeasonStats[0].stat1Label}
                     </th>
@@ -346,7 +368,9 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
                         {data.careerSeasonStats[0].stat3Label}
                       </th>
                     )}
-                    <th className="px-3 py-2.5 font-semibold">{tr("Honour / Notes", "सम्मान / टिप्पणियाँ")}</th>
+                    <th className="px-3 py-2.5 font-semibold">
+                      {tr("Honour / Notes", "सम्मान / टिप्पणियाँ")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -535,7 +559,9 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
             <Trophy className={`h-4 w-4 ${theme.accentText}`} />
             {tr("Athletic Achievements & Honours", "खेल उपलब्धियाँ और सम्मान")}
           </h4>
-          <span className="text-[11px] text-neutral-400">{data.achievements.length} {language === "hi" ? "दर्ज" : "Recorded"}</span>
+          <span className="text-[11px] text-neutral-400">
+            {data.achievements.length} {language === "hi" ? "दर्ज" : "Recorded"}
+          </span>
         </div>
 
         {data.achievements.length === 0 ? (
@@ -724,7 +750,9 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-white">{tr("Profile", "खिलाड़ी की खेल प्रोफ़ाइल")}</span>
+              <span className="font-semibold text-white">
+                {tr("Profile", "खिलाड़ी की खेल प्रोफ़ाइल")}
+              </span>
               {onShare && (
                 <button
                   type="button"

@@ -40,7 +40,14 @@ export function NavLink({ item, active, source, showLabel = true, className }: N
       )}
     >
       <span className="relative flex shrink-0 items-center justify-center">
-        <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-emerald-700 dark:text-emerald-300" : "text-slate-500 group-hover:text-emerald-700 dark:text-slate-400 dark:group-hover:text-emerald-300")} />
+        <item.icon
+          className={cn(
+            "h-4 w-4 shrink-0 transition-colors",
+            active
+              ? "text-emerald-700 dark:text-emerald-300"
+              : "text-slate-500 group-hover:text-emerald-700 dark:text-slate-400 dark:group-hover:text-emerald-300",
+          )}
+        />
         {item.label === "Live Scores" && !showLabel && (
           <span className="absolute -top-1 -right-1 flex h-2 w-2" aria-hidden="true">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />

@@ -149,7 +149,7 @@ export async function getVenueBookings(): Promise<BookingRecord[]> {
     const end = formatTimeToSQL(item.end_time);
     const [sh, sm] = start.split(":").map(Number);
     const [eh, em] = end.split(":").map(Number);
-    const duration = Math.max(1, ((eh * 60 + em) - (sh * 60 + sm) + 1440) % 1440 / 60);
+    const duration = Math.max(1, ((eh * 60 + em - (sh * 60 + sm) + 1440) % 1440) / 60);
     const total = Number(item.total_price) || 0;
     return {
       id: item.id,
@@ -215,14 +215,20 @@ export async function checkSlotAvailability(params: {
   duration_hours?: number;
 }): Promise<{ available: boolean; conflictReason?: string }> {
   if (!isSupabaseConfigured) {
-    return { available: false, conflictReason: "Online availability is not connected. Please contact the venue directly." };
+    return {
+      available: false,
+      conflictReason: "Online availability is not connected. Please contact the venue directly.",
+    };
   }
 
   const startTimeSQL = formatTimeToSQL(params.start_time);
   const endTimeSQL = calculateEndTimeSQL(params.start_time, params.duration_hours || 1);
 
   if (!params.court_id) {
-    return { available: false, conflictReason: "Select a published court before checking availability." };
+    return {
+      available: false,
+      conflictReason: "Select a published court before checking availability.",
+    };
   }
 
   try {
@@ -238,22 +244,31 @@ export async function checkSlotAvailability(params: {
     });
 
     if (rpcError || !rpcData) {
-      return { available: false, conflictReason: "Live court availability could not be verified. No booking will be submitted; please retry." };
+      return {
+        available: false,
+        conflictReason:
+          "Live court availability could not be verified. No booking will be submitted; please retry.",
+      };
     }
 
     for (const slot of rpcData) {
       if (startTimeSQL < slot.end_time && endTimeSQL > slot.start_time) {
         return {
           available: false,
-          conflictReason: slot.status === "confirmed"
-            ? "This court slot is already booked."
-            : "This court slot is temporarily held by another customer.",
+          conflictReason:
+            slot.status === "confirmed"
+              ? "This court slot is already booked."
+              : "This court slot is temporarily held by another customer.",
         };
       }
     }
     return { available: true };
   } catch {
-    return { available: false, conflictReason: "Live court availability could not be verified. No booking will be submitted; please retry." };
+    return {
+      available: false,
+      conflictReason:
+        "Live court availability could not be verified. No booking will be submitted; please retry.",
+    };
   }
 }
 
@@ -316,9 +331,10 @@ export async function createVenueBooking(params: {
     };
   }
 
-  const bookingId = typeof crypto !== "undefined" && crypto.randomUUID
-    ? crypto.randomUUID()
-    : `00000000-0000-4000-8000-${Date.now().toString(16).padStart(12, "0").slice(-12)}`;
+  const bookingId =
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `00000000-0000-4000-8000-${Date.now().toString(16).padStart(12, "0").slice(-12)}`;
 
   const bookingRecord: BookingRecord = {
     id: bookingId,
@@ -357,7 +373,8 @@ export async function createVenueBooking(params: {
       if (venueLookupError || !existingVenue) {
         return {
           success: false,
-          message: "This is a sample listing or is not connected to live booking yet. Please contact the venue directly.",
+          message:
+            "This is a sample listing or is not connected to live booking yet. Please contact the venue directly.",
         };
       }
 
@@ -407,7 +424,8 @@ export async function createVenueBooking(params: {
       if (!atomicCompleted) {
         return {
           success: false,
-          message: "The booking protection service is unavailable. No reservation was created. Please retry shortly.",
+          message:
+            "The booking protection service is unavailable. No reservation was created. Please retry shortly.",
         };
       }
     } catch (dbErr: unknown) {
@@ -420,10 +438,18 @@ export async function createVenueBooking(params: {
         };
       }
       console.warn("Supabase booking insert warning:", dbErr);
-      return { success: false, message: "The booking could not be saved online. No reservation has been confirmed. Please try again or contact the venue." };
+      return {
+        success: false,
+        message:
+          "The booking could not be saved online. No reservation has been confirmed. Please try again or contact the venue.",
+      };
     }
   } else {
-    return { success: false, message: "Online booking is not connected in this environment. Please contact the venue directly." };
+    return {
+      success: false,
+      message:
+        "Online booking is not connected in this environment. Please contact the venue directly.",
+    };
   }
 
   // Notify active views; persisted booking data is always re-read from Supabase.
@@ -467,13 +493,15 @@ export async function holdVenueSlot(params: {
   if (!Number.isFinite(params.price_per_hour) || (params.price_per_hour ?? 0) <= 0) {
     return {
       success: false,
-      message: "A published court price is required before a slot can be held. No hold was created.",
+      message:
+        "A published court price is required before a slot can be held. No hold was created.",
     };
   }
   if (!Number.isFinite(duration) || duration <= 0) {
     return {
       success: false,
-      message: "A valid booking duration is required before a slot can be held. No hold was created.",
+      message:
+        "A valid booking duration is required before a slot can be held. No hold was created.",
     };
   }
   const totalPrice = params.price_per_hour * duration;
@@ -521,7 +549,8 @@ export async function holdVenueSlot(params: {
 
   return {
     success: false,
-    message: "The live slot-hold service is unavailable. No slot has been reserved. Please retry shortly.",
+    message:
+      "The live slot-hold service is unavailable. No slot has been reserved. Please retry shortly.",
   };
 }
 

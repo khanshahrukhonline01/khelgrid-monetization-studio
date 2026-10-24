@@ -744,23 +744,89 @@ export function SiteFooter() {
                 access, current facilities and booking or event requirements before visiting.
               </p>
             </div>
-            <Link to="/cities" className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-primary hover:underline">
+            <Link
+              to="/cities"
+              className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-primary hover:underline"
+            >
               Explore all cities <span aria-hidden="true">→</span>
             </Link>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {[
-              { city: "Delhi", slug: "delhi", state: "Delhi NCR", venues: ["Jawaharlal Nehru Stadium", "Thyagaraj Stadium", "SAI Karni Singh Shooting Range"] },
-              { city: "Mumbai", slug: "mumbai", state: "Maharashtra", venues: ["Wankhede Stadium", "MCA-BKC Ground", "Cooperage Football Ground"] },
-              { city: "Bengaluru", slug: "bengaluru", state: "Karnataka", venues: ["Sree Kanteerava Stadium", "M. Chinnaswamy Stadium", "Kanteerava Aquatic Centre"] },
-              { city: "Hyderabad", slug: "hyderabad", state: "Telangana", venues: ["Gachibowli Stadium", "GMC Balayogi Stadium", "Rajiv Gandhi International Cricket Stadium"] },
-              { city: "Pune", slug: "pune", state: "Maharashtra", venues: ["Shree Shiv Chhatrapati Sports Complex", "MCA Stadium, Gahunje", "Deccan Gymkhana"] },
-              { city: "Kolkata", slug: "kolkata", state: "West Bengal", venues: ["Salt Lake Stadium", "Eden Gardens", "Mohun Bagan Ground"] },
-              { city: "Chennai", slug: "chennai", state: "Tamil Nadu", venues: ["Jawaharlal Nehru Stadium", "M. A. Chidambaram Stadium", "SDAT Tennis Stadium"] },
-              { city: "Bhubaneswar", slug: "bhubaneswar", state: "Odisha", venues: ["Kalinga Stadium", "Kalinga Hockey Stadium", "Biju Patnaik Swimming Pool"] },
+              {
+                city: "Delhi",
+                slug: "delhi",
+                state: "Delhi NCR",
+                venues: [
+                  "Jawaharlal Nehru Stadium",
+                  "Thyagaraj Stadium",
+                  "SAI Karni Singh Shooting Range",
+                ],
+              },
+              {
+                city: "Mumbai",
+                slug: "mumbai",
+                state: "Maharashtra",
+                venues: ["Wankhede Stadium", "MCA-BKC Ground", "Cooperage Football Ground"],
+              },
+              {
+                city: "Bengaluru",
+                slug: "bengaluru",
+                state: "Karnataka",
+                venues: [
+                  "Sree Kanteerava Stadium",
+                  "M. Chinnaswamy Stadium",
+                  "Kanteerava Aquatic Centre",
+                ],
+              },
+              {
+                city: "Hyderabad",
+                slug: "hyderabad",
+                state: "Telangana",
+                venues: [
+                  "Gachibowli Stadium",
+                  "GMC Balayogi Stadium",
+                  "Rajiv Gandhi International Cricket Stadium",
+                ],
+              },
+              {
+                city: "Pune",
+                slug: "pune",
+                state: "Maharashtra",
+                venues: [
+                  "Shree Shiv Chhatrapati Sports Complex",
+                  "MCA Stadium, Gahunje",
+                  "Deccan Gymkhana",
+                ],
+              },
+              {
+                city: "Kolkata",
+                slug: "kolkata",
+                state: "West Bengal",
+                venues: ["Salt Lake Stadium", "Eden Gardens", "Mohun Bagan Ground"],
+              },
+              {
+                city: "Chennai",
+                slug: "chennai",
+                state: "Tamil Nadu",
+                venues: [
+                  "Jawaharlal Nehru Stadium",
+                  "M. A. Chidambaram Stadium",
+                  "SDAT Tennis Stadium",
+                ],
+              },
+              {
+                city: "Bhubaneswar",
+                slug: "bhubaneswar",
+                state: "Odisha",
+                venues: ["Kalinga Stadium", "Kalinga Hockey Stadium", "Biju Patnaik Swimming Pool"],
+              },
             ].map((entry) => (
-              <article key={entry.slug} className="group rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm">
+              <article
+                key={entry.slug}
+                className="group rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h4 className="font-heading text-sm font-bold text-foreground">{entry.city}</h4>
@@ -772,13 +838,19 @@ export function SiteFooter() {
                 </div>
                 <ul className="mt-3 space-y-2">
                   {entry.venues.map((venue) => (
-                    <li key={venue} className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+                    <li
+                      key={venue}
+                      className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground"
+                    >
                       <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />
                       <span>{venue}</span>
                     </li>
                   ))}
                 </ul>
-                <Link to={`/city/${entry.slug}`} className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+                <Link
+                  to={`/city/${entry.slug}`}
+                  className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+                >
                   Explore {entry.city} sports hubs <span aria-hidden="true">→</span>
                 </Link>
               </article>
@@ -786,7 +858,8 @@ export function SiteFooter() {
           </div>
           <p className="text-[11px] leading-relaxed text-muted-foreground">
             Venue names are discovery starting points, not a confirmation of current availability,
-            public entry, or booking status. Please verify details with the venue or official organiser.
+            public entry, or booking status. Please verify details with the venue or official
+            organiser.
           </p>
         </div>
       </section>
@@ -859,35 +932,110 @@ export function SiteFooter() {
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
             <div>
-              <h2 className="font-heading text-sm font-bold text-foreground">Explore KhelGrid Products</h2>
-              <p className="mt-0.5 text-xs text-muted-foreground">Tools to help athletes build, train, discover and get noticed.</p>
+              <h2 className="font-heading text-sm font-bold text-foreground">
+                Explore KhelGrid Products
+              </h2>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Tools to help athletes build, train, discover and get noticed.
+              </p>
             </div>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Made for Indian sport</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Made for Indian sport
+            </span>
           </div>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-            <Link to="/start-from-zero" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Trophy className="h-4 w-4" /></span>
-              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Sports CV</span><span className="block text-[10px] text-muted-foreground">Show your journey</span></span>
+            <Link
+              to="/start-from-zero"
+              className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                <Trophy className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xs font-semibold text-foreground group-hover:text-primary">
+                  Sports CV
+                </span>
+                <span className="block text-[10px] text-muted-foreground">Show your journey</span>
+              </span>
             </Link>
-            <Link to="/talent-scanner" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Search className="h-4 w-4" /></span>
-              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Talent Scanner</span><span className="block text-[10px] text-muted-foreground">Track performance</span></span>
+            <Link
+              to="/talent-scanner"
+              className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                <Search className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xs font-semibold text-foreground group-hover:text-primary">
+                  Talent Scanner
+                </span>
+                <span className="block text-[10px] text-muted-foreground">Track performance</span>
+              </span>
             </Link>
-            <Link to="/search" search={{ q: "", sport: "All Sports", city: "All Locations", sort: "Soonest", free: false }} className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Search className="h-4 w-4" /></span>
-              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Find Trials</span><span className="block text-[10px] text-muted-foreground">Discover opportunities</span></span>
+            <Link
+              to="/search"
+              search={{
+                q: "",
+                sport: "All Sports",
+                city: "All Locations",
+                sort: "Soonest",
+                free: false,
+              }}
+              className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                <Search className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xs font-semibold text-foreground group-hover:text-primary">
+                  Find Trials
+                </span>
+                <span className="block text-[10px] text-muted-foreground">
+                  Discover opportunities
+                </span>
+              </span>
             </Link>
-            <Link to="/ai-guide" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Sparkles className="h-4 w-4" /></span>
-              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">AI Sports Guide</span><span className="block text-[10px] text-muted-foreground">Plan your next step</span></span>
+            <Link
+              to="/ai-guide"
+              className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                <Sparkles className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xs font-semibold text-foreground group-hover:text-primary">
+                  AI Sports Guide
+                </span>
+                <span className="block text-[10px] text-muted-foreground">Plan your next step</span>
+              </span>
             </Link>
-            <Link to="/book" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><MapPin className="h-4 w-4" /></span>
-              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Book Venues</span><span className="block text-[10px] text-muted-foreground">Find places to play</span></span>
+            <Link
+              to="/book"
+              className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                <MapPin className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xs font-semibold text-foreground group-hover:text-primary">
+                  Book Venues
+                </span>
+                <span className="block text-[10px] text-muted-foreground">Find places to play</span>
+              </span>
             </Link>
-            <Link to="/play" className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Zap className="h-4 w-4" /></span>
-              <span className="min-w-0"><span className="block text-xs font-semibold text-foreground group-hover:text-primary">Play & Match</span><span className="block text-[10px] text-muted-foreground">Find local games</span></span>
+            <Link
+              to="/play"
+              className="group flex min-w-0 items-center gap-2 rounded-xl border border-border bg-card/70 p-3 transition hover:border-primary/50 hover:bg-card"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                <Zap className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xs font-semibold text-foreground group-hover:text-primary">
+                  Play & Match
+                </span>
+                <span className="block text-[10px] text-muted-foreground">Find local games</span>
+              </span>
             </Link>
           </div>
         </div>

@@ -112,7 +112,9 @@ async function run() {
         stadiums,
       });
 
-      console.log(`[OK] ${districtName} (ID: ${cityId}) - ${stadiums.length} stadiums, ${facilities.length} facilities`);
+      console.log(
+        `[OK] ${districtName} (ID: ${cityId}) - ${stadiums.length} stadiums, ${facilities.length} facilities`,
+      );
     } catch (err) {
       console.error(`Error fetching cityId ${cityId}:`, err);
     }

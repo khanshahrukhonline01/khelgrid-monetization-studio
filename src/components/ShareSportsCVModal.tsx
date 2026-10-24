@@ -43,7 +43,7 @@ export function ShareSportsCVModal({
   inline = false,
 }: ShareSportsCVModalProps) {
   const language = getSportsCVLanguage();
-  const tr = (en: string, hi: string) => language === "hi" ? hi : en;
+  const tr = (en: string, hi: string) => (language === "hi" ? hi : en);
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedPitch, setCopiedPitch] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
@@ -97,11 +97,19 @@ export function ShareSportsCVModal({
       }
       setCopiedLink(true);
       toast.success(tr("Public Sports CV link copied!", "सार्वजनिक Sports CV लिंक कॉपी हो गया!"), {
-        description: tr("Anyone can now view your verified athletic achievements.", "अब कोई भी आपकी खिलाड़ी प्रोफ़ाइल और उपलब्धियाँ देख सकता है।"),
+        description: tr(
+          "Anyone can now view your verified athletic achievements.",
+          "अब कोई भी आपकी खिलाड़ी प्रोफ़ाइल और उपलब्धियाँ देख सकता है।",
+        ),
       });
       setTimeout(() => setCopiedLink(false), 2500);
     } catch {
-      toast.error(tr("Failed to copy link. Please manually copy the URL.", "लिंक कॉपी नहीं हुआ। कृपया URL को मैन्युअल रूप से कॉपी करें।"));
+      toast.error(
+        tr(
+          "Failed to copy link. Please manually copy the URL.",
+          "लिंक कॉपी नहीं हुआ। कृपया URL को मैन्युअल रूप से कॉपी करें।",
+        ),
+      );
     }
   };
 
@@ -119,7 +127,10 @@ export function ShareSportsCVModal({
       }
       setCopiedPitch(true);
       toast.success(tr("Scout Pitch snippet copied!", "स्काउट परिचय कॉपी हो गया!"), {
-        description: tr("Ready to paste into WhatsApp groups or coach emails.", "इसे WhatsApp समूह या कोच के ईमेल में पेस्ट कर सकते हैं।"),
+        description: tr(
+          "Ready to paste into WhatsApp groups or coach emails.",
+          "इसे WhatsApp समूह या कोच के ईमेल में पेस्ट कर सकते हैं।",
+        ),
       });
       setTimeout(() => setCopiedPitch(false), 2500);
     } catch {
@@ -142,10 +153,17 @@ export function ShareSportsCVModal({
     try {
       setIsExportingCard(true);
       await downloadSportsCardAsPNG(data);
-      toast.success(tr("Downloaded High-Res Scout Card (PNG)!", "हाई-रेज़ोल्यूशन खिलाड़ी कार्ड (PNG) डाउनलोड हो गया!"));
+      toast.success(
+        tr(
+          "Downloaded High-Res Scout Card (PNG)!",
+          "हाई-रेज़ोल्यूशन खिलाड़ी कार्ड (PNG) डाउनलोड हो गया!",
+        ),
+      );
     } catch (err) {
       console.error(err);
-      toast.error(tr("Failed to export scout card image.", "खिलाड़ी कार्ड इमेज एक्सपोर्ट नहीं हो सकी।"));
+      toast.error(
+        tr("Failed to export scout card image.", "खिलाड़ी कार्ड इमेज एक्सपोर्ट नहीं हो सकी।"),
+      );
     } finally {
       setIsExportingCard(false);
     }
@@ -283,7 +301,9 @@ export function ShareSportsCVModal({
             {/* Unique Public URL Box */}
             <div>
               <div className="flex items-center justify-between text-xs font-medium text-muted-foreground mb-1.5">
-                <span>{tr("Your Unique Public Sports CV URL", "आपका सार्वजनिक Sports CV लिंक")}</span>
+                <span>
+                  {tr("Your Unique Public Sports CV URL", "आपका सार्वजनिक Sports CV लिंक")}
+                </span>
                 <div className="flex items-center gap-2">
                   <label className="flex items-center gap-1 text-[11px] cursor-pointer text-neutral-400 hover:text-foreground">
                     <input
@@ -292,7 +312,9 @@ export function ShareSportsCVModal({
                       onChange={(e) => setUsePortableUrl(e.target.checked)}
                       className="rounded border-border text-primary focus:ring-primary h-3 w-3"
                     />
-                    <span>{tr("Embed full dataset in link", "लिंक में पूरा CV डेटा शामिल करें")}</span>
+                    <span>
+                      {tr("Embed full dataset in link", "लिंक में पूरा CV डेटा शामिल करें")}
+                    </span>
                   </label>
                 </div>
               </div>
@@ -342,7 +364,9 @@ export function ShareSportsCVModal({
             {/* Social Channels Share Grid */}
             <div>
               <div className="text-xs font-semibold text-foreground uppercase tracking-wider mb-2.5 flex items-center justify-between">
-                <span>{tr("Share Directly to Socials & Coaches", "सोशल मीडिया और कोच के साथ साझा करें")}</span>
+                <span>
+                  {tr("Share Directly to Socials & Coaches", "सोशल मीडिया और कोच के साथ साझा करें")}
+                </span>
                 {typeof navigator !== "undefined" && typeof navigator.share === "function" && (
                   <button
                     type="button"
@@ -369,7 +393,9 @@ export function ShareSportsCVModal({
                   <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
                     WhatsApp
                   </span>
-                  <span className="text-[10px] text-muted-foreground">{tr("Scout Formatted", "स्काउट के लिए तैयार")}</span>
+                  <span className="text-[10px] text-muted-foreground">
+                    {tr("Scout Formatted", "स्काउट के लिए तैयार")}
+                  </span>
                 </a>
 
                 {/* X / Twitter */}
@@ -385,7 +411,9 @@ export function ShareSportsCVModal({
                   <span className="text-xs font-bold text-sky-600 dark:text-sky-400">
                     Twitter / X
                   </span>
-                  <span className="text-[10px] text-muted-foreground">{tr("Post Highlights", "मुख्य उपलब्धियाँ पोस्ट करें")}</span>
+                  <span className="text-[10px] text-muted-foreground">
+                    {tr("Post Highlights", "मुख्य उपलब्धियाँ पोस्ट करें")}
+                  </span>
                 </a>
 
                 {/* LinkedIn */}
@@ -401,7 +429,9 @@ export function ShareSportsCVModal({
                   <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
                     LinkedIn
                   </span>
-                  <span className="text-[10px] text-muted-foreground">{tr("Athletic Portfolio", "खेल पोर्टफोलियो")}</span>
+                  <span className="text-[10px] text-muted-foreground">
+                    {tr("Athletic Portfolio", "खेल पोर्टफोलियो")}
+                  </span>
                 </a>
 
                 {/* Email Scout */}
@@ -415,7 +445,9 @@ export function ShareSportsCVModal({
                   <span className="text-xs font-bold text-purple-600 dark:text-purple-400">
                     Email Scout
                   </span>
-                  <span className="text-[10px] text-muted-foreground">{tr("Formal Pitch", "औपचारिक परिचय")}</span>
+                  <span className="text-[10px] text-muted-foreground">
+                    {tr("Formal Pitch", "औपचारिक परिचय")}
+                  </span>
                 </a>
               </div>
             </div>

@@ -376,9 +376,15 @@ export function LiveScoresPage() {
   return (
     <div className="w-full min-w-0 max-w-full flex-1 pb-16 sm:pb-24">
       {/* Horizontal sports selector sits directly below the global top navigation. */}
-      <nav aria-label="Browse live sports" className="w-full border-b border-border/70 bg-background/95">
+      <nav
+        aria-label="Browse live sports"
+        className="w-full border-b border-border/70 bg-background/95"
+      >
         <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-1.5 overflow-x-auto overscroll-x-contain py-2 px-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory sm:py-2.5" role="list">
+          <div
+            className="flex items-center gap-1.5 overflow-x-auto overscroll-x-contain py-2 px-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory sm:py-2.5"
+            role="list"
+          >
             {LIVE_PAGE_SPORTS.map((sport) => {
               const isSelected = selectedPageSport === sport.name;
               return (
@@ -391,7 +397,9 @@ export function LiveScoresPage() {
                       setSelectedPageSport(sport.name);
                       return;
                     }
-                    toast.info(`More ${sport.name.toLowerCase()} live-score coverage is coming soon.`);
+                    toast.info(
+                      `More ${sport.name.toLowerCase()} live-score coverage is coming soon.`,
+                    );
                   }}
                   className={cn(
                     "flex shrink-0 min-w-[68px] snap-start flex-col items-center justify-center gap-1 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-w-[76px] sm:px-3 sm:py-2 sm:text-xs",
@@ -400,7 +408,9 @@ export function LiveScoresPage() {
                       : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
-                  <span aria-hidden="true" className="text-xl leading-6">{sport.icon}</span>
+                  <span aria-hidden="true" className="text-xl leading-6">
+                    {sport.icon}
+                  </span>
                   <span className="whitespace-nowrap">{sport.name}</span>
                 </button>
               );
@@ -462,7 +472,9 @@ export function LiveScoresPage() {
           </div>
 
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
-            <span className="mr-1 text-[11px] font-semibold text-muted-foreground">Quick Filters:</span>
+            <span className="mr-1 text-[11px] font-semibold text-muted-foreground">
+              Quick Filters:
+            </span>
             {SUGGESTED_CRICKET_FILTERS.map((chip) => {
               const isActive = searchQuery.toLowerCase() === chip.query.toLowerCase();
               return (
@@ -488,7 +500,11 @@ export function LiveScoresPage() {
                 Found <strong>{filteredMatches.length}</strong> match
                 {filteredMatches.length === 1 ? "" : "es"} matching &ldquo;{searchQuery}&rdquo;
               </span>
-              <button type="button" onClick={() => setSearchQuery("")} className="font-semibold hover:text-foreground">
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="font-semibold hover:text-foreground"
+              >
                 Clear search
               </button>
             </div>

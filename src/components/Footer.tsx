@@ -1,6 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { PRIMARY_ITEMS, FEATURE_ITEMS } from "@/config/nav";
-import { Facebook, Twitter, Instagram, Linkedin, MessageCircle, Mail, MapPin, Phone } from "lucide-react";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  MessageCircle,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import { TrialNewsletterSignup } from "@/components/TrialNewsletterSignup";
 
 export function Footer() {

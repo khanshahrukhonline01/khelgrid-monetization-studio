@@ -642,7 +642,9 @@ export function VenueDetails({
                   className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary"
                   title={sport}
                 >
-                  <span aria-hidden="true" className="text-base leading-none">{getSportIcon(sport)}</span>
+                  <span aria-hidden="true" className="text-base leading-none">
+                    {getSportIcon(sport)}
+                  </span>
                   <span>{sport}</span>
                 </span>
               ))}
@@ -797,12 +799,27 @@ export function VenueDetails({
                 <div className="flex items-center justify-between p-2.5 rounded-lg bg-muted/40 border border-border/50 text-sm">
                   <div className="flex items-center gap-2 min-w-0">
                     <Phone className="h-4 w-4 text-muted-foreground shrink-0" />
-                    <a id="venue-contact-phone-link" href={`tel:${venue.contact_phone}`} className="truncate hover:text-primary font-medium hover:underline">
+                    <a
+                      id="venue-contact-phone-link"
+                      href={`tel:${venue.contact_phone}`}
+                      className="truncate hover:text-primary font-medium hover:underline"
+                    >
                       {venue.contact_phone}
                     </a>
                   </div>
-                  <Button id="venue-copy-phone-btn" variant="ghost" size="icon" onClick={() => copyToClipboard(venue.contact_phone!, "phone number")} className="h-7 w-7 text-muted-foreground shrink-0" title="Copy phone">
-                    {copiedField === "phone number" ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                  <Button
+                    id="venue-copy-phone-btn"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => copyToClipboard(venue.contact_phone!, "phone number")}
+                    className="h-7 w-7 text-muted-foreground shrink-0"
+                    title="Copy phone"
+                  >
+                    {copiedField === "phone number" ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-500" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
                   </Button>
                 </div>
               )}
@@ -810,18 +827,34 @@ export function VenueDetails({
                 <div className="flex items-center justify-between p-2.5 rounded-lg bg-muted/40 border border-border/50 text-sm">
                   <div className="flex items-center gap-2 min-w-0">
                     <Mail className="h-4 w-4 text-muted-foreground shrink-0" />
-                    <a id="venue-contact-email-link" href={`mailto:${venue.contact_email}`} className="truncate hover:text-primary font-medium hover:underline">
+                    <a
+                      id="venue-contact-email-link"
+                      href={`mailto:${venue.contact_email}`}
+                      className="truncate hover:text-primary font-medium hover:underline"
+                    >
                       {venue.contact_email}
                     </a>
                   </div>
-                  <Button id="venue-copy-email-btn" variant="ghost" size="icon" onClick={() => copyToClipboard(venue.contact_email!, "email address")} className="h-7 w-7 text-muted-foreground shrink-0" title="Copy email">
-                    {copiedField === "email address" ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                  <Button
+                    id="venue-copy-email-btn"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => copyToClipboard(venue.contact_email!, "email address")}
+                    className="h-7 w-7 text-muted-foreground shrink-0"
+                    title="Copy email"
+                  >
+                    {copiedField === "email address" ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-500" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
                   </Button>
                 </div>
               )}
               {!venue.contact_phone && !venue.contact_email && (
                 <p className="text-sm text-muted-foreground sm:col-span-2">
-                  This venue has not provided public contact details yet. Please check the venue website or map listing before visiting.
+                  This venue has not provided public contact details yet. Please check the venue
+                  website or map listing before visiting.
                 </p>
               )}
             </div>
@@ -834,7 +867,8 @@ export function VenueDetails({
           <div className="flex items-center gap-2 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 text-xs">
             <Clock className="h-4 w-4 shrink-0" />
             <span>
-              Confirm the venue’s current operating hours and any evening or weekend surcharges directly before booking.
+              Confirm the venue’s current operating hours and any evening or weekend surcharges
+              directly before booking.
             </span>
           </div>
 
@@ -915,12 +949,18 @@ export function VenueDetails({
                 </div>
                 <div className="flex justify-between text-muted-foreground">
                   <span>Slot price</span>
-                  <span>{venue.price_per_hour > 0 ? `₹${venue.price_per_hour.toLocaleString("en-IN")}` : "Not provided"}</span>
+                  <span>
+                    {venue.price_per_hour > 0
+                      ? `₹${venue.price_per_hour.toLocaleString("en-IN")}`
+                      : "Not provided"}
+                  </span>
                 </div>
                 <div className="flex justify-between font-semibold text-foreground pt-1 border-t border-border/40">
                   <span>Estimated Total</span>
                   <span className="text-primary font-bold">
-                    {venue.price_per_hour > 0 ? `₹${venue.price_per_hour.toLocaleString("en-IN")}` : "Contact venue"}
+                    {venue.price_per_hour > 0
+                      ? `₹${venue.price_per_hour.toLocaleString("en-IN")}`
+                      : "Contact venue"}
                   </span>
                 </div>
               </div>

@@ -31,7 +31,9 @@ if (!baseSha || !headSha) {
 let changed;
 try {
   changed = execFileSync("git", ["diff", "--name-only", baseSha, headSha], { encoding: "utf8" })
-    .split("\n").map((s) => s.trim()).filter(Boolean);
+    .split("\n")
+    .map((s) => s.trim())
+    .filter(Boolean);
 } catch (error) {
   console.error("Unable to inspect PR changes for data-policy compliance.", error);
   process.exit(1);
@@ -44,7 +46,9 @@ const sensitivePatterns = [
   /^supabase\/migrations\//,
   /^scripts\/.*(trial|opportunit|import)/i,
 ];
-const sensitiveChanges = changed.filter((file) => sensitivePatterns.some((pattern) => pattern.test(file)));
+const sensitiveChanges = changed.filter((file) =>
+  sensitivePatterns.some((pattern) => pattern.test(file)),
+);
 
 if (!sensitiveChanges.length) {
   console.log("No trial/opportunity data-sensitive files changed.");

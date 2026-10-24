@@ -109,7 +109,9 @@ const { state, supabaseMock } = vi.hoisted(() => {
         data: {
           success: true,
           booking_id: "hold-123",
-          held_until: new Date(Date.now() + (args.p_hold_duration_minutes ?? 10) * 60_000).toISOString(),
+          held_until: new Date(
+            Date.now() + (args.p_hold_duration_minutes ?? 10) * 60_000,
+          ).toISOString(),
           message: "Slot held.",
         },
         error: null,

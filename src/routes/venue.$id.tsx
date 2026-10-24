@@ -12,18 +12,17 @@ export const Route = createFileRoute("/venue/$id")({
   loader: async ({ params }) => {
     const key = params.id.toLowerCase();
     const seededVenue = VENUES.find(
-      (v) =>
-        v.id.toLowerCase() === key ||
-        v.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") === key,
+      (v) => v.id.toLowerCase() === key || v.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") === key,
     );
     if (seededVenue) {
-      const relatedVenues = VENUES
-        .filter((candidate) =>
+      const relatedVenues = VENUES.filter(
+        (candidate) =>
           candidate.id !== seededVenue.id &&
           candidate.city.toLowerCase() === seededVenue.city.toLowerCase() &&
-          candidate.sports.some((sport) => seededVenue.sports.some((current) => current.toLowerCase() === sport.toLowerCase())),
-        )
-        .slice(0, 3);
+          candidate.sports.some((sport) =>
+            seededVenue.sports.some((current) => current.toLowerCase() === sport.toLowerCase()),
+          ),
+      ).slice(0, 3);
       return { venue: seededVenue, relatedVenues, liveAvailability: false, notExact: false };
     }
 
@@ -61,24 +60,29 @@ export const Route = createFileRoute("/venue/$id")({
           const relatedVenues = (relatedResult.data ?? [])
             .filter((candidate) =>
               (candidate.sports ?? []).some((sport: string) =>
-                (data.sports ?? []).some((current: string) => current.toLowerCase() === sport.toLowerCase()),
+                (data.sports ?? []).some(
+                  (current: string) => current.toLowerCase() === sport.toLowerCase(),
+                ),
               ),
             )
             .slice(0, 3)
-            .map((candidate) => ({
-              id: candidate.id,
-              name: candidate.name,
-              area: candidate.area ?? "",
-              city: candidate.city ?? "",
-              distanceKm: 0,
-              rating: 0,
-              reviews: 0,
-              sports: candidate.sports ?? [],
-              pricePerHour: Number(candidate.price_per_hour ?? 0),
-              featured: false,
-              bookable: Boolean(candidate.bookable),
-              image: candidate.image_url ?? "",
-            } satisfies Venue));
+            .map(
+              (candidate) =>
+                ({
+                  id: candidate.id,
+                  name: candidate.name,
+                  area: candidate.area ?? "",
+                  city: candidate.city ?? "",
+                  distanceKm: 0,
+                  rating: 0,
+                  reviews: 0,
+                  sports: candidate.sports ?? [],
+                  pricePerHour: Number(candidate.price_per_hour ?? 0),
+                  featured: false,
+                  bookable: Boolean(candidate.bookable),
+                  image: candidate.image_url ?? "",
+                }) satisfies Venue,
+            );
           return {
             venue: {
               id: data.id,
@@ -188,17 +192,33 @@ function VenueDetailPage() {
           />
         </div>
 
-        {liveAvailability && <VenueAvailabilityPreview venueId={venue.id} pricePerHour={venue.pricePerHour} contactPhone={venue.contactPhone} contactEmail={venue.contactEmail} />}
+        {liveAvailability && (
+          <VenueAvailabilityPreview
+            venueId={venue.id}
+            pricePerHour={venue.pricePerHour}
+            contactPhone={venue.contactPhone}
+            contactEmail={venue.contactEmail}
+          />
+        )}
 
         {relatedVenues.length > 0 && (
           <section aria-labelledby="related-venues-heading" className="mt-8">
             <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-primary">Keep playing</p>
-                <h2 id="related-venues-heading" className="mt-1 text-xl font-bold sm:text-2xl">Similar venues nearby</h2>
-                <p className="mt-1 text-sm text-muted-foreground">More places in {venue.city} offering one or more of the same sports.</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                  Keep playing
+                </p>
+                <h2 id="related-venues-heading" className="mt-1 text-xl font-bold sm:text-2xl">
+                  Similar venues nearby
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  More places in {venue.city} offering one or more of the same sports.
+                </p>
               </div>
-              <Link to="/book" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+              <Link
+                to="/book"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+              >
                 Browse all venues <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -210,24 +230,37 @@ function VenueDetailPage() {
                   className="group flex min-w-0 overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50 hover:bg-muted/30"
                 >
                   {related.image ? (
-                    <img src={related.image} alt="" loading="lazy" className="h-28 w-24 shrink-0 object-cover sm:h-32 sm:w-28" />
+                    <img
+                      src={related.image}
+                      alt=""
+                      loading="lazy"
+                      className="h-28 w-24 shrink-0 object-cover sm:h-32 sm:w-28"
+                    />
                   ) : (
                     <div className="flex h-28 w-24 shrink-0 items-center justify-center bg-primary/10 text-primary sm:h-32 sm:w-28">
                       <Building2 className="h-7 w-7" />
                     </div>
                   )}
                   <div className="flex min-w-0 flex-1 flex-col justify-center gap-1.5 p-3">
-                    <h3 className="line-clamp-2 font-semibold leading-snug group-hover:text-primary">{related.name}</h3>
+                    <h3 className="line-clamp-2 font-semibold leading-snug group-hover:text-primary">
+                      {related.name}
+                    </h3>
                     <p className="flex items-start gap-1 text-xs text-muted-foreground">
                       <MapPin className="mt-0.5 h-3 w-3 shrink-0" />
-                      <span className="line-clamp-1">{related.area ? `${related.area}, ${related.city}` : related.city}</span>
+                      <span className="line-clamp-1">
+                        {related.area ? `${related.area}, ${related.city}` : related.city}
+                      </span>
                     </p>
                     <p className="flex items-center gap-1 text-xs text-muted-foreground">
                       <Trophy className="h-3 w-3 shrink-0" />
-                      <span className="line-clamp-1">{related.sports.slice(0, 2).join(" · ") || "Sports facility"}</span>
+                      <span className="line-clamp-1">
+                        {related.sports.slice(0, 2).join(" · ") || "Sports facility"}
+                      </span>
                     </p>
                     <p className="text-sm font-bold text-primary">
-                      {related.pricePerHour > 0 ? `₹${related.pricePerHour.toLocaleString("en-IN")}/hr` : "Contact for price"}
+                      {related.pricePerHour > 0
+                        ? `₹${related.pricePerHour.toLocaleString("en-IN")}/hr`
+                        : "Contact for price"}
                     </p>
                   </div>
                 </a>
