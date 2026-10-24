@@ -533,7 +533,7 @@ export function SportsCVCard({ data, className = "", onShare }: SportsCVCardProp
         <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <h4 className="flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-white">
             <Trophy className={`h-4 w-4 ${theme.accentText}`} />
-            {tr("Athletic Achievements &amp; Honours", "खेल उपलब्धियाँ और सम्मान")}
+            {tr("Athletic Achievements & Honours", "खेल उपलब्धियाँ और सम्मान")}
           </h4>
           <span className="text-[11px] text-neutral-400">{data.achievements.length} {language === "hi" ? "दर्ज" : "Recorded"}</span>
         </div>
