@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { TRIALS, type Trial } from "@/data/trials";
+import { TRIALS, UNVERIFIED_SAMPLE_TRIAL_IDS } from "@/data/trials";
 import { normalizeSupabaseTrial, type TrialDiscoveryItem } from "@/lib/trials-service";
 
 /**
@@ -33,7 +33,7 @@ export const getBackendTrials = createServerFn({ method: "GET" })
           return {
             success: true,
             isSupabaseLive: true,
-            trials: dbTrials.map(normalizeSupabaseTrial),
+            trials: dbTrials.filter((row) => !((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(row.external_id || row.id))).map(normalizeSupabaseTrial),
             totalCount: dbTrials.length,
           };
         }
@@ -66,6 +66,9 @@ export const getBackendTrialById = createServerFn({ method: "GET" })
   .validator((d: { trialId: string }) => d)
   .handler(async ({ data }) => {
     const { trialId } = data;
+    if ((UNVERIFIED_SAMPLE_TRIAL_IDS as readonly string[]).includes(trialId)) {
+      return { success: false, trial: null, isSupabaseLive: false };
+    }
 
     if (isSupabaseConfigured) {
       try {
