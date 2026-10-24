@@ -96,16 +96,16 @@ const METRIC_CATEGORIES: MetricCategory[] = [
 ];
 
 const EDITOR_HINDI: Record<string, string> = {
-  "City": "शहर",
-  "Height": "लंबाई",
-  "Weight": "वज़न",
+  City: "शहर",
+  Height: "लंबाई",
+  Weight: "वज़न",
   "Right-Handed / Right-Footed": "दाएँ हाथ / पैर से खेलने वाला",
   "Left-Handed / Left-Footed": "बाएँ हाथ / पैर से खेलने वाला",
-  "Ambidextrous": "दोनों हाथों से खेलने वाला",
+  Ambidextrous: "दोनों हाथों से खेलने वाला",
   "Dominant Side": "प्रमुख हाथ / पैर",
-  "Availability": "उपलब्धता",
-  "Level": "स्तर",
-  "Category": "श्रेणी",
+  Availability: "उपलब्धता",
+  Level: "स्तर",
+  Category: "श्रेणी",
   "Select level": "स्तर चुनें",
   "Select award": "पुरस्कार चुनें",
   "Gold / 1st Place": "स्वर्ण / प्रथम स्थान",
@@ -116,18 +116,18 @@ const EDITOR_HINDI: Record<string, string> = {
   "Best Batsman": "सर्वश्रेष्ठ बल्लेबाज़",
   "Top Scorer": "सर्वाधिक स्कोर",
   "State Selection": "राज्य टीम में चयन",
-  "Finalist": "फाइनलिस्ट",
+  Finalist: "फाइनलिस्ट",
   "Certificate of Merit": "योग्यता प्रमाणपत्र",
-  "School": "स्कूल",
-  "Club": "क्लब",
-  "District": "ज़िला",
-  "State": "राज्य",
-  "National": "राष्ट्रीय",
-  "International": "अंतरराष्ट्रीय",
-  "Speed": "गति",
-  "Endurance": "सहनशक्ति",
-  "Power": "शक्ति",
-  "Athleticism": "शारीरिक क्षमता",
+  School: "स्कूल",
+  Club: "क्लब",
+  District: "ज़िला",
+  State: "राज्य",
+  National: "राष्ट्रीय",
+  International: "अंतरराष्ट्रीय",
+  Speed: "गति",
+  Endurance: "सहनशक्ति",
+  Power: "शक्ति",
+  Athleticism: "शारीरिक क्षमता",
   "Sport-Specific": "खेल-विशिष्ट",
   "Twitter / 𝕏 Handle or Link": "Twitter / 𝕏 नाम या लिंक",
   "CricHeroes Profile (for Cricket)": "CricHeroes प्रोफ़ाइल (क्रिकेट के लिए)",
@@ -135,14 +135,17 @@ const EDITOR_HINDI: Record<string, string> = {
   "Please enter the team/squad name and position.": "कृपया टीम का नाम और पोज़िशन दर्ज करें।",
   "Position and squad history logged!": "पोज़िशन और टीम का इतिहास जोड़ दिया गया।",
   "Position history entry removed.": "पोज़िशन इतिहास हटाया गया।",
-  "Please enter the tournament or competition name.": "कृपया टूर्नामेंट या प्रतियोगिता का नाम दर्ज करें।",
+  "Please enter the tournament or competition name.":
+    "कृपया टूर्नामेंट या प्रतियोगिता का नाम दर्ज करें।",
   "Season stats recorded!": "सीज़न के आँकड़े दर्ज किए गए।",
   "Season stat entry removed.": "सीज़न के आँकड़े हटाए गए।",
-  "Please enter achievement title and competition name.": "कृपया उपलब्धि और प्रतियोगिता का नाम दर्ज करें।",
+  "Please enter achievement title and competition name.":
+    "कृपया उपलब्धि और प्रतियोगिता का नाम दर्ज करें।",
   "Athletic achievement added to your profile card!": "खेल उपलब्धि प्रोफ़ाइल कार्ड में जोड़ दी गई।",
   "Achievement removed.": "उपलब्धि हटाई गई।",
   "Please enter metric test name and score value.": "कृपया प्रदर्शन परीक्षण और परिणाम दर्ज करें।",
-  "Performance metric added to your profile card!": "प्रदर्शन माप प्रोफ़ाइल कार्ड में जोड़ दिया गया।",
+  "Performance metric added to your profile card!":
+    "प्रदर्शन माप प्रोफ़ाइल कार्ड में जोड़ दिया गया।",
   "Metric removed.": "प्रदर्शन माप हटाया गया।",
   "Configured career stat benchmarks for": "खेल के करियर आँकड़ों के मानक सेट किए गए।",
   "Applied recommended": "अनुशंसित प्रदर्शन मानक लागू किए गए।",
@@ -178,20 +181,23 @@ const EDITOR_HINDI: Record<string, string> = {
   "Please enter the team/squad name and position.": "कृपया टीम का नाम और पोज़िशन दर्ज करें।",
   "Position and squad history logged!": "पोज़िशन और टीम का इतिहास जोड़ दिया गया।",
   "Position history entry removed.": "पोज़िशन इतिहास हटाया गया।",
-  "Please enter the tournament or competition name.": "कृपया टूर्नामेंट या प्रतियोगिता का नाम दर्ज करें।",
+  "Please enter the tournament or competition name.":
+    "कृपया टूर्नामेंट या प्रतियोगिता का नाम दर्ज करें।",
   "Season stats recorded!": "सीज़न के आँकड़े दर्ज किए गए।",
   "Season stat entry removed.": "सीज़न के आँकड़े हटाए गए।",
-  "Please enter achievement title and competition name.": "कृपया उपलब्धि और प्रतियोगिता का नाम दर्ज करें।",
+  "Please enter achievement title and competition name.":
+    "कृपया उपलब्धि और प्रतियोगिता का नाम दर्ज करें।",
   "Athletic achievement added to your profile card!": "खेल उपलब्धि प्रोफ़ाइल कार्ड में जोड़ दी गई।",
   "Achievement removed.": "उपलब्धि हटाई गई।",
   "Please enter metric test name and score value.": "कृपया प्रदर्शन परीक्षण और परिणाम दर्ज करें।",
-  "Performance metric added to your profile card!": "प्रदर्शन माप प्रोफ़ाइल कार्ड में जोड़ दिया गया।",
+  "Performance metric added to your profile card!":
+    "प्रदर्शन माप प्रोफ़ाइल कार्ड में जोड़ दिया गया।",
   "Metric removed.": "प्रदर्शन माप हटाया गया।",
 };
 
 export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
   const language = getSportsCVLanguage();
-  const localize = (value: string) => language === "hi" ? (EDITOR_HINDI[value] ?? value) : value;
+  const localize = (value: string) => (language === "hi" ? (EDITOR_HINDI[value] ?? value) : value);
   // New Achievement form state
   const [newAchTitle, setNewAchTitle] = useState("");
   const [newAchCompetition, setNewAchCompetition] = useState("");
@@ -397,7 +403,11 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
         },
       },
     });
-    toast.success(language === "hi" ? `${data.sport} के करियर आँकड़ों के मानक सेट किए गए।` : `Configured career stat benchmarks for ${data.sport}!`);
+    toast.success(
+      language === "hi"
+        ? `${data.sport} के करियर आँकड़ों के मानक सेट किए गए।`
+        : `Configured career stat benchmarks for ${data.sport}!`,
+    );
   };
 
   // Add Achievement
@@ -488,7 +498,11 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
       ...data,
       performanceMetrics: generated,
     });
-    toast.success(language === "hi" ? `${data.sport} के अनुशंसित प्रदर्शन मानक लागू किए गए।` : `Applied recommended ${data.sport} performance benchmarks!`);
+    toast.success(
+      language === "hi"
+        ? `${data.sport} के अनुशंसित प्रदर्शन मानक लागू किए गए।`
+        : `Applied recommended ${data.sport} performance benchmarks!`,
+    );
   };
 
   const currentSportPositions = SPORT_POSITION_PRESETS[data.sport] || [];
@@ -578,7 +592,9 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
 
           {/* Secondary Position */}
           <div className="space-y-1.5">
-            <Label htmlFor="cv-secondary-pos">{localize("Secondary Role / Speciality (Optional)")}</Label>
+            <Label htmlFor="cv-secondary-pos">
+              {localize("Secondary Role / Speciality (Optional)")}
+            </Label>
             <Input
               id="cv-secondary-pos"
               value={data.secondaryPosition || ""}
@@ -1640,7 +1656,9 @@ export function SportsCVEditor({ data, onChange }: SportsCVEditorProps) {
         <div className="flex items-center justify-between border-b border-border pb-3">
           <div className="flex items-center gap-2">
             <User className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-bold">{localize("Connected Socials & Athletic Profiles")}</h3>
+            <h3 className="text-base font-bold">
+              {localize("Connected Socials & Athletic Profiles")}
+            </h3>
           </div>
           <Badge variant="outline" className="text-xs">
             Scout Recruitment

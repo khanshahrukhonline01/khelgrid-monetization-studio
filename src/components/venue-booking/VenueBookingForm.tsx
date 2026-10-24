@@ -212,7 +212,8 @@ export function VenueBookingForm({
           <div className="flex items-start gap-2 pt-2 border-t border-border/40">
             <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
             <p className="text-muted-foreground">
-              This is a booking request, not a confirmed reservation or payment receipt. Contact the venue to confirm acceptance. Reference code / mobile (
+              This is a booking request, not a confirmed reservation or payment receipt. Contact the
+              venue to confirm acceptance. Reference code / mobile (
               {customer.phone || bookingSuccess.user_phone}) at the venue front desk 10 minutes
               prior to game time.
             </p>
@@ -265,7 +266,9 @@ export function VenueBookingForm({
               {venue.area}, {venue.city}
               <span className="text-muted-foreground/60">•</span>
               <span className="font-semibold text-foreground">
-                {venue.pricePerHour > 0 ? `Starting at ₹${venue.pricePerHour.toLocaleString("en-IN")}/hr` : "Contact venue for price"}
+                {venue.pricePerHour > 0
+                  ? `Starting at ₹${venue.pricePerHour.toLocaleString("en-IN")}/hr`
+                  : "Contact venue for price"}
               </span>
             </p>
           </div>
@@ -301,18 +304,27 @@ export function VenueBookingForm({
 
       {/* Availability is fail-closed: never invent courts or claim a slot is available when the live check fails. */}
       {(courtsLoading || availabilityLoading) && (
-        <div role="status" className="rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
+        <div
+          role="status"
+          className="rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground"
+        >
           Checking this venue’s published courts and recorded booking conflicts…
         </div>
       )}
       {availabilityError && !courtsLoading && !availabilityLoading && (
-        <div role="status" className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-muted-foreground">
+        <div
+          role="status"
+          className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-muted-foreground"
+        >
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
           <span>{availabilityError}</span>
         </div>
       )}
 
-      <p className="px-1 text-xs text-muted-foreground">“Available” means no overlapping booking record was found for this slot. Venue opening hours and final acceptance still need to be confirmed with the venue.</p>
+      <p className="px-1 text-xs text-muted-foreground">
+        “Available” means no overlapping booking record was found for this slot. Venue opening hours
+        and final acceptance still need to be confirmed with the venue.
+      </p>
 
       {/* 3. Interactive Slot & Court Selector */}
       <VenueSlotSelector
@@ -409,7 +421,8 @@ export function VenueBookingForm({
             <User className="h-4 w-4 text-primary" /> Player & Contact Information
           </h3>
           <p className="text-xs text-muted-foreground">
-            No account is required. This submits a request only; contact the venue to confirm acceptance. KhelGrid does not collect payment in this phase.
+            No account is required. This submits a request only; contact the venue to confirm
+            acceptance. KhelGrid does not collect payment in this phase.
           </p>
         </div>
 

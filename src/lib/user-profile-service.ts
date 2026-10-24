@@ -91,11 +91,13 @@ function metadataText(metadata: Record<string, unknown>, key: string, fallback =
   return typeof value === "string" ? value : fallback;
 }
 
-function metadataTextArray(metadata: Record<string, unknown>, key: string, fallback: string[] = []): string[] {
+function metadataTextArray(
+  metadata: Record<string, unknown>,
+  key: string,
+  fallback: string[] = [],
+): string[] {
   const value = metadata[key];
-  return Array.isArray(value) && value.every((item) => typeof item === "string")
-    ? value
-    : fallback;
+  return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : fallback;
 }
 
 const PROFILE_STORAGE_KEY = "khelgrid_user_profile_v1";
@@ -312,7 +314,11 @@ export async function getUserProfile(email?: string): Promise<{
             phone: row.phone || cached.phone,
             avatarUrl: row.avatar_url || cached.avatarUrl,
             primarySport: metadataText(metadata, "primary_sport", cached.primarySport),
-            secondarySports: metadataTextArray(metadata, "secondary_sports", cached.secondarySports),
+            secondarySports: metadataTextArray(
+              metadata,
+              "secondary_sports",
+              cached.secondarySports,
+            ),
             city: row.city || cached.city,
             ageCategory: metadataText(metadata, "age_category", cached.ageCategory),
             playingPosition: metadataText(metadata, "playing_position", cached.playingPosition),
@@ -686,7 +692,9 @@ export async function updateUserProfile(
 
         if (!readError && existing) {
           const existingMetadata =
-            existing.metadata && typeof existing.metadata === "object" && !Array.isArray(existing.metadata)
+            existing.metadata &&
+            typeof existing.metadata === "object" &&
+            !Array.isArray(existing.metadata)
               ? (existing.metadata as Record<string, unknown>)
               : {};
 
@@ -806,7 +814,9 @@ export async function recordUserLoginInDatabase(account: {
 
         if (!readError && existing) {
           const existingMetadata =
-            existing.metadata && typeof existing.metadata === "object" && !Array.isArray(existing.metadata)
+            existing.metadata &&
+            typeof existing.metadata === "object" &&
+            !Array.isArray(existing.metadata)
               ? (existing.metadata as Record<string, unknown>)
               : {};
 

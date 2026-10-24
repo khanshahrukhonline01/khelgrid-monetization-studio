@@ -58,8 +58,8 @@ function CalendarPage() {
                 All-India Sports Calendar
               </h1>
               <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                Track selection trials, reporting schedules and registration deadlines,
-                alongside the official inter-university championship calendar for 2026–27.
+                Track selection trials, reporting schedules and registration deadlines, alongside
+                the official inter-university championship calendar for 2026–27.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">

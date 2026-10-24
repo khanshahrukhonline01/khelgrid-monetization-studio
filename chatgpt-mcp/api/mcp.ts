@@ -58,19 +58,35 @@ function makeServer() {
       description:
         "Search publicly accessible Khelgrid sports trials, scholarships, camps, tournaments and other opportunities in India. Results are limited to records allowed by Supabase Row Level Security. Do not describe a record as verified unless the returned data explicitly establishes that.",
       inputSchema: {
-        query: z.string().trim().max(120).optional().describe("Words to search in the title or description"),
+        query: z
+          .string()
+          .trim()
+          .max(120)
+          .optional()
+          .describe("Words to search in the title or description"),
         sport: z.string().trim().max(80).optional().describe("Sport name"),
         state: z.string().trim().max(80).optional().describe("Indian state or union territory"),
         city: z.string().trim().max(80).optional().describe("City"),
-        type: z.enum(["trial", "tournament", "scholarship", "coaching", "job", "camp", "event", "other"]).optional(),
-        limit: z.number().int().min(1).max(maxResults).optional().describe("Maximum results, 10 or fewer"),
+        type: z
+          .enum(["trial", "tournament", "scholarship", "coaching", "job", "camp", "event", "other"])
+          .optional(),
+        limit: z
+          .number()
+          .int()
+          .min(1)
+          .max(maxResults)
+          .optional()
+          .describe("Maximum results, 10 or fewer"),
       },
     },
     async ({ query, sport, state, city, type, limit }) => {
       const supabaseUrl = process.env.SUPABASE_URL;
       const anonKey = process.env.SUPABASE_ANON_KEY;
       if (!supabaseUrl || !anonKey) {
-        return { isError: true, content: [{ type: "text", text: "Khelgrid opportunity search is not configured yet." }] };
+        return {
+          isError: true,
+          content: [{ type: "text", text: "Khelgrid opportunity search is not configured yet." }],
+        };
       }
 
       // Intentionally use the public anon key, never a service-role key.
@@ -81,26 +97,43 @@ function makeServer() {
 
       let request = supabase
         .from("opportunities")
-        .select(`id,title,slug,opportunity_type,description,eligibility,location_name,city,state,start_at,end_at,registration_deadline,fee,status,metadata,sport:sports${sport ? "!inner" : ""}(name)`)
+        .select(
+          `id,title,slug,opportunity_type,description,eligibility,location_name,city,state,start_at,end_at,registration_deadline,fee,status,metadata,sport:sports${sport ? "!inner" : ""}(name)`,
+        )
         .in("status", [...allowedStatuses])
         .order("start_at", { ascending: true, nullsFirst: false })
         .limit(Math.min(limit ?? 5, maxResults));
 
       if (query) {
-        const safeQuery = query.replace(/[^\p{L}\p{N}\s-]/gu, " ").trim().slice(0, 120);
-        if (safeQuery) request = request.or("title.ilike.%"+safeQuery+"%,description.ilike.%"+safeQuery+"%");
+        const safeQuery = query
+          .replace(/[^\p{L}\p{N}\s-]/gu, " ")
+          .trim()
+          .slice(0, 120);
+        if (safeQuery)
+          request = request.or(
+            "title.ilike.%" + safeQuery + "%,description.ilike.%" + safeQuery + "%",
+          );
       }
-      if (state) request = request.ilike("state", "%"+state+"%");
-      if (city) request = request.ilike("city", "%"+city+"%");
+      if (state) request = request.ilike("state", "%" + state + "%");
+      if (city) request = request.ilike("city", "%" + city + "%");
       if (type) request = request.eq("opportunity_type", type);
       // Filter sport at the database level before applying the result limit.
       // The inner join ensures opportunities without a matching sport are excluded.
-      if (sport) request = request.ilike("sport.name", "%" + sport.replace(/[%_]/g, " ").trim() + "%");
+      if (sport)
+        request = request.ilike("sport.name", "%" + sport.replace(/[%_]/g, " ").trim() + "%");
 
       const { data, error } = await request;
       if (error) {
         console.error("Khelgrid opportunity search failed:", error.code);
-        return { isError: true, content: [{ type: "text", text: "Unable to search Khelgrid opportunities right now. Please try again later." }] };
+        return {
+          isError: true,
+          content: [
+            {
+              type: "text",
+              text: "Unable to search Khelgrid opportunities right now. Please try again later.",
+            },
+          ],
+        };
       }
 
       const results = ((data ?? []) as PublicOpportunityRecord[]).map((item) => ({
@@ -117,13 +150,17 @@ function makeServer() {
         fee: item.fee,
         status: item.status,
         details_url: "https://khelgrid.com/search",
-        source_url: typeof item.metadata?.source_url === "string" && item.metadata.source_url.startsWith("https://")
-          ? item.metadata.source_url
-          : null,
+        source_url:
+          typeof item.metadata?.source_url === "string" &&
+          item.metadata.source_url.startsWith("https://")
+            ? item.metadata.source_url
+            : null,
       }));
 
       return {
-        content: [{ type: "text", text: JSON.stringify({ count: results.length, results }, null, 2) }],
+        content: [
+          { type: "text", text: JSON.stringify({ count: results.length, results }, null, 2) },
+        ],
         structuredContent: { count: results.length, results },
       };
     },
@@ -133,7 +170,8 @@ function makeServer() {
     "get_opportunity_details",
     {
       title: "Get Khelgrid opportunity details",
-      description: "Retrieve one publicly accessible Khelgrid opportunity by its UUID. Only fields returned by the public RLS-protected query are exposed.",
+      description:
+        "Retrieve one publicly accessible Khelgrid opportunity by its UUID. Only fields returned by the public RLS-protected query are exposed.",
       inputSchema: {
         id: z.string().uuid().describe("UUID of the opportunity"),
       },
@@ -142,24 +180,36 @@ function makeServer() {
       const supabaseUrl = process.env.SUPABASE_URL;
       const anonKey = process.env.SUPABASE_ANON_KEY;
       if (!supabaseUrl || !anonKey) {
-        return { isError: true, content: [{ type: "text", text: "Khelgrid opportunity details are not configured yet." }] };
+        return {
+          isError: true,
+          content: [{ type: "text", text: "Khelgrid opportunity details are not configured yet." }],
+        };
       }
       const supabase = createClient(supabaseUrl, anonKey, {
         auth: { persistSession: false, autoRefreshToken: false },
       });
       const { data, error } = await supabase
         .from("opportunities")
-        .select("id,title,slug,opportunity_type,description,eligibility,location_name,city,state,start_at,end_at,registration_deadline,fee,status,requirements,metadata,sport:sports(name)")
+        .select(
+          "id,title,slug,opportunity_type,description,eligibility,location_name,city,state,start_at,end_at,registration_deadline,fee,status,requirements,metadata,sport:sports(name)",
+        )
         .eq("id", id)
         .in("status", [...allowedStatuses])
         .maybeSingle();
 
       if (error) {
         console.error("Khelgrid opportunity detail lookup failed:", error.code);
-        return { isError: true, content: [{ type: "text", text: "Unable to retrieve this opportunity right now." }] };
+        return {
+          isError: true,
+          content: [{ type: "text", text: "Unable to retrieve this opportunity right now." }],
+        };
       }
       if (!data) {
-        return { content: [{ type: "text", text: "No publicly accessible opportunity was found for that ID." }] };
+        return {
+          content: [
+            { type: "text", text: "No publicly accessible opportunity was found for that ID." },
+          ],
+        };
       }
 
       const item = data as PublicOpportunityRecord;
@@ -167,7 +217,9 @@ function makeServer() {
         id: item.id,
         title: item.title,
         type: item.opportunity_type,
-        sport: Array.isArray(item.sport) ? item.sport[0]?.name ?? null : item.sport?.name ?? null,
+        sport: Array.isArray(item.sport)
+          ? (item.sport[0]?.name ?? null)
+          : (item.sport?.name ?? null),
         description: item.description,
         eligibility: item.eligibility,
         requirements: item.requirements,
@@ -178,11 +230,16 @@ function makeServer() {
         fee: item.fee,
         status: item.status,
         details_url: "https://khelgrid.com/search",
-        source_url: typeof item.metadata?.source_url === "string" && item.metadata.source_url.startsWith("https://")
-          ? item.metadata.source_url
-          : null,
+        source_url:
+          typeof item.metadata?.source_url === "string" &&
+          item.metadata.source_url.startsWith("https://")
+            ? item.metadata.source_url
+            : null,
       };
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }], structuredContent: result };
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        structuredContent: result,
+      };
     },
   );
 
@@ -192,7 +249,10 @@ function makeServer() {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, MCP-Protocol-Version, MCP-Session-Id, Last-Event-ID");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, MCP-Protocol-Version, MCP-Session-Id, Last-Event-ID",
+  );
   res.setHeader("Access-Control-Expose-Headers", "MCP-Session-Id, MCP-Protocol-Version");
 
   if (req.method === "OPTIONS") {
@@ -219,7 +279,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       req.body,
     );
   } catch (error) {
-    console.error("Khelgrid MCP request failed:", error instanceof Error ? error.message : "unknown error");
+    console.error(
+      "Khelgrid MCP request failed:",
+      error instanceof Error ? error.message : "unknown error",
+    );
     if (!res) return;
     res.status(500).json({ error: "Khelgrid MCP request failed" });
   } finally {

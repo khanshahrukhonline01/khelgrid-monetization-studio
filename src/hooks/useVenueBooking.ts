@@ -1,6 +1,13 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { VENUES, type Venue } from "@/data/khelgrid";
-import { calculateEndTimeSQL, createVenueBooking, formatTimeToSQL, getVenueBookings, getVenueCourts, type BookingRecord } from "@/lib/booking-service";
+import {
+  calculateEndTimeSQL,
+  createVenueBooking,
+  formatTimeToSQL,
+  getVenueBookings,
+  getVenueCourts,
+  type BookingRecord,
+} from "@/lib/booking-service";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 import type {
   CourtFacility,
@@ -123,7 +130,12 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
   const [existingBookings, setExistingBookings] = useState<BookingRecord[]>([]);
   const [bookingsLoading, setBookingsLoading] = useState(false);
   const [bookingsLoadError, setBookingsLoadError] = useState<string | null>(null);
-  const [availabilityRows, setAvailabilityRows] = useState<Array<{ start_time: string; end_time: string; status: string; is_held: boolean }> | null>(null);
+  const [availabilityRows, setAvailabilityRows] = useState<Array<{
+    start_time: string;
+    end_time: string;
+    status: string;
+    is_held: boolean;
+  }> | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
   const [courtsLoading, setCourtsLoading] = useState(false);
@@ -144,7 +156,9 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
       setExistingBookings(records);
     } catch (loadError) {
       setExistingBookings([]);
-      setBookingsLoadError(loadError instanceof Error ? loadError.message : "Bookings could not be loaded.");
+      setBookingsLoadError(
+        loadError instanceof Error ? loadError.message : "Bookings could not be loaded.",
+      );
     } finally {
       setBookingsLoading(false);
     }
@@ -164,8 +178,12 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     setAvailabilityRows(null);
     setAvailabilityError(null);
     if (!isSupabaseConfigured || !venue?.id) {
-      setAvailabilityError("Online booking is not connected here yet. Please contact the venue directly.");
-      return () => { active = false; };
+      setAvailabilityError(
+        "Online booking is not connected here yet. Please contact the venue directly.",
+      );
+      return () => {
+        active = false;
+      };
     }
     setCourtsLoading(true);
     getVenueCourts(venue.id, selectedSport)
@@ -183,13 +201,23 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
         }));
         setCourts(mapped);
         setSelectedCourtId(mapped[0]?.id || "");
-        if (mapped.length === 0) setAvailabilityError("This venue has not published an active court or pitch for online booking. Please contact the venue to confirm a reservation.");
+        if (mapped.length === 0)
+          setAvailabilityError(
+            "This venue has not published an active court or pitch for online booking. Please contact the venue to confirm a reservation.",
+          );
       })
       .catch(() => {
-        if (active) setAvailabilityError("We could not load this venue's published courts. Please contact the venue to confirm a reservation.");
+        if (active)
+          setAvailabilityError(
+            "We could not load this venue's published courts. Please contact the venue to confirm a reservation.",
+          );
       })
-      .finally(() => { if (active) setCourtsLoading(false); });
-    return () => { active = false; };
+      .finally(() => {
+        if (active) setCourtsLoading(false);
+      });
+    return () => {
+      active = false;
+    };
   }, [venue?.id, selectedSport]);
 
   useEffect(() => {
@@ -197,7 +225,9 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     setAvailabilityRows(null);
     if (!isSupabaseConfigured || !venue?.id || !selectedCourtId) {
       setAvailabilityLoading(false);
-      return () => { active = false; };
+      return () => {
+        active = false;
+      };
     }
     setAvailabilityLoading(true);
     setAvailabilityError(null);
@@ -205,7 +235,12 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
       fn: string,
       args: Record<string, unknown>,
     ) => Promise<{
-      data: Array<{ start_time: string; end_time: string; status: string; is_held: boolean }> | null;
+      data: Array<{
+        start_time: string;
+        end_time: string;
+        status: string;
+        is_held: boolean;
+      }> | null;
       error: { message: string } | null;
     }>;
     rpc("get_venue_slot_availability", {
@@ -217,7 +252,9 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
         if (!active) return;
         if (rpcError || !data) {
           setAvailabilityRows(null);
-          setAvailabilityError("Live slot conflicts could not be checked. Please refresh or contact the venue before booking.");
+          setAvailabilityError(
+            "Live slot conflicts could not be checked. Please refresh or contact the venue before booking.",
+          );
           return;
         }
         setAvailabilityRows(data);
@@ -226,11 +263,17 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
       .catch(() => {
         if (active) {
           setAvailabilityRows(null);
-          setAvailabilityError("Live slot conflicts could not be checked. Please refresh or contact the venue before booking.");
+          setAvailabilityError(
+            "Live slot conflicts could not be checked. Please refresh or contact the venue before booking.",
+          );
         }
       })
-      .finally(() => { if (active) setAvailabilityLoading(false); });
-    return () => { active = false; };
+      .finally(() => {
+        if (active) setAvailabilityLoading(false);
+      });
+    return () => {
+      active = false;
+    };
   }, [venue?.id, selectedDate, selectedCourtId]);
 
   // Keep the selected court valid as published courts load or change.
@@ -258,12 +301,19 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
 
   // Show slots only after the live conflict check succeeds. No seeded/fake availability.
   const slots: CourtSlot[] = useMemo(() => {
-    if (!isSupabaseConfigured || courts.length === 0 || !selectedCourtId || availabilityRows === null) return [];
+    if (
+      !isSupabaseConfigured ||
+      courts.length === 0 ||
+      !selectedCourtId ||
+      availabilityRows === null
+    )
+      return [];
     const selectedCourt = courts.find((court) => court.id === selectedCourtId);
     const baseRate = selectedCourt?.pricePerHour ?? 0;
     const weekday = format(parse(selectedDate, "yyyy-MM-dd", new Date()), "EEEE").toLowerCase();
     const hours = selectedCourt?.operatingHours?.[weekday];
-    if (!hours || hours.closed || !hours.open || !hours.close || !baseRate || baseRate <= 0) return [];
+    if (!hours || hours.closed || !hours.open || !hours.close || !baseRate || baseRate <= 0)
+      return [];
     const opening = hours.open.slice(0, 5);
     const closing = hours.close.slice(0, 5);
     const publishedHours = DEFAULT_HOURS.filter((hour) => {
@@ -274,9 +324,15 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     return publishedHours.map((hour, index) => {
       const startSQL = formatTimeToSQL(hour.time);
       const endSQL = calculateEndTimeSQL(hour.time, durationHours);
-      const hasConflict = availabilityRows.some((booking) => startSQL < booking.end_time && endSQL > booking.start_time);
+      const hasConflict = availabilityRows.some(
+        (booking) => startSQL < booking.end_time && endSQL > booking.start_time,
+      );
       // Use the published venue rate; do not invent peak surcharges or discounts.
-      const status: CourtSlot["status"] = hasConflict ? "booked" : selectedSlotTime === hour.time ? "selected" : "available";
+      const status: CourtSlot["status"] = hasConflict
+        ? "booked"
+        : selectedSlotTime === hour.time
+          ? "selected"
+          : "available";
       return {
         id: `slot-${index}-${hour.time.replace(/[^a-zA-Z0-9]/g, "")}`,
         courtId: selectedCourtId,
@@ -293,7 +349,16 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
         remainingCapacity: hasConflict ? 0 : 1,
       };
     });
-  }, [venue, selectedCourtId, selectedDate, durationHours, selectedSlotTime, courts, availabilityRows, calculateSlotEndTime]);
+  }, [
+    venue,
+    selectedCourtId,
+    selectedDate,
+    durationHours,
+    selectedSlotTime,
+    courts,
+    availabilityRows,
+    calculateSlotEndTime,
+  ]);
 
   // Filtered slots by time of day (morning, afternoon, evening, night)
   const filteredSlots = useMemo(() => {
@@ -309,7 +374,8 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
 
   // Calculate detailed price breakdown
   const priceBreakdown: BookingPriceBreakdown = useMemo(() => {
-    const baseRate = courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? venue.pricePerHour ?? 0;
+    const baseRate =
+      courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? venue.pricePerHour ?? 0;
     const slotRate = selectedSlot ? selectedSlot.finalPrice : baseRate;
     const courtTotal = slotRate * durationHours;
 
@@ -362,12 +428,25 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
     booking?: BookingRecord;
     error?: string;
   }> => {
-    if (!isSupabaseConfigured || !selectedCourtId || availabilityRows === null || availabilityError) {
-      setError(availabilityError || "Live booking is unavailable until this venue publishes courts and its slot schedule.");
+    if (
+      !isSupabaseConfigured ||
+      !selectedCourtId ||
+      availabilityRows === null ||
+      availabilityError
+    ) {
+      setError(
+        availabilityError ||
+          "Live booking is unavailable until this venue publishes courts and its slot schedule.",
+      );
       return { success: false, error: availabilityError || "Live booking is unavailable." };
     }
 
-    if (!selectedSlotTime || !selectedSlot || selectedSlot.status === "booked" || !courts.find((court) => court.id === selectedCourtId)?.pricePerHour) {
+    if (
+      !selectedSlotTime ||
+      !selectedSlot ||
+      selectedSlot.status === "booked" ||
+      !courts.find((court) => court.id === selectedCourtId)?.pricePerHour
+    ) {
       setError("Choose an available slot with a published court price.");
       return { success: false, error: "Please choose an available time slot." };
     }
@@ -402,10 +481,12 @@ export function useVenueBooking(options: UseVenueBookingOptions = {}) {
         booking_date: selectedDate,
         start_time: selectedSlotTime,
         duration_hours: durationHours,
-        court_price_per_hour: courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? 0,
+        court_price_per_hour:
+          courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? 0,
         user_email: customer.email || "guest@khelgrid.com",
         user_phone: customer.phone,
-        total_price: (courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? 0) * durationHours,
+        total_price:
+          (courts.find((court) => court.id === selectedCourtId)?.pricePerHour ?? 0) * durationHours,
       });
 
       if (res.success && res.booking) {

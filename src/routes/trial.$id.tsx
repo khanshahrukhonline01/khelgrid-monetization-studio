@@ -4,7 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, CheckCircle2, FileText, MapPin, ShieldCheck, Users } from "lucide-react";
 import { TRIALS } from "@/data/trials";
-import { getRealtimeOpportunityBadge, getTrialEndDate, getTrialStartDate } from "@/lib/opportunity-badge";
+import {
+  getRealtimeOpportunityBadge,
+  getTrialEndDate,
+  getTrialStartDate,
+} from "@/lib/opportunity-badge";
 import { buildSeoHead, SITE_URL, DEFAULT_SITE_NAME, TWITTER_HANDLE } from "@/lib/seo";
 import { FitIndiaFAQ, FIT_INDIA_FAQS } from "@/components/FitIndiaFAQ";
 import { WushuInterUniversityDetails } from "@/components/WushuInterUniversityDetails";
@@ -90,7 +94,9 @@ function TrialDetailPage() {
         "Save your confirmation and check for schedule or venue updates before travelling.",
       ];
   const feeDescription = trial.feeLabel || (trial.fee === 0 ? "Free" : `₹${trial.fee}`);
-  const feeIsUnspecified = Boolean(trial.feeLabel && /not stated|not listed|confirm/i.test(trial.feeLabel));
+  const feeIsUnspecified = Boolean(
+    trial.feeLabel && /not stated|not listed|confirm/i.test(trial.feeLabel),
+  );
   const pageTitle = `${trial.title} · ${trial.sport} ${isCompetition ? "School Games Fixture" : "Selection Trials"} in ${trial.city} | ${DEFAULT_SITE_NAME}`;
   const pageDescription = isCompetition
     ? `${trial.title} is scheduled for ${trial.date} at ${trial.venue || trial.city}. This is a School Games competition fixture, not an open public trial. Confirm entry with your school/state unit. Official source: School Games Federation of India.`
@@ -104,47 +110,49 @@ function TrialDetailPage() {
   const formatSchemaDate = (date: Date) =>
     `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-  const sportsEventSchema = startDate ? {
-    "@context": "https://schema.org",
-    "@type": "SportsEvent",
-    name: trial.title,
-    description: pageDescription,
-    url: canonicalUrl,
-    startDate: formatSchemaDate(startDate),
-    ...(endDate ? { endDate: formatSchemaDate(endDate) } : {}),
-    eventStatus:
-      endDate && endDate.getTime() < Date.now()
-        ? "https://schema.org/EventCompleted"
-        : "https://schema.org/EventScheduled",
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    location: {
-      "@type": "Place",
-      name: trial.venue || `${trial.academy}, ${trial.city}`,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: trial.city,
-        addressCountry: "IN",
-      },
-    },
-    organizer: {
-      "@type": "SportsOrganization",
-      name: trial.academy,
-      url: trial.sourceUrl || canonicalUrl,
-    },
-    ...(!trial.feeLabel && trial.listingType !== "competition"
-      ? {
-          offers: {
-            "@type": "Offer",
-            price: trial.fee.toString(),
-            priceCurrency: "INR",
-            availability: "https://schema.org/InStock",
-            url: canonicalUrl,
+  const sportsEventSchema = startDate
+    ? {
+        "@context": "https://schema.org",
+        "@type": "SportsEvent",
+        name: trial.title,
+        description: pageDescription,
+        url: canonicalUrl,
+        startDate: formatSchemaDate(startDate),
+        ...(endDate ? { endDate: formatSchemaDate(endDate) } : {}),
+        eventStatus:
+          endDate && endDate.getTime() < Date.now()
+            ? "https://schema.org/EventCompleted"
+            : "https://schema.org/EventScheduled",
+        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+        location: {
+          "@type": "Place",
+          name: trial.venue || `${trial.academy}, ${trial.city}`,
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: trial.city,
+            addressCountry: "IN",
           },
-          isAccessibleForFree: trial.fee === 0,
-        }
-      : {}),
-    image: [ogImageUrl],
-  } : null;
+        },
+        organizer: {
+          "@type": "SportsOrganization",
+          name: trial.academy,
+          url: trial.sourceUrl || canonicalUrl,
+        },
+        ...(!trial.feeLabel && trial.listingType !== "competition"
+          ? {
+              offers: {
+                "@type": "Offer",
+                price: trial.fee.toString(),
+                priceCurrency: "INR",
+                availability: "https://schema.org/InStock",
+                url: canonicalUrl,
+              },
+              isAccessibleForFree: trial.fee === 0,
+            }
+          : {}),
+        image: [ogImageUrl],
+      }
+    : null;
 
   // Assemble Schema.org JSON-LD structured data objects only when a reliable date exists.
   const trialSchemas: Array<Record<string, unknown>> = sportsEventSchema ? [sportsEventSchema] : [];

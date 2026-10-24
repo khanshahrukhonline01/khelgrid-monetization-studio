@@ -129,7 +129,9 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
                 <MapPin className="h-3 w-3 text-white/80 shrink-0" />
                 <span className="truncate">{trial.city}</span>
               </span>
-              <span className={`rounded-md px-2 py-0.5 text-[10px] font-bold shadow-xs shrink-0 whitespace-nowrap ml-1 ${(!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free") ? "bg-emerald-500/90 text-white" : "bg-secondary text-foreground"}`}>
+              <span
+                className={`rounded-md px-2 py-0.5 text-[10px] font-bold shadow-xs shrink-0 whitespace-nowrap ml-1 ${(!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free") ? "bg-emerald-500/90 text-white" : "bg-secondary text-foreground"}`}
+              >
                 {trial.feeLabel || (trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`)}
               </span>
             </div>
@@ -199,7 +201,11 @@ export function TrialCard({ trial, boosted, onApply, onBoost, showBoostAction }:
             </div>
             <div className="flex min-w-0 items-center gap-1 text-[11px] sm:text-xs">
               <Users className="h-3 w-3 shrink-0 text-muted-foreground/80" />
-              <span className="truncate">{trial.listingType === "competition" ? "School competition" : `${trial.spots} spots`}</span>
+              <span className="truncate">
+                {trial.listingType === "competition"
+                  ? "School competition"
+                  : `${trial.spots} spots`}
+              </span>
             </div>
           </div>
         </div>

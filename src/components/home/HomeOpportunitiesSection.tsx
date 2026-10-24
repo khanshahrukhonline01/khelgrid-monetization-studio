@@ -72,24 +72,38 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
 
   const discoveryStats = useMemo(() => {
     const upcomingTrials = trials.filter((trial) => {
-      const match = trial.date.match(/(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+\\d{1,2}(?:[–-]\\d{1,2})?,?\\s+2026/i);
+      const match = trial.date.match(
+        /(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+\\d{1,2}(?:[–-]\\d{1,2})?,?\\s+2026/i,
+      );
       if (!match) return true;
-      const parsed = Date.parse(match[0].replace(/[–-]/, " ").replace(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+(\\d{1,2})\\s+(\\d{4})/i, "$1 $2, $3"));
+      const parsed = Date.parse(
+        match[0]
+          .replace(/[–-]/, " ")
+          .replace(
+            /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+(\\d{1,2})\\s+(\\d{4})/i,
+            "$1 $2, $3",
+          ),
+      );
       return Number.isNaN(parsed) || parsed >= Date.now() - 86400000;
     });
     return {
       opportunities: upcomingTrials.length,
       sports: new Set(upcomingTrials.map((trial) => trial.sport.trim()).filter(Boolean)).size,
       cities: new Set(upcomingTrials.map((trial) => trial.city.trim()).filter(Boolean)).size,
-      venues: new Set(upcomingTrials.map((trial) => trial.venue?.trim()).filter((venue): venue is string => Boolean(venue))).size,
+      venues: new Set(
+        upcomingTrials
+          .map((trial) => trial.venue?.trim())
+          .filter((venue): venue is string => Boolean(venue)),
+      ).size,
     };
   }, [trials]);
 
   const currentTrials = useMemo(
-    () => trials.filter((trial) => {
-      const endDate = getTrialEndDate(trial.date);
-      return Boolean(endDate && endDate.getTime() >= Date.now());
-    }),
+    () =>
+      trials.filter((trial) => {
+        const endDate = getTrialEndDate(trial.date);
+        return Boolean(endDate && endDate.getTime() >= Date.now());
+      }),
     [trials],
   );
 
@@ -250,7 +264,11 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
         className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4"
       >
         {[
-          { label: "Upcoming opportunities", value: discoveryStats.opportunities, icon: CalendarDays },
+          {
+            label: "Upcoming opportunities",
+            value: discoveryStats.opportunities,
+            icon: CalendarDays,
+          },
           { label: "Sports", value: discoveryStats.sports, icon: Trophy },
           { label: "Cities", value: discoveryStats.cities, icon: MapPin },
           { label: "Venues listed", value: discoveryStats.venues, icon: MapPin },
@@ -265,8 +283,12 @@ export function HomeOpportunitiesSection({ trials = TRIALS }: { trials?: readonl
                 <Icon className="h-4 w-4" aria-hidden="true" />
               </span>
               <span className="min-w-0">
-                <span className="block text-xl font-bold tabular-nums leading-tight">{stat.value}</span>
-                <span className="block truncate text-[11px] text-muted-foreground">{stat.label}</span>
+                <span className="block text-xl font-bold tabular-nums leading-tight">
+                  {stat.value}
+                </span>
+                <span className="block truncate text-[11px] text-muted-foreground">
+                  {stat.label}
+                </span>
               </span>
             </div>
           );

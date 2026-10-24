@@ -46,10 +46,11 @@ export function DistrictSportsInfrastructure({
   const filteredDistricts = useMemo(() => {
     if (!searchQuery.trim()) return DISTRICT_INFRASTRUCTURE_DATA;
     const q = searchQuery.toLowerCase().trim();
-    return DISTRICT_INFRASTRUCTURE_DATA.filter((d) =>
-      d.districtName.toLowerCase().includes(q) ||
-      d.stadiums.some((s) => s.name.toLowerCase().includes(q)) ||
-      d.facilities.some((f) => f.toLowerCase().includes(q)),
+    return DISTRICT_INFRASTRUCTURE_DATA.filter(
+      (d) =>
+        d.districtName.toLowerCase().includes(q) ||
+        d.stadiums.some((s) => s.name.toLowerCase().includes(q)) ||
+        d.facilities.some((f) => f.toLowerCase().includes(q)),
     );
   }, [searchQuery]);
 
@@ -67,7 +68,9 @@ export function DistrictSportsInfrastructure({
   );
 
   return (
-    <div className={`w-full overflow-hidden rounded-3xl border border-border/80 bg-card/60 shadow-sm backdrop-blur-sm ${className}`}>
+    <div
+      className={`w-full overflow-hidden rounded-3xl border border-border/80 bg-card/60 shadow-sm backdrop-blur-sm ${className}`}
+    >
       {/* Khel Sathi Official UP Sports Infrastructure Banner */}
       <div className="relative overflow-hidden bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 p-6 sm:p-8 text-white">
         {/* Subtle decorative glow */}
@@ -83,7 +86,10 @@ export function DistrictSportsInfrastructure({
                 <Sparkles className="h-3.5 w-3.5 text-amber-300" />
                 Department of Sports · Government of Uttar Pradesh
               </span>
-              <Badge variant="outline" className="border-amber-400/40 bg-amber-400/10 text-amber-300 text-[11px]">
+              <Badge
+                variant="outline"
+                className="border-amber-400/40 bg-amber-400/10 text-amber-300 text-[11px]"
+              >
                 Khel Sathi Portal Verified
               </Badge>
             </div>
@@ -91,8 +97,8 @@ export function DistrictSportsInfrastructure({
               District-wise Sports Infrastructure
             </h2>
             <p className="text-xs sm:text-sm text-purple-200/90 max-w-2xl leading-relaxed">
-              Complete inventory of government sports stadiums, Olympic swimming pools, synthetic tracks,
-              multipurpose halls, and hostels across all 75+ districts of Uttar Pradesh.
+              Complete inventory of government sports stadiums, Olympic swimming pools, synthetic
+              tracks, multipurpose halls, and hostels across all 75+ districts of Uttar Pradesh.
             </p>
           </div>
 
@@ -106,7 +112,9 @@ export function DistrictSportsInfrastructure({
               </div>
             </div>
             <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-3 text-center min-w-[100px]">
-              <div className="text-xl sm:text-2xl font-black text-emerald-300">{totalStadiums}+</div>
+              <div className="text-xl sm:text-2xl font-black text-emerald-300">
+                {totalStadiums}+
+              </div>
               <div className="text-[10px] font-medium text-purple-200 uppercase tracking-wider">
                 Stadiums
               </div>
@@ -193,7 +201,8 @@ export function DistrictSportsInfrastructure({
 
             <div className="max-h-[380px] sm:max-h-[460px] overflow-y-auto space-y-1 pr-1">
               {filteredDistricts.map((d) => {
-                const isSelected = selectedDistrictName.toLowerCase() === d.districtName.toLowerCase();
+                const isSelected =
+                  selectedDistrictName.toLowerCase() === d.districtName.toLowerCase();
                 return (
                   <button
                     key={d.cityId}
@@ -206,7 +215,9 @@ export function DistrictSportsInfrastructure({
                     }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <Building2 className={`h-4 w-4 shrink-0 ${isSelected ? "text-purple-600 dark:text-purple-400" : "text-muted-foreground"}`} />
+                      <Building2
+                        className={`h-4 w-4 shrink-0 ${isSelected ? "text-purple-600 dark:text-purple-400" : "text-muted-foreground"}`}
+                      />
                       <span className="truncate">{d.districtName}</span>
                     </div>
                     <div className="flex items-center gap-1 shrink-0 text-[11px] text-muted-foreground">
@@ -229,12 +240,16 @@ export function DistrictSportsInfrastructure({
                   <h3 className="text-2xl font-extrabold tracking-tight text-foreground">
                     {currentDistrict.districtName}
                   </h3>
-                  <Badge variant="outline" className="border-purple-500/30 text-purple-600 dark:text-purple-400 font-semibold text-xs">
+                  <Badge
+                    variant="outline"
+                    className="border-purple-500/30 text-purple-600 dark:text-purple-400 font-semibold text-xs"
+                  >
                     Uttar Pradesh
                   </Badge>
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Official District Sports Infrastructure Directory · Source: Khel Sathi Portal (Govt of UP)
+                  Official District Sports Infrastructure Directory · Source: Khel Sathi Portal
+                  (Govt of UP)
                 </p>
               </div>
 
@@ -284,7 +299,8 @@ export function DistrictSportsInfrastructure({
                       <div className="mt-3.5 pt-3 border-t border-border/50 flex items-center justify-between text-xs">
                         {stadium.coordinates ? (
                           <span className="text-[11px] text-muted-foreground">
-                            GPS: {stadium.coordinates.lat.toFixed(3)}, {stadium.coordinates.lng.toFixed(3)}
+                            GPS: {stadium.coordinates.lat.toFixed(3)},{" "}
+                            {stadium.coordinates.lng.toFixed(3)}
                           </span>
                         ) : (
                           <span className="text-[11px] text-muted-foreground">Verified Venue</span>
@@ -329,7 +345,8 @@ export function DistrictSportsInfrastructure({
                 </div>
               ) : (
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  {currentDistrict.facilitiesRaw || "Main ground, training tracks, and outdoor sports fields."}
+                  {currentDistrict.facilitiesRaw ||
+                    "Main ground, training tracks, and outdoor sports fields."}
                 </p>
               )}
             </div>
@@ -339,7 +356,10 @@ export function DistrictSportsInfrastructure({
 
       {/* Embedded Google Map Modal (View Map feature from khelsathi.in) */}
       {selectedStadiumForMap && (
-        <Dialog open={!!selectedStadiumForMap} onOpenChange={(o) => !o && setSelectedStadiumForMap(null)}>
+        <Dialog
+          open={!!selectedStadiumForMap}
+          onOpenChange={(o) => !o && setSelectedStadiumForMap(null)}
+        >
           <DialogContent className="sm:max-w-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-base font-bold">
@@ -369,7 +389,10 @@ export function DistrictSportsInfrastructure({
                 <iframe
                   title={selectedStadiumForMap.name}
                   src={`https://maps.google.com/maps?q=${encodeURIComponent(
-                    selectedStadiumForMap.name + ", " + currentDistrict.districtName + ", Uttar Pradesh",
+                    selectedStadiumForMap.name +
+                      ", " +
+                      currentDistrict.districtName +
+                      ", Uttar Pradesh",
                   )}&z=15&output=embed`}
                   className="h-full w-full border-0"
                   allowFullScreen
@@ -380,7 +403,9 @@ export function DistrictSportsInfrastructure({
             </div>
 
             <div className="flex items-center justify-between pt-2 text-xs">
-              <span className="text-muted-foreground">Source: Khel Sathi Portal, Uttar Pradesh</span>
+              <span className="text-muted-foreground">
+                Source: Khel Sathi Portal, Uttar Pradesh
+              </span>
               <Button
                 asChild
                 size="sm"

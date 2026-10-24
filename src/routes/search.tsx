@@ -91,7 +91,8 @@ function isValidTrialRecord(value: unknown): value is Trial {
   if (!value || typeof value !== "object") return false;
   const trial = value as Partial<Trial>;
   return (
-    typeof trial.id === "string" && trial.id.trim().length > 0 &&
+    typeof trial.id === "string" &&
+    trial.id.trim().length > 0 &&
     typeof trial.title === "string" &&
     typeof trial.academy === "string" &&
     typeof trial.sport === "string" &&
@@ -101,7 +102,6 @@ function isValidTrialRecord(value: unknown): value is Trial {
     typeof trial.fee === "number"
   );
 }
-
 
 const SORTS = ["Soonest", "Most spots", "Lowest fee", "Highest spots"] as const;
 type SortKey = (typeof SORTS)[number];
@@ -229,7 +229,8 @@ export const Route = createFileRoute("/search")({
 
     if (search?.archive) {
       pageTitle = "Archived Sports Trials & Past Selection Opportunities in India · KhelGrid";
-      metaDesc = "Browse past sports selection trials and completed opportunities across India. Listings are retained for reference; check official sources for results, updated dates, or the next edition.";
+      metaDesc =
+        "Browse past sports selection trials and completed opportunities across India. Listings are retained for reference; check official sources for results, updated dates, or the next edition.";
     } else if (isCrpf) {
       pageTitle =
         "CRPF Meritorious Sportspersons Recruitment 2026 (521 Posts) · Official Apply · KhelGrid";
@@ -279,32 +280,37 @@ export const Route = createFileRoute("/search")({
           },
         ],
       },
-      ...(isCrpf ? [{
-        "@context": "https://schema.org",
-        "@type": "JobPosting",
-        title: "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
-        description:
-          "Central Reserve Police Force invites online applications from eligible meritorious Indian sportspersons for 182 Head Constable (GD) and 339 Constable (GD) posts across 22 sports disciplines under Sports Quota 2026.",
-        datePosted: "2026-10-12",
-        validThrough: "2026-11-11T23:59:59+05:30",
-        employmentType: "FULL_TIME",
-        hiringOrganization: {
-          "@type": "GovernmentOrganization",
-          name: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",
-          sameAs: "https://rect.crpf.gov.in",
-        },
-        jobLocation: {
-          "@type": "Place",
-          address: {
-            "@type": "PostalAddress",
-            addressCountry: "IN",
-            addressRegion: "Pan-India",
-          },
-        },
-        totalJobOpenings: 521,
-        directApply: true,
-        url: "https://rect.crpf.gov.in",
-      }] : []),
+      ...(isCrpf
+        ? [
+            {
+              "@context": "https://schema.org",
+              "@type": "JobPosting",
+              title:
+                "CRPF Meritorious Sportspersons Recruitment 2026 (Head Constable & Constable GD)",
+              description:
+                "Central Reserve Police Force invites online applications from eligible meritorious Indian sportspersons for 182 Head Constable (GD) and 339 Constable (GD) posts across 22 sports disciplines under Sports Quota 2026.",
+              datePosted: "2026-10-12",
+              validThrough: "2026-11-11T23:59:59+05:30",
+              employmentType: "FULL_TIME",
+              hiringOrganization: {
+                "@type": "GovernmentOrganization",
+                name: "Central Reserve Police Force (CRPF) & Ministry of Home Affairs",
+                sameAs: "https://rect.crpf.gov.in",
+              },
+              jobLocation: {
+                "@type": "Place",
+                address: {
+                  "@type": "PostalAddress",
+                  addressCountry: "IN",
+                  addressRegion: "Pan-India",
+                },
+              },
+              totalJobOpenings: 521,
+              directApply: true,
+              url: "https://rect.crpf.gov.in",
+            },
+          ]
+        : []),
       generateTrialsFaqSchema(),
     ];
 
@@ -346,7 +352,13 @@ function SearchPage() {
     let isMounted = true;
     fetchAvailableTrialsFromSupabase({ archive: params.archive })
       .then((res) => {
-        if (!isMounted || !res?.isSupabaseLive || !Array.isArray(res.trials) || res.trials.length === 0) return;
+        if (
+          !isMounted ||
+          !res?.isSupabaseLive ||
+          !Array.isArray(res.trials) ||
+          res.trials.length === 0
+        )
+          return;
         const map = new Map<string, Trial>();
         TRIALS.filter(isValidTrialRecord).forEach((trial) => map.set(trial.id, trial));
         res.trials.filter(isValidTrialRecord).forEach((trial) => {
@@ -589,7 +601,9 @@ function SearchPage() {
         "_blank",
         "noopener,noreferrer",
       );
-      toast.info("Opening the published NCC Mumbai talent-hunt report. Confirm any missing logistics with the organizer before travelling.");
+      toast.info(
+        "Opening the published NCC Mumbai talent-hunt report. Confirm any missing logistics with the organizer before travelling.",
+      );
       return;
     }
     if (trial.id === "t-sai-ncoe-aurangabad-women-boxing-trials-2026") {
@@ -791,7 +805,9 @@ function SearchPage() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-3.5 w-full min-w-0 max-w-full">
         <div className="flex items-center gap-2.5 min-w-0">
           <h1 className="text-lg sm:text-2xl font-bold tracking-tight text-foreground truncate">
-            {params.archive ? "Archived Sports Trials & Opportunities" : "Search Trials and Opportunities"}
+            {params.archive
+              ? "Archived Sports Trials & Opportunities"
+              : "Search Trials and Opportunities"}
           </h1>
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
             <ShieldCheck className="h-3.5 w-3.5" />
@@ -817,7 +833,9 @@ function SearchPage() {
               })
             }
             className="h-8 gap-1.5 text-xs font-medium"
-            aria-label={params.archive ? "Show current and upcoming trials" : "View archived trials"}
+            aria-label={
+              params.archive ? "Show current and upcoming trials" : "View archived trials"
+            }
           >
             <CalendarDays className="h-3.5 w-3.5" />
             <span>{params.archive ? "Upcoming" : "Archive"}</span>
@@ -848,7 +866,9 @@ function SearchPage() {
 
       {params.archive && (
         <div className="mt-3 rounded-xl border border-border/70 bg-muted/35 px-3.5 py-3 text-sm text-muted-foreground">
-          <strong className="text-foreground">Past events archive.</strong> These listings are kept for reference. Registration may be closed; check the source notice for official results or future editions.
+          <strong className="text-foreground">Past events archive.</strong> These listings are kept
+          for reference. Registration may be closed; check the source notice for official results or
+          future editions.
         </div>
       )}
 
@@ -1747,7 +1767,9 @@ function SearchPage() {
             ) : params.view === "calendar" ? (
               /* CENTRALIZED SPORTS CALENDAR VIEW */
               <div className="w-full">
-                <Suspense fallback={<div className="h-96 w-full rounded-2xl bg-muted/20 animate-pulse" />}>
+                <Suspense
+                  fallback={<div className="h-96 w-full rounded-2xl bg-muted/20 animate-pulse" />}
+                >
                   <SportsCalendar
                     initialTrials={results.trials}
                     onSelectTrial={(t) => handleApply(t)}
@@ -1855,7 +1877,9 @@ function SearchPage() {
 
           {/* Automatic Trial Alerts Newsletter Subscription */}
           <section className="mt-8" aria-label="Subscribe to Trial Alerts">
-            <Suspense fallback={<div className="h-40 w-full rounded-2xl bg-muted/20 animate-pulse" />}>
+            <Suspense
+              fallback={<div className="h-40 w-full rounded-2xl bg-muted/20 animate-pulse" />}
+            >
               <TrialNewsletterSignup
                 defaultSport={params.sport}
                 defaultCity={params.city}

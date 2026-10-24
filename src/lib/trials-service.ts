@@ -146,10 +146,7 @@ export async function fetchAvailableTrialsFromSupabase(options?: {
       }
     } catch (err: unknown) {
       queryError = err instanceof Error ? err.message : String(err);
-      console.warn(
-        "Supabase trials query failed, using curated listings:",
-        queryError,
-      );
+      console.warn("Supabase trials query failed, using curated listings:", queryError);
     }
   }
 

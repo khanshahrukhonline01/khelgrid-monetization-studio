@@ -166,7 +166,8 @@ export function TrialsDiscoveryDashboard({
   const filteredTrials = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return trials.filter((t) => {
-      if (freeOnly && (t.fee > 0 || (t.feeLabel && !t.feeLabel.toLowerCase().includes("free")))) return false;
+      if (freeOnly && (t.fee > 0 || (t.feeLabel && !t.feeLabel.toLowerCase().includes("free"))))
+        return false;
       if (q) {
         const text =
           `${t.title} ${t.academy} ${t.sport} ${t.city} ${t.venue || ""} ${t.eligibility || ""}`.toLowerCase();
@@ -499,7 +500,8 @@ export function TrialsDiscoveryDashboard({
                       <Badge
                         variant="outline"
                         className={
-                          (!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free")
+                          (!trial.feeLabel && trial.fee === 0) ||
+                          trial.feeLabel?.toLowerCase().includes("free")
                             ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold"
                             : "border-primary/30 text-primary font-bold"
                         }

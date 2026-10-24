@@ -95,7 +95,9 @@ function BookVenues() {
     } catch (e) {
       console.warn("Failed to load bookings from Supabase", e);
       setBookings([]);
-      setBookingsError(e instanceof Error ? e.message : "Bookings could not be loaded. Please try again.");
+      setBookingsError(
+        e instanceof Error ? e.message : "Bookings could not be loaded. Please try again.",
+      );
     } finally {
       setBookingsLoading(false);
     }
@@ -118,7 +120,9 @@ function BookVenues() {
       setDirectoryVenues([]);
       setDirectorySource("database");
       setDirectoryLoading(false);
-      return () => { active = false; };
+      return () => {
+        active = false;
+      };
     }
     setDirectoryLoading(true);
     supabase
@@ -173,24 +177,45 @@ function BookVenues() {
   }, []);
 
   const availableCities = useMemo(
-    () => Array.from(new Set([...KHELGRID_CITIES, ...directoryVenues.map((v) => v.city).filter(Boolean)])).sort((a, b) => a.localeCompare(b)),
+    () =>
+      Array.from(
+        new Set([...KHELGRID_CITIES, ...directoryVenues.map((v) => v.city).filter(Boolean)]),
+      ).sort((a, b) => a.localeCompare(b)),
     [directoryVenues],
   );
   const availableSports = useMemo(
-    () => Array.from(new Set([...KHELGRID_SPORTS, ...directoryVenues.flatMap((v) => v.sports ?? [])])).sort((a, b) => a.localeCompare(b)),
+    () =>
+      Array.from(
+        new Set([...KHELGRID_SPORTS, ...directoryVenues.flatMap((v) => v.sports ?? [])]),
+      ).sort((a, b) => a.localeCompare(b)),
     [directoryVenues],
   );
 
   const list = useMemo(() => {
     const term = q.trim().toLocaleLowerCase();
     const filtered = directoryVenues.filter((v) => {
-      const matchesCity = city === "All" || v.city?.toLocaleLowerCase() === city.toLocaleLowerCase();
-      const matchesSport = sport === "All" || (v.sports ?? []).some((item) => item.toLocaleLowerCase() === sport.toLocaleLowerCase());
-      const searchable = [v.name, v.area, v.city, v.address, ...(v.sports ?? []), ...(v.amenities ?? [])]
-        .filter(Boolean).join(" ").toLocaleLowerCase();
+      const matchesCity =
+        city === "All" || v.city?.toLocaleLowerCase() === city.toLocaleLowerCase();
+      const matchesSport =
+        sport === "All" ||
+        (v.sports ?? []).some((item) => item.toLocaleLowerCase() === sport.toLocaleLowerCase());
+      const searchable = [
+        v.name,
+        v.area,
+        v.city,
+        v.address,
+        ...(v.sports ?? []),
+        ...(v.amenities ?? []),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLocaleLowerCase();
       const matchesSearch = !term || searchable.includes(term);
-      const matchesPrice = maxPrice === "All"
-        || (maxPrice === "Unlisted" ? v.pricePerHour <= 0 : v.pricePerHour > 0 && v.pricePerHour <= Number(maxPrice));
+      const matchesPrice =
+        maxPrice === "All" ||
+        (maxPrice === "Unlisted"
+          ? v.pricePerHour <= 0
+          : v.pricePerHour > 0 && v.pricePerHour <= Number(maxPrice));
       return matchesCity && matchesSport && matchesSearch && matchesPrice;
     });
 
@@ -201,7 +226,8 @@ function BookVenues() {
         return a.pricePerHour - b.pricePerHour;
       }
       if (sortBy === "price-high") return b.pricePerHour - a.pricePerHour;
-      if (sortBy === "rating") return (b.reviews > 0 ? b.rating : -1) - (a.reviews > 0 ? a.rating : -1);
+      if (sortBy === "rating")
+        return (b.reviews > 0 ? b.rating : -1) - (a.reviews > 0 ? a.rating : -1);
       if (sortBy === "name") return a.name.localeCompare(b.name);
       return Number(b.featured) - Number(a.featured) || a.name.localeCompare(b.name);
     });
@@ -224,9 +250,12 @@ function BookVenues() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{city === "All" ? "Find Sports Venues Near You" : `Sports Venues in ${city}`}</h1>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            {city === "All" ? "Find Sports Venues Near You" : `Sports Venues in ${city}`}
+          </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Search sports facilities by city, locality and sport. Booking is guest-friendly; availability and prices are shown only when published by the venue.
+            Search sports facilities by city, locality and sport. Booking is guest-friendly;
+            availability and prices are shown only when published by the venue.
           </p>
         </div>
 
@@ -247,7 +276,10 @@ function BookVenues() {
       />
 
       {/* Compact venue filters */}
-      <section aria-label="Filter sports venues" className="sticky top-14 z-30 mt-4 -mx-4 border-y border-border/60 bg-background/95 px-3 py-2 backdrop-blur-xl sm:top-16 sm:mx-0 sm:rounded-xl sm:border sm:px-3">
+      <section
+        aria-label="Filter sports venues"
+        className="sticky top-14 z-30 mt-4 -mx-4 border-y border-border/60 bg-background/95 px-3 py-2 backdrop-blur-xl sm:top-16 sm:mx-0 sm:rounded-xl sm:border sm:px-3"
+      >
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <div className="relative min-w-0 flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -258,32 +290,57 @@ function BookVenues() {
               placeholder="Search venues, areas or sports"
               className="h-10 border-border bg-secondary/40 pl-9 pr-9"
             />
-            {q && <button type="button" aria-label="Clear search" onClick={() => setQ("")} className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"><X className="h-4 w-4" /></button>}
+            {q && (
+              <button
+                type="button"
+                aria-label="Clear search"
+                onClick={() => setQ("")}
+                className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-2 sm:w-[340px] sm:shrink-0">
             <Select value={city} onValueChange={setCity}>
-              <SelectTrigger aria-label="Filter by city" className="h-10 border-border bg-secondary/40">
+              <SelectTrigger
+                aria-label="Filter by city"
+                className="h-10 border-border bg-secondary/40"
+              >
                 <MapPin className="mr-1 h-4 w-4 shrink-0 text-primary" />
                 <SelectValue placeholder="All cities" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All">All cities</SelectItem>
-                {availableCities.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
+                {availableCities.map((item) => (
+                  <SelectItem key={item} value={item}>
+                    {item}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Select value={sport} onValueChange={setSport}>
-              <SelectTrigger aria-label="Filter by sport" className="h-10 border-border bg-secondary/40">
+              <SelectTrigger
+                aria-label="Filter by sport"
+                className="h-10 border-border bg-secondary/40"
+              >
                 <Trophy className="mr-1 h-4 w-4 shrink-0 text-primary" />
                 <SelectValue placeholder="All sports" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All">All sports</SelectItem>
-                {availableSports.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}
+                {availableSports.map((item) => (
+                  <SelectItem key={item} value={item}>
+                    {item}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div className="flex items-center justify-between gap-2 sm:justify-end">
-            <span className="whitespace-nowrap text-xs text-muted-foreground">{list.length} {list.length === 1 ? "venue" : "venues"}</span>
+            <span className="whitespace-nowrap text-xs text-muted-foreground">
+              {list.length} {list.length === 1 ? "venue" : "venues"}
+            </span>
             <Button
               type="button"
               variant="outline"
@@ -293,11 +350,28 @@ function BookVenues() {
               className="h-9 shrink-0 px-3 text-xs"
             >
               <SlidersHorizontal className="mr-1.5 h-3.5 w-3.5" />
-              Filters{(maxPrice !== "All" || sortBy !== "recommended") ? " •" : ""}
-              <ChevronDown className={`ml-1 h-3.5 w-3.5 transition-transform ${showAdvancedFilters ? "rotate-180" : ""}`} />
+              Filters{maxPrice !== "All" || sortBy !== "recommended" ? " •" : ""}
+              <ChevronDown
+                className={`ml-1 h-3.5 w-3.5 transition-transform ${showAdvancedFilters ? "rotate-180" : ""}`}
+              />
             </Button>
-            {(city !== "All" || sport !== "All" || q.trim() !== "" || maxPrice !== "All" || sortBy !== "recommended") && (
-              <Button variant="ghost" size="sm" onClick={() => { setCity("All"); setSport("All"); setQ(""); setMaxPrice("All"); setSortBy("recommended"); }} className="h-9 px-2 text-xs">
+            {(city !== "All" ||
+              sport !== "All" ||
+              q.trim() !== "" ||
+              maxPrice !== "All" ||
+              sortBy !== "recommended") && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setCity("All");
+                  setSport("All");
+                  setQ("");
+                  setMaxPrice("All");
+                  setSortBy("recommended");
+                }}
+                className="h-9 px-2 text-xs"
+              >
                 <X className="mr-1 h-3.5 w-3.5" /> Clear
               </Button>
             )}
@@ -307,7 +381,10 @@ function BookVenues() {
         {showAdvancedFilters && (
           <div className="mt-2 grid grid-cols-2 gap-2 border-t border-border/60 pt-2 sm:grid-cols-[180px,200px,1fr]">
             <Select value={maxPrice} onValueChange={setMaxPrice}>
-              <SelectTrigger aria-label="Filter by hourly price" className="h-9 border-border bg-secondary/40">
+              <SelectTrigger
+                aria-label="Filter by hourly price"
+                className="h-9 border-border bg-secondary/40"
+              >
                 <SelectValue placeholder="Any price" />
               </SelectTrigger>
               <SelectContent>
@@ -320,7 +397,10 @@ function BookVenues() {
               </SelectContent>
             </Select>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger aria-label="Sort venue results" className="h-9 border-border bg-secondary/40">
+              <SelectTrigger
+                aria-label="Sort venue results"
+                className="h-9 border-border bg-secondary/40"
+              >
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
@@ -332,11 +412,46 @@ function BookVenues() {
               </SelectContent>
             </Select>
             <div className="col-span-2 flex flex-wrap items-center gap-2 sm:col-span-1">
-              {q.trim() && <button onClick={() => setQ("")} className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs">{q.trim()} ×</button>}
-              {city !== "All" && <button onClick={() => setCity("All")} className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs">{city} ×</button>}
-              {sport !== "All" && <button onClick={() => setSport("All")} className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs">{sport} ×</button>}
-              {maxPrice !== "All" && <button onClick={() => setMaxPrice("All")} className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs">{maxPrice === "Unlisted" ? "Price not listed" : `Up to ₹${Number(maxPrice).toLocaleString("en-IN")}/hr`} ×</button>}
-              {q.trim() === "" && city === "All" && sport === "All" && maxPrice === "All" && <span className="text-xs text-muted-foreground">Choose optional price and sorting filters</span>}
+              {q.trim() && (
+                <button
+                  onClick={() => setQ("")}
+                  className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs"
+                >
+                  {q.trim()} ×
+                </button>
+              )}
+              {city !== "All" && (
+                <button
+                  onClick={() => setCity("All")}
+                  className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs"
+                >
+                  {city} ×
+                </button>
+              )}
+              {sport !== "All" && (
+                <button
+                  onClick={() => setSport("All")}
+                  className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs"
+                >
+                  {sport} ×
+                </button>
+              )}
+              {maxPrice !== "All" && (
+                <button
+                  onClick={() => setMaxPrice("All")}
+                  className="rounded-full border border-border bg-secondary/40 px-2.5 py-1 text-xs"
+                >
+                  {maxPrice === "Unlisted"
+                    ? "Price not listed"
+                    : `Up to ₹${Number(maxPrice).toLocaleString("en-IN")}/hr`}{" "}
+                  ×
+                </button>
+              )}
+              {q.trim() === "" && city === "All" && sport === "All" && maxPrice === "All" && (
+                <span className="text-xs text-muted-foreground">
+                  Choose optional price and sorting filters
+                </span>
+              )}
             </div>
           </div>
         )}
@@ -412,27 +527,31 @@ function BookVenues() {
             </p>
           )}
           {directoryLoading && (
-            <p role="status" className="mb-3 text-sm text-muted-foreground">Loading venue listings…</p>
+            <p role="status" className="mb-3 text-sm text-muted-foreground">
+              Loading venue listings…
+            </p>
           )}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((v) => (
-            <VenueCard
-              key={v.id}
-              v={v}
-              onBook={() => startBooking(v)}
-              onViewDetails={() => setSelectedVenueForDetails(v)}
-            />
-          ))}
-          {list.length === 0 && !directoryLoading && (
-            <div className="col-span-full rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
-              {directorySource === "database"
-                ? "No published venues are available yet. Venue owners can submit a facility for review."
-                : "No venues match your filters."}
-              <div className="mt-3">
-                <Link to="/list-venue" className="font-semibold text-primary hover:underline">List a sports venue</Link>
+            {list.map((v) => (
+              <VenueCard
+                key={v.id}
+                v={v}
+                onBook={() => startBooking(v)}
+                onViewDetails={() => setSelectedVenueForDetails(v)}
+              />
+            ))}
+            {list.length === 0 && !directoryLoading && (
+              <div className="col-span-full rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
+                {directorySource === "database"
+                  ? "No published venues are available yet. Venue owners can submit a facility for review."
+                  : "No venues match your filters."}
+                <div className="mt-3">
+                  <Link to="/list-venue" className="font-semibold text-primary hover:underline">
+                    List a sports venue
+                  </Link>
+                </div>
               </div>
-            </div>
-          )}
+            )}
           </div>
         </div>
       )}
@@ -441,11 +560,17 @@ function BookVenues() {
       {activeTab === "my-bookings" && (
         <div className="mt-6">
           {bookingsLoading ? (
-            <div role="status" className="rounded-2xl border border-border p-10 text-center text-sm text-muted-foreground">
+            <div
+              role="status"
+              className="rounded-2xl border border-border p-10 text-center text-sm text-muted-foreground"
+            >
               Loading bookings from the database…
             </div>
           ) : bookingsError ? (
-            <div role="alert" className="rounded-2xl border border-destructive/30 bg-destructive/5 p-8 text-center">
+            <div
+              role="alert"
+              className="rounded-2xl border border-destructive/30 bg-destructive/5 p-8 text-center"
+            >
               <AlertCircle className="mx-auto mb-3 h-8 w-8 text-destructive" />
               <h3 className="font-semibold">Bookings are temporarily unavailable</h3>
               <p className="mx-auto mt-2 max-w-lg text-sm text-muted-foreground">{bookingsError}</p>
@@ -458,7 +583,8 @@ function BookVenues() {
               <Calendar className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
               <h3 className="text-base font-semibold">No bookings yet</h3>
               <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
-                Explore venues and turfs near you. Bookings saved successfully online will appear here. Contact the venue to confirm acceptance.
+                Explore venues and turfs near you. Bookings saved successfully online will appear
+                here. Contact the venue to confirm acceptance.
               </p>
               <Button
                 variant="default"
@@ -516,7 +642,9 @@ function BookVenues() {
                       <span className="font-semibold text-foreground">{b.start_time}</span>
                     </div>
                     <div>
-                      <span className="text-muted-foreground block text-[11px]">Estimated total</span>
+                      <span className="text-muted-foreground block text-[11px]">
+                        Estimated total
+                      </span>
                       <span className="font-bold text-primary">₹{b.total_price}</span>
                     </div>
                   </div>
@@ -607,9 +735,16 @@ function VenueBookingAssistant({
   const [date, setDate] = useState(defaultDate);
   const [venueId, setVenueId] = useState("");
 
-  const matches = useMemo(() => venues.filter((venue) =>
-    venue.bookable && venue.city === city && venue.sports.some((item) => item.toLowerCase() === sport.toLowerCase())
-  ), [venues, city, sport]);
+  const matches = useMemo(
+    () =>
+      venues.filter(
+        (venue) =>
+          venue.bookable &&
+          venue.city === city &&
+          venue.sports.some((item) => item.toLowerCase() === sport.toLowerCase()),
+      ),
+    [venues, city, sport],
+  );
 
   useEffect(() => {
     if (!matches.some((venue) => venue.id === venueId)) setVenueId(matches[0]?.id ?? "");
@@ -618,18 +753,28 @@ function VenueBookingAssistant({
   const venue = matches.find((item) => item.id === venueId);
 
   return (
-    <section className="mt-6 rounded-2xl border border-border/80 bg-gradient-to-br from-primary/5 via-background to-secondary/30 p-4 sm:p-6" aria-labelledby="quick-venue-finder-title">
+    <section
+      className="mt-6 rounded-2xl border border-border/80 bg-gradient-to-br from-primary/5 via-background to-secondary/30 p-4 sm:p-6"
+      aria-labelledby="quick-venue-finder-title"
+    >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
             <Bot className="h-3.5 w-3.5" /> Quick venue finder
           </div>
-          <h2 id="quick-venue-finder-title" className="text-lg font-bold sm:text-xl">Find a venue for your next game</h2>
+          <h2 id="quick-venue-finder-title" className="text-lg font-bold sm:text-xl">
+            Find a venue for your next game
+          </h2>
           <p className="text-xs text-muted-foreground sm:text-sm">
-            Choose a city, sport and date. The next step checks published courts and recorded slot conflicts—no account required.
+            Choose a city, sport and date. The next step checks published courts and recorded slot
+            conflicts—no account required.
           </p>
         </div>
-        <Button variant={open ? "secondary" : "default"} onClick={() => setOpen((prev) => !prev)} className="self-start sm:self-auto gap-1.5">
+        <Button
+          variant={open ? "secondary" : "default"}
+          onClick={() => setOpen((prev) => !prev)}
+          className="self-start sm:self-auto gap-1.5"
+        >
           <Sparkles className="h-4 w-4" />
           {open ? "Hide venue finder" : "Find a venue"}
         </Button>
@@ -638,41 +783,111 @@ function VenueBookingAssistant({
         <div className="mt-5 space-y-4 border-t border-border/60 pt-4">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <label className="text-xs font-medium text-muted-foreground" htmlFor="booking-finder-city">City</label>
+              <label
+                className="text-xs font-medium text-muted-foreground"
+                htmlFor="booking-finder-city"
+              >
+                City
+              </label>
               <Select value={city} onValueChange={setCity}>
-                <SelectTrigger id="booking-finder-city" className="mt-1 h-10"><SelectValue /></SelectTrigger>
-                <SelectContent>{Array.from(new Set([...KHELGRID_CITIES, ...venues.map((item) => item.city)])).filter(Boolean).sort().map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}</SelectContent>
+                <SelectTrigger id="booking-finder-city" className="mt-1 h-10">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Array.from(new Set([...KHELGRID_CITIES, ...venues.map((item) => item.city)]))
+                    .filter(Boolean)
+                    .sort()
+                    .map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-xs font-medium text-muted-foreground" htmlFor="booking-finder-sport">Sport</label>
+              <label
+                className="text-xs font-medium text-muted-foreground"
+                htmlFor="booking-finder-sport"
+              >
+                Sport
+              </label>
               <Select value={sport} onValueChange={setSport}>
-                <SelectTrigger id="booking-finder-sport" className="mt-1 h-10"><SelectValue /></SelectTrigger>
-                <SelectContent>{KHELGRID_SPORTS.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}</SelectContent>
+                <SelectTrigger id="booking-finder-sport" className="mt-1 h-10">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {KHELGRID_SPORTS.map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-xs font-medium text-muted-foreground" htmlFor="booking-finder-date">Date</label>
-              <Input id="booking-finder-date" type="date" min={new Date().toLocaleDateString("en-CA")} value={date} onChange={(event) => setDate(event.target.value)} className="mt-1 h-10" />
+              <label
+                className="text-xs font-medium text-muted-foreground"
+                htmlFor="booking-finder-date"
+              >
+                Date
+              </label>
+              <Input
+                id="booking-finder-date"
+                type="date"
+                min={new Date().toLocaleDateString("en-CA")}
+                value={date}
+                onChange={(event) => setDate(event.target.value)}
+                className="mt-1 h-10"
+              />
             </div>
             <div>
-              <label className="text-xs font-medium text-muted-foreground" htmlFor="booking-finder-venue">Venue</label>
+              <label
+                className="text-xs font-medium text-muted-foreground"
+                htmlFor="booking-finder-venue"
+              >
+                Venue
+              </label>
               <Select value={venueId} onValueChange={setVenueId} disabled={matches.length === 0}>
-                <SelectTrigger id="booking-finder-venue" className="mt-1 h-10"><SelectValue placeholder="Choose venue" /></SelectTrigger>
-                <SelectContent>{matches.map((item) => <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>)}</SelectContent>
+                <SelectTrigger id="booking-finder-venue" className="mt-1 h-10">
+                  <SelectValue placeholder="Choose venue" />
+                </SelectTrigger>
+                <SelectContent>
+                  {matches.map((item) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
           </div>
           {!venue ? (
             <div className="rounded-xl border border-dashed border-border/70 p-4 text-center text-sm text-muted-foreground">
-              No matching bookable venue is currently listed for {sport.toLowerCase()} in {city}. Try another city or sport, or <Link to="/list-venue" className="font-semibold text-primary hover:underline">list a venue</Link>.
+              No matching bookable venue is currently listed for {sport.toLowerCase()} in {city}.
+              Try another city or sport, or{" "}
+              <Link to="/list-venue" className="font-semibold text-primary hover:underline">
+                list a venue
+              </Link>
+              .
             </div>
           ) : (
             <div className="flex flex-col gap-3 rounded-xl border border-border/70 bg-background/80 p-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
-                <div className="flex items-center gap-2 text-sm font-semibold"><MapPin className="h-4 w-4 shrink-0 text-primary" />{venue.name}</div>
-                <p className="mt-1 text-xs text-muted-foreground">{venue.area}, {venue.city} · {venue.pricePerHour > 0 ? `₹${venue.pricePerHour.toLocaleString("en-IN")}/hour` : "Price on request"}</p>
-                <p className="mt-1 text-xs text-muted-foreground">Availability is shown only after published courts and live booking conflicts can be checked.</p>
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  <MapPin className="h-4 w-4 shrink-0 text-primary" />
+                  {venue.name}
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {venue.area}, {venue.city} ·{" "}
+                  {venue.pricePerHour > 0
+                    ? `₹${venue.pricePerHour.toLocaleString("en-IN")}/hour`
+                    : "Price on request"}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Availability is shown only after published courts and live booking conflicts can
+                  be checked.
+                </p>
               </div>
               <Button className="shrink-0" onClick={() => onBook(venue, date, null)}>
                 Choose court & time <ChevronRight className="ml-1 h-4 w-4" />
@@ -760,7 +975,8 @@ function VenueCard({
             </div>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
-            {v.area}, {v.city}{v.distanceKm >= 0 ? ` · ~${v.distanceKm} km` : ""}
+            {v.area}, {v.city}
+            {v.distanceKm >= 0 ? ` · ~${v.distanceKm} km` : ""}
           </p>
 
           <div className="flex flex-wrap gap-1.5">

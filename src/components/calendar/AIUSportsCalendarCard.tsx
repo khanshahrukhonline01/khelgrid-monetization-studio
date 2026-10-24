@@ -23,14 +23,17 @@ export function AIUSportsCalendarCard() {
           </div>
 
           <div className="space-y-1.5">
-            <h2 id="aiu-calendar-heading" className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">
+            <h2
+              id="aiu-calendar-heading"
+              className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl"
+            >
               AIU Inter-University Sports Calendar 2026–27
             </h2>
             <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              The Association of Indian Universities (AIU) annual calendar lists
-              inter-university championships across India, including all-India,
-              four-zone and multi-zone competitions. Use the official PDF to check
-              the sport-wise schedule and confirm event details with your university.
+              The Association of Indian Universities (AIU) annual calendar lists inter-university
+              championships across India, including all-India, four-zone and multi-zone
+              competitions. Use the official PDF to check the sport-wise schedule and confirm event
+              details with your university.
             </p>
           </div>
 
@@ -45,8 +48,8 @@ export function AIUSportsCalendarCard() {
             </span>
           </div>
           <p className="text-xs text-muted-foreground">
-            Calendar reference: AIU publication. Dates, eligibility and entry deadlines
-            should be verified in the PDF and with the participating university.
+            Calendar reference: AIU publication. Dates, eligibility and entry deadlines should be
+            verified in the PDF and with the participating university.
           </p>
         </div>
 

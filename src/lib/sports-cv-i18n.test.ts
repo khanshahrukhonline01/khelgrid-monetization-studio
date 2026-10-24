@@ -1,5 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { installLocalStorageTestDouble, resetLocalStorageTestDouble } from "@/test/localStorage-test-double";
+import {
+  installLocalStorageTestDouble,
+  resetLocalStorageTestDouble,
+} from "@/test/localStorage-test-double";
 import {
   SPORTS_CV_LANGUAGES,
   SPORTS_CV_LANGUAGE_KEY,
@@ -10,17 +13,71 @@ import {
 } from "@/lib/sports-cv-i18n";
 
 const coreKeys: SportsCVKey[] = [
-  "language", "title", "subtitle", "freeNote", "step1", "step2", "step3",
-  "step4", "step5", "step6", "athleteName", "sport", "position",
-  "ageCategory", "age", "city", "state", "academy", "height", "weight",
-  "bio", "bioHelp", "performance", "metricName", "metricValue", "metricUnit",
-  "addMetric", "achievements", "achievementTitle", "competition", "year",
-  "level", "award", "addAchievement", "athleteReported", "video", "socialLinks",
-  "goals", "availability", "theme", "preview", "review", "reviewHelp", "next",
-  "back", "save", "downloadPdf", "downloadPng", "share", "optional", "required",
-  "requiredName", "requiredAchievement", "requiredMetric", "saved", "pdfDisclaimer",
-  "profile", "performanceHeading", "achievementsHeading", "academyHeading",
-  "highlightsHeading", "privacy", "privacyHelp", "noAchievements", "noMetrics",
+  "language",
+  "title",
+  "subtitle",
+  "freeNote",
+  "step1",
+  "step2",
+  "step3",
+  "step4",
+  "step5",
+  "step6",
+  "athleteName",
+  "sport",
+  "position",
+  "ageCategory",
+  "age",
+  "city",
+  "state",
+  "academy",
+  "height",
+  "weight",
+  "bio",
+  "bioHelp",
+  "performance",
+  "metricName",
+  "metricValue",
+  "metricUnit",
+  "addMetric",
+  "achievements",
+  "achievementTitle",
+  "competition",
+  "year",
+  "level",
+  "award",
+  "addAchievement",
+  "athleteReported",
+  "video",
+  "socialLinks",
+  "goals",
+  "availability",
+  "theme",
+  "preview",
+  "review",
+  "reviewHelp",
+  "next",
+  "back",
+  "save",
+  "downloadPdf",
+  "downloadPng",
+  "share",
+  "optional",
+  "required",
+  "requiredName",
+  "requiredAchievement",
+  "requiredMetric",
+  "saved",
+  "pdfDisclaimer",
+  "profile",
+  "performanceHeading",
+  "achievementsHeading",
+  "academyHeading",
+  "highlightsHeading",
+  "privacy",
+  "privacyHelp",
+  "noAchievements",
+  "noMetrics",
 ];
 
 beforeEach(() => {
@@ -37,7 +94,9 @@ describe("Sports CV localization", () => {
     for (const key of coreKeys) {
       expect(tSportsCV(key, "en"), `English translation missing: ${key}`).toBeTruthy();
       expect(tSportsCV(key, "hi"), `Hindi translation missing: ${key}`).toBeTruthy();
-      expect(tSportsCV(key, "hi"), `Hindi falls back to English: ${key}`).not.toBe(tSportsCV(key, "en"));
+      expect(tSportsCV(key, "hi"), `Hindi falls back to English: ${key}`).not.toBe(
+        tSportsCV(key, "en"),
+      );
     }
   });
 

@@ -26,10 +26,9 @@ import { buildSeoHead } from "@/lib/seo";
 export type MonetizationSectionKey = "all" | "pro" | "academy" | "micropayments" | "scouts";
 
 const monetizationSearchSchema = z.object({
-  section: fallback(
-    z.enum(["all", "pro", "academy", "micropayments", "scouts"]),
+  section: fallback(z.enum(["all", "pro", "academy", "micropayments", "scouts"]), "all").default(
     "all",
-  ).default("all"),
+  ),
 });
 
 export const MONETIZATION_SECTIONS_META: Record<
@@ -226,7 +225,10 @@ function Pricing() {
 
       {/* Header & Section Title */}
       <div className="text-center">
-        <Badge variant="outline" className="border-primary/40 bg-primary/10 text-primary font-semibold px-3 py-1">
+        <Badge
+          variant="outline"
+          className="border-primary/40 bg-primary/10 text-primary font-semibold px-3 py-1"
+        >
           <Sparkles className="mr-1.5 h-3.5 w-3.5 inline text-primary" /> {currentMeta.badge}
         </Badge>
         <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-5xl text-foreground">
@@ -293,7 +295,9 @@ function Pricing() {
               </div>
               <h3 className="mt-5 text-xl font-bold text-foreground">{t.name}</h3>
               <div className="mt-2 flex items-baseline gap-1.5">
-                <span className="text-3xl font-extrabold tracking-tight text-foreground">{t.price}</span>
+                <span className="text-3xl font-extrabold tracking-tight text-foreground">
+                  {t.price}
+                </span>
                 <span className="text-xs font-medium text-muted-foreground">{t.period}</span>
               </div>
               <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">{t.desc}</p>
@@ -327,7 +331,11 @@ function Pricing() {
                     </Button>
                   )
                 ) : t.id === "academy" ? (
-                  <Button asChild variant="outline" className="w-full rounded-xl font-semibold cursor-pointer">
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="w-full rounded-xl font-semibold cursor-pointer"
+                  >
                     <Link to="/search">{t.cta}</Link>
                   </Button>
                 ) : (
@@ -351,7 +359,8 @@ function Pricing() {
             <div>
               <h4 className="text-sm font-bold text-foreground">Zero Fake Trials Guarantee</h4>
               <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-                Every opportunity and academy listed on KhelGrid is cross-audited against official state federations and SAI rosters.
+                Every opportunity and academy listed on KhelGrid is cross-audited against official
+                state federations and SAI rosters.
               </p>
             </div>
           </div>
@@ -363,7 +372,8 @@ function Pricing() {
             <div>
               <h4 className="text-sm font-bold text-foreground">Instant UPI & Wallet Payouts</h4>
               <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-                Affordable micropayments at ₹49 per application with zero hidden subscriptions and safe 256-bit encryption.
+                Affordable micropayments at ₹49 per application with zero hidden subscriptions and
+                safe 256-bit encryption.
               </p>
             </div>
           </div>
@@ -375,7 +385,8 @@ function Pricing() {
             <div>
               <h4 className="text-sm font-bold text-foreground">Verified Scouts & Selectors</h4>
               <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-                Connect directly with national federation selectors and NIS-accredited academy scouts across 28 states.
+                Connect directly with national federation selectors and NIS-accredited academy
+                scouts across 28 states.
               </p>
             </div>
           </div>

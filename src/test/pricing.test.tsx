@@ -6,7 +6,9 @@ import { MONETIZATION_SECTIONS_META } from "@/routes/pricing";
 
 describe("Monetization Studio React Helmet Async Dynamic Head Tags", () => {
   it("provides unique titles and meta descriptions for each key monetization section", () => {
-    const keys = Object.keys(MONETIZATION_SECTIONS_META) as Array<keyof typeof MONETIZATION_SECTIONS_META>;
+    const keys = Object.keys(MONETIZATION_SECTIONS_META) as Array<
+      keyof typeof MONETIZATION_SECTIONS_META
+    >;
     expect(keys.length).toBeGreaterThanOrEqual(5);
 
     const titles = new Set<string>();
