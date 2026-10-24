@@ -40,6 +40,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          git fetch origin "$GITHUB_HEAD_REF" --depth=1
+          git checkout -B "$GITHUB_HEAD_REF" "origin/$GITHUB_HEAD_REF"
 
           npx eslint . --format json --output-file /tmp/eslint-report.json || true
           node <<'NODE'
@@ -47,7 +49,9 @@ jobs:
           const report = JSON.parse(fs.readFileSync("/tmp/eslint-report.json", "utf8"));
           const files = report
             .filter((entry) => entry.messages.some((message) => message.ruleId === "prettier/prettier"))
-            .map((entry) => entry.filePath);
+            .map((entry) => entry.filePath.startsWith(process.cwd() + "/")
+              ? entry.filePath.slice(process.cwd().length + 1)
+              : entry.filePath);
           fs.writeFileSync("/tmp/prettier-files.txt", files.join("\n"));
           console.log(`Prettier formatting will be applied to ${files.length} files.`);
           NODE
