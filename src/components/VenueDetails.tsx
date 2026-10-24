@@ -442,11 +442,21 @@ export function VenueDetails({
         className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 bg-muted/30 border-b border-border/60 text-xs"
       >
         {venue.reviews_count && venue.reviews_count > 0 ? (
-          <div className="flex items-center gap-2 font-semibold text-foreground">
-            <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-            <span>{Number(venue.rating || 0).toFixed(1)} / 5.0</span>
-            <span className="text-muted-foreground">({venue.reviews_count} reviews)</span>
-          </div>
+          <>
+            <div className="flex items-center gap-2 font-semibold text-foreground">
+              <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+              <span>{Number(venue.rating || 0).toFixed(1)} / 5.0</span>
+              <span className="text-muted-foreground">({venue.reviews_count} reviews)</span>
+            </div>
+            <a
+              id="venue-jump-to-reviews-link"
+              href="#venue-user-reviews-section"
+              className="inline-flex min-h-9 items-center rounded-lg border border-border/70 px-3 py-1.5 text-xs font-semibold text-foreground transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label={`Jump to reviews for ${venue.name}`}
+            >
+              Read reviews
+            </a>
+          </>
         ) : (
           <span className="text-muted-foreground">No verified reviews yet</span>
         )}
