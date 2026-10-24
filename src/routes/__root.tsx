@@ -138,6 +138,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "twitter:site", content: "@khelgrid" },
       { name: "twitter:image", content: "https://www.khelgrid.com/og-image.svg" },
+      // Monetag site ownership verification
+      { name: "monetag", content: "6849cf6d9be2966239a31c15fef2755c" },
       // AdSense site ownership verification
       {
         name: "google-adsense-account",
