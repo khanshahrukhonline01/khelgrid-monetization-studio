@@ -15,26 +15,26 @@ export const VERIFICATION_PILLARS = [
   {
     title: "Direct Source Audit",
     icon: FileCheck,
-    tag: "Gazette & PIB Verified",
-    desc: "Every trial listing cites the official government gazette, federation circular, or organizer notice before publishing.",
+    tag: "Source links where available",
+    desc: "Listings include a source link where available. Check the original notice for current dates, eligibility, and application instructions."
   },
   {
     title: "Zero Exploitation Policy",
     icon: Ban,
     tag: "No Broker Scams",
-    desc: "We flag and reject dubious trial agents, unauthorized commercial entry fees, and age-manipulation rackets across India.",
+    desc: "We encourage athletes and families to be cautious with unofficial agents, guaranteed-selection promises, and payment requests that are not in the published notice."
   },
   {
     title: "Direct Organizer Connect",
     icon: Users2,
-    tag: "Direct Coordination",
-    desc: "Official phone numbers, registration links, and venue reporting times verified directly with event coordinators.",
+    tag: "Confirm with organizer",
+    desc: "Contact details and reporting instructions may not be available in every source. Confirm them through the organizer’s official channel before travelling."
   },
   {
     title: "National SAI Alignment",
     icon: ShieldCheck,
     tag: "Sports Authority of India",
-    desc: "Cross-checked against SAI NCOE schemes and official state sports calendar announcements.",
+    desc: "For relevant listings, compare the linked report with SAI, federation, or state sports department announcements. A source link does not imply endorsement."
   },
 ] as const;
 
@@ -44,7 +44,7 @@ export function HomeCommunityImpactSection() {
   return (
     <section
       id="community-impact"
-      aria-label="Zero Fake Trials Standard and Sports Opportunity Audit"
+      aria-label="Sports opportunity source information and safety guidance"
       className="w-full min-w-0 max-w-full py-2"
     >
       <div className="w-full min-w-0 max-w-full overflow-hidden rounded-3xl border border-border/80 bg-gradient-card shadow-sm">
@@ -71,15 +71,15 @@ export function HomeCommunityImpactSection() {
             <div className="relative z-10">
               <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-300 backdrop-blur-md">
                 <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                <span>Zero Fake Trials Standard</span>
+                <span>Source-aware listings</span>
               </div>
               <h2 className="mt-3 text-xl font-bold tracking-tight text-white sm:text-2xl lg:text-3xl leading-snug">
-                India&apos;s most rigorous sports opportunity audit
+                Check the source before you apply
               </h2>
               <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-white/80">
-                Thousands of young athletes lose time and money to unofficial trial scams. KhelGrid
-                enforces a multi-point verification protocol across government, federation, and
-                verified selection combines.
+                Trial notices can change or omit important details. KhelGrid
+                links to published sources where available and encourages athletes and families to
+                confirm requirements before travelling or paying.
               </p>
             </div>
 
@@ -91,13 +91,13 @@ export function HomeCommunityImpactSection() {
                     aria-hidden="true"
                   />
                   <span className="font-medium text-[11px] sm:text-xs truncate">
-                    100% Verified Sources
+                    Source links where available
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 min-w-0">
                   <Users2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" aria-hidden="true" />
                   <span className="font-medium text-[11px] sm:text-xs truncate">
-                    50k+ Athletes Protected
+                    Athletes and families welcome
                   </span>
                 </div>
               </div>
@@ -115,7 +115,7 @@ export function HomeCommunityImpactSection() {
                     <span className="truncate">The KhelGrid Promise</span>
                   </h3>
                   <p className="text-[11px] text-muted-foreground mt-0.5 truncate">
-                    Multi-tier vetting protocol safeguarding grassroots athlete futures · Swipe to
+                    Source details and practical checks · Swipe to
                     view
                   </p>
                 </div>
@@ -179,7 +179,7 @@ export function HomeCommunityImpactSection() {
 
                       <div className="mt-3 pt-2 border-t border-border/50 flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
                         <CheckCircle2 className="h-3 w-3 shrink-0" />
-                        <span>Enforced on All Listings</span>
+                        <span>Review source and status</span>
                       </div>
                     </div>
                   );
