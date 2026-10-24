@@ -205,22 +205,27 @@ describe("use-auth hook and AuthProvider context", () => {
     expect(supabaseAuthService.signOut).toHaveBeenCalled();
   });
 
-  it("withProtectedRoute HOC wraps sensitive components and exports alongside useAuth", () => {
+  it("withProtectedRoute keeps sensitive content behind the real-session sign-in gate", () => {
     const SensitivePage = () => <div id="sensitive-dashboard">Confidential Athlete Analytics</div>;
     const ProtectedPage = withProtectedRoute(SensitivePage);
 
     const html = renderToString(<ProtectedPage />);
-    expect(html).toContain("sensitive-dashboard");
+    expect(html).toContain('id="protected-route-unauthenticated"');
+    expect(html).toContain("Sign In Required");
+    expect(html).not.toContain("sensitive-dashboard");
+    expect(html).not.toContain("Confidential Athlete Analytics");
   });
 
-  it("ProtectedRoute wrapper renders children when authenticated", () => {
+  it("ProtectedRoute does not render children for an unauthenticated visitor", () => {
     const html = renderToString(
       <ProtectedRoute>
         <div id="protected-inner">Protected Area</div>
       </ProtectedRoute>,
     );
 
-    expect(html).toContain("protected-inner");
-    expect(html).toContain("Protected Area");
+    expect(html).toContain('id="protected-route-unauthenticated"');
+    expect(html).toContain("Sign In Required");
+    expect(html).not.toContain("protected-inner");
+    expect(html).not.toContain("Protected Area");
   });
 });
