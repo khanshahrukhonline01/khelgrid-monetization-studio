@@ -84,11 +84,12 @@ describe("LiveSportsService", () => {
     vi.stubEnv("GEMINI_API_KEY", "");
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () =>
-        new Response(rssFeed, {
-          status: 200,
-          headers: { "Content-Type": "application/rss+xml" },
-        }),
+      vi.fn(
+        async () =>
+          new Response(rssFeed, {
+            status: 200,
+            headers: { "Content-Type": "application/rss+xml" },
+          }),
       ),
     );
 
