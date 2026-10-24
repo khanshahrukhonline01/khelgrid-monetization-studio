@@ -54,27 +54,21 @@ describe("Login Portal, Role Switching & Database Sync", () => {
     };
   });
 
-  describe("SEO & Search Engine Optimization", () => {
-    it("exports SEO head metadata that is search engine friendly (noindex is false)", () => {
+  describe("Deferred account access metadata", () => {
+    it("marks the coming-soon login route as non-indexable until account access is ready", () => {
       const headFn = (Route as any).head;
       expect(headFn).toBeDefined();
       const headResult = headFn();
 
-      // Check title contains portal keywords
       const titleEntry = headResult.meta?.find((m: any) => m.title);
-      expect(titleEntry?.title).toContain("KhelGrid");
-      expect(titleEntry?.title).toContain("Athlete, Coach & Academy");
+      expect(titleEntry?.title).toBe("Login Coming Soon | KhelGrid");
 
-      // Check description
       const descEntry = headResult.meta?.find((m: any) => m.name === "description");
-      expect(descEntry?.content).toContain("athletes, certified coaches, and sports academies");
+      expect(descEntry?.content).toContain("login and registration are coming soon");
 
-      // Search engine friendly: noindex must NOT be true
       const robotsTag = headResult.meta?.find((m: any) => m.name === "robots");
-      expect(robotsTag?.content).toContain("index, follow");
-      expect(robotsTag?.content).not.toContain("noindex");
+      expect(robotsTag?.content).toContain("noindex");
 
-      // Canonical link exists
       const canonical = headResult.links?.find((l: any) => l.rel === "canonical");
       expect(canonical).toBeDefined();
       expect(canonical?.href).toContain("/login");
@@ -115,21 +109,20 @@ describe("Login Portal, Role Switching & Database Sync", () => {
     });
   });
 
-  describe("Responsive Component Rendering", () => {
-    it("renders the login portal with role options and 1-click test drives", () => {
+  describe("Deferred account access rendering", () => {
+    it("clearly tells visitors that login and registration are temporarily unavailable", () => {
       const html = renderToString(<LoginPage />);
 
-      expect(html).toContain("Log in to KhelGrid");
-      expect(html).toContain("Athlete / Player");
-      expect(html).toContain("Coach / Trainer");
-      expect(html).toContain("Academy / Club");
-      expect(html).toContain("Mobile OTP");
-      expect(html).toContain("Password");
-      expect(html).toContain("Coach Rajesh");
-      expect(html).toContain("Apex Sports");
+      expect(html).toContain("ACCOUNT ACCESS COMING SOON");
+      expect(html).toContain("Your KhelGrid account is on the way");
+      expect(html).toContain("Login and registration are temporarily unavailable");
+      expect(html).toContain("Explore KhelGrid");
+      expect(html).toContain("Explore sports opportunities");
+      expect(html).not.toContain("Mobile OTP");
+      expect(html).not.toContain("Password");
     });
 
-    it("renders active session card when already authenticated", () => {
+    it("keeps account access deferred even when a mocked session is present", () => {
       mockAuthState = {
         isAuthenticated: true,
         user: {
@@ -145,9 +138,10 @@ describe("Login Portal, Role Switching & Database Sync", () => {
       };
 
       const html = renderToString(<LoginPage />);
-      expect(html).toContain("Currently signed in");
-      expect(html).toContain("Coach Rajesh Sharma");
-      expect(html).toContain("Go to Portal");
+      expect(html).toContain("ACCOUNT ACCESS COMING SOON");
+      expect(html).toContain("Your KhelGrid account is on the way");
+      expect(html).not.toContain("Currently signed in");
+      expect(html).not.toContain("Go to Portal");
     });
   });
 });

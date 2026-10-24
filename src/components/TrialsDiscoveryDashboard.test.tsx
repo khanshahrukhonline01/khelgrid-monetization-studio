@@ -76,14 +76,20 @@ describe("TrialsDiscoveryDashboard Component & Supabase Fetching Service", () =>
     expect(item.urgencyText).toBe("Reporting at 07:30 AM");
   });
 
-  it("fetches available trials leveraging Supabase client fallback", async () => {
+  it("does not invent trial listings when live Supabase data is unavailable", async () => {
     const res = await fetchAvailableTrialsFromSupabase({
       maxLimit: 10,
     });
 
     expect(res.trials).toBeDefined();
-    expect(res.trials.length).toBeGreaterThan(0);
-    expect(res.totalCount).toBeGreaterThan(0);
+    expect(Array.isArray(res.trials)).toBe(true);
+    if (!res.isSupabaseLive) {
+      expect(res.trials).toEqual([]);
+      expect(res.totalCount).toBe(0);
+    } else {
+      expect(res.trials.every((trial) => trial.isSupabaseOrigin)).toBe(true);
+      expect(res.totalCount).toBeGreaterThanOrEqual(res.trials.length);
+    }
   });
 
   it("filters trials by sport using fetchAvailableTrialsFromSupabase", async () => {
