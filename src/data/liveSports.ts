@@ -34,4 +34,4 @@ export interface LiveMatchUpdate {
   googleUrl?: string;
 }
 
-export const LIVE_SPORTS_UPDATES: LiveMatchUpdate[] = [];\n
+export const LIVE_SPORTS_UPDATES: LiveMatchUpdate[] = [];
