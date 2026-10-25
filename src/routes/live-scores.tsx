@@ -667,10 +667,10 @@ export function LiveScoresPage() {
                 <Activity className="h-7 w-7" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-base sm:text-lg font-bold text-foreground">No matches found</h3>
+                <h3 className="text-base sm:text-lg font-bold text-foreground">{isRefreshing ? "Checking live sports providers…" : "No verified matches available"}</h3>
                 <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
-                  No sports matches match your current filters. Try changing your sport or status
-                  filter, or clearing search query.
+                  {feedError || (stale ? "The provider is unavailable; cached provider data may be shown." : unavailableSports.length ? `Live feeds are not configured for: ${unavailableSports.join(", ")}.` : "No matches are currently returned by the connected providers. No simulated scores are shown.")}
+                  {fetchedAt ? ` Last provider update: ${new Date(fetchedAt).toLocaleString()}.` : ""}
                 </p>
               </div>
               <Button

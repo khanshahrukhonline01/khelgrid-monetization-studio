@@ -169,6 +169,9 @@ export function LiveScoreSection() {
             Real-time cricket, football, and national tournament scores with live ball-by-ball
             updates.
           </p>
+          <p className="mt-1 text-xs text-muted-foreground" role="status">
+            {loading ? "Checking connected sports providers…" : error ? error : stale ? "Showing cached provider data; refresh may be delayed." : fetchedAt ? `Provider data updated ${new Date(fetchedAt).toLocaleString()}.` : "Live feed not connected. No sample scores are displayed."}
+          </p>
         </div>
 
         {/* Right side: Sport Filter Pills & Carousel Navigation Controls */}
