@@ -1,6 +1,7 @@
 import { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
-import { LIVE_SPORTS_UPDATES, type LiveMatchUpdate } from "@/data/liveSports";
+import { type LiveMatchUpdate } from "@/data/liveSports";
+import { useLiveSportsUpdates } from "@/lib/live-sports-service";
 import {
   ChevronLeft,
   ChevronRight,
@@ -58,7 +59,7 @@ function SportBadgeIcon({ sport, className = "h-4 w-4" }: { sport: string; class
   return <Activity className={className} />;
 }
 
-const SPORT_FILTERS = ["All", "Cricket", "Football", "Badminton", "Kabaddi"] as const;
+const SPORT_FILTERS = ["All", "Cricket", "Football", "Tennis"] as const;
 
 export function LiveScoreSection() {
   const [selectedSport, setSelectedSport] = useState<string>("All");
@@ -66,17 +67,18 @@ export function LiveScoreSection() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const { matches, loading, error, fetchedAt, stale } = useLiveSportsUpdates();
 
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const filteredMatches = useMemo(() => {
-    if (selectedSport === "All") return LIVE_SPORTS_UPDATES;
-    return LIVE_SPORTS_UPDATES.filter((m) => m.sport.toLowerCase() === selectedSport.toLowerCase());
-  }, [selectedSport]);
+    if (selectedSport === "All") return matches;
+    return matches.filter((m) => m.sport.toLowerCase() === selectedSport.toLowerCase());
+  }, [matches, selectedSport]);
 
   const liveMatchesCount = useMemo(() => {
-    return LIVE_SPORTS_UPDATES.filter((m) => m.status === "LIVE").length;
-  }, []);
+    return matches.filter((m) => m.status === "LIVE").length;
+  }, [matches]);
 
   const updateScrollState = useCallback(() => {
     const el = carouselRef.current;

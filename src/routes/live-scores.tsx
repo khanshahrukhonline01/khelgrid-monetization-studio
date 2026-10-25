@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import { LIVE_SPORTS_UPDATES, type LiveMatchUpdate } from "@/data/liveSports";
+import { type LiveMatchUpdate } from "@/data/liveSports";
+import { useLiveSportsUpdates } from "@/lib/live-sports-service";
 import { buildSeoHead } from "@/lib/seo";
 import { playScoreChime } from "@/lib/sports-audio";
 import { InFeedAd, ResponsiveAd } from "@/components/ads";
@@ -148,9 +149,8 @@ export function LiveScoresPage() {
     return new Set<string>();
   });
 
-  // Dynamic simulation tick for in-play realism
-  const [matchesState, setMatchesState] = useState<LiveMatchUpdate[]>(LIVE_SPORTS_UPDATES);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  // Live match records only come from the provider-backed Supabase function.
+  const { matches: matchesState, loading: isRefreshing, error: feedError, fetchedAt, stale, unavailableSports, refresh } = useLiveSportsUpdates();
 
   // Save pinned matches
   const togglePin = (matchId: string, matchTitle: string) => {
@@ -192,16 +192,11 @@ export function LiveScoresPage() {
     });
   };
 
-  // Status check only: live data fetching is not connected yet.
-  const handleManualRefresh = useCallback(() => {
-    setIsRefreshing(true);
-    window.setTimeout(() => {
-      setIsRefreshing(false);
-      toast.info("Live scores are not connected to a live data provider yet.", {
-        description: "The current match listing has not been refreshed from an external source.",
-      });
-    }, 250);
-  }, []);
+  const handleManualRefresh = useCallback(async () => {
+    const result = await refresh();
+    if (result.error) toast.error("Live scores could not be refreshed", { description: result.error });
+    else toast.success("Live scores refreshed from the connected provider");
+  }, [refresh]);
 
   // Filter calculations
   const filteredMatches = useMemo(() => {
