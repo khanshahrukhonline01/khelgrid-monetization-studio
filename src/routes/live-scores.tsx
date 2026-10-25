@@ -71,7 +71,7 @@ export const Route = createFileRoute("/live-scores")({
     buildSeoHead({
       title: "Live Cricket Scores & Match Center · KhelGrid",
       description:
-        "Track live cricket scores, ball-by-ball updates, upcoming international fixtures, WPL, and ICC qualifiers with real-time updates on KhelGrid.",
+        "Check cricket, football, and tennis match updates when an authorized sports data provider is connected.",
       canonicalPath: "/live-scores",
       keywords:
         "live cricket scores India, cricket live match today, India vs West Indies live, WPL live score, ICC cricket world cup league 2, KhelGrid cricket match center",
@@ -107,8 +107,8 @@ const SUGGESTED_CRICKET_FILTERS: { label: string; query: string }[] = [
 ];
 
 const CRICKET_NOTICE_INFO = {
-  title: "Live Cricket Matches · Official Schedules & Real-Time Tracking",
-  desc: "Listing all scheduled international bilateral tours, ICC Men's Cricket World Cup League 2, T20 Asia Qualifiers, and Women's Premier League (WPL) matches today. Click any match card to view detailed match information, venue, timings, and series status.",
+  title: "Live Cricket Scores & Match Center",
+  desc: "Match data is shown only when returned by a connected sports data provider. No simulated scores are displayed.",
   icon: "🏏",
 };
 

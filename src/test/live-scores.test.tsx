@@ -69,19 +69,19 @@ describe("Live Scores Page and Navigation", () => {
     expect(html).not.toContain("Dabang Delhi KC");
   });
 
-  it("contains cricket matches from LIVE_SPORTS_UPDATES in page render", () => {
+  it("does not render fabricated match records when the provider feed is empty", () => {
     const html = renderToString(<LiveScoresPage />);
-    expect(html).toContain(LIVE_SPORTS_UPDATES[0].tournament);
-    expect(html).toContain(LIVE_SPORTS_UPDATES[0].teamA.code);
+    expect(LIVE_SPORTS_UPDATES).toEqual([]);
+    expect(html).not.toContain("Mumbai City FC");
+    expect(html).not.toContain("Lakshya Sen");
+    expect(html).toContain("Checking live sports providers");
   });
 
-  it("displays cricket match cards with native match center actions and without Google links", () => {
+  it("does not claim specific match results or redirect users to Google", () => {
     const html = renderToString(<LiveScoresPage />);
-    expect(html).toContain("West Indies Tour of India 2026");
-    expect(html).toContain("Australia Tour of South Africa 2026");
-    expect(html).toContain("Afghanistan vs Bangladesh in UAE 2026");
-    expect(html).toContain("View Match Center");
-    // Ensure no links to Google are in the output
+    expect(html).not.toContain("West Indies Tour of India 2026");
+    expect(html).not.toContain("Australia Tour of South Africa 2026");
+    expect(html).not.toContain("Afghanistan vs Bangladesh in UAE 2026");
     expect(html).not.toContain("google.com");
     expect(html).not.toContain("For Live Score visit Google");
     expect(html).not.toContain("Google Sports Wire");
@@ -91,9 +91,9 @@ describe("Live Scores Page and Navigation", () => {
     const html = renderToString(<LiveScoresPage />);
     expect(html).toContain("Search teams, tournaments or matches");
     expect(html).toContain("Quick Filters:");
-    expect(html).toContain("West Indies Tour of India");
-    expect(html).toContain("Australia Tour of South Africa");
-    expect(html).toContain("WPL 2026");
+    expect(html).toContain("Quick Filters:");
+    expect(html).not.toContain("West Indies Tour of India 2026");
+    expect(html).not.toContain("Australia Tour of South Africa 2026");
   });
 
   it("ensures other sports and external Google search redirects are removed from live page", () => {
