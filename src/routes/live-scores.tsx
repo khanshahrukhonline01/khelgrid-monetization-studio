@@ -738,9 +738,9 @@ export function LiveScoresPage() {
                   How often are live cricket scores updated?
                 </h3>
                 <p>
-                  Scores refresh automatically every 30 seconds from official national and
-                  international cricket syndication feeds. You can click &quot;Sync&quot; at any
-                  moment to trigger an immediate live re-validation.
+                  Scores refresh when a configured provider returns new data. Update timing depends
+                  on the provider and its plan. If no provider is connected, KhelGrid will not display
+                  simulated scores.
                 </p>
               </div>
 
@@ -749,9 +749,8 @@ export function LiveScoresPage() {
                   Which cricket tournaments are covered?
                 </h3>
                 <p>
-                  International bilateral tours (India vs West Indies, Australia vs South Africa,
-                  Sri Lanka Tour of Pakistan), ICC Men&apos;s Cricket World Cup League 2, ICC T20
-                  World Cup Asia Qualifiers, and Women&apos;s Premier League (WPL 2026).
+                  Coverage depends on the sports providers configured for KhelGrid. Competitions
+                  without verified provider data are not represented with sample match records.
                 </p>
               </div>
 
