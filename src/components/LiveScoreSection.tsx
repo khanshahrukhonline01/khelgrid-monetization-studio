@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 import { type LiveMatchUpdate } from "@/data/liveSports";
-import { useLiveSportsUpdates } from "@/lib/live-sports-service";
+import { useLiveSportsUpdates } from "@/lib/live-sports-api";
 import {
   ChevronLeft,
   ChevronRight,

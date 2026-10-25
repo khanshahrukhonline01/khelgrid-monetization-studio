@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { type LiveMatchUpdate } from "@/data/liveSports";
-import { useLiveSportsUpdates } from "@/lib/live-sports-service";
+import { useLiveSportsUpdates } from "@/lib/live-sports-api";
 import { buildSeoHead } from "@/lib/seo";
 import { playScoreChime } from "@/lib/sports-audio";
 import { InFeedAd, ResponsiveAd } from "@/components/ads";
