@@ -928,7 +928,7 @@ export function LiveScoresPage() {
                   <span>Data Attribution</span>
                 </span>
                 <span className="font-semibold text-foreground">
-                  {activeModalMatch.source || "Official Cricket Match Center"}
+                  {activeModalMatch.source || "External provider source unavailable"}
                 </span>
               </div>
             </div>

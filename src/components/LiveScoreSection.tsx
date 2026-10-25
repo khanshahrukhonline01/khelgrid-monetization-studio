@@ -166,8 +166,7 @@ export function LiveScoreSection() {
           </div>
 
           <p className="mt-2 text-xs sm:text-sm text-muted-foreground">
-            Real-time cricket, football, and national tournament scores with live ball-by-ball
-            updates.
+            Provider-sourced cricket, football, and tennis scores and match status.
           </p>
           <p className="mt-1 text-xs text-muted-foreground" role="status">
             {loading ? "Checking connected sports providers…" : error ? error : stale ? "Showing cached provider data; refresh may be delayed." : fetchedAt ? `Provider data updated ${new Date(fetchedAt).toLocaleString()}.` : "Live feed not connected. No sample scores are displayed."}
