@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   CalendarCheck,
@@ -12,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTouchScroll } from "@/hooks/use-touch-scroll";
 import { getVenueCardImage } from "@/data/card-images";
-import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 interface DirectoryVenue {
   id: string;
@@ -38,63 +37,11 @@ export function QuickVenueRadar({
 }: QuickVenueRadarProps) {
   const navigate = useNavigate();
   const { scrollRef, scroll } = useTouchScroll(300);
-  const [venues, setVenues] = useState<DirectoryVenue[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(false);
-
-  useEffect(() => {
-    let active = true;
-    async function loadVenues() {
-      setLoading(true);
-      setLoadError(false);
-      if (!isSupabaseConfigured) {
-        if (active) {
-          setVenues([]);
-          setLoadError(true);
-          setLoading(false);
-        }
-        return;
-      }
-      const { data, error } = await supabase
-        .from("venues")
-        .select(
-          "id,name,area,city,sports,price_per_hour,rating,reviews_count,featured,image_url,bookable,deleted_at",
-        )
-        .eq("bookable", true)
-        .is("deleted_at", null)
-        .order("featured", { ascending: false })
-        .order("name", { ascending: true })
-        .limit(8);
-
-      if (!active) return;
-      if (error) {
-        console.error("Could not load homepage venue cards from Supabase", error);
-        setVenues([]);
-        setLoadError(true);
-      } else {
-        setVenues(
-          (data ?? []).map((row) => ({
-            id: row.id,
-            name: row.name,
-            area: row.area,
-            city: row.city,
-            sports: row.sports ?? [],
-            pricePerHour: row.price_per_hour == null ? null : Number(row.price_per_hour),
-            rating:
-              Number(row.reviews_count ?? 0) > 0 && row.rating != null ? Number(row.rating) : null,
-            reviews: Number(row.reviews_count ?? 0),
-            featured: Boolean(row.featured),
-            image: row.image_url ?? null,
-          })),
-        );
-      }
-      setLoading(false);
-    }
-    void loadVenues();
-    return () => {
-      active = false;
-    };
-  }, []);
+  // The current live site is intentionally static and must not depend on development Supabase.
+  // Do not expose unverified seed venue data as real bookable listings.
+  const venues: DirectoryVenue[] = [];
+  const loading = false;
+  const loadError = false;
 
   const displayVenues = useMemo(
     () =>
@@ -174,12 +121,12 @@ export function QuickVenueRadar({
         <div className="rounded-xl border border-dashed border-border p-5 sm:p-6">
           <p className="text-sm font-semibold text-foreground">
             {venues.length === 0
-              ? "Venue listings are being prepared"
+              ? "No published venue listings yet"
               : "No venues match these filters yet"}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
             {venues.length === 0
-              ? "We’ll show venues here once real listings are added to KhelGrid’s database. Prices, ratings and availability won’t be guessed."
+              ? "No venue listings are currently published in this live catalogue. Prices, ratings and availability are not guessed."
               : "Try another sport or city, or browse all venues."}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
