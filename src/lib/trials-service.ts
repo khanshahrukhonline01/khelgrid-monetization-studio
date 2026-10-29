@@ -55,6 +55,7 @@ export function normalizeSupabaseTrial(row: TrialRow): TrialDiscoveryItem {
     date: row.trial_date,
     registrationDeadline: row.registration_deadline || undefined,
     fee: Number(row.fee) || 0,
+    feeLabel: row.fee_label || undefined,
     spots: row.spots_available > 0 ? row.spots_available : row.spots_total,
     tag: row.tag || "Open",
     ageCategory: row.age_category || undefined,
