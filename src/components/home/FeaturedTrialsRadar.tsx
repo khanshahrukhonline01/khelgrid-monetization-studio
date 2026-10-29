@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { fetchAvailableTrialsFromSupabase, type TrialDiscoveryItem } from "@/lib/trials-service";
+import { TRIALS, type Trial } from "@/data/trials";
+import type { TrialDiscoveryItem } from "@/lib/trials-service";
 import { useSavedOpportunities } from "@/context/SavedOpportunityContext";
 import {
   Trophy,
@@ -27,41 +27,48 @@ export function FeaturedTrialsRadar({
 }: FeaturedTrialsRadarProps) {
   const { isSaved, toggleSaved } = useSavedOpportunities();
   const { scrollRef, scroll } = useTouchScroll(340);
-  const [trials, setTrials] = useState<TrialDiscoveryItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadTrials() {
-      setIsLoading(true);
-      setLoadError(null);
-      try {
-        const result = await fetchAvailableTrialsFromSupabase({
-          sport: selectedSport === "All" ? "All Sports" : selectedSport,
-          city: selectedCity === "All Cities" ? "All Locations" : selectedCity,
-          maxLimit: 100,
-        });
-        if (!cancelled) {
-          setTrials(result.trials);
-          if (result.error) setLoadError(result.error);
-        }
-      } catch (error) {
-        if (!cancelled) {
-          setLoadError(error instanceof Error ? error.message : "Unable to load trials.");
-          setTrials([]);
-        }
-      } finally {
-        if (!cancelled) setIsLoading(false);
-      }
-    }
-
-    void loadTrials();
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedSport, selectedCity]);
+  const trials: TrialDiscoveryItem[] = TRIALS
+    .filter((trial) => {
+      const sportMatches =
+        selectedSport === "All" ||
+        trial.sport.toLowerCase().includes(selectedSport.toLowerCase());
+      const cityMatches =
+        selectedCity === "All Cities" ||
+        trial.city.toLowerCase().includes(selectedCity.toLowerCase());
+      return sportMatches && cityMatches;
+    })
+    .map((trial: Trial): TrialDiscoveryItem => ({
+      id: trial.id,
+      title: trial.title,
+      academy: trial.academy,
+      sport: trial.sport,
+      city: trial.city,
+      venue: trial.venue,
+      date: trial.date,
+      registrationDeadline: trial.registrationDeadline,
+      fee: trial.fee,
+      feeLabel: trial.feeLabel || (trial.fee === 0 ? "Fee not stated" : undefined),
+      spots: trial.spots,
+      tag: trial.tag,
+      ageCategory: trial.ageCategory,
+      gender: trial.gender,
+      eligibility: trial.eligibility,
+      verifiedLabel: trial.verifiedLabel,
+      urgencyText: trial.urgencyText,
+      badge: trial.badge === "Hot" ? "Popular" : trial.badge,
+      sourceUrl: trial.sourceUrl,
+      sourceLabel: trial.sourceLabel,
+      sources: trial.sources,
+      timelines: trial.timelines,
+      organizerContacts: trial.organizerContacts,
+      requiredDocuments: trial.requiredDocuments,
+      selectionProcess: trial.selectionProcess,
+      lastVerified: trial.lastVerified,
+      listingType: trial.listingType,
+      entryStatus: trial.entryStatus,
+    }));
+  const isLoading = false;
+  const loadError: string | null = null;
 
   const displayTrials = trials.slice(0, 8);
 
@@ -97,7 +104,7 @@ export function FeaturedTrialsRadar({
             <span className="truncate">Selection Trials & Combines</span>
           </h2>
           <div className="text-[11px] text-muted-foreground truncate">
-            Verified SAI, federation & academy scouting trials · Swipe to explore
+            Sports trial listings · Confirm details with the organizer before travelling
           </div>
         </div>
 
@@ -241,9 +248,9 @@ export function FeaturedTrialsRadar({
                         <span>{trial.city}</span>
                       </span>
                       <span
-                        className={`rounded-md px-2 py-0.5 text-[10px] font-bold shadow-xs shrink-0 ${(!trial.feeLabel && trial.fee === 0) || trial.feeLabel?.toLowerCase().includes("free") ? "bg-emerald-500/90 text-white" : "bg-secondary text-foreground"}`}
+                        className={`rounded-md px-2 py-0.5 text-[10px] font-bold shadow-xs shrink-0 ${trial.feeLabel?.toLowerCase().includes("free") ? "bg-emerald-500/90 text-white" : "bg-secondary text-foreground"}`}
                       >
-                        {trial.feeLabel || (trial.fee === 0 ? "Free Entry" : `₹${trial.fee}`)}
+                        {trial.feeLabel || (trial.fee > 0 ? `₹${trial.fee}` : "Fee not stated")}
                       </span>
                     </div>
                   </div>
