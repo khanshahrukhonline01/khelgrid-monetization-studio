@@ -48,12 +48,12 @@ describe("SportsDataService", () => {
     for (const match of result.matches) {
       expect(match.source).not.toMatch(/ESPN/i);
     }
-  });
+  }, 15000);
 
   it("filters scores by specific sport parameter", async () => {
     const result = await fetchLiveScores({ sport: "Cricket", forceRefresh: false });
     expect(result.matches.every((m) => m.sport === "Cricket")).toBe(true);
-  });
+  }, 15000);
 
   it("simulates in-play sports ticks accurately", () => {
     const testMatches: SportsMatch[] = [

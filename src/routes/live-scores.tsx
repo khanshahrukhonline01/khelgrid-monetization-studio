@@ -39,6 +39,12 @@ import {
   X,
   Play,
   Pause,
+  Target,
+  Award,
+  Zap,
+  Building2,
+  Users,
+  ArrowUpRight,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -112,6 +118,19 @@ const CRICKET_NOTICE_INFO = {
   desc: "Listing all scheduled international bilateral tours, ICC Men's Cricket World Cup League 2, T20 Asia Qualifiers, and Women's Premier League (WPL) matches today. Click any match card to view detailed match information, venue, timings, and series status.",
   icon: "🏏",
 };
+
+const TOP_SPORTS_CITIES = [
+  { name: "Delhi NCR", slug: "delhi-ncr", icon: "🏛️" },
+  { name: "Mumbai", slug: "mumbai", icon: "🌊" },
+  { name: "Bengaluru", slug: "bengaluru", icon: "🌳" },
+  { name: "Hyderabad", slug: "hyderabad", icon: "🏰" },
+  { name: "Kolkata", slug: "kolkata", icon: "⚽" },
+  { name: "Chennai", slug: "chennai", icon: "🏏" },
+  { name: "Pune", slug: "pune", icon: "🏔️" },
+  { name: "Ahmedabad", slug: "ahmedabad", icon: "🏟️" },
+  { name: "Jaipur", slug: "jaipur", icon: "👑" },
+  { name: "Chandigarh", slug: "chandigarh", icon: "🎯" },
+] as const;
 
 const PINNED_STORAGE_KEY = "khelgrid_pinned_live_matches";
 const SOUND_STORAGE_KEY = "khelgrid_live_scores_sound";
@@ -692,16 +711,145 @@ export function LiveScoresPage() {
             />
           )}
 
+          {/* Spectator to Athlete Gateway Strip */}
+          <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-card via-card to-primary/5 p-4 sm:p-5 shadow-xs space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/50 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-primary/10 text-primary text-sm font-bold">
+                  ⚡
+                </span>
+                <div>
+                  <h3 className="text-xs sm:text-sm font-extrabold text-foreground tracking-tight">
+                    Spectator to Athlete · Play, Train & Get Scouted on KhelGrid
+                  </h3>
+                  <p className="text-[11px] text-muted-foreground">
+                    Inspired by today&apos;s matches? Step onto the pitch with India&apos;s verified sports network.
+                  </p>
+                </div>
+              </div>
+              <Link
+                to="/start-from-zero"
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-primary hover:underline shrink-0"
+              >
+                <span>Grassroots Guide</span>
+                <ChevronRight className="h-3 w-3" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
+              {/* Item 1: Trials */}
+              <Link
+                to="/trials"
+                search={{ sport: selectedFormat !== "All" ? "Cricket" : undefined }}
+                className="group flex flex-col justify-between rounded-xl border border-border/70 bg-background/70 p-3 hover:border-emerald-500/60 hover:bg-emerald-500/5 transition-all shadow-xs"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-base">🎯</span>
+                    <span className="rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[9px] font-bold text-emerald-600 dark:text-emerald-400">
+                      Open Combines
+                    </span>
+                  </div>
+                  <p className="font-bold text-foreground text-xs group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    Scouting Trials
+                  </p>
+                  <p className="text-[10px] text-muted-foreground line-clamp-1">
+                    State & club combines
+                  </p>
+                </div>
+                <div className="flex items-center justify-between pt-2 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  <span>Explore Trials</span>
+                  <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </div>
+              </Link>
+
+              {/* Item 2: Book Ground */}
+              <Link
+                to="/book"
+                className="group flex flex-col justify-between rounded-xl border border-border/70 bg-background/70 p-3 hover:border-amber-500/60 hover:bg-amber-500/5 transition-all shadow-xs"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-base">🏟️</span>
+                    <span className="rounded-full bg-amber-500/10 px-1.5 py-0.5 text-[9px] font-bold text-amber-600 dark:text-amber-400">
+                      Instant Slots
+                    </span>
+                  </div>
+                  <p className="font-bold text-foreground text-xs group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                    Book Turfs & Nets
+                  </p>
+                  <p className="text-[10px] text-muted-foreground line-clamp-1">
+                    500+ floodlit grounds
+                  </p>
+                </div>
+                <div className="flex items-center justify-between pt-2 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
+                  <span>Book Now</span>
+                  <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </div>
+              </Link>
+
+              {/* Item 3: Academies */}
+              <Link
+                to="/academy"
+                className="group flex flex-col justify-between rounded-xl border border-border/70 bg-background/70 p-3 hover:border-blue-500/60 hover:bg-blue-500/5 transition-all shadow-xs"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-base">🛡️</span>
+                    <span className="rounded-full bg-blue-500/10 px-1.5 py-0.5 text-[9px] font-bold text-blue-600 dark:text-blue-400">
+                      Accredited
+                    </span>
+                  </div>
+                  <p className="font-bold text-foreground text-xs group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    Top Academies
+                  </p>
+                  <p className="text-[10px] text-muted-foreground line-clamp-1">
+                    BCCI & AIFF certified
+                  </p>
+                </div>
+                <div className="flex items-center justify-between pt-2 text-[10px] font-semibold text-blue-600 dark:text-blue-400">
+                  <span>Find Coaching</span>
+                  <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </div>
+              </Link>
+
+              {/* Item 4: Athlete CV */}
+              <Link
+                to="/cv"
+                className="group flex flex-col justify-between rounded-xl border border-border/70 bg-background/70 p-3 hover:border-purple-500/60 hover:bg-purple-500/5 transition-all shadow-xs"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-base">📋</span>
+                    <span className="rounded-full bg-purple-500/10 px-1.5 py-0.5 text-[9px] font-bold text-purple-600 dark:text-purple-400">
+                      100% Free
+                    </span>
+                  </div>
+                  <p className="font-bold text-foreground text-xs group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                    Verified Athlete CV
+                  </p>
+                  <p className="text-[10px] text-muted-foreground line-clamp-1">
+                    Showcase stats & video
+                  </p>
+                </div>
+                <div className="flex items-center justify-between pt-2 text-[10px] font-semibold text-purple-600 dark:text-purple-400">
+                  <span>Create Free CV</span>
+                  <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </div>
+              </Link>
+            </div>
+          </div>
+
           {/* 3. SUB-FILTER BAR: STATUS + SEARCH + VIEW MODE */}
           <div className="flex flex-col gap-2 rounded-2xl border border-border/70 bg-card/60 p-2.5 sm:flex-row sm:items-center sm:justify-between sm:p-3">
             {/* Status Tabs */}
             <div className="flex items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
               {(
                 [
-                  { id: "ALL", label: "All Matches" },
+                  { id: "ALL", label: "All Matches", isLive: false },
                   { id: "LIVE", label: "Live Matches", isLive: true },
-                  { id: "UPCOMING", label: "Upcoming" },
-                  { id: "RECENT", label: "Recent Results" },
+                  { id: "UPCOMING", label: "Upcoming", isLive: false },
+                  { id: "RECENT", label: "Recent Results", isLive: false },
                 ] as const
               ).map((tab) => {
                 const isSelected = selectedStatus === tab.id;
@@ -822,7 +970,8 @@ export function LiveScoresPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  setSelectedSport("All");
+                  setSelectedPageSport("All Sports");
+                  setSelectedFormat("All");
                   setSelectedStatus("ALL");
                   setSearchQuery("");
                   setOnlyFavorites(false);
@@ -851,6 +1000,92 @@ export function LiveScoresPage() {
                     onWhatsAppShare={() => handleWhatsAppShare(match)}
                     viewMode={viewMode}
                   />
+                  {/* Native In-Feed Opportunity Card #1 (After 3rd match) */}
+                  {idx === 2 && (
+                    <div
+                      className={cn(
+                        "rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-card via-card to-emerald-500/5 p-4 sm:p-5 shadow-xs flex flex-col justify-between gap-3",
+                        viewMode === "grid" ? "col-span-1" : "w-full",
+                      )}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                            <Sparkles className="h-3 w-3" />
+                            <span>Talent Radar</span>
+                          </span>
+                          <span className="text-[11px] text-muted-foreground font-semibold">Free Scouting</span>
+                        </div>
+
+                        <h3 className="text-sm font-extrabold text-foreground leading-snug">
+                          Are You an Aspiring Cricketer? Build Your Verified Athlete CV
+                        </h3>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          Verified club scouts and academy coaches discover emerging talent on KhelGrid every day.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 pt-2 border-t border-border/60">
+                        <Link
+                          to="/cv"
+                          className="flex items-center justify-between rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 text-xs font-bold transition shadow-xs"
+                        >
+                          <span>Build Free Athlete CV</span>
+                          <ArrowUpRight className="h-4 w-4" />
+                        </Link>
+                        <Link
+                          to="/talent-scanner"
+                          className="flex items-center justify-center rounded-xl border border-border/80 bg-background/80 hover:bg-secondary p-2 text-[11px] font-semibold text-muted-foreground hover:text-foreground transition"
+                        >
+                          <span>Take Talent Scanner Quiz →</span>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Native In-Feed Opportunity Card #2 (After 6th match) */}
+                  {idx === 5 && (
+                    <div
+                      className={cn(
+                        "rounded-2xl border border-primary/30 bg-gradient-to-br from-card via-card to-primary/5 p-4 sm:p-5 shadow-xs flex flex-col justify-between gap-3",
+                        viewMode === "grid" ? "col-span-1" : "w-full",
+                      )}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold text-primary border border-primary/20">
+                            <Zap className="h-3 w-3" />
+                            <span>Play Tonight</span>
+                          </span>
+                          <span className="text-[11px] text-muted-foreground font-semibold">Instant Booking</span>
+                        </div>
+
+                        <h3 className="text-sm font-extrabold text-foreground leading-snug">
+                          Need a Ground Tonight? Book Turfs & Practice Nets
+                        </h3>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          Over 500+ floodlit box cricket arenas, football turfs, and courts in 25+ cities.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 pt-2 border-t border-border/60">
+                        <Link
+                          to="/book"
+                          className="flex items-center justify-between rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground p-2.5 text-xs font-bold transition shadow-xs"
+                        >
+                          <span>Find Grounds Near Me</span>
+                          <ArrowUpRight className="h-4 w-4" />
+                        </Link>
+                        <Link
+                          to="/play"
+                          className="flex items-center justify-center rounded-xl border border-border/80 bg-background/80 hover:bg-secondary p-2 text-[11px] font-semibold text-muted-foreground hover:text-foreground transition"
+                        >
+                          <span>Join Casual Pickup Games →</span>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Subtle in-feed ad insertion after 6th match */}
                   {idx === 5 && (
                     <div className={cn(viewMode === "grid" ? "col-span-full py-2" : "py-2")}>
@@ -868,13 +1103,52 @@ export function LiveScoresPage() {
           <ResponsiveAd adSlot="liveScoresBottomBanner" minHeight={90} />
         </div>
 
-        {/* 7. LIVE SPORTS FAQ & ECOSYSTEM CTA */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4">
-          <div className="lg:col-span-2 rounded-3xl border border-border/80 bg-card p-5 sm:p-7 space-y-4">
+        {/* Hyperlocal City Sports Gateway Strip */}
+        <div className="rounded-3xl border border-border/80 bg-card p-5 sm:p-6 space-y-4 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-primary" />
+                <h3 className="text-sm sm:text-base font-extrabold text-foreground">
+                  Explore Sports Infrastructure in Your City
+                </h3>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Find verified box turfs, coaching academies, and open scouting trials across India.
+              </p>
+            </div>
+            <Link
+              to="/cities"
+              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline shrink-0"
+            >
+              <span>View All 50+ Cities</span>
+              <ChevronRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap">
+            {TOP_SPORTS_CITIES.map((city) => (
+              <Link
+                key={city.slug}
+                to={`/city/${city.slug}` as any}
+                className="inline-flex items-center gap-1.5 rounded-2xl border border-border/70 bg-secondary/40 px-3.5 py-2 text-xs font-semibold text-foreground hover:border-primary/60 hover:bg-primary/5 transition-all shrink-0 cursor-pointer"
+              >
+                <span>{city.icon}</span>
+                <span>{city.name}</span>
+                <ChevronRight className="h-3 w-3 text-muted-foreground" />
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* 7. LIVE SPORTS FAQ & ECOSYSTEM DIRECTORY MATRIX */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+          {/* Left: FAQ (5 cols) */}
+          <div className="lg:col-span-5 rounded-3xl border border-border/80 bg-card p-5 sm:p-7 space-y-4">
             <div className="flex items-center gap-2">
               <Trophy className="h-5 w-5 text-amber-500" />
               <h2 className="text-lg font-bold text-foreground">
-                KhelGrid Live Cricket Coverage & FAQ
+                Live Cricket Coverage & FAQ
               </h2>
             </div>
 
@@ -884,70 +1158,161 @@ export function LiveScoresPage() {
                   How often are live cricket scores updated?
                 </h3>
                 <p>
-                  Scores refresh automatically every 30 seconds from official national and
-                  international cricket syndication feeds. You can click &quot;Sync&quot; at any
-                  moment to trigger an immediate live re-validation.
+                  Scores refresh automatically every 15 seconds from official national and
+                  international cricket syndication feeds with audio alerts and pinned matches.
                 </p>
               </div>
 
               <div className="rounded-2xl border border-border/60 bg-secondary/30 p-3.5 space-y-1">
                 <h3 className="font-bold text-foreground text-xs sm:text-sm">
-                  Which cricket tournaments are covered?
+                  Which tournaments are covered?
                 </h3>
                 <p>
-                  International bilateral tours (India vs West Indies, Australia vs South Africa,
-                  Sri Lanka Tour of Pakistan), ICC Men&apos;s Cricket World Cup League 2, ICC T20
-                  World Cup Asia Qualifiers, and Women&apos;s Premier League (WPL 2026).
+                  Bilateral tours (India vs West Indies, Australia vs South Africa), ICC Men&apos;s
+                  Cricket World Cup League 2, ICC T20 Qualifiers, and Women&apos;s Premier League.
                 </p>
               </div>
 
               <div className="rounded-2xl border border-border/60 bg-secondary/30 p-3.5 space-y-1">
                 <h3 className="font-bold text-foreground text-xs sm:text-sm">
-                  Can I pin my favorite cricket matches?
+                  Can I track and play sports on KhelGrid?
                 </h3>
                 <p>
-                  Yes! Click the star icon on any match card. Pinned matches remain pinned at the
-                  very top of your feed across sessions.
+                  Yes! KhelGrid is India&apos;s complete sports ecosystem. You can book nearby turf
+                  grounds, register for open scouting trials, or join coaching academies in your city.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Quick Launchpad to other KhelGrid features */}
-          <div className="rounded-3xl border border-border/80 bg-gradient-to-br from-card via-card to-primary/5 p-5 sm:p-7 space-y-4 flex flex-col justify-between">
-            <div className="space-y-2">
+          {/* Right: 3-Pillar Ecosystem Directory Matrix (7 cols) */}
+          <div className="lg:col-span-7 rounded-3xl border border-border/80 bg-gradient-to-br from-card via-card to-primary/5 p-5 sm:p-7 space-y-5">
+            <div className="space-y-1.5 border-b border-border/60 pb-3">
               <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
-                Play & Compete
+                KhelGrid Sports Ecosystem
               </span>
-              <h3 className="text-lg font-bold text-foreground">Inspired by the live action?</h3>
+              <h3 className="text-lg font-extrabold text-foreground">
+                More Than Just Scores · Step Onto the Field
+              </h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Step onto the turf yourself! Discover nearby amateur games, book sports venues, or
-                register for upcoming tournaments.
+                Whether you want to get scouted, play casual weekend turf matches, or find elite coaching, KhelGrid connects every layer of Indian sports.
               </p>
             </div>
 
-            <div className="space-y-2 pt-2">
-              <Link
-                to="/play"
-                className="flex items-center justify-between rounded-xl border border-border/80 bg-background/80 p-2.5 text-xs font-semibold text-foreground hover:border-primary transition"
-              >
-                <span>Find Casual Pickup Games</span>
-                <ChevronRight className="h-4 w-4 text-primary" />
-              </Link>
-              <Link
-                to="/book"
-                className="flex items-center justify-between rounded-xl border border-border/80 bg-background/80 p-2.5 text-xs font-semibold text-foreground hover:border-primary transition"
-              >
-                <span>Book Turf & Courts</span>
-                <ChevronRight className="h-4 w-4 text-primary" />
-              </Link>
-              <Link
-                to="/events"
-                className="flex items-center justify-between rounded-xl border border-border/80 bg-background/80 p-2.5 text-xs font-semibold text-foreground hover:border-primary transition"
-              >
-                <span>Tournaments & Leagues</span>
-                <ChevronRight className="h-4 w-4 text-primary" />
-              </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+              {/* Pillar 1: For Athletes */}
+              <div className="rounded-2xl border border-emerald-500/20 bg-background/70 p-3.5 space-y-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-base">🎯</span>
+                  <span className="text-xs font-bold text-foreground">For Athletes</span>
+                </div>
+                <div className="space-y-1.5 text-[11px]">
+                  <Link
+                    to="/trials"
+                    className="flex items-center justify-between text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition"
+                  >
+                    <span>Scouting Trials</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/cv"
+                    className="flex items-center justify-between text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition"
+                  >
+                    <span>Athlete CV Builder</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/talent-scanner"
+                    className="flex items-center justify-between text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition"
+                  >
+                    <span>Talent Scanner</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/start-from-zero"
+                    className="flex items-center justify-between text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition"
+                  >
+                    <span>Grassroots Guide</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Pillar 2: For Players */}
+              <div className="rounded-2xl border border-amber-500/20 bg-background/70 p-3.5 space-y-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-base">🏟️</span>
+                  <span className="text-xs font-bold text-foreground">Play & Compete</span>
+                </div>
+                <div className="space-y-1.5 text-[11px]">
+                  <Link
+                    to="/book"
+                    className="flex items-center justify-between text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400 font-medium transition"
+                  >
+                    <span>Book Turf & Courts</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/play"
+                    className="flex items-center justify-between text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400 font-medium transition"
+                  >
+                    <span>Pickup Game Lobby</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/events"
+                    className="flex items-center justify-between text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400 font-medium transition"
+                  >
+                    <span>Tournaments & Cups</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/sports"
+                    className="flex items-center justify-between text-muted-foreground hover:text-amber-600 dark:hover:text-amber-400 font-medium transition"
+                  >
+                    <span>Browse All Sports</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Pillar 3: For Academies & Hosts */}
+              <div className="rounded-2xl border border-blue-500/20 bg-background/70 p-3.5 space-y-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-base">🛡️</span>
+                  <span className="text-xs font-bold text-foreground">Academies & Hosts</span>
+                </div>
+                <div className="space-y-1.5 text-[11px]">
+                  <Link
+                    to="/academy"
+                    className="flex items-center justify-between text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 font-medium transition"
+                  >
+                    <span>Top Academies</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/coaches"
+                    className="flex items-center justify-between text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 font-medium transition"
+                  >
+                    <span>Certified Coaches</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/list-venue"
+                    className="flex items-center justify-between text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 font-medium transition"
+                  >
+                    <span>List Your Ground</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                  <Link
+                    to="/scout-portal"
+                    className="flex items-center justify-between text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 font-medium transition"
+                  >
+                    <span>Scout Portal</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1078,23 +1443,42 @@ export function LiveScoresPage() {
               </div>
             </div>
 
-            {/* Contextual Grassroots Link in Modal */}
-            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 space-y-1.5">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                <Sparkles className="h-4 w-4" />
-                <span>Inspired by {activeModalMatch.sport}? Step onto the field!</span>
+            {/* Contextual Grassroots Action Matrix in Modal */}
+            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 space-y-2.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                  <Sparkles className="h-4 w-4" />
+                  <span>Inspired by this match? Step onto the field!</span>
+                </div>
+                <span className="text-[10px] text-muted-foreground font-semibold">KhelGrid Network</span>
               </div>
               <p className="text-[11px] text-muted-foreground">
-                Find accredited trials, coaching academies, and booking turfs across India on KhelGrid.
+                Find accredited trials, coaching academies, and floodlit booking turfs across India.
               </p>
-              <div className="pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                 <Link
-                  to={activeModalMatch.sport === "Football" ? "/trials" : "/academies"}
-                  search={activeModalMatch.sport === "Football" ? { sport: "Football" } : { sport: "Cricket" }}
+                  to="/trials"
+                  search={{ sport: activeModalMatch.sport }}
                   onClick={() => setActiveModalMatch(null)}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                  className="flex items-center justify-between rounded-xl border border-emerald-500/30 bg-background/80 p-2 text-[11px] font-semibold text-foreground hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition"
                 >
-                  <span>Explore {activeModalMatch.sport} Opportunities on KhelGrid</span>
+                  <span>🎯 {activeModalMatch.sport} Trials</span>
+                  <ChevronRight className="h-3 w-3" />
+                </Link>
+                <Link
+                  to="/book"
+                  onClick={() => setActiveModalMatch(null)}
+                  className="flex items-center justify-between rounded-xl border border-emerald-500/30 bg-background/80 p-2 text-[11px] font-semibold text-foreground hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition"
+                >
+                  <span>🏟️ Book Turf / Nets</span>
+                  <ChevronRight className="h-3 w-3" />
+                </Link>
+                <Link
+                  to="/academy"
+                  onClick={() => setActiveModalMatch(null)}
+                  className="flex items-center justify-between rounded-xl border border-emerald-500/30 bg-background/80 p-2 text-[11px] font-semibold text-foreground hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition"
+                >
+                  <span>🛡️ Top Academies</span>
                   <ChevronRight className="h-3 w-3" />
                 </Link>
               </div>
@@ -1139,7 +1523,7 @@ export function LiveScoresPage() {
       {showStickyBar && featuredLiveMatch && (
         <aside
           aria-label="Live match ticker"
-          className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full border border-emerald-500/40 bg-card/95 px-4 py-2.5 shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-5"
+          className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 sm:gap-3 rounded-full border border-emerald-500/40 bg-card/95 px-3.5 sm:px-4 py-2 sm:py-2.5 shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-5"
         >
           <span className="relative flex h-2 w-2 shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -1148,7 +1532,7 @@ export function LiveScoresPage() {
           <span className="text-xs font-bold text-foreground whitespace-nowrap">
             {featuredLiveMatch.teamA.code} {featuredLiveMatch.teamA.score} vs {featuredLiveMatch.teamB.code} {featuredLiveMatch.teamB.score}
           </span>
-          <span className="text-[10px] text-muted-foreground font-mono hidden sm:inline whitespace-nowrap">
+          <span className="text-[10px] text-muted-foreground font-mono hidden md:inline whitespace-nowrap">
             {featuredLiveMatch.venueOrOvers || "Live"}
           </span>
           <Button
@@ -1158,6 +1542,13 @@ export function LiveScoresPage() {
           >
             Scorecard
           </Button>
+          <Link
+            to="/book"
+            className="inline-flex items-center gap-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold h-7 px-3 transition shrink-0 shadow-xs"
+          >
+            <span>Book Turf</span>
+            <ArrowUpRight className="h-3 w-3" />
+          </Link>
         </aside>
       )}
     </div>
@@ -1187,9 +1578,9 @@ function MatchScoreCard({
   const isUpcoming = match.status === "UPCOMING";
 
   const sportIcon =
-    match.sport === "Football"
+    (match.sport as string) === "Football"
       ? "⚽"
-      : match.sport === "Basketball"
+      : (match.sport as string) === "Basketball"
         ? "🏀"
         : match.sport === "Badminton"
           ? "🏸"
@@ -1462,8 +1853,7 @@ function MatchScoreCard({
       {/* Grassroots Bridge Pill */}
       <div className="mb-2">
         <Link
-          to={match.sport === "Football" ? "/trials" : "/academies"}
-          search={match.sport === "Football" ? { sport: "Football" } : { sport: "Cricket" }}
+          to={match.sport === "Football" ? "/trials" : "/academy"}
           onClick={(e) => e.stopPropagation()}
           className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
         >
