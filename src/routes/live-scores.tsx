@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { FanPollWidget } from "@/components/sports/FanPollWidget";
 
 const LIVE_PAGE_SPORTS = [
   { name: "All Sports", icon: "▦" },
@@ -158,11 +159,13 @@ export function LiveScoresPage() {
     sourceSummary,
     refresh: refreshLiveScores,
   } = useLiveScores({
-    refreshIntervalMs: 30000,
+    refreshIntervalMs: 15000,
     enableSimulation: false,
   });
 
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [countdown, setCountdown] = useState(15);
+  const [showStickyBar, setShowStickyBar] = useState(false);
 
   // Active matches combined from live feed and catalog
   const matchesState = useMemo(() => {
@@ -171,6 +174,47 @@ export function LiveScoresPage() {
     }
     return LIVE_SPORTS_UPDATES;
   }, [liveMatches]);
+
+  // Featured live match (for poll and sticky bar)
+  const featuredLiveMatch = useMemo(() => {
+    return matchesState.find((m) => m.status === "LIVE");
+  }, [matchesState]);
+
+  // Dynamic Browser Tab Title Sync
+  useEffect(() => {
+    if (featuredLiveMatch) {
+      document.title = `(LIVE) ${featuredLiveMatch.teamA.code} ${featuredLiveMatch.teamA.score} vs ${featuredLiveMatch.teamB.code} ${featuredLiveMatch.teamB.score} · KhelGrid`;
+    } else {
+      document.title = "Live Cricket & Sports Scores · KhelGrid";
+    }
+  }, [featuredLiveMatch]);
+
+  // Countdown timer for 15s refresh
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev <= 1 ? 15 : prev - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Floating sticky bar scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowStickyBar(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // 1-Click WhatsApp Share Handler
+  const handleWhatsAppShare = (match: LiveMatchUpdate) => {
+    const shareText = `🏏 *${match.teamA.name} vs ${match.teamB.name}*\n` +
+      `🏆 ${match.tournament}${match.stage ? ` · ${match.stage}` : ""}\n` +
+      `📊 Score: *${match.teamA.code}* ${match.teamA.score} - ${match.teamB.score} *${match.teamB.code}*\n` +
+      `⚡ Status: ${match.venueOrOvers || match.status}\n\n` +
+      `🔥 Track live ball-by-ball on KhelGrid:\nhttps://khelgrid.com/live-scores`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, "_blank");
+  };
 
   // Save pinned matches
   const togglePin = (matchId: string, matchTitle: string) => {
@@ -217,6 +261,7 @@ export function LiveScoresPage() {
     setIsRefreshing(true);
     try {
       await refreshLiveScores(true);
+      setCountdown(15);
       toast.success("Live scores updated", {
         description: `Loaded latest matches from ${sourceSummary || "official live feeds"}.`,
       });
@@ -491,7 +536,14 @@ export function LiveScoresPage() {
                 </button>
               )}
             </div>
-            <div className="flex flex-wrap items-center gap-2 xl:shrink-0">
+              <span className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-border/70 bg-secondary/50 px-2.5 py-1.5 text-[11px] font-mono text-muted-foreground">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                </span>
+                <span>Next in {countdown}s</span>
+              </span>
+
               {isLiveFeedConnected && (
                 <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
@@ -538,6 +590,14 @@ export function LiveScoresPage() {
                 )}
               </Button>
             </div>
+          </div>
+
+          {/* 15s Countdown Progress Line */}
+          <div className="w-full bg-secondary/50 h-1 overflow-hidden rounded-full">
+            <div
+              className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-1000 ease-linear"
+              style={{ width: `${(countdown / 15) * 100}%` }}
+            />
           </div>
 
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
@@ -621,6 +681,16 @@ export function LiveScoresPage() {
               <p className="text-muted-foreground leading-relaxed">{CRICKET_NOTICE_INFO.desc}</p>
             </div>
           </div>
+
+          {/* Interactive Fan Prediction Poll */}
+          {featuredLiveMatch && (
+            <FanPollWidget
+              matchId={featuredLiveMatch.id}
+              tournament={featuredLiveMatch.tournament}
+              teamA={featuredLiveMatch.teamA}
+              teamB={featuredLiveMatch.teamB}
+            />
+          )}
 
           {/* 3. SUB-FILTER BAR: STATUS + SEARCH + VIEW MODE */}
           <div className="flex flex-col gap-2 rounded-2xl border border-border/70 bg-card/60 p-2.5 sm:flex-row sm:items-center sm:justify-between sm:p-3">
@@ -717,6 +787,7 @@ export function LiveScoresPage() {
                   onTogglePin={() => togglePin(match.id, match.tournament)}
                   onOpenDetails={() => setActiveModalMatch(match)}
                   onShare={() => handleShareMatch(match)}
+                  onWhatsAppShare={() => handleWhatsAppShare(match)}
                   viewMode={viewMode}
                 />
               ))}
@@ -777,6 +848,7 @@ export function LiveScoresPage() {
                     onTogglePin={() => togglePin(match.id, match.tournament)}
                     onOpenDetails={() => setActiveModalMatch(match)}
                     onShare={() => handleShareMatch(match)}
+                    onWhatsAppShare={() => handleWhatsAppShare(match)}
                     viewMode={viewMode}
                   />
                   {/* Subtle in-feed ad insertion after 6th match */}
@@ -879,7 +951,6 @@ export function LiveScoresPage() {
             </div>
           </div>
         </div>
-      </div>
 
       {/* 8. INTERACTIVE MATCH CENTER MODAL */}
       {activeModalMatch && (
@@ -1007,17 +1078,50 @@ export function LiveScoresPage() {
               </div>
             </div>
 
-            {/* Footer Modal Actions (No external Google redirect) */}
+            {/* Contextual Grassroots Link in Modal */}
+            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 space-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                <Sparkles className="h-4 w-4" />
+                <span>Inspired by {activeModalMatch.sport}? Step onto the field!</span>
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                Find accredited trials, coaching academies, and booking turfs across India on KhelGrid.
+              </p>
+              <div className="pt-1">
+                <Link
+                  to={activeModalMatch.sport === "Football" ? "/trials" : "/academies"}
+                  search={activeModalMatch.sport === "Football" ? { sport: "Football" } : { sport: "Cricket" }}
+                  onClick={() => setActiveModalMatch(null)}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                >
+                  <span>Explore {activeModalMatch.sport} Opportunities on KhelGrid</span>
+                  <ChevronRight className="h-3 w-3" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Footer Modal Actions */}
             <div className="flex items-center justify-between gap-2 pt-2 border-t border-border/60">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleShareMatch(activeModalMatch)}
-                className="gap-1.5 text-xs rounded-xl cursor-pointer"
-              >
-                <Share2 className="h-3.5 w-3.5" />
-                <span>Share Score</span>
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleWhatsAppShare(activeModalMatch)}
+                  className="gap-1.5 text-xs rounded-xl border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 cursor-pointer"
+                >
+                  <Share2 className="h-3.5 w-3.5" />
+                  <span>WhatsApp</span>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleShareMatch(activeModalMatch)}
+                  className="gap-1.5 text-xs rounded-xl cursor-pointer"
+                >
+                  <span>Copy Link</span>
+                </Button>
+              </div>
 
               <Button
                 size="sm"
@@ -1030,6 +1134,32 @@ export function LiveScoresPage() {
           </DialogContent>
         </Dialog>
       )}
+
+      {/* Floating Sticky Bottom Mini-Scoreboard */}
+      {showStickyBar && featuredLiveMatch && (
+        <aside
+          aria-label="Live match ticker"
+          className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full border border-emerald-500/40 bg-card/95 px-4 py-2.5 shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-5"
+        >
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          </span>
+          <span className="text-xs font-bold text-foreground whitespace-nowrap">
+            {featuredLiveMatch.teamA.code} {featuredLiveMatch.teamA.score} vs {featuredLiveMatch.teamB.code} {featuredLiveMatch.teamB.score}
+          </span>
+          <span className="text-[10px] text-muted-foreground font-mono hidden sm:inline whitespace-nowrap">
+            {featuredLiveMatch.venueOrOvers || "Live"}
+          </span>
+          <Button
+            size="sm"
+            onClick={() => setActiveModalMatch(featuredLiveMatch)}
+            className="rounded-full text-[11px] h-7 px-3 cursor-pointer shrink-0"
+          >
+            Scorecard
+          </Button>
+        </aside>
+      )}
     </div>
   );
 }
@@ -1040,6 +1170,7 @@ interface MatchScoreCardProps {
   onTogglePin: () => void;
   onOpenDetails: () => void;
   onShare: () => void;
+  onWhatsAppShare: () => void;
   viewMode: ViewMode;
 }
 
@@ -1049,6 +1180,7 @@ function MatchScoreCard({
   onTogglePin,
   onOpenDetails,
   onShare,
+  onWhatsAppShare,
   viewMode,
 }: MatchScoreCardProps) {
   const isLive = match.status === "LIVE";
@@ -1166,6 +1298,17 @@ function MatchScoreCard({
               title={isPinned ? "Unpin match" : "Pin match to top"}
             >
               <Star className={cn("h-4 w-4", isPinned && "fill-amber-500 text-amber-500")} />
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onWhatsAppShare();
+              }}
+              className="action-btn p-1.5 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors rounded-lg cursor-pointer"
+              title="Share on WhatsApp"
+            >
+              <Share2 className="h-4 w-4" />
             </button>
             <button
               type="button"
@@ -1316,19 +1459,46 @@ function MatchScoreCard({
         </p>
       </div>
 
+      {/* Grassroots Bridge Pill */}
+      <div className="mb-2">
+        <Link
+          to={match.sport === "Football" ? "/trials" : "/academies"}
+          search={match.sport === "Football" ? { sport: "Football" } : { sport: "Cricket" }}
+          onClick={(e) => e.stopPropagation()}
+          className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+        >
+          <span>🎯 {match.sport === "Football" ? "Explore Football Trials on KhelGrid" : "Find Cricket Academies on KhelGrid"}</span>
+          <ChevronRight className="h-2.5 w-2.5" />
+        </Link>
+      </div>
+
       {/* Bottom Footer Actions */}
       <div className="flex items-center justify-between pt-2 border-t border-border/60">
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onShare();
-          }}
-          className="action-btn inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground font-medium transition cursor-pointer"
-        >
-          <Share2 className="h-3 w-3" />
-          <span>Share</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onWhatsAppShare();
+            }}
+            className="action-btn inline-flex items-center gap-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 transition cursor-pointer"
+            title="Share on WhatsApp"
+          >
+            <Share2 className="h-3 w-3" />
+            <span>WhatsApp</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onShare();
+            }}
+            className="action-btn inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground font-medium transition cursor-pointer"
+          >
+            <span>Copy</span>
+          </button>
+        </div>
 
         <button
           type="button"
