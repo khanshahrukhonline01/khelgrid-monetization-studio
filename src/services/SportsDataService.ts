@@ -369,6 +369,110 @@ async function fetchOfficialScoreboards(timeoutMs = 4500): Promise<SportsMatch[]
 }
 
 /**
+ * Fetches real-world live cricket matches from the international public scoreboard
+ */
+async function fetchLiveCricketScoreboards(timeoutMs = 4500): Promise<SportsMatch[]> {
+  const matches: SportsMatch[] = [];
+  const url = "https://site.api.espn.com/apis/personalized/v2/scoreboard/header?sport=cricket";
+
+  try {
+    const res = await fetchWithTimeout(url, timeoutMs);
+    if (!res || !res.ok) return [];
+
+    const json = await res.json();
+    for (const sportObj of json.sports || []) {
+      for (const league of sportObj.leagues || []) {
+        const leagueName = league.name || "Cricket";
+        for (const ev of league.events || []) {
+          const comps = ev.competitors || [];
+          if (comps.length < 2) continue;
+
+          const home = comps[0];
+          const away = comps[1];
+
+          const summaryLower = (ev.summary || "").toLowerCase();
+          const state = ev.status || ev.fullStatus?.type?.state;
+
+          let status: SportsMatch["status"] = "UPCOMING";
+          if (
+            state === "in" ||
+            summaryLower === "live" ||
+            summaryLower.includes("stumps") ||
+            summaryLower.includes("tea") ||
+            summaryLower.includes("lunch") ||
+            summaryLower.includes("innings break")
+          ) {
+            status = "LIVE";
+          } else if (
+            summaryLower.includes("won") ||
+            summaryLower.includes("result") ||
+            summaryLower.includes("tied") ||
+            summaryLower.includes("abandoned") ||
+            state === "post"
+          ) {
+            status = "RECENT";
+          }
+
+          const teamAName = home.displayName || home.name || "Team A";
+          const teamBName = away.displayName || away.name || "Team B";
+
+          const homeScore = home.score?.trim() || (status === "UPCOMING" ? "Scheduled" : "-");
+          const awayScore = away.score?.trim() || (status === "UPCOMING" ? "Scheduled" : "-");
+
+          const lastNote =
+            ev.notes && ev.notes.length > 0 ? ev.notes[ev.notes.length - 1].text : "";
+          const highlight =
+            ev.fullStatus?.longSummary ||
+            lastNote ||
+            `${teamAName} vs ${teamBName} · ${ev.location || leagueName}`;
+          const clock =
+            ev.summary ||
+            (status === "LIVE" ? "In Play" : status === "RECENT" ? "FT" : "Scheduled");
+
+          matches.push({
+            id: `cricket-feed-${ev.id}`,
+            sport: "Cricket",
+            status,
+            tournament: leagueName,
+            stage: ev.description || ev.title || leagueName,
+            teamA: {
+              name: teamAName,
+              code: (home.abbreviation || teamAName.slice(0, 3)).toUpperCase(),
+              score: homeScore,
+              logo: home.logo,
+              flag: "🏏",
+            },
+            teamB: {
+              name: teamBName,
+              code: (away.abbreviation || teamBName.slice(0, 3)).toUpperCase(),
+              score: awayScore,
+              logo: away.logo,
+              flag: "🏏",
+            },
+            highlight,
+            venueOrOvers: clock,
+            liveTime: ev.date
+              ? new Date(ev.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+              : undefined,
+            source: `${leagueName} Live Feed`,
+            isRealTime: true,
+            googleSearchUrl: buildGoogleSportsUrl({
+              teamA: { name: teamAName },
+              teamB: { name: teamBName },
+              sport: "Cricket",
+            }),
+          });
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("[SportsDataService] Cricket feed error:", err);
+  }
+
+  return matches;
+}
+
+/**
  * Priority sort for matches
  */
 const getStatusWeight = (s: SportsMatch["status"]): number => {
@@ -423,7 +527,10 @@ export class SportsDataService implements ISportsDataProvider {
       // 1. Fetch real-world scoreboard events (ISL, Premier League, UCL, La Liga)
       const officialMatches = await fetchOfficialScoreboards(timeoutMs);
 
-      // 2. Fetch free public-facing Google Sports RSS feed
+      // 2. Fetch real-world live cricket matches from international scoreboard
+      const cricketMatches = await fetchLiveCricketScoreboards(timeoutMs);
+
+      // 3. Fetch free public-facing Google Sports RSS feed
       const feedUrl =
         "https://news.google.com/rss/search?q=when:1d+live+sports+scores+cricket+football&hl=en-IN&gl=IN&ceid=IN:en";
       const res = await fetchWithTimeout(feedUrl, timeoutMs);
@@ -434,7 +541,7 @@ export class SportsDataService implements ISportsDataProvider {
         publicMatches = parseGoogleNewsXml(xml);
       }
 
-      // 3. Base catalog formatted with Google sports links
+      // 4. Base catalog formatted with Google sports links
       const catalogMatches: SportsMatch[] = (LIVE_SPORTS_UPDATES as LiveMatchUpdate[]).map(
         (item) => ({
           ...item,
@@ -443,12 +550,13 @@ export class SportsDataService implements ISportsDataProvider {
         }),
       );
 
-      // 4. Merge live feeds with catalog sports
+      // 5. Merge live feeds with other catalog sports (Badminton, Hockey, Kabaddi)
       const otherSports = catalogMatches.filter(
-        (m) => m.sport !== "Football",
+        (m) => m.sport !== "Football" && (cricketMatches.length === 0 || m.sport !== "Cricket"),
       );
 
       let combined: SportsMatch[] = [
+        ...cricketMatches,
         ...officialMatches,
         ...publicMatches,
         ...otherSports,
