@@ -255,6 +255,120 @@ function parseGoogleNewsXml(xml: string): SportsMatch[] {
 }
 
 /**
+ * Fetches real scoreboard events from public league scoreboards (ISL, Premier League, UCL, etc.)
+ */
+async function fetchOfficialScoreboards(timeoutMs = 4500): Promise<SportsMatch[]> {
+  const matches: SportsMatch[] = [];
+
+  const scoreboardEndpoints = [
+    {
+      url: "https://site.api.espn.com/apis/site/v2/sports/soccer/ind.1/scoreboard",
+      sport: "Football" as const,
+      defaultLeague: "Indian Super League",
+    },
+    {
+      url: "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard",
+      sport: "Football" as const,
+      defaultLeague: "Premier League",
+    },
+    {
+      url: "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard",
+      sport: "Football" as const,
+      defaultLeague: "UEFA Champions League",
+    },
+    {
+      url: "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard",
+      sport: "Football" as const,
+      defaultLeague: "La Liga",
+    },
+  ];
+
+  try {
+    const results = await Promise.allSettled(
+      scoreboardEndpoints.map(async (ep) => {
+        const res = await fetchWithTimeout(ep.url, timeoutMs);
+        if (!res || !res.ok) return null;
+        return { json: await res.json(), ep };
+      }),
+    );
+
+    for (const item of results) {
+      if (item.status !== "fulfilled" || !item.value?.json) continue;
+      const { json, ep } = item.value;
+      const leagueName = json.leagues?.[0]?.name || ep.defaultLeague;
+
+      if (Array.isArray(json.events)) {
+        for (const ev of json.events) {
+          const comp = ev.competitions?.[0] || {};
+          const comps = comp.competitors || [];
+          if (comps.length < 2) continue;
+
+          const home = comps.find((c: any) => c.homeAway === "home") || comps[0];
+          const away = comps.find((c: any) => c.homeAway === "away") || comps[1];
+
+          const state = ev.status?.type?.state;
+          const isLive = state === "in";
+          const isRecent = state === "post";
+          const status: SportsMatch["status"] = isLive ? "LIVE" : isRecent ? "RECENT" : "UPCOMING";
+
+          const homeScore = isLive || isRecent ? String(home.score ?? "0") : "-";
+          const awayScore = isLive || isRecent ? String(away.score ?? "0") : "-";
+
+          const clock = isLive
+            ? ev.status?.displayClock || `${ev.status?.period || 1}H`
+            : isRecent
+              ? "FT"
+              : ev.status?.type?.shortDetail || "Scheduled";
+
+          const teamAName = home.team?.displayName || home.team?.name || "Team A";
+          const teamBName = away.team?.displayName || away.team?.name || "Team B";
+          const codeA = (home.team?.abbreviation || teamAName.slice(0, 3)).toUpperCase();
+          const codeB = (away.team?.abbreviation || teamBName.slice(0, 3)).toUpperCase();
+
+          matches.push({
+            id: `official-feed-${ev.id || matches.length + 1}`,
+            sport: ep.sport,
+            status,
+            tournament: leagueName,
+            stage: clock,
+            teamA: {
+              name: teamAName,
+              code: codeA,
+              score: homeScore,
+              logo: home.team?.logo,
+              flag: "⚽",
+            },
+            teamB: {
+              name: teamBName,
+              code: codeB,
+              score: awayScore,
+              logo: away.team?.logo,
+              flag: "⚽",
+            },
+            highlight: `${teamAName} vs ${teamBName} · ${comp.venue?.fullName || comp.venue?.address?.city || leagueName}`,
+            venueOrOvers: clock,
+            liveTime: ev.date
+              ? new Date(ev.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+              : undefined,
+            source: `${leagueName} Match Center`,
+            isRealTime: true,
+            googleSearchUrl: buildGoogleSportsUrl({
+              teamA: { name: teamAName },
+              teamB: { name: teamBName },
+              sport: ep.sport,
+            }),
+          });
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("[SportsDataService] Scoreboard fetch error:", err);
+  }
+
+  return matches;
+}
+
+/**
  * Priority sort for matches
  */
 const getStatusWeight = (s: SportsMatch["status"]): number => {
@@ -280,7 +394,7 @@ export class SportsDataService implements ISportsDataProvider {
   }
 
   /**
-   * Fetches real-time scores using public-facing free Google sports feeds
+   * Fetches real-time scores using public-facing free Google sports feeds and official scoreboards
    */
   public async fetchScores(options: SportsDataFetchOptions = {}): Promise<SportsDataResponse> {
     const { forceRefresh = false, timeoutMs = 4500, sport } = options;
@@ -306,7 +420,10 @@ export class SportsDataService implements ISportsDataProvider {
     }
 
     try {
-      // 1. Fetch free public-facing Google Sports RSS feed
+      // 1. Fetch real-world scoreboard events (ISL, Premier League, UCL, La Liga)
+      const officialMatches = await fetchOfficialScoreboards(timeoutMs);
+
+      // 2. Fetch free public-facing Google Sports RSS feed
       const feedUrl =
         "https://news.google.com/rss/search?q=when:1d+live+sports+scores+cricket+football&hl=en-IN&gl=IN&ceid=IN:en";
       const res = await fetchWithTimeout(feedUrl, timeoutMs);
@@ -317,7 +434,7 @@ export class SportsDataService implements ISportsDataProvider {
         publicMatches = parseGoogleNewsXml(xml);
       }
 
-      // 2. Base catalog formatted with Google sports links
+      // 3. Base catalog formatted with Google sports links
       const catalogMatches: SportsMatch[] = (LIVE_SPORTS_UPDATES as LiveMatchUpdate[]).map(
         (item) => ({
           ...item,
@@ -326,26 +443,27 @@ export class SportsDataService implements ISportsDataProvider {
         }),
       );
 
-      // 3. Merge live feeds with catalog sports
+      // 4. Merge live feeds with catalog sports
       const otherSports = catalogMatches.filter(
-        (m) => m.sport !== "Cricket" && m.sport !== "Football",
+        (m) => m.sport !== "Football",
       );
 
-      let combined: SportsMatch[];
-      let isConnected = false;
+      let combined: SportsMatch[] = [
+        ...officialMatches,
+        ...publicMatches,
+        ...otherSports,
+      ];
 
-      if (publicMatches.length > 0) {
-        isConnected = true;
-        const hasLive = publicMatches.some((m) => m.status === "LIVE");
-        const curatedLive = hasLive ? [] : catalogMatches.filter((m) => m.status === "LIVE");
+      // Deduplicate by team names
+      const seen = new Set<string>();
+      combined = combined.filter((m) => {
+        const key = `${m.teamA.name.toLowerCase().trim()}-vs-${m.teamB.name.toLowerCase().trim()}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
 
-        combined = [...curatedLive, ...publicMatches, ...otherSports].sort(
-          (a, b) => getStatusWeight(b.status) - getStatusWeight(a.status),
-        );
-      } else {
-        combined = catalogMatches;
-        isConnected = true;
-      }
+      combined.sort((a, b) => getStatusWeight(b.status) - getStatusWeight(a.status));
 
       this.cache = {
         data: combined,
@@ -362,13 +480,13 @@ export class SportsDataService implements ISportsDataProvider {
 
       return {
         matches: resultMatches,
-        isLiveFeedConnected: isConnected,
+        isLiveFeedConnected: officialMatches.length > 0 || publicMatches.length > 0,
         lastUpdated: new Date(now).toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
         }),
-        sourceSummary: "Google Sports Live Feed",
+        sourceSummary: "Google Sports & Official Live Feeds",
         error: null,
       };
     } catch (err) {

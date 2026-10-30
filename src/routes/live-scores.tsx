@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { LIVE_SPORTS_UPDATES, type LiveMatchUpdate } from "@/data/liveSports";
+import { useLiveScores } from "@/hooks/useLiveScores";
 import { buildSeoHead } from "@/lib/seo";
 import { playScoreChime } from "@/lib/sports-audio";
 import { InFeedAd, ResponsiveAd } from "@/components/ads";
@@ -148,9 +149,28 @@ export function LiveScoresPage() {
     return new Set<string>();
   });
 
-  // Dynamic simulation tick for in-play realism
-  const [matchesState, setMatchesState] = useState<LiveMatchUpdate[]>(LIVE_SPORTS_UPDATES);
+  // Real live sports feed hook
+  const {
+    matches: liveMatches,
+    allMatches,
+    isLiveFeedConnected,
+    lastUpdated,
+    sourceSummary,
+    refresh: refreshLiveScores,
+  } = useLiveScores({
+    refreshIntervalMs: 30000,
+    enableSimulation: false,
+  });
+
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Active matches combined from live feed and catalog
+  const matchesState = useMemo(() => {
+    if (liveMatches && liveMatches.length > 0) {
+      return liveMatches as unknown as LiveMatchUpdate[];
+    }
+    return LIVE_SPORTS_UPDATES;
+  }, [liveMatches]);
 
   // Save pinned matches
   const togglePin = (matchId: string, matchTitle: string) => {
@@ -192,22 +212,39 @@ export function LiveScoresPage() {
     });
   };
 
-  // Status check only: live data fetching is not connected yet.
-  const handleManualRefresh = useCallback(() => {
+  // Connected manual refresh: pulls live sports updates from providers
+  const handleManualRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    window.setTimeout(() => {
-      setIsRefreshing(false);
-      toast.info("Live scores are not connected to a live data provider yet.", {
-        description: "The current match listing has not been refreshed from an external source.",
+    try {
+      await refreshLiveScores(true);
+      toast.success("Live scores updated", {
+        description: `Loaded latest matches from ${sourceSummary || "official live feeds"}.`,
       });
-    }, 250);
-  }, []);
+      if (soundEnabled) playScoreChime();
+    } catch {
+      toast.error("Could not refresh live scores", {
+        description: "Please check your connection and try again.",
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, [refreshLiveScores, sourceSummary, soundEnabled]);
 
   // Filter calculations
   const filteredMatches = useMemo(() => {
     return matchesState.filter((match) => {
-      // 1. Cricket Format
-      if (selectedFormat !== "All") {
+      // 0. Sport Filter
+      if (selectedPageSport !== "All Sports") {
+        if (match.sport.toLowerCase() !== selectedPageSport.toLowerCase()) {
+          return false;
+        }
+      }
+
+      // 1. Cricket Format (applies when viewing Cricket or All Sports)
+      if (
+        selectedFormat !== "All" &&
+        (match.sport === "Cricket" || selectedPageSport === "Cricket")
+      ) {
         if (
           selectedFormat === "T20" &&
           !match.tournament.includes("T20") &&
@@ -251,7 +288,7 @@ export function LiveScoresPage() {
         return false;
       }
 
-      // 4. Text Search (filters cricket matches by team names or tournament)
+      // 4. Text Search
       if (searchQuery.trim()) {
         const q = searchQuery.trim().toLowerCase();
         const words = q.split(/\s+/).filter(Boolean);
@@ -278,7 +315,7 @@ export function LiveScoresPage() {
 
       return true;
     });
-  }, [matchesState, selectedFormat, selectedStatus, onlyFavorites, pinnedIds, searchQuery]);
+  }, [matchesState, selectedPageSport, selectedFormat, selectedStatus, onlyFavorites, pinnedIds, searchQuery]);
 
   // Separate pinned matches that match filter criteria
   const { pinnedMatches, regularMatches } = useMemo(() => {
@@ -370,7 +407,23 @@ export function LiveScoresPage() {
   };
 
   const getSportEmoji = (sport: string) => {
-    return "🏏";
+    switch (sport.toLowerCase()) {
+      case "football":
+        return "⚽";
+      case "basketball":
+        return "🏀";
+      case "badminton":
+        return "🏸";
+      case "hockey":
+        return "🏑";
+      case "tennis":
+        return "🎾";
+      case "kabaddi":
+        return "🤼";
+      case "cricket":
+      default:
+        return "🏏";
+    }
   };
 
   return (
@@ -393,16 +446,10 @@ export function LiveScoresPage() {
                   type="button"
                   aria-pressed={isSelected}
                   onClick={() => {
-                    if (sport.name === "All Sports" || sport.name === "Cricket") {
-                      setSelectedPageSport(sport.name);
-                      return;
-                    }
-                    toast.info(
-                      `More ${sport.name.toLowerCase()} live-score coverage is coming soon.`,
-                    );
+                    setSelectedPageSport(sport.name);
                   }}
                   className={cn(
-                    "flex shrink-0 min-w-[68px] snap-start flex-col items-center justify-center gap-1 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-w-[76px] sm:px-3 sm:py-2 sm:text-xs",
+                    "flex shrink-0 min-w-[68px] snap-start flex-col items-center justify-center gap-1 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-w-[76px] sm:px-3 sm:py-2 sm:text-xs cursor-pointer",
                     isSelected
                       ? "bg-emerald-600/10 text-emerald-700 ring-1 ring-emerald-600/25 dark:text-emerald-400"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -445,12 +492,34 @@ export function LiveScoresPage() {
               )}
             </div>
             <div className="flex flex-wrap items-center gap-2 xl:shrink-0">
+              {isLiveFeedConnected && (
+                <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
+                  <span>Live Feed</span>
+                  {lastUpdated && (
+                    <span className="text-[10px] text-muted-foreground">({lastUpdated})</span>
+                  )}
+                </span>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleManualRefresh}
+                disabled={isRefreshing}
+                className="gap-1.5 text-xs font-semibold rounded-xl border-border/80 transition-all cursor-pointer"
+                title="Refresh live match scores"
+              >
+                <RefreshCw
+                  className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin text-primary")}
+                />
+                <span>{isRefreshing ? "Updating..." : "Refresh"}</span>
+              </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={toggleSound}
                 className={cn(
-                  "gap-1.5 text-xs font-semibold rounded-xl border-border/80 transition-all",
+                  "gap-1.5 text-xs font-semibold rounded-xl border-border/80 transition-all cursor-pointer",
                   soundEnabled &&
                     "border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
                 )}
@@ -985,6 +1054,28 @@ function MatchScoreCard({
   const isLive = match.status === "LIVE";
   const isUpcoming = match.status === "UPCOMING";
 
+  const sportIcon =
+    match.sport === "Football"
+      ? "⚽"
+      : match.sport === "Basketball"
+        ? "🏀"
+        : match.sport === "Badminton"
+          ? "🏸"
+          : match.sport === "Hockey"
+            ? "🏑"
+            : match.sport === "Tennis"
+              ? "🎾"
+              : match.sport === "Kabaddi"
+                ? "🤼"
+                : "🏏";
+
+  const renderBadge = (team: { name: string; logo?: string; flag?: string }) => {
+    if (team.logo) {
+      return <img src={team.logo} alt="" className="h-4 w-4 object-contain inline-block shrink-0" />;
+    }
+    return <span>{team.flag || sportIcon}</span>;
+  };
+
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     // If user clicked inside an action button (e.g. pin, share), don't trigger details modal
@@ -1002,7 +1093,7 @@ function MatchScoreCard({
       >
         {/* Left: Tournament + Teams */}
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          <span className="text-xl shrink-0">🏏</span>
+          <span className="text-xl shrink-0">{sportIcon}</span>
           <div className="min-w-0 flex-1 space-y-0.5">
             <div className="flex items-center gap-2 text-[11px] text-muted-foreground truncate">
               <span className="font-bold text-foreground truncate">{match.tournament}</span>
@@ -1017,7 +1108,7 @@ function MatchScoreCard({
             <div className="flex flex-wrap items-center gap-3">
               <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-foreground">
                 <span className="flex items-center gap-1.5">
-                  <span>{match.teamA.flag || "🏏"}</span>
+                  {renderBadge(match.teamA)}
                   <span>{match.teamA.name}</span>
                   <span className="text-xs text-muted-foreground font-mono">
                     ({match.teamA.code})
@@ -1025,7 +1116,7 @@ function MatchScoreCard({
                 </span>
                 <span className="text-muted-foreground font-normal">vs</span>
                 <span className="flex items-center gap-1.5">
-                  <span>{match.teamB.flag || "🏏"}</span>
+                  {renderBadge(match.teamB)}
                   <span>{match.teamB.name}</span>
                   <span className="text-xs text-muted-foreground font-mono">
                     ({match.teamB.code})
@@ -1114,7 +1205,7 @@ function MatchScoreCard({
       <div className="flex items-start justify-between gap-2 border-b border-border/60 pb-2.5 text-[11px]">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
-            <span className="text-sm shrink-0">🏏</span>
+            <span className="text-sm shrink-0">{sportIcon}</span>
             <span
               className="font-bold text-foreground truncate max-w-[190px]"
               title={match.tournament}
@@ -1166,7 +1257,7 @@ function MatchScoreCard({
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm font-bold text-foreground">
             <span className="flex items-center gap-2 truncate">
-              <span className="text-base shrink-0">{match.teamA.flag || "🏏"}</span>
+              <span className="shrink-0">{renderBadge(match.teamA)}</span>
               <span className="truncate" title={match.teamA.name}>
                 {match.teamA.name}
               </span>
@@ -1183,7 +1274,7 @@ function MatchScoreCard({
 
           <div className="flex items-center justify-between text-sm font-bold text-foreground">
             <span className="flex items-center gap-2 truncate">
-              <span className="text-base shrink-0">{match.teamB.flag || "🏏"}</span>
+              <span className="shrink-0">{renderBadge(match.teamB)}</span>
               <span className="truncate" title={match.teamB.name}>
                 {match.teamB.name}
               </span>
