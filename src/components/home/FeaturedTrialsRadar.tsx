@@ -55,7 +55,7 @@ export function FeaturedTrialsRadar({
       eligibility: trial.eligibility,
       verifiedLabel: trial.verifiedLabel,
       urgencyText: trial.urgencyText,
-      badge: trial.badge === "Hot" ? "Popular" : trial.badge,
+      badge: trial.badge,
       sourceUrl: trial.sourceUrl,
       sourceLabel: trial.sourceLabel,
       sources: trial.sources,
